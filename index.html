@@ -45,7 +45,7 @@
             --bg-color: #f8fafc;
             --container-bg: #ffffff;
             --text-main: #0f172a;
-            --text-sub: #475569;
+            --text-sub: #334155;
             --header-grad-1: #1e3a8a;
             --header-grad-2: #2563eb;
             --search-bg: #ffffff;
@@ -59,7 +59,7 @@
             --bg-color: #0b0f19;
             --container-bg: #111827;
             --text-main: #f8fafc;
-            --text-sub: #94a3b8;
+            --text-sub: #cbd5e1;
             --header-grad-1: #0b1329;
             --header-grad-2: #1e293b;
             --search-bg: #1e293b;
@@ -141,9 +141,9 @@
 
         .header-sub {
             font-size: 12.5px;
-            opacity: 0.92;
+            opacity: 0.95;
             margin-top: 3px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .search-box {
@@ -169,7 +169,7 @@
             left: 11px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-sub);
+            color: #64748b;
             font-size: 20px;
         }
 
@@ -179,7 +179,7 @@
         }
 
         /* ============================================================
-           ১. বড় ব্যানার: ১০০% উজ্জ্বল গেরুয়া/অরেঞ্জ রঙ এবং বাধ্যতামূলক দুই লাইন
+           ১. বড় ব্যানার: আকর্ষণীয় চওড়া সাইজ ও অরেঞ্জ গ্রেডিয়েন্ট
            ============================================================ */
         @keyframes bannerZoomPulse {
             0% { transform: scale(1); box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35); }
@@ -196,20 +196,21 @@
         .featured-banner {
             display: flex !important;
             width: 100%;
-            border-radius: 16px;
-            padding: 14px 18px;
+            border-radius: 18px;
+            padding: 16px 20px;
             margin-bottom: 12px;
             text-decoration: none;
             align-items: center;
             justify-content: space-between;
-            gap: 14px;
-            border: 2px solid rgba(255, 255, 255, 0.7);
+            gap: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.85);
             animation: bannerZoomPulse 2.8s infinite ease-in-out;
             cursor: pointer;
             position: relative;
             overflow: hidden;
             background: linear-gradient(135deg, #f97316, #ea580c, #c2410c) !important;
             color: #ffffff !important;
+            min-height: 82px;
         }
 
         .featured-banner::after {
@@ -235,66 +236,65 @@
         .fb-content { 
             display: flex; 
             align-items: center; 
-            gap: 14px; 
+            gap: 15px; 
             position: relative; 
             z-index: 1; 
             flex: 1;
         }
 
         .fb-icon {
-            width: 48px; 
-            height: 48px;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 12px;
+            width: 52px; 
+            height: 52px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 14px;
             display: flex; 
             align-items: center; 
             justify-content: center;
-            font-size: 26px; 
+            font-size: 30px; 
             flex-shrink: 0;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.18);
             color: #ffffff;
         }
 
-        /* বাধ্যতামূলক দুই লাইন (কখনই এক লাইনে যাবে না) */
         .fb-text-wrap {
             display: flex !important;
             flex-direction: column !important;
-            gap: 3px !important;
+            gap: 4px !important;
             align-items: flex-start !important;
         }
 
         .fb-title { 
             display: block !important;
-            font-size: 18px !important; 
+            font-size: 19px !important; 
             font-weight: 900 !important; 
             line-height: 1.25 !important; 
             color: #ffffff !important;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
             letter-spacing: 0.2px !important;
         }
 
         .fb-desc { 
             display: block !important;
-            font-size: 13px !important; 
+            font-size: 13.5px !important; 
             font-weight: 700 !important; 
             color: #fff7ed !important;
             line-height: 1.35 !important;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.25) !important;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.25) !important;
         }
 
         /* ============================================================
-           ২. ইমার্জেন্সি কল: সরু লাল ফিতার বর্ডার, সাদা ব্যাকগ্রাউন্ড, লাল মোটা লেখা
+           ২. ইমার্জেন্সি কল / অভিযোগ: সাদা কার্ড, লাল ফিতা বর্ডার, সবুজ কলিং বাটন
            ============================================================ */
         .standalone-emergency-card {
             background: #ffffff !important;
-            border: 2px solid #ef4444 !important; /* লাল সরু ফিতার মতো বর্ডার */
+            border: 2px solid #ef4444 !important;
             border-radius: 14px;
             padding: 10px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 11px;
-            box-shadow: 0 3px 10px rgba(239, 68, 68, 0.12);
+            box-shadow: 0 3px 12px rgba(239, 68, 68, 0.12);
             cursor: pointer;
             transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
@@ -309,31 +309,39 @@
         .sec-left { display: flex; align-items: center; gap: 12px; }
 
         .sec-icon {
-            width: 36px; height: 36px;
+            width: 38px; height: 38px;
             background: #fee2e2;
-            color: #dc2626;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 20px; flex-shrink: 0;
-            box-shadow: 0 2px 5px rgba(220, 38, 38, 0.15);
+            font-size: 22px; flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(220, 38, 38, 0.15);
         }
 
         [data-theme="dark"] .sec-icon {
             background: #7f1d1d;
-            color: #fca5a5;
         }
 
-        /* শুধু মোটা মোটা করে 'ইমার্জেন্সি কল' */
         .sec-title { 
             font-size: 17px !important; 
             font-weight: 900 !important; 
             letter-spacing: 0.5px !important; 
             color: #dc2626 !important;
-            line-height: 1 !important;
+            line-height: 1.2 !important;
         }
 
         [data-theme="dark"] .sec-title {
             color: #f87171 !important;
+        }
+
+        /* সবুজ কল বাটন */
+        .sec-call-btn {
+            background: #22c55e !important;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 3px 8px rgba(34, 197, 94, 0.4);
+            flex-shrink: 0;
+            color: #ffffff;
         }
 
         /* ক্যাটাগরি ফোল্ডার স্ট্রিপস */
@@ -507,14 +515,10 @@
         }
 
         .card-info { display: flex; flex-direction: column; flex: 1; }
-        .card-title { font-size: 14px; font-weight: 700; line-height: 1.35; }
-        .card-dept { font-size: 11.5px; margin-top: 3px; font-weight: 500; opacity: 0.92; }
+        .card-title { font-size: 14px; font-weight: 800; line-height: 1.35; }
+        .card-dept { font-size: 11.5px; margin-top: 3px; font-weight: 600; }
 
-        /* কার্ড কালার প্যালেট */
-        .clr-red { background: linear-gradient(135deg, #ef4444, #dc2626) !important; border-color: #b91c1c !important; color: #ffffff !important; }
-        .clr-red .card-title { color: #ffffff !important; }
-        .clr-red .card-dept { color: #fee2e2 !important; }
-
+        /* কার্ড কালার প্যালেট (কোনো ফ্যাকাসে ভাব নেই) */
         .clr-blue { background: linear-gradient(135deg, #0284c7, #1e3a8a) !important; border-color: #38bdf8 !important; color: #ffffff !important; }
         .clr-blue .card-title { color: #ffffff !important; }
         .clr-blue .card-dept { color: #e0f2fe !important; }
@@ -526,10 +530,6 @@
         .clr-purple { background: linear-gradient(135deg, #9333ea, #6b21a8) !important; border-color: #c084fc !important; color: #ffffff !important; }
         .clr-purple .card-title { color: #ffffff !important; }
         .clr-purple .card-dept { color: #f3e8ff !important; }
-
-        .clr-amber { background: linear-gradient(135deg, #d97706, #b45309) !important; border-color: #fcd34d !important; color: #ffffff !important; }
-        .clr-amber .card-title { color: #ffffff !important; }
-        .clr-amber .card-dept { color: #fef3c7 !important; }
 
         .clr-orange { background: linear-gradient(135deg, #ea580c, #c2410c) !important; border-color: #fdba74 !important; color: #ffffff !important; }
         .clr-orange .card-title { color: #ffffff !important; }
@@ -543,31 +543,27 @@
         .clr-indigo .card-title { color: #ffffff !important; }
         .clr-indigo .card-dept { color: #e0e7ff !important; }
 
-        .clr-emerald { background: linear-gradient(135deg, #059669, #047857) !important; border-color: #6ee7b7 !important; color: #ffffff !important; }
-        .clr-emerald .card-title { color: #ffffff !important; }
-        .clr-emerald .card-dept { color: #d1fae5 !important; }
-
-        /* পিঙ্ক কার্ড */
+        /* ভাইব্র্যান্ট পিঙ্ক কার্ড */
         .clr-pink {
             background: linear-gradient(135deg, #ec4899, #db2777) !important;
             border: 1.5px solid #f472b6 !important;
             color: #ffffff !important;
         }
         .clr-pink .card-title { color: #ffffff !important; font-weight: 800 !important; }
-        .clr-pink .card-dept { color: #fdf2f8 !important; }
+        .clr-pink .card-dept { color: #fdf2f8 !important; font-weight: 600 !important; }
         .clr-pink .icon-circle { color: #db2777 !important; }
 
-        /* হলুদ কার্ড (কালো টেক্সট) */
+        /* উজ্জ্বল হলুদ কার্ড (কালো গাঢ় টেক্সট) */
         .clr-yellow {
             background: linear-gradient(135deg, #facc15, #eab308) !important;
             border: 1.5px solid #ca8a04 !important;
             color: #0f172a !important;
         }
         .clr-yellow .card-title { color: #0f172a !important; font-weight: 800 !important; }
-        .clr-yellow .card-dept { color: #334155 !important; font-weight: 700 !important; }
+        .clr-yellow .card-dept { color: #1e293b !important; font-weight: 700 !important; }
         .clr-yellow .icon-circle { color: #854d0e !important; }
 
-        /* বাসন্তী কার্ড */
+        /* নিয়ন-লাইম বাসন্তী কার্ড */
         .clr-basanti {
             background: linear-gradient(135deg, #a3e635, #84cc16) !important;
             border: 1.5px solid #65a30d !important;
@@ -680,7 +676,7 @@
 
         .bs-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
         .bs-title { font-size: 13.5px; font-weight: 700; display: flex; align-items: center; gap: 5px; }
-        .bs-desc { font-size: 11.5px; font-weight: 500; color: var(--text-sub); }
+        .bs-desc { font-size: 11.5px; font-weight: 600; color: var(--text-sub); }
 
         .bs-btn {
             padding: 7px 12px; border-radius: 9px; font-size: 12px; font-weight: 700;
@@ -773,7 +769,7 @@
 
         .footer-warning-text {
             font-size: 11px;
-            font-weight: 500;
+            font-weight: 600;
             line-height: 1.5;
             max-width: 520px;
             display: flex;
@@ -813,7 +809,7 @@
 
     <div class="content">
 
-        <!-- ১. বড় ব্যানার: ১০০% গেরুয়া/অরেঞ্জ কালার এবং বাধ্যতামূলক ২ লাইন -->
+        <!-- ১. বড় ব্যানার: ১০০% গেরুয়া/অরেঞ্জ কালার ও বড় জমকালো সাইজ -->
         <a id="featuredDynamicBanner" href="https://jks.wb.gov.in" target="_blank" class="featured-banner">
             <div class="fb-content">
                 <div class="fb-icon" id="fbIcon">⛺</div>
@@ -822,21 +818,19 @@
                     <span class="fb-desc" id="fbDesc">২রা অক্টোবর থেকে ১৪ই অক্টোবর পর্যন্ত • বিস্তারিত জানতে ক্লিক করুন</span>
                 </div>
             </div>
-            <span class="material-symbols-outlined" style="font-size: 24px; font-weight: 900; position: relative; z-index: 1; color: #ffffff;">arrow_forward</span>
+            <span class="material-symbols-outlined" style="font-size: 26px; font-weight: 900; position: relative; z-index: 1; color: #ffffff;">arrow_forward</span>
         </a>
 
-        <!-- ২. ইমার্জেন্সি কল: লাল সরু ফিতার বর্ডার, সাদা ব্যাকগ্রাউন্ড, লাল মোটা লেখা -->
+        <!-- ২. ইমার্জেন্সি কল / অভিযোগ: সাদা কার্ড, লাল ফিতা বর্ডার, সবুজ কলিং বাটন -->
         <div class="standalone-emergency-card" onclick="openModal('emergencyModal')">
             <div class="sec-left">
-                <div class="sec-icon">
-                    <span class="material-symbols-outlined" style="font-size: 22px;">call</span>
-                </div>
+                <div class="sec-icon">🚨</div>
                 <div>
-                    <div class="sec-title">ইমার্জেন্সি কল</div>
+                    <div class="sec-title">ইমার্জেন্সি কল / অভিযোগ</div>
                 </div>
             </div>
-            <div style="background: #ef4444; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 7px rgba(239, 68, 68, 0.35); flex-shrink: 0;">
-                <span class="material-symbols-outlined" style="font-size: 20px; color: #ffffff;">call</span>
+            <div class="sec-call-btn">
+                <span class="material-symbols-outlined" style="font-size: 20px;">call</span>
             </div>
         </div>
 
@@ -864,7 +858,7 @@
                         </div>
                     </div>
 
-                    <div class="service-card clr-basanti" onclick="openModal('dbtModal')" data-keywords="dbt npci aadhar seeding khata bank account change সরকারি টাকা ডিবিটি একাউন্ট পরিবর্তন">
+                    <div class="service-card clr-pink" onclick="openModal('dbtModal')" data-keywords="dbt npci aadhar seeding khata bank account change সরকারি টাকা ডিবিটি একাউন্ট পরিবর্তন">
                         <div class="icon-circle">🔄</div>
                         <div class="card-info">
                             <div class="card-title">DBT লিংক ব্যাংক পরিবর্তন</div>
@@ -880,7 +874,7 @@
                         </div>
                     </a>
                         
-                    <div class="service-card clr-teal" onclick="openModal('aadhaarModal')" data-keywords="aadhar card adhar aadhaar আধার কার্ড ডাউনলোড মোবাইল লিংক ঠিকানা বাবার নাম স্বামীর নাম care of uidai myaadhaar">
+                    <div class="service-card clr-basanti" onclick="openModal('aadhaarModal')" data-keywords="aadhar card adhar aadhaar আধার কার্ড ডাউনলোড মোবাইল লিংক ঠিকানা বাবার নাম স্বামীর নাম care of uidai myaadhaar">
                         <div class="icon-circle">🪪</div>
                         <div class="card-info">
                             <div class="card-title">আধার কার্ড</div>
@@ -910,7 +904,7 @@
                             <div class="card-dept">কিউআর কোড বা নম্বর দিয়ে সত্যতা যাচাই</div>
                         </div>
                     </a>
-                    <a href="https://janma-mrityutathya.wb.gov.in/" target="_blank" class="service-card clr-blue" data-keywords="birth death certificate download জন্ম ও মৃত্যু শংসাপত্র ডাউনলোড প্রিন্ট janmasathi">
+                    <a href="https://janma-mrityutathya.wb.gov.in/" target="_blank" class="service-card clr-pink" data-keywords="birth death certificate download জন্ম ও মৃত্যু শংসাপত্র ডাউনলোড প্রিন্ট janmasathi">
                         <div class="icon-circle">📥</div>
                         <div class="card-info">
                             <div class="card-title">জন্ম ও মৃত্যু শংসাপত্র Download</div>
@@ -942,7 +936,7 @@
             </div>
         </div>
 
-        <!-- ৩. সামাজিক সুরক্ষা ও পেনশন -->
+        <!-- ৩. সামাজিক সুরক্ষা ও পেনশন (সরাসরি মুখ্যমন্ত্রী বাদ দেওয়া হয়েছে) -->
         <div class="category-group soft-cat-purple" id="groupSocial">
             <div class="category-header" onclick="toggleCategory('groupSocial')">
                 <div class="category-header-title">
@@ -954,7 +948,6 @@
             <div class="category-body">
                 <div id="serviceGrid1" class="app-view-grid">
                     
-                    <!-- ১. জনকল্যাণ শিবির (ঘাটাল বিধানসভা) -->
                     <div class="service-card clr-basanti" onclick="openModal('ghatalCampModal')" data-keywords="jonokalyan shibir seva sankalp ghatal camp জনকল্যাণ শিবির সেবা সংকল্প ক্যাম্প ঘাটাল বিধানসভা ১৪টি প্রকল্প">
                         <div class="icon-circle">⛺</div>
                         <div class="card-info">
@@ -963,16 +956,6 @@
                         </div>
                     </div>
 
-                    <!-- ২. সরাসরি মুখ্যমন্ত্রী -->
-                    <a href="https://cmo.wb.gov.in/landing/raise-grievance" target="_blank" class="service-card clr-orange" data-keywords="cmo grievance sorasori mukhyamantri সরাসরি মুখ্যমন্ত্রী অভিযোগ হেল্পলাইন">
-                        <div class="icon-circle">📢</div>
-                        <div class="card-info">
-                            <div class="card-title">সরাসরি মুখ্যমন্ত্রী</div>
-                            <div class="card-dept">অভিযোগ ও সহায়তা পোর্টাল</div>
-                        </div>
-                    </a>
-
-                    <!-- ৩. বার্ধক্য, বিধবা ও দিব্যাঙ্গ ভাতা -->
                     <a href="https://samarth.wb.gov.in/track-applicant-public" target="_blank" class="service-card clr-purple" data-keywords="pension samarth bardhokya bidhoba dibyango ভাতা বার্ধক্য বিধবা দিব্যাঙ্গ পেনশন">
                         <div class="icon-circle">♿</div>
                         <div class="card-info">
@@ -981,7 +964,6 @@
                         </div>
                     </a>
 
-                    <!-- ৪. PM বিশ্বকর্মা যোজনা -->
                     <a href="https://pmvishwakarma.gov.in/" target="_blank" class="service-card clr-yellow" data-keywords="pm vishwakarma বিশ্বকর্মা যোজনা কারিগর লোন ঋণ">
                         <div class="icon-circle">🛠️</div>
                         <div class="card-info">
@@ -990,7 +972,6 @@
                         </div>
                     </a>
 
-                    <!-- ৫. ই-শ্রম কার্ড -->
                     <a href="https://register.eshram.gov.in/#/user/aadhaar-login" target="_blank" class="service-card clr-pink" data-keywords="eshram e-shram শ্রম কার্ড শ্রমিক মজদুর লেবার">
                         <div class="icon-circle">👷</div>
                         <div class="card-info">
@@ -999,7 +980,6 @@
                         </div>
                     </a>
 
-                    <!-- ৬. অন্নপূর্ণা যোজনা -->
                     <a href="https://socialregistry.wb.gov.in/citizen/#/" target="_blank" class="service-card clr-teal" data-keywords="annapurna yojana অন্নপূর্ণা যোজনা সোশ্যাল রেজিস্ট্রি খাদ্য">
                         <div class="icon-circle">🍚</div>
                         <div class="card-info">
@@ -1008,7 +988,6 @@
                         </div>
                     </a>
 
-                    <!-- ৭. যুব শক্তি -->
                     <a href="https://yubasathi.wb.gov.in/Default.aspx" target="_blank" class="service-card clr-blue" data-keywords="yuba sathi shakti যুবসাথী যুব শক্তি বেকার ভাতা">
                         <div class="icon-circle">⚡</div>
                         <div class="card-info">
@@ -1061,12 +1040,12 @@
             </div>
         </div>
 
-        <!-- ৫. কৃষক কল্যাণ ও জমির রেকর্ড , খাজনা -->
+        <!-- ৫. কৃষক কল্যাণ ও জমির রেকর্ড / খাজনা / ট্যাক্স -->
         <div class="category-group soft-cat-green" id="groupFarmer">
             <div class="category-header" onclick="toggleCategory('groupFarmer')">
                 <div class="category-header-title">
                     <div class="category-icon-badge">🌾</div>
-                    <span>কৃষক কল্যাণ ও জমির রেকর্ড , খাজনা</span>
+                    <span>কৃষক কল্যাণ ও জমির রেকর্ড / খাজনা / ট্যাক্স</span>
                 </div>
                 <span class="material-symbols-outlined category-arrow">expand_more</span>
             </div>
@@ -1079,7 +1058,7 @@
                             <div class="card-dept">ফসল বীমা পোর্টাল ও স্ট্যাটাস</div>
                         </div>
                     </a>
-                    <div class="service-card clr-teal" onclick="openModal('landRecordHelpModal')" data-keywords="land record porcha khatian dag jomi banglarbhumi পর্চা খতিয়ান দাগ জমির রেকর্ড বাংলার ভূমি প্রিন্ট">
+                    <div class="service-card clr-pink" onclick="openModal('landRecordHelpModal')" data-keywords="land record porcha khatian dag jomi banglarbhumi পর্চা খতিয়ান দাগ জমির রেকর্ড বাংলার ভূমি প্রিন্ট">
                         <div class="icon-circle">📜</div>
                         <div class="card-info">
                             <div class="card-title">জমির পর্চা / রেকর্ড (ROR)</div>
@@ -1100,7 +1079,7 @@
                             <div class="card-dept">ভোটার কার্ড দিয়ে স্ট্যাটাস ও আইডি বের করুন</div>
                         </div>
                     </a>
-                    <a href="https://krishakbandhu.wb.gov.in/" target="_blank" class="service-card clr-indigo" data-keywords="krishak band new নতুন কৃষক বন্ধু পোর্টাল আবেদন টাকা">
+                    <a href="https://krishakbandhu.wb.gov.in/" target="_blank" class="service-card clr-indigo" data-keywords="krishak bandhu new নতুন কৃষক বন্ধু পোর্টাল আবেদন টাকা">
                         <div class="icon-circle">🆕</div>
                         <div class="card-info">
                             <div class="card-title">নতুন কৃষক বন্ধু পোর্টাল</div>
@@ -1207,7 +1186,7 @@
                             <div class="card-dept">Vahan গাড়ির নম্বর যাচাই</div>
                         </div>
                     </a>
-                    <a href="https://sarathi.parivahan.gov.in/sarathiservice/applViewStatus.do" target="_blank" class="service-card clr-amber" data-keywords="driving license dl sarathi ড্রাইভিং লাইসেন্স আবেদন ট্র্যাকিং">
+                    <a href="https://sarathi.parivahan.gov.in/sarathiservice/applViewStatus.do" target="_blank" class="service-card clr-pink" data-keywords="driving license dl sarathi ড্রাইভিং লাইসেন্স আবেদন ট্র্যাকিং">
                         <div class="icon-circle">🪪</div>
                         <div class="card-info">
                             <div class="card-title">ড্রাইভিং লাইসেন্স Status</div>
@@ -1222,8 +1201,7 @@
                         </div>
                     </a>
                     
-                    <!-- পিঙ্ক কার্ড -->
-                    <div class="service-card clr-pink" onclick="openComingSoon('পিঙ্ক কার্ড (Pink Card)')" style="cursor: pointer;" data-keywords="pink card পিঙ্ক কার্ড">
+                    <div class="service-card clr-yellow" onclick="openComingSoon('পিঙ্ক কার্ড (Pink Card)')" style="cursor: pointer;" data-keywords="pink card পিঙ্ক কার্ড">
                         <div class="icon-circle">🎫</div>
                         <div class="card-info">
                             <div class="card-title">পিঙ্ক কার্ড (Pink Card)</div>
@@ -1252,7 +1230,7 @@
                             <div class="card-dept">ভোটার কার্ড নম্বর দিয়ে সার্চ</div>
                         </div>
                     </a>
-                    <div class="service-card clr-purple" onclick="openModal('voterUpdateModal')" data-keywords="new voter card mobile link correction নতুন ভোটার কার্ড নাম সংশোধন মোবাইল লিংক">
+                    <div class="service-card clr-pink" onclick="openModal('voterUpdateModal')" data-keywords="new voter card mobile link correction নতুন ভোটার কার্ড নাম সংশোধন মোবাইল লিংক">
                         <div class="icon-circle">📲</div>
                         <div class="card-info">
                             <div class="card-title">নতুন ভোটার কার্ড ও সংশোধন</div>
@@ -1266,7 +1244,7 @@
                             <div class="card-dept">ঐতিহাসিক ভোটার তালিকা অনুসন্ধান</div>
                         </div>
                     </a>
-                    <a href="https://voters.eci.gov.in/download-eroll?stateCode=S25" target="_blank" class="service-card clr-indigo" data-keywords="sir list 2026 বর্তমান বুথ ভোটার তালিকা eroll download">
+                    <a href="https://voters.eci.gov.in/download-eroll?stateCode=S25" target="_blank" class="service-card clr-basanti" data-keywords="sir list 2026 বর্তমান বুথ ভোটার তালিকা eroll download">
                         <div class="icon-circle">📥</div>
                         <div class="card-info">
                             <div class="card-title">SIR লিস্ট 2026</div>
@@ -1277,12 +1255,12 @@
             </div>
         </div>
 
-        <!-- ৯. বিদ্যুৎ পরিষেবা -->
+        <!-- ৯. বিদ্যুৎ পরিষেবা (WBSEDCL) -->
         <div class="category-group soft-cat-emerald" id="groupElectric">
             <div class="category-header" onclick="toggleCategory('groupElectric')">
                 <div class="category-header-title">
                     <div class="category-icon-badge">⚡</div>
-                    <span>বিদ্যুৎ পরিষেবা (Electricity - WBSEDCL)</span>
+                    <span>বিদ্যুৎ পরিষেবা (WBSEDCL)</span>
                 </div>
                 <span class="material-symbols-outlined category-arrow">expand_more</span>
             </div>
@@ -1302,7 +1280,7 @@
                             <div class="card-dept">টাকা জমার অফিশিয়াল রসিদ পান</div>
                         </div>
                     </a>
-                    <a href="https://portal.wbsedcl.in/irj/go/km/docs/bills/IFRAME/ViewBillWithoutLogin.html" target="_blank" class="service-card clr-teal" data-keywords="electric bill view download চলতি কোয়ার্টার বিল দেখা">
+                    <a href="https://portal.wbsedcl.in/irj/go/km/docs/bills/IFRAME/ViewBillWithoutLogin.html" target="_blank" class="service-card clr-pink" data-keywords="electric bill view download চলতি কোয়ার্টার বিল দেখা">
                         <div class="icon-circle">💡</div>
                         <div class="card-info">
                             <div class="card-title">বিদ্যুৎ বিল View ও Download</div>
@@ -1341,9 +1319,9 @@
 
     <!-- ৩টি ফ্লোটিং বাটন গ্রুপ -->
     <div class="floating-action-group">
-        <button onclick="triggerPwaPrompt()" class="floating-round-btn float-install-btn" title="হোম স্ক্রিনে ইনস্টল করুন">
-            <span class="material-symbols-outlined">download</span>
-            <span class="btn-label" style="font-weight: 800; letter-spacing: 0.5px;">Install</span>
+        <button onclick="triggerPwaPrompt()" class="floating-round-btn float-install-btn" title="হোম স্ক্রিনে যুক্ত করুন">
+            <span class="material-symbols-outlined">add_to_home_screen</span>
+            <span class="btn-label" style="font-weight: 800; letter-spacing: 0.5px;">Add App</span>
         </button>
 
         <button onclick="shareCitizenApp()" class="floating-round-btn float-share-btn" title="বন্ধুদের সাথে শেয়ার করুন">
@@ -1357,16 +1335,18 @@
         </a>
     </div>
 
-    <!-- PWA Install Modal -->
+    <!-- PWA Install / Add to Home Screen Modal (বাংলা পপআপ) -->
     <div id="pwaCardOverlay" class="modal-overlay" onclick="closePwaPrompt()">
-        <div style="background: var(--modal-bg); width: 100%; max-width: 340px; border-radius: 20px; padding: 20px 18px; text-align: center; position: relative; box-shadow: 0 16px 40px rgba(0,0,0,0.25);" onclick="event.stopPropagation()">
+        <div style="background: var(--modal-bg); width: 100%; max-width: 340px; border-radius: 20px; padding: 22px 18px; text-align: center; position: relative; box-shadow: 0 16px 40px rgba(0,0,0,0.25);" onclick="event.stopPropagation()">
             <button onclick="closePwaPrompt()" style="position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,0.06); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main);">✕</button>
             <div style="width: 68px; height: 68px; background: #eff6ff; border-radius: 18px; margin: 8px auto 14px auto; display: flex; align-items: center; justify-content: center; font-size: 34px;">🏛️</div>
-            <h3 style="font-size: 17px; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">Install নাগরিক পরিষেবা</h3>
-            <p style="font-size: 12.5px; color: var(--text-sub); line-height: 1.5; margin-bottom: 18px;">
-                সহজে ব্যবহারের জন্য আপনার ডিভাইসের হোম স্ক্রিনে অ্যাপটি যুক্ত করুন।
+            <h3 style="font-size: 17.5px; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">হোম স্ক্রিনে যুক্ত করুন</h3>
+            <p style="font-size: 12.8px; color: var(--text-sub); line-height: 1.5; margin-bottom: 18px;">
+                অ্যাপটির মতো দ্রুত এক ক্লিকে ব্যবহারের জন্য আপনার মোবাইলের হোম স্ক্রিনে শর্টকাট যুক্ত করুন।
             </p>
-            <button id="pwaAddNowBtn" style="width: 100%; background: #003366; color: #ffffff; border: none; padding: 12px; border-radius: 11px; font-size: 14px; font-weight: 700; cursor: pointer;">ADD NOW!</button>
+            <button id="pwaAddNowBtn" style="width: 100%; background: #1e3a8a; color: #ffffff; border: none; padding: 12px; border-radius: 11px; font-size: 14.5px; font-weight: 700; cursor: pointer;">
+                অ্যাড টু হোম স্ক্রিন (Add Now)
+            </button>
         </div>
     </div>
 
@@ -2059,6 +2039,12 @@ const pwaAddNowBtn = document.getElementById('pwaAddNowBtn');
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
+    setTimeout(() => {
+        if (!localStorage.getItem('pwaPromptShown')) {
+            openModal('pwaCardOverlay');
+            localStorage.setItem('pwaPromptShown', 'true');
+        }
+    }, 3000);
 });
 
 function triggerPwaPrompt() {
@@ -2085,6 +2071,7 @@ if (pwaAddNowBtn) {
             if (outcome === 'accepted') closeModal('pwaCardOverlay');
             deferredPrompt = null;
         } else {
+            alert('আপনার ব্রাউজারের মেনু (তিনটি ডট ⋮) থেকে "Add to Home screen" বা "Install" নির্বাচন করুন।');
             closeModal('pwaCardOverlay');
         }
     });
@@ -2387,7 +2374,7 @@ function loadLiveGoogleSheetData() {
         .then(data => {
             if (!Array.isArray(data) || data.length === 0) return;
 
-            // শিট থেকে সার্ভিস কার্ড আপডেট (ব্যানার ওভাররাইট করা বন্ধ রাখা হলো যাতে আপনার অরেঞ্জ ব্যানার অক্ষুণ্ণ থাকে)
+            // শিটের ব্যানার ওভাররাইট বন্ধ রেখে শুধু সার্ভিস কার্ড আপডেট
             data.forEach(item => {
                 if (!item.name || item.category === 'banner') return;
                 
