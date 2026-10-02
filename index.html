@@ -590,7 +590,7 @@
             </div>
         </div>
 
-        <!-- মূল ফোল্ডারসমূহ (কন্টেইনার ফাঁকা রাখা হয়েছে যাতে কোনো ডাবল কার্ড না হয়, শিট থেকে ডায়নামিক লোড হবে) -->
+        <!-- মূল ক্যাটাগরি ফোল্ডারসমূহ -->
         <div id="mainCategoriesContainer">
 
             <!-- ১. ব্যাংকিং ও DBT Link -->
@@ -603,7 +603,36 @@
                     <span class="material-symbols-outlined category-arrow">expand_more</span>
                 </div>
                 <div class="category-body">
-                    <div id="serviceGridBanking" class="app-view-grid"></div>
+                    <div id="serviceGridBanking" class="app-view-grid">
+                        <div class="service-card clr-blue" onclick="openModal('bankFullModal')" data-keywords="bank balance check sbi pnb uco bob axis hdfc icici স্টেট ব্যাঙ্ক পাঞ্জাব বরোদা ব্যালেন্স">
+                            <div class="icon-circle">🏦</div>
+                            <div class="card-info">
+                                <div class="card-title">ব্যাংক ব্যালেন্স চেক ✅</div>
+                                <div class="card-dept">SBI, PNB, UCO সহ সব ব্যাংকের মিসকল ব্যালেন্স</div>
+                            </div>
+                        </div>
+                        <div class="service-card clr-pink" onclick="openModal('dbtModal')" data-keywords="dbt npci aadhar seeding khata bank account change সরকারি টাকা ডিবিটি একাউন্ট পরিবর্তন">
+                            <div class="icon-circle">🔄</div>
+                            <div class="card-info">
+                                <div class="card-title">DBT লিংক ব্যাংক পরিবর্তন</div>
+                                <div class="card-dept">আধার সিডিং খাতা পরিবর্তন সহায়িকা (NPCI)</div>
+                            </div>
+                        </div>
+                        <a href="https://eportal.incometax.gov.in/iec/foservices/#/pre-login/link-aadhaar-status" target="_blank" class="service-card clr-indigo" data-keywords="pan aadhar link status প্যান আধার সংযোগ সক্রিয় যাচাই ইনকাম ট্যাক্স">
+                            <div class="icon-circle">💳</div>
+                            <div class="card-info">
+                                <div class="card-title">প্যান-আধার লিংক স্ট্যাটাস</div>
+                                <div class="card-dept">PAN & Aadhaar সিডিং ও সক্রিয়তা সরাসরি যাচাই</div>
+                            </div>
+                        </a>
+                        <div class="service-card clr-basanti" onclick="openModal('aadhaarModal')" data-keywords="aadhar card adhar aadhaar আধার কার্ড ডাউনলোড মোবাইল লিংক ঠিকানা বাবার নাম">
+                            <div class="icon-circle">🪪</div>
+                            <div class="card-info">
+                                <div class="card-title">আধার কার্ড</div>
+                                <div class="card-dept">ডাউনলোড, ঠিকানা ও বাবার/স্বামীর নাম বদল</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -617,7 +646,43 @@
                     <span class="material-symbols-outlined category-arrow">expand_more</span>
                 </div>
                 <div class="category-body">
-                    <div id="serviceGridCert" class="app-view-grid"></div>
+                    <div id="serviceGridCert" class="app-view-grid">
+                        <a href="https://janma-mrityutathya.wb.gov.in/verifycertificate" target="_blank" class="service-card clr-teal" data-keywords="birth certificate verify qr code জন্ম শংসাপত্র ভেরিফাই যাচাই">
+                            <div class="icon-circle">📷</div>
+                            <div class="card-info">
+                                <div class="card-title">জন্ম শংসাপত্র Verify (QR Code)</div>
+                                <div class="card-dept">কিউআর কোড বা নম্বর দিয়ে সত্যতা যাচাই</div>
+                            </div>
+                        </a>
+                        <a href="https://janma-mrityutathya.wb.gov.in/" target="_blank" class="service-card clr-pink" data-keywords="birth death certificate download জন্ম ও মৃত্যু শংসাপত্র ডাউনলোড প্রিন্ট">
+                            <div class="icon-circle">📥</div>
+                            <div class="card-info">
+                                <div class="card-title">জন্ম ও মৃত্যু শংসাপত্র Download</div>
+                                <div class="card-dept">Citizen Services থেকে সার্টিফিকেট প্রিন্ট</div>
+                            </div>
+                        </a>
+                        <a href="https://castcertificatewb.gov.in/searchappl" target="_blank" class="service-card clr-basanti" data-keywords="caste certificate sc st কাস্ট সার্টিফিকেট এসসি এসটি শংসাপত্র">
+                            <div class="icon-circle">🪪</div>
+                            <div class="card-info">
+                                <div class="card-title">কাস্ট সার্টিফিকেট ভেরিফাই</div>
+                                <div class="card-dept">SC / ST শংসাপত্র অনুসন্ধান ও স্ট্যাটাস</div>
+                            </div>
+                        </a>
+                        <a href="https://castcertificatewb.gov.in/searchappl" target="_blank" class="service-card clr-purple" data-keywords="obc certificate verify ওবিসি সার্টিফিকেট ভেরিফাই অনগ্রসর শ্রেণি">
+                            <div class="icon-circle">📋</div>
+                            <div class="card-info">
+                                <div class="card-title">OBC সার্টিফিকেট ভেরিফাই</div>
+                                <div class="card-dept">অনগ্রসর শ্রেণি কল্যাণ দপ্তর ও ওবিসি স্ট্যাটাস</div>
+                            </div>
+                        </a>
+                        <a href="https://wb.gov.in/" target="_blank" class="service-card clr-yellow" data-keywords="panchayat income certificate পঞ্চায়েত ইনকাম সার্টিফিকেট আয়ের শংসাপত্র">
+                            <div class="icon-circle">📜</div>
+                            <div class="card-info">
+                                <div class="card-title">পঞ্চায়েত ইনকাম সার্টিফিকেট</div>
+                                <div class="card-dept">গ্রাম পঞ্চায়েত আয়ের শংসাপত্র আবেদন</div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -631,7 +696,50 @@
                     <span class="material-symbols-outlined category-arrow">expand_more</span>
                 </div>
                 <div class="category-body">
-                    <div id="serviceGrid1" class="app-view-grid"></div>
+                    <div id="serviceGrid1" class="app-view-grid">
+                        <div class="service-card clr-basanti" onclick="openModal('ghatalCampModal')" data-keywords="jonokalyan shibir seva sankalp ghatal camp জনকল্যাণ শিবির সেবা সংকল্প ক্যাম্প ঘাটাল বিধানসভা ১৪টি প্রকল্প">
+                            <div class="icon-circle">⛺</div>
+                            <div class="card-info">
+                                <div class="card-title">জনকল্যাণ শিবির (ঘাটাল বিধানসভা)</div>
+                                <div class="card-dept">১৪টি সরকারি প্রকল্প ও প্রয়োজনীয় নথিপত্রের তালিকা</div>
+                            </div>
+                        </div>
+                        <a href="https://samarth.wb.gov.in/track-applicant-public" target="_blank" class="service-card clr-purple" data-keywords="pension samarth bardhokya bidhoba dibyango ভাতা বার্ধক্য বিধবা দিব্যাঙ্গ">
+                            <div class="icon-circle">♿</div>
+                            <div class="card-info">
+                                <div class="card-title">বার্ধক্য, বিধবা ও দিব্যাঙ্গ ভাতা</div>
+                                <div class="card-dept">সমর্থ (Samarth) পোর্টাল আবেদন ট্র্যাকিং</div>
+                            </div>
+                        </a>
+                        <a href="https://pmvishwakarma.gov.in/" target="_blank" class="service-card clr-yellow" data-keywords="pm vishwakarma বিশ্বকর্মা যোজনা কারিগর লোন ঋণ">
+                            <div class="icon-circle">🛠️</div>
+                            <div class="card-info">
+                                <div class="card-title">PM বিশ্বকর্মা যোজনা</div>
+                                <div class="card-dept">কারিগরদের অফিসিয়াল পোর্টাল</div>
+                            </div>
+                        </a>
+                        <a href="https://register.eshram.gov.in/#/user/aadhaar-login" target="_blank" class="service-card clr-pink" data-keywords="eshram e-shram শ্রম কার্ড শ্রমিক মজদুর লেবার">
+                            <div class="icon-circle">👷</div>
+                            <div class="card-info">
+                                <div class="card-title">ই-শ্রম কার্ড (e-Shram)</div>
+                                <div class="card-dept">আধার ওটিপি দিয়ে সরাসরি ডাউনলোড</div>
+                            </div>
+                        </a>
+                        <a href="https://socialregistry.wb.gov.in/citizen/#/" target="_blank" class="service-card clr-teal" data-keywords="annapurna yojana অন্নপূর্ণা যোজনা সোশ্যাল রেজিস্ট্রি খাদ্য">
+                            <div class="icon-circle">🍚</div>
+                            <div class="card-info">
+                                <div class="card-title">অন্নপূর্ণা যোজনা Status</div>
+                                <div class="card-dept">সোশ্যাল রেজিস্ট্রি পশ্চিমবঙ্গ</div>
+                            </div>
+                        </a>
+                        <a href="https://yubasathi.wb.gov.in/Default.aspx" target="_blank" class="service-card clr-blue" data-keywords="yuba sathi shakti যুবসাথী যুব শক্তি বেকার ভাতা">
+                            <div class="icon-circle">⚡</div>
+                            <div class="card-info">
+                                <div class="card-title">যুব শক্তি Status</div>
+                                <div class="card-dept">যুবসাথী স্কিম পোর্টাল</div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -645,7 +753,34 @@
                     <span class="material-symbols-outlined category-arrow">expand_more</span>
                 </div>
                 <div class="category-body">
-                    <div id="serviceGrid2" class="app-view-grid"></div>
+                    <div id="serviceGrid2" class="app-view-grid">
+                        <div class="service-card clr-orange" onclick="openModal('rationModal')" data-keywords="ration card rasan khadya wbpds ekyc download mobile link রেশন কার্ড চাল গম খাদ্য">
+                            <div class="icon-circle">🍚</div>
+                            <div class="card-info">
+                                <div class="card-title">রেশন কার্ড পরিষেবা</div>
+                                <div class="card-dept">ডাউনলোড, e-KYC, মোবাইল লিংক ও কারেকশন</div>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/919332434992?text=নমস্কার,%20আমি%20ভালো%20কোয়ালিটির%20রেশন%20PVC%20কার্ড%20অর্ডার%20করতে%20চাই।" target="_blank" class="service-card clr-pink" data-keywords="ration pvc card smart plastic print অর্ডার প্লাস্টিক রেশন স্মার্ট কার্ড">
+                            <div class="icon-circle">🪪</div>
+                            <div class="card-info">
+                                <div class="card-title">রেশন PVC কার্ড অর্ডার</div>
+                                <div class="card-dept" style="display: flex; align-items: center; gap: 4px; margin-top: 4px;">
+                                    <span>প্লাস্টিক স্মার্ট কার্ড প্রিন্ট</span> • 
+                                    <span style="display: inline-flex; align-items: center; gap: 3px; color: #ffffff; font-weight: 800;">
+                                        <i class="fa-brands fa-whatsapp" style="font-size: 13px;"></i> Order Now
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="service-card clr-yellow" onclick="openModal('lpgModal')" data-keywords="lpg gas booking indane bharat hp cylinder রিফিল সিলিন্ডার রান্নার গ্যাস বুকিং ইন্ডেন ভারত এইচপি">
+                            <div class="icon-circle">🔥</div>
+                            <div class="card-info">
+                                <div class="card-title">LPG গ্যাস বুকিং ও e-KYC স্ট্যাটাস</div>
+                                <div class="card-dept">Indane, Bharat ও HP গ্যাস রিফিল ও কল</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -654,12 +789,62 @@
                 <div class="category-header" onclick="toggleCategory('groupFarmer')">
                     <div class="category-header-title">
                         <div class="category-icon-badge">🌾</div>
-                        <span>কৃষক কল্যাণ (জমির রেকর্ড / খাজনা / ট্যাক্স)</span>
+                        <span>কৃষক কল্যাণ ও জমির রেকর্ড / খাজনা / ট্যাক্স</span>
                     </div>
                     <span class="material-symbols-outlined category-arrow">expand_more</span>
                 </div>
                 <div class="category-body">
-                    <div id="serviceGrid3" class="app-view-grid"></div>
+                    <div id="serviceGrid3" class="app-view-grid">
+                        <a href="https://pmfby.gov.in/farmerLogin" target="_blank" class="service-card clr-green" data-keywords="pmfby fosol bima crop insurance ফসল বীমা প্রধানমন্ত্রী">
+                            <div class="icon-circle">🌾</div>
+                            <div class="card-info">
+                                <div class="card-title">প্রধানমন্ত্রী ফসল বীমা যোজনা</div>
+                                <div class="card-dept">ফসল বীমা পোর্টাল ও স্ট্যাটাস</div>
+                            </div>
+                        </a>
+                        <div class="service-card clr-pink" onclick="openModal('landRecordHelpModal')" data-keywords="land record porcha khatian dag jomi banglarbhumi পর্চা খতিয়ান দাগ জমির রেকর্ড বাংলার ভূমি প্রিন্ট">
+                            <div class="icon-circle">📜</div>
+                            <div class="card-info">
+                                <div class="card-title">জমির পর্চা / রেকর্ড (ROR)</div>
+                                <div class="card-dept">বাংলার ভূমি পোর্টাল ও খতিয়ান রঙিন প্রিন্ট কপি</div>
+                            </div>
+                        </div>
+                        <div class="service-card clr-yellow" onclick="openModal('taxModal')" data-keywords="khajna tax holding municipality panchayat খাজনা ট্যাক্স হোল্ডিং মিউসিপ্যালিটি পঞ্চায়েত রসিদ">
+                            <div class="icon-circle">🏠</div>
+                            <div class="card-info">
+                                <div class="card-title">খাজনা ও বাড়ির হোল্ডিং ট্যাক্স</div>
+                                <div class="card-dept">পঞ্চায়েত ও পৌরসভার ট্যাক্স এবং রসিদ</div>
+                            </div>
+                        </div>
+                        <a href="https://krishakbandhu.wb.gov.in/farmer_search" target="_blank" class="service-card clr-blue" data-keywords="krishak bandhu search id কৃষক বন্ধু পুরনো আইডি সার্চ ভোটার কার্ড">
+                            <div class="icon-circle">🌱</div>
+                            <div class="card-info">
+                                <div class="card-title">কৃষক বন্ধু আইডি চেক (পুরনো পোর্টাল)</div>
+                                <div class="card-dept">ভোটার কার্ড দিয়ে স্ট্যাটাস ও আইডি বের করুন</div>
+                            </div>
+                        </a>
+                        <a href="https://krishakbandhu.wb.gov.in/" target="_blank" class="service-card clr-indigo" data-keywords="krishak bandhu new নতুন কৃষক বন্ধু পোর্টাল আবেদন টাকা">
+                            <div class="icon-circle">🆕</div>
+                            <div class="card-info">
+                                <div class="card-title">নতুন কৃষক বন্ধু পোর্টাল</div>
+                                <div class="card-dept">নতুন আবেদনের স্ট্যাটাস ও তথ্য যাচাই</div>
+                            </div>
+                        </a>
+                        <a href="https://pmkisan.gov.in/BeneficiaryStatus_New.aspx" target="_blank" class="service-card clr-basanti" data-keywords="pm kisan pmkisan ekyc টাকা ২০০০ কিস্তি পিএম কিসান স্ট্যাটাস">
+                            <div class="icon-circle">🔍</div>
+                            <div class="card-info">
+                                <div class="card-title">PM Kisan স্ট্যাটাস ও e-KYC</div>
+                                <div class="card-dept">কিস্তির টাকা ঢোকার অবস্থা ও কেওয়াইসি যাচাই</div>
+                            </div>
+                        </a>
+                        <a href="https://wbfr.agristack.gov.in/farmer-registry-wb/#/homePrintEnrollmentDetails" target="_blank" class="service-card clr-teal" data-keywords="agristack farmer id ডিজিটাল ফার্মার এগ্রিস্ট্যাক কৃষক কার্ড">
+                            <div class="icon-circle">🪪</div>
+                            <div class="card-info">
+                                <div class="card-title">AgriStack কৃষক ID</div>
+                                <div class="card-dept">ডিজিটাল ফার্মার আইডি কার্ড প্রিন্ট</div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -673,7 +858,57 @@
                     <span class="material-symbols-outlined category-arrow">expand_more</span>
                 </div>
                 <div class="category-body">
-                    <div id="serviceGrid4" class="app-view-grid"></div>
+                    <div id="serviceGrid4" class="app-view-grid">
+                        <a href="https://onlinehmis.wbhealth.gov.in/MobileOPDTicketBooking.aspx?HC=xskVKHEM7dSleQ3LyFJ2dQ%3d%3d" target="_blank" class="service-card clr-teal" data-keywords="ghatal hospital opd ticket বুকিং ঘাটাল মহকুমা সুপার স্পেশালিটি হাসপাতাল ওপিডি">
+                            <div class="icon-circle">🏥</div>
+                            <div class="card-info">
+                                <div class="card-title">ঘাটাল সুপার স্পেশালিটি OPD টিকিট</div>
+                                <div class="card-dept">ঘাটাল হাসপাতালের সরাসরি টিকিট বুকিং</div>
+                            </div>
+                        </a>
+                        <div class="service-card clr-pink" onclick="openModal('wbHospModal')" data-keywords="medical college opd sskm test report মেডিকেল কলেজ কলকাতা ডাক্তার টেস্ট রিপোর্ট">
+                            <div class="icon-circle">🩺</div>
+                            <div class="card-info">
+                                <div class="card-title">মেডিকেল কলেজ OPD ও ল্যাব রিপোর্ট</div>
+                                <div class="card-dept">SSKM ও কলকাতা হাসপাতালের রিপোর্ট</div>
+                            </div>
+                        </div>
+                        <div class="service-card clr-red" onclick="openModal('bloodBankModal')" data-keywords="blood bank live stock রক্ত ব্লাড ব্যাংক eraktkosh ১০৪ হেল্পলাইন গ্রুপ">
+                            <div class="icon-circle">🩸</div>
+                            <div class="card-info">
+                                <div class="card-title">রক্তের সন্ধান ও ব্লাড ব্যাংক</div>
+                                <div class="card-dept">লাইভ ব্লাড স্টক চেক ও হেল্পলাইন</div>
+                            </div>
+                        </div>
+                        <a href="https://ssai.swasthyasathi.gov.in/OnlinePublicInfoHub/OnlineCardVerificationIndex" target="_blank" class="service-card clr-basanti" data-keywords="swasthya sathi স্বাস্থ্যসাথী কার্ড চেক ব্যালেন্স সক্রিয়তা">
+                            <div class="icon-circle">🏥</div>
+                            <div class="card-info">
+                                <div class="card-title">স্বাস্থ্যসাথী কার্ড ভেরিফিকেশন</div>
+                                <div class="card-dept">কার্ড সক্রিয়তা ও ব্যালেন্স চেক</div>
+                            </div>
+                        </a>
+                        <div class="service-card clr-yellow" onclick="openComingSoon('মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা')" data-keywords="mukhyamantri swasthya bima মুখ্যমন্ত্রী স্বাস্থ্য বীমা">
+                            <div class="icon-circle">⏳</div>
+                            <div class="card-info">
+                                <div class="card-title">মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা</div>
+                                <div class="card-dept">শীঘ্রই আসছে (ক্লিক করুন)</div>
+                            </div>
+                        </div>
+                        <a href="https://beneficiary.nha.gov.in/" target="_blank" class="service-card clr-blue" data-keywords="ayushman bharat pmjay আয়ুষ্মান ভারত কার্ড ৫ লাখ চিকিৎসা">
+                            <div class="icon-circle">💉</div>
+                            <div class="card-info">
+                                <div class="card-title">আয়ুষ্মান ভারত কার্ড (PMJAY)</div>
+                                <div class="card-dept">কেন্দ্রীয় সরকারি স্বাস্থ্য বীমা পোর্টাল</div>
+                            </div>
+                        </a>
+                        <a href="https://abha.rqbeonline.co.in/ABHA/SearchAbhaCard" target="_blank" class="service-card clr-purple" data-keywords="abha card download আভা হেলথ আইডি ডিজিটাল স্বাস্থ্য কার্ড">
+                            <div class="icon-circle">🪪</div>
+                            <div class="card-info">
+                                <div class="card-title">আভা (ABHA) কার্ড ডাউনলোড</div>
+                                <div class="card-dept">ডিজিটাল হেলথ অ্যাকাউন্ট কার্ড</div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -687,7 +922,36 @@
                     <span class="material-symbols-outlined category-arrow">expand_more</span>
                 </div>
                 <div class="category-body">
-                    <div id="serviceGrid5" class="app-view-grid"></div>
+                    <div id="serviceGrid5" class="app-view-grid">
+                        <a href="https://vahan.parivahan.gov.in/nrservices/faces/user/citizen/searchstatus.xhtml" target="_blank" class="service-card clr-blue" data-keywords="vahan rc car bike owner গাড়ির বিবরণ মালিক গাড়ি বাইক নম্বর parivahan">
+                            <div class="icon-circle">🚘</div>
+                            <div class="card-info">
+                                <div class="card-title">গাড়ির বিবরণ ও মালিক (RC)</div>
+                                <div class="card-dept">Vahan গাড়ির নম্বর যাচাই</div>
+                            </div>
+                        </a>
+                        <a href="https://sarathi.parivahan.gov.in/sarathiservice/applViewStatus.do" target="_blank" class="service-card clr-green" data-keywords="driving license dl sarathi ড্রাইভিং লাইসেন্স আবেদন ট্র্যাকিং">
+                            <div class="icon-circle">🪪</div>
+                            <div class="card-info">
+                                <div class="card-title">ড্রাইভিং লাইসেন্স Status</div>
+                                <div class="card-dept">সারথি লাইসেন্স আবেদন ট্র্যাকিং</div>
+                            </div>
+                        </a>
+                        <a href="https://echallan.parivahan.gov.in/index/accused-challan" target="_blank" class="service-card clr-orange" data-keywords="traffic fine echallan ট্রাফিক চালান ফাইন গাড়ি কেস">
+                            <div class="icon-circle">⚠️</div>
+                            <div class="card-info">
+                                <div class="card-title">ট্রাফিক ই-চালান ও ফাইন</div>
+                                <div class="card-dept">গাড়ির চালান যাচাই ও পেমেন্ট</div>
+                            </div>
+                        </a>
+                        <div class="service-card clr-pink" onclick="openComingSoon('পিঙ্ক কার্ড (Pink Card)')" data-keywords="pink card পিঙ্ক কার্ড">
+                            <div class="icon-circle">🎫</div>
+                            <div class="card-info">
+                                <div class="card-title">পিঙ্ক কার্ড (Pink Card)</div>
+                                <div class="card-dept">শীঘ্রই আসছে (ক্লিক করুন)</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -701,7 +965,36 @@
                     <span class="material-symbols-outlined category-arrow">expand_more</span>
                 </div>
                 <div class="category-body">
-                    <div id="serviceGrid6" class="app-view-grid"></div>
+                    <div id="serviceGrid6" class="app-view-grid">
+                        <a href="https://electoralsearch.eci.gov.in/uesfmempmlkypo" target="_blank" class="service-card clr-blue" data-keywords="voter list search epic কার্ড নম্বর ভোটার তালিকা নাম অনুসন্ধান নির্বাচন eci">
+                            <div class="icon-circle">🔎</div>
+                            <div class="card-info">
+                                <div class="card-title">ভোটার লিস্টে নাম অনুসন্ধান</div>
+                                <div class="card-dept">ভোটার কার্ড নম্বর দিয়ে সার্চ</div>
+                            </div>
+                        </a>
+                        <div class="service-card clr-pink" onclick="openModal('voterUpdateModal')" data-keywords="new voter card mobile link correction নতুন ভোটার কার্ড নাম সংশোধন মোবাইল লিংক">
+                            <div class="icon-circle">📲</div>
+                            <div class="card-info">
+                                <div class="card-title">নতুন ভোটার কার্ড ও সংশোধন</div>
+                                <div class="card-dept">নতুন নাম নথিভুক্তিকরণ ও মোবাইল লিংক</div>
+                            </div>
+                        </div>
+                        <a href="https://ceowestbengal.wb.gov.in/roll_dist" target="_blank" class="service-card clr-teal" data-keywords="sir list 2002 voter পুরানো ভোটার তালিকা এসআইআর ceo west bengal">
+                            <div class="icon-circle">📜</div>
+                            <div class="card-info">
+                                <div class="card-title">SIR লিস্ট 2002</div>
+                                <div class="card-dept">ঐতিহাসিক ভোটার তালিকা অনুসন্ধান</div>
+                            </div>
+                        </a>
+                        <a href="https://voters.eci.gov.in/download-eroll?stateCode=S25" target="_blank" class="service-card clr-basanti" data-keywords="sir list 2026 বর্তমান বুথ ভোটার তালিকা eroll download">
+                            <div class="icon-circle">📥</div>
+                            <div class="card-info">
+                                <div class="card-title">SIR লিস্ট 2026</div>
+                                <div class="card-dept">বর্তমান বুথভিত্তিক ভোটার তালিকা</div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -715,7 +1008,36 @@
                     <span class="material-symbols-outlined category-arrow">expand_more</span>
                 </div>
                 <div class="category-body">
-                    <div id="serviceGrid7" class="app-view-grid"></div>
+                    <div id="serviceGrid7" class="app-view-grid">
+                        <a href="https://portal.wbsedcl.in/onlinepay/OnlineBillPay.jsp" target="_blank" class="service-card clr-orange" data-keywords="electric bill pay wbsedcl quick বিদ্যুৎ বিল জমা পেমেন্ট কারেন্ট">
+                            <div class="icon-circle">💳</div>
+                            <div class="card-info">
+                                <div class="card-title">বিদ্যুৎ বিল পেমেন্ট (Quick Pay)</div>
+                                <div class="card-dept">Consumer ID দিয়ে সরাসরি বিল জমা দিন</div>
+                            </div>
+                        </a>
+                        <a href="https://portal.wbsedcl.in/webdynpro/resources/wbsedcl/paymenthistory/ViewPaymentHistoryApp?payReceipt=Y#" target="_blank" class="service-card clr-blue" data-keywords="electric bill receipt রসিদ ডাউনলোড বিদ্যুৎ বিল জমার প্রমাণ">
+                            <div class="icon-circle">🧾</div>
+                            <div class="card-info">
+                                <div class="card-title">বিল পেমেন্ট রসিদ ডাউনলোড</div>
+                                <div class="card-dept">টাকা জমার অফিশিয়াল রসিদ পান</div>
+                            </div>
+                        </a>
+                        <a href="https://portal.wbsedcl.in/irj/go/km/docs/bills/IFRAME/ViewBillWithoutLogin.html" target="_blank" class="service-card clr-pink" data-keywords="electric bill view download চলতি কোয়ার্টার বিল দেখা">
+                            <div class="icon-circle">💡</div>
+                            <div class="card-info">
+                                <div class="card-title">বিদ্যুৎ বিল View ও Download</div>
+                                <div class="card-dept">চলতি কোয়ার্টার বিল চেক</div>
+                            </div>
+                        </a>
+                        <div class="service-card clr-green" onclick="openModal('electricModal')" data-keywords="current complaint 19121 বিদ্যুৎ বিভ্রাট লাইন নেই কারেন্ট কমপ্লেইন হেল্পলাইন">
+                            <div class="icon-circle">📞</div>
+                            <div class="card-info">
+                                <div class="card-title">বিদ্যুৎ বিভ্রাট ও অভিযোগ</div>
+                                <div class="card-dept">19121 কল, WhatsApp ও SMS অভিযোগ</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -768,7 +1090,7 @@
                 অ্যাপটির মতো দ্রুত এক ক্লিকে ব্যবহারের জন্য আপনার মোবাইলের হোম স্ক্রিনে শর্টকাট যুক্ত করুন।
             </p>
             <button id="pwaAddNowBtn" style="width: 100%; background: #1e3a8a; color: #ffffff; border: none; padding: 12px; border-radius: 11px; font-size: 14.5px; font-weight: 700; cursor: pointer;">
-                Add Now
+                অ্যাড টু হোম স্ক্রিন (Add Now)
             </button>
         </div>
     </div>
@@ -1246,7 +1568,7 @@
     <footer>
         <div class="footer-warning-heading">সতর্কবার্তা</div>
         <div class="footer-warning-text">
-            <span>⚠️ এটি কোনো সরকারি অ্যাপ নয়।</span>
+            <span>⚠️️ এটি কোনো সরকারি অ্যাপ নয়।</span>
             <span>সাধারণ নাগরিকের সুবিধার্থে অফিশিয়াল সেবা একত্রিত করা হয়েছে।</span>
         </div>
         <p style="font-size: 11.5px; font-weight: 600; color: #2563eb; border-top: 1px dashed var(--footer-border); padding-top: 6px; margin-top: 8px; width: 100%; max-width: 300px;">
@@ -1564,30 +1886,17 @@ function renderServiceRow(item) {
     `;
 }
 
-function createCardElement(item) {
+function createCardHTML(item) {
     let safeUrl = cleanUrl(item.action_link);
-    let cardEl;
-
-    if (safeUrl && safeUrl.startsWith('#')) {
-        const modalId = safeUrl.substring(1);
-        cardEl = document.createElement('div');
-        cardEl.onclick = () => openModal(modalId);
-    } else {
-        cardEl = document.createElement('a');
-        cardEl.href = safeUrl || '#';
-        cardEl.target = '_blank';
-    }
-
-    cardEl.className = `service-card ${item.color || 'clr-blue'}`;
-    cardEl.setAttribute('data-keywords', `${item.name} ${item.dept || ''}`);
-    cardEl.innerHTML = `
-        <div class="icon-circle">${item.icon || '🔗'}</div>
-        <div class="card-info">
-            <div class="card-title">${item.name}</div>
-            <div class="card-dept">${item.dept || ''}</div>
-        </div>
+    return `
+        <a href="${safeUrl}" target="_blank" class="service-card ${item.color || 'clr-blue'}" data-keywords="${item.name} ${item.dept || ''}">
+            <div class="icon-circle">${item.icon || '🔗'}</div>
+            <div class="card-info">
+                <div class="card-title">${item.name}</div>
+                <div class="card-dept">${item.dept || ''}</div>
+            </div>
+        </a>
     `;
-    return cardEl;
 }
 
 const categoryContainerMap = {
@@ -1612,97 +1921,79 @@ const bankColorThemes = [
     { bg: '#eef2ff', border: '#c7d2fe', color: '#3730a3', icon: '🔷' }
 ];
 
-function renderBankData(data) {
-    const bankContainer = document.getElementById('bankListContainer');
-    const bankData = data.filter(d => d.category === 'bank');
-    if (bankContainer && bankData.length > 0) {
-        bankContainer.innerHTML = bankData.map((b, i) => {
-            const theme = bankColorThemes[i % bankColorThemes.length];
-            return `
-            <div class="bank-card-item" style="border-color: ${theme.border}; background: ${theme.bg};">
-                <div class="bank-header-btn" onclick="toggleBank('bank_sheet_${i}')">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <span style="font-size: 20px;">${theme.icon}</span>
-                        <div>
-                            <div class="b-name" style="color: ${theme.color};">${b.name}</div>
-                            <div style="font-size: 11.5px; color: var(--text-sub);">${b.desc || 'ব্যালেন্স ও সার্ভিস'}</div>
+function loadLiveGoogleSheetData() {
+    fetch(`https://opensheet.elk.sh/${CONTACT_SHEET_ID}/Sheet1`)
+        .then(res => res.json())
+        .then(data => {
+            if (!Array.isArray(data) || data.length === 0) return;
+
+            const bankContainer = document.getElementById('bankListContainer');
+            const bankData = data.filter(d => d.category === 'bank');
+            if (bankContainer && bankData.length > 0) {
+                bankContainer.innerHTML = bankData.map((b, i) => {
+                    const theme = bankColorThemes[i % bankColorThemes.length];
+                    return `
+                    <div class="bank-card-item" style="border-color: ${theme.border}; background: ${theme.bg};">
+                        <div class="bank-header-btn" onclick="toggleBank('bank_sheet_${i}')">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">${theme.icon}</span>
+                                <div>
+                                    <div class="b-name" style="color: ${theme.color};">${b.name}</div>
+                                    <div style="font-size: 11.5px; color: var(--text-sub);">${b.desc || 'ব্যালেন্স ও সার্ভিস'}</div>
+                                </div>
+                            </div>
+                            <span class="material-symbols-outlined b-arrow" style="color: ${theme.color};">expand_more</span>
+                        </div>
+                        <div id="bank_sheet_${i}" class="bank-body-content" style="display: none;">
+                            ${renderServiceRow(b)}
                         </div>
                     </div>
-                    <span class="material-symbols-outlined b-arrow" style="color: ${theme.color};">expand_more</span>
-                </div>
-                <div id="bank_sheet_${i}" class="bank-body-content" style="display: none;">
-                    ${renderServiceRow(b)}
-                </div>
-            </div>
-        `;
-        }).join('');
-    }
-}
-
-function renderServicesData(data) {
-    if (!Array.isArray(data) || data.length === 0) return;
-
-    // ১. সব কন্টেইনার সম্পূর্ণ পরিষ্কার করে নেওয়া (ডাবল কার্ড বন্ধ করার জন্য)
-    Object.values(categoryContainerMap).forEach(containerId => {
-        const c = document.getElementById(containerId);
-        if (c) c.innerHTML = '';
-    });
-
-    // ২. ব্যানার আপডেট
-    const bannerItem = data.find(d => d.category && d.category.toLowerCase().trim() === 'banner');
-    const bannerEl = document.getElementById('featuredDynamicBanner');
-    if (bannerEl && bannerItem && bannerItem.name) {
-        bannerEl.style.display = 'flex';
-        bannerEl.href = cleanUrl(bannerItem.action_link) || 'https://jks.wb.gov.in';
-        document.getElementById('fbTitle').innerText = bannerItem.name;
-        document.getElementById('fbDesc').innerText = bannerItem.dept || bannerItem.desc || '';
-        document.getElementById('fbIcon').innerText = bannerItem.icon || '⛺';
-    }
-
-    // ৩. কার্ড রেন্ডার করা
-    data.forEach(item => {
-        if (!item.name || item.category === 'banner') return;
-        const catKey = item.category ? item.category.toLowerCase().trim() : '';
-        const targetContainerId = categoryContainerMap[catKey];
-        if (targetContainerId) {
-            const container = document.getElementById(targetContainerId);
-            if (container) {
-                container.appendChild(createCardElement(item));
+                `;
+                }).join('');
             }
-        }
-    });
-}
-
-function loadLiveGoogleSheetData() {
-    // কন্টাক্ট ডেটা ফেচ (গুগল শিট -> ব্যাকআপ লোকাল ফাইল)
-    fetch(`https://opensheet.elk.sh/${CONTACT_SHEET_ID}/Sheet1`)
-        .then(res => {
-            if (!res.ok) throw new Error("Sheet fetch failed");
-            return res.json();
         })
-        .then(data => renderBankData(data))
-        .catch(err => {
-            console.warn("গুগল শিট থেকে কন্টাক্ট লোড হয়নি, লোকাল ব্যাকআপ থেকে লোড হচ্ছে:", err);
-            fetch('./data/contacts.json')
-                .then(r => r.json())
-                .then(localData => renderBankData(localData))
-                .catch(e => console.error("লোকাল ব্যাকআপ contacts.json পাওয়া যায়নি:", e));
-        });
+        .catch(err => console.error("কন্টাক্ট শিট ফেচ সমস্যা:", err));
 
-    // সার্ভিস ডেটা ফেচ (গুগল শিট -> ব্যাকআপ লোকাল ফাইল)
     fetch(`https://opensheet.elk.sh/${SERVICES_SHEET_ID}/Sheet1`)
-        .then(res => {
-            if (!res.ok) throw new Error("Sheet fetch failed");
-            return res.json();
+        .then(res => res.json())
+        .then(data => {
+            if (!Array.isArray(data) || data.length === 0) return;
+
+            data.forEach(item => {
+                if (!item.name || item.category === 'banner') return;
+                
+                let safeUrl = cleanUrl(item.action_link);
+                let matched = false;
+
+                const allCards = document.querySelectorAll('.service-card');
+                allCards.forEach(card => {
+                    const titleEl = card.querySelector('.card-title');
+                    if (titleEl && titleEl.innerText.trim().toLowerCase() === item.name.trim().toLowerCase()) {
+                        matched = true;
+                        if (card.tagName.toLowerCase() === 'a') {
+                            card.href = safeUrl;
+                        }
+                        const deptEl = card.querySelector('.card-dept');
+                        if (deptEl && item.dept) {
+                            deptEl.innerText = item.dept;
+                        }
+                        // গুগল শিটের color কলামের ভ্যালু দিয়ে সরাসরি কার্ডের কালার ক্লাস আপডেট
+                        if (item.color) {
+                            card.className = card.className.replace(/clr-\w+/g, item.color.trim());
+                        }
+                    }
+                });
+
+                if (!matched && item.category && categoryContainerMap[item.category.toLowerCase().trim()]) {
+                    const targetContainerId = categoryContainerMap[item.category.toLowerCase().trim()];
+                    const container = document.getElementById(targetContainerId);
+                    if (container) {
+                        container.insertAdjacentHTML('beforeend', createCardHTML(item));
+                    }
+                }
+            });
         })
-        .then(data => renderServicesData(data))
-        .catch(err => {
-            console.warn("গুগল শিট থেকে সার্ভিস লোড হয়নি, লোকাল ব্যাকআপ থেকে লোড হচ্ছে:", err);
-            fetch('./data/services.json')
-                .then(r => r.json())
-                .then(localData => renderServicesData(localData))
-                .catch(e => console.error("লোকাল ব্যাকআপ services.json পাওয়া যায়নি:", e));
-        });
+        .catch(err => console.error("সার্ভিস শিট ফেচ সমস্যা:", err));
 }
 
 document.addEventListener('DOMContentLoaded', loadLiveGoogleSheetData);
