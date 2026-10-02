@@ -33,7 +33,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="নাগরিক সেবা">
 
-    <!-- প্রিমিয়াম ও স্পষ্ট বাংলা ফন্ট -->
+    <!-- প্রিমিয়াম বাংলা ও ইংরেজি ফন্ট -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -52,7 +52,7 @@
             --footer-bg: #f1f5f9;
             --footer-border: #e2e8f0;
             --modal-bg: #ffffff;
-            --card-border: #e2e8f0;
+            --card-border: #cbd5e1;
         }
 
         [data-theme="dark"] {
@@ -178,7 +178,7 @@
             flex: 1;
         }
 
-        /* ১. বড় ব্যানার: আকর্ষণীয় চওড়া সাইজ ও অরেঞ্জ গ্রেডিয়েন্ট */
+        /* ব্যানার: চওড়া সাইজ ও অরেঞ্জ লুক */
         @keyframes bannerZoomPulse {
             0% { transform: scale(1); box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35); }
             50% { transform: scale(1.02); box-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 8px 30px rgba(249, 115, 22, 0.65); }
@@ -280,16 +280,16 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.25) !important;
         }
 
-        /* ২. ইমার্জেন্সি কল / অভিযোগ কার্ড */
+        /* ইমার্জেন্সি কল / অভিযোগ কার্ড */
         .standalone-emergency-card {
             background: #ffffff !important;
-            border: 2px solid #ef4444 !important;
+            border: 2.5px solid #ef4444 !important;
             border-radius: 14px;
-            padding: 10px 16px;
+            padding: 11px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 11px;
+            margin-bottom: 12px;
             box-shadow: 0 3px 12px rgba(239, 68, 68, 0.12);
             cursor: pointer;
             transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -298,7 +298,6 @@
         [data-theme="dark"] .standalone-emergency-card {
             background: #111827 !important;
             border-color: #ef4444 !important;
-            box-shadow: 0 3px 12px rgba(239, 68, 68, 0.25);
         }
 
         .standalone-emergency-card:active { transform: scale(0.985); }
@@ -313,21 +312,17 @@
             box-shadow: 0 2px 6px rgba(220, 38, 38, 0.15);
         }
 
-        [data-theme="dark"] .sec-icon {
-            background: #7f1d1d;
-        }
+        [data-theme="dark"] .sec-icon { background: #7f1d1d; }
 
         .sec-title { 
-            font-size: 17px !important; 
+            font-size: 17.5px !important; 
             font-weight: 900 !important; 
             letter-spacing: 0.5px !important; 
             color: #dc2626 !important;
             line-height: 1.2 !important;
         }
 
-        [data-theme="dark"] .sec-title {
-            color: #f87171 !important;
-        }
+        [data-theme="dark"] .sec-title { color: #f87171 !important; }
 
         .sec-call-btn {
             background: #22c55e !important;
@@ -339,21 +334,23 @@
             color: #ffffff;
         }
 
-        /* ক্যাটাগরি ফোল্ডার স্ট্রিপস */
+        /* ============================================================
+           ক্যাটাগরি ফোল্ডার: ৩ পিক্সেল বর্ডার এবং ইউনিফর্ম সলিড ব্যাকগ্রাউন্ড
+           ============================================================ */
         .category-group {
-            margin-bottom: 8px;
-            border-radius: 13px;
+            margin-bottom: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.025);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.03);
             transition: all 0.2s ease;
-            border: 1.5px solid transparent;
+            border: 3px solid transparent !important; /* ৩ পিক্সেল স্পষ্ট বর্ডার */
         }
 
         .category-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 9.5px 14px;
+            padding: 11px 16px;
             cursor: pointer;
             user-select: none;
             transition: all 0.15s ease;
@@ -364,27 +361,27 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 13.8px;
-            font-weight: 700;
+            font-size: 14.5px;
+            font-weight: 800;
         }
 
         .category-icon-badge {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 17px;
             flex-shrink: 0;
             background: #ffffff;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         .category-arrow {
-            font-size: 20px;
+            font-size: 22px;
             transition: transform 0.25s ease;
-            opacity: 0.8;
+            opacity: 0.85;
         }
 
         .category-group.open .category-arrow {
@@ -392,73 +389,64 @@
             opacity: 1;
         }
 
+        /* কোনো ফেড বা সাদা হবে না, সম্পূর্ণ একই রঙ থাকবে */
         .category-body {
             display: none;
-            padding: 10px;
-            background: var(--bg-color);
+            padding: 12px;
+            background: transparent !important;
         }
 
         .category-group.open .category-body {
             display: block;
         }
 
-        /* ফোল্ডার থিম কালার */
-        .soft-cat-blue { background: #f0f7ff; border-color: #bfdbfe; }
-        .soft-cat-blue .category-header-title { color: #1e40af; }
+        /* ক্যাটাগরি থিম (৩ পিক্সেল ডিপ বর্ডার ও সলিড কালার ব্যাকগ্রাউন্ড) */
+        .soft-cat-blue { background: #eff6ff !important; border-color: #3b82f6 !important; }
+        .soft-cat-blue .category-header-title { color: #1d4ed8; }
         .soft-cat-blue .category-arrow { color: #2563eb; }
 
-        .soft-cat-teal { background: #f0fdfa; border-color: #99f6e4; }
+        .soft-cat-teal { background: #f0fdfa !important; border-color: #0d9488 !important; }
         .soft-cat-teal .category-header-title { color: #0f766e; }
         .soft-cat-teal .category-arrow { color: #0d9488; }
 
-        .soft-cat-purple { background: #faf5ff; border-color: #e9d5ff; }
+        .soft-cat-purple { background: #faf5ff !important; border-color: #9333ea !important; }
         .soft-cat-purple .category-header-title { color: #6b21a8; }
         .soft-cat-purple .category-arrow { color: #7e22ce; }
 
-        .soft-cat-orange { background: #fff7ed; border-color: #fed7aa; }
+        .soft-cat-orange { background: #fff7ed !important; border-color: #ea580c !important; }
         .soft-cat-orange .category-header-title { color: #9a3412; }
         .soft-cat-orange .category-arrow { color: #c2410c; }
 
-        .soft-cat-green { background: #f0fdf4; border-color: #bbf7d0; }
+        .soft-cat-green { background: #f0fdf4 !important; border-color: #16a34a !important; }
         .soft-cat-green .category-header-title { color: #166534; }
         .soft-cat-green .category-arrow { color: #15803d; }
 
-        .soft-cat-rose { background: #fff1f2; border-color: #fecdd3; }
+        .soft-cat-rose { background: #fff1f2 !important; border-color: #e11d48 !important; }
         .soft-cat-rose .category-header-title { color: #9f1239; }
         .soft-cat-rose .category-arrow { color: #be123c; }
 
-        .soft-cat-amber { background: #fffbeb; border-color: #fde68a; }
+        .soft-cat-amber { background: #fffbeb !important; border-color: #d97706 !important; }
         .soft-cat-amber .category-header-title { color: #92400e; }
         .soft-cat-amber .category-arrow { color: #b45309; }
 
-        .soft-cat-indigo { background: #eef2ff; border-color: #c7d2fe; }
+        .soft-cat-indigo { background: #eef2ff !important; border-color: #4f46e5 !important; }
         .soft-cat-indigo .category-header-title { color: #3730a3; }
         .soft-cat-indigo .category-arrow { color: #4338ca; }
 
-        .soft-cat-emerald { background: #ecfdf5; border-color: #a7f3d0; }
+        .soft-cat-emerald { background: #ecfdf5 !important; border-color: #059669 !important; }
         .soft-cat-emerald .category-header-title { color: #065f46; }
         .soft-cat-emerald .category-arrow { color: #047857; }
 
         /* ডার্ক মোড */
-        [data-theme="dark"] .category-icon-badge { background: rgba(255, 255, 255, 0.12); }
-        [data-theme="dark"] .soft-cat-blue { background: #0c233c; border-color: #1e3a8a; }
-        [data-theme="dark"] .soft-cat-blue .category-header-title { color: #93c5fd; }
-        [data-theme="dark"] .soft-cat-teal { background: #092c28; border-color: #134e4a; }
-        [data-theme="dark"] .soft-cat-teal .category-header-title { color: #5eead4; }
-        [data-theme="dark"] .soft-cat-purple { background: #26123a; border-color: #581c87; }
-        [data-theme="dark"] .soft-cat-purple .category-header-title { color: #d8b4fe; }
-        [data-theme="dark"] .soft-cat-orange { background: #2f1505; border-color: #7c2d12; }
-        [data-theme="dark"] .soft-cat-orange .category-header-title { color: #fdba74; }
-        [data-theme="dark"] .soft-cat-green { background: #082914; border-color: #14532d; }
-        [data-theme="dark"] .soft-cat-green .category-header-title { color: #86efac; }
-        [data-theme="dark"] .soft-cat-rose { background: #2f0714; border-color: #881337; }
-        [data-theme="dark"] .soft-cat-rose .category-header-title { color: #fda4af; }
-        [data-theme="dark"] .soft-cat-amber { background: #291a03; border-color: #78350f; }
-        [data-theme="dark"] .soft-cat-amber .category-header-title { color: #fde68a; }
-        [data-theme="dark"] .soft-cat-indigo { background: #13173d; border-color: #312e81; }
-        [data-theme="dark"] .soft-cat-indigo .category-header-title { color: #a5b4fc; }
-        [data-theme="dark"] .soft-cat-emerald { background: #052b20; border-color: #064e3b; }
-        [data-theme="dark"] .soft-cat-emerald .category-header-title { color: #6ee7b7; }
+        [data-theme="dark"] .soft-cat-blue { background: #0c1e38 !important; border-color: #2563eb !important; }
+        [data-theme="dark"] .soft-cat-teal { background: #072320 !important; border-color: #0d9488 !important; }
+        [data-theme="dark"] .soft-cat-purple { background: #200f33 !important; border-color: #9333ea !important; }
+        [data-theme="dark"] .soft-cat-orange { background: #261105 !important; border-color: #ea580c !important; }
+        [data-theme="dark"] .soft-cat-green { background: #082110 !important; border-color: #16a34a !important; }
+        [data-theme="dark"] .soft-cat-rose { background: #280913 !important; border-color: #e11d48 !important; }
+        [data-theme="dark"] .soft-cat-amber { background: #251603 !important; border-color: #d97706 !important; }
+        [data-theme="dark"] .soft-cat-indigo { background: #111438 !important; border-color: #4f46e5 !important; }
+        [data-theme="dark"] .soft-cat-emerald { background: #06231a !important; border-color: #059669 !important; }
 
         /* গ্রিড ও লিস্ট ভিউ */
         .app-view-grid {
@@ -481,11 +469,11 @@
             border-radius: 13px;
             padding: 11px 13px;
             display: flex;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.035);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             cursor: pointer;
             position: relative;
             text-decoration: none;
-            border: 1px solid rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.08);
             transition: transform 0.12s ease;
         }
         .service-card:active { transform: scale(0.98); }
@@ -759,9 +747,7 @@
             letter-spacing: 0.5px;
         }
 
-        [data-theme="dark"] .footer-warning-heading {
-            color: #f87171;
-        }
+        [data-theme="dark"] .footer-warning-heading { color: #f87171; }
 
         .footer-warning-text {
             font-size: 11px;
@@ -805,7 +791,7 @@
 
     <div class="content">
 
-        <!-- ১. বড় ব্যানার: ১০০% গেরুয়া/অরেঞ্জ কালার ও বড় সাইজ -->
+        <!-- ১. বড় ব্যানার: ১০০% গেরুয়া/অরেঞ্জ কালার -->
         <a id="featuredDynamicBanner" href="https://jks.wb.gov.in" target="_blank" class="featured-banner">
             <div class="fb-content">
                 <div class="fb-icon" id="fbIcon">⛺</div>
@@ -831,7 +817,7 @@
         </div>
 
         <!-- ============================================================
-             ক্যাটাগরি ফোল্ডারসমূহ (ডিফল্ট ২-কলাম গ্রিড লেআউট)
+             ক্যাটাগরি ফোল্ডারসমূহ: ৩ পিক্সেল বর্ডার এবং ইউনিফর্ম সলিড ব্যাকগ্রাউন্ড
              ============================================================ -->
 
         <!-- ১. ব্যাংকিং ও DBT Link (PAN / Aadhaar) -->
@@ -845,7 +831,6 @@
             </div>
             <div class="category-body">
                 <div id="serviceGridBanking" class="app-view-grid">
-                    
                     <div class="service-card clr-blue" onclick="openModal('bankFullModal')" data-keywords="bank balance check sbi pnb uco bob axis hdfc icici স্টেট ব্যাঙ্ক পাঞ্জাব বরোদা গ্রামীণ বিকাশ ব্যালেন্স টাকা একাউন্ট">
                         <div class="icon-circle">🏦</div>
                         <div class="card-info">
@@ -853,7 +838,6 @@
                             <div class="card-dept">SBI, PNB, UCO সহ সব ব্যাংকের মিসকল ব্যালেন্স</div>
                         </div>
                     </div>
-
                     <div class="service-card clr-pink" onclick="openModal('dbtModal')" data-keywords="dbt npci aadhar seeding khata bank account change সরকারি টাকা ডিবিটি একাউন্ট পরিবর্তন">
                         <div class="icon-circle">🔄</div>
                         <div class="card-info">
@@ -861,7 +845,6 @@
                             <div class="card-dept">আধার সিডিং খাতা পরিবর্তন সহায়িকা (NPCI)</div>
                         </div>
                     </div>
-
                     <a href="https://eportal.incometax.gov.in/iec/foservices/#/pre-login/link-aadhaar-status" target="_blank" class="service-card clr-indigo" data-keywords="pan aadhar link status প্যান আধার সংযোগ সক্রিয় যাচাই ইনকাম ট্যাক্স eportal">
                         <div class="icon-circle">💳</div>
                         <div class="card-info">
@@ -869,7 +852,6 @@
                             <div class="card-dept">PAN & Aadhaar সিডিং ও সক্রিয়তা সরাসরি যাচাই</div>
                         </div>
                     </a>
-                        
                     <div class="service-card clr-basanti" onclick="openModal('aadhaarModal')" data-keywords="aadhar card adhar aadhaar আধার কার্ড ডাউনলোড মোবাইল লিংক ঠিকানা বাবার নাম স্বামীর নাম care of uidai myaadhaar">
                         <div class="icon-circle">🪪</div>
                         <div class="card-info">
@@ -877,7 +859,6 @@
                             <div class="card-dept">ডাউনলোড, ঠিকানা ও বাবার/স্বামীর নাম বদল</div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -943,7 +924,6 @@
             </div>
             <div class="category-body">
                 <div id="serviceGrid1" class="app-view-grid">
-                    
                     <div class="service-card clr-basanti" onclick="openModal('ghatalCampModal')" data-keywords="jonokalyan shibir seva sankalp ghatal camp জনকল্যাণ শিবির সেবা সংকল্প ক্যাম্প ঘাটাল বিধানসভা ১৪টি প্রকল্প">
                         <div class="icon-circle">⛺</div>
                         <div class="card-info">
@@ -951,7 +931,6 @@
                             <div class="card-dept">১৪টি সরকারি প্রকল্প ও প্রয়োজনীয় নথিপত্রের তালিকা</div>
                         </div>
                     </div>
-
                     <a href="https://samarth.wb.gov.in/track-applicant-public" target="_blank" class="service-card clr-purple" data-keywords="pension samarth bardhokya bidhoba dibyango ভাতা বার্ধক্য বিধবা দিব্যাঙ্গ পেনশন">
                         <div class="icon-circle">♿</div>
                         <div class="card-info">
@@ -959,7 +938,6 @@
                             <div class="card-dept">সমর্থ (Samarth) পোর্টাল আবেদন ট্র্যাকিং</div>
                         </div>
                     </a>
-
                     <a href="https://pmvishwakarma.gov.in/" target="_blank" class="service-card clr-yellow" data-keywords="pm vishwakarma বিশ্বকর্মা যোজনা কারিগর লোন ঋণ">
                         <div class="icon-circle">🛠️</div>
                         <div class="card-info">
@@ -967,7 +945,6 @@
                             <div class="card-dept">কারিগরদের অফিসিয়াল পোর্টাল</div>
                         </div>
                     </a>
-
                     <a href="https://register.eshram.gov.in/#/user/aadhaar-login" target="_blank" class="service-card clr-pink" data-keywords="eshram e-shram শ্রম কার্ড শ্রমিক মজদুর লেবার">
                         <div class="icon-circle">👷</div>
                         <div class="card-info">
@@ -975,7 +952,6 @@
                             <div class="card-dept">আধার ওটিপি দিয়ে সরাসরি ডাউনলোড</div>
                         </div>
                     </a>
-
                     <a href="https://socialregistry.wb.gov.in/citizen/#/" target="_blank" class="service-card clr-teal" data-keywords="annapurna yojana অন্নপূর্ণা যোজনা সোশ্যাল রেজিস্ট্রি খাদ্য">
                         <div class="icon-circle">🍚</div>
                         <div class="card-info">
@@ -983,7 +959,6 @@
                             <div class="card-dept">সোশ্যাল রেজিস্ট্রি পশ্চিমবঙ্গ</div>
                         </div>
                     </a>
-
                     <a href="https://yubasathi.wb.gov.in/Default.aspx" target="_blank" class="service-card clr-blue" data-keywords="yuba sathi shakti যুবসাথী যুব শক্তি বেকার ভাতা">
                         <div class="icon-circle">⚡</div>
                         <div class="card-info">
@@ -1164,7 +1139,7 @@
             </div>
         </div>
 
-        <!-- ৭. পরিবহন ও যানবাহন -->
+        <!-- ৭. পরিবহন ও যানবাহন (কোনো সাদা কার্ড নেই, পিঙ্ক কার্ড পুরোপুরি পিঙ্ক) -->
         <div class="category-group soft-cat-amber" id="groupVehicle">
             <div class="category-header" onclick="toggleCategory('groupVehicle')">
                 <div class="category-header-title">
@@ -1182,7 +1157,7 @@
                             <div class="card-dept">Vahan গাড়ির নম্বর যাচাই</div>
                         </div>
                     </a>
-                    <a href="https://sarathi.parivahan.gov.in/sarathiservice/applViewStatus.do" target="_blank" class="service-card clr-pink" data-keywords="driving license dl sarathi ড্রাইভিং লাইসেন্স আবেদন ট্র্যাকিং">
+                    <a href="https://sarathi.parivahan.gov.in/sarathiservice/applViewStatus.do" target="_blank" class="service-card clr-green" data-keywords="driving license dl sarathi ড্রাইভিং লাইসেন্স আবেদন ট্র্যাকিং">
                         <div class="icon-circle">🪪</div>
                         <div class="card-info">
                             <div class="card-title">ড্রাইভিং লাইসেন্স Status</div>
@@ -1196,8 +1171,7 @@
                             <div class="card-dept">গাড়ির চালান যাচাই ও পেমেন্ট</div>
                         </div>
                     </a>
-                    
-                    <div class="service-card clr-yellow" onclick="openComingSoon('পিঙ্ক কার্ড (Pink Card)')" data-keywords="pink card পিঙ্ক কার্ড">
+                    <div class="service-card clr-pink" onclick="openComingSoon('পিঙ্ক কার্ড (Pink Card)')" data-keywords="pink card পিঙ্ক কার্ড">
                         <div class="icon-circle">🎫</div>
                         <div class="card-info">
                             <div class="card-title">পিঙ্ক কার্ড (Pink Card)</div>
@@ -1354,7 +1328,6 @@
                 <button class="modal-close" onclick="closeModal('ghatalCampModal')">&times;</button>
             </div>
             <div class="modal-scroll-area">
-                
                 <div style="background: linear-gradient(135deg, #fff7ed, #ffedd5); border: 1.5px solid #fdba74; border-radius: 14px; padding: 12px 14px; margin-bottom: 12px;">
                     <div style="font-size: 14.5px; font-weight: 800; color: #c2410c;">তারিখ: ২ - ৪ঠা অক্টোবর, ২০২৬ (ঘাটাল বিধানসভা)</div>
                     <div style="font-size: 12px; font-weight: 600; color: #9a3412; margin-top: 2px;">জনতার সুবিধার্থে ক্যাম্পে উপস্থিত সরকারি প্রকল্পের তালিকা</div>
@@ -1419,7 +1392,6 @@
                         <div>✔ মোবাইল নম্বর</div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -1432,7 +1404,6 @@
                 <button class="modal-close" onclick="closeModal('emergencyModal')">&times;</button>
             </div>
             <div class="modal-scroll-area">
-                
                 <div class="sub-card-row sub-theme-orange" style="border: 1.5px solid #f97316;">
                     <div class="bs-info">
                         <span class="bs-title" style="color: #c2410c;">📢 সরাসরি মুখ্যমন্ত্রী অভিযোগ পোর্টাল</span>
@@ -1443,7 +1414,6 @@
                         <a href="https://cmo.wb.gov.in/landing/raise-grievance" target="_blank" class="bs-btn btn-link">পোর্টাল <span class="material-symbols-outlined" style="font-size: 15px;">open_in_new</span></a>
                     </div>
                 </div>
-
                 <div class="sub-card-row sub-theme-red">
                     <div class="bs-info">
                         <span class="bs-title">জাতীয় জরুরি সেবা (All in One)</span>
@@ -1451,7 +1421,6 @@
                     </div>
                     <a href="tel:112" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 112</a>
                 </div>
-
                 <div class="sub-card-row sub-theme-green">
                     <div class="bs-info">
                         <span class="bs-title">বিনামূল্যে সরকারি অ্যাম্বুলেন্স</span>
@@ -1459,7 +1428,6 @@
                     </div>
                     <a href="tel:102" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 102</a>
                 </div>
-
                 <div class="sub-card-row sub-theme-blue">
                     <div class="bs-info">
                         <span class="bs-title">সাইবার আর্থিক প্রতারণা হেল্পলাইন</span>
@@ -1467,7 +1435,6 @@
                     </div>
                     <a href="tel:1930" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 1930</a>
                 </div>
-
                 <div class="sub-card-row sub-theme-teal">
                     <div class="bs-info">
                         <span class="bs-title">আধার অভিযোগ ও তথ্য হেল্পলাইন (UIDAI)</span>
@@ -1475,7 +1442,6 @@
                     </div>
                     <a href="tel:1947" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 1947</a>
                 </div>
-
                 <div class="sub-card-row sub-theme-purple">
                     <div class="bs-info">
                         <span class="bs-title">মহিলা হেল্পলাইন (Women Helpline)</span>
@@ -1483,7 +1449,6 @@
                     </div>
                     <a href="tel:1091" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 1091</a>
                 </div>
-
                 <div class="sub-card-row sub-theme-amber">
                     <div class="bs-info">
                         <span class="bs-title">শিশু সুরক্ষা হেল্পলাইন (Childline)</span>
@@ -1491,7 +1456,6 @@
                     </div>
                     <a href="tel:1098" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 1098</a>
                 </div>
-
                 <div class="sub-card-row sub-theme-orange">
                     <div class="bs-info">
                         <span class="bs-title">দমকল পরিষেবা (Fire Brigade)</span>
@@ -1499,7 +1463,6 @@
                     </div>
                     <a href="tel:101" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 101</a>
                 </div>
-
             </div>
         </div>
     </div>
@@ -2121,7 +2084,6 @@ function toggleLayoutView() {
 }
 
 (function initLayout() {
-    // সর্বদা ডিফল্ট ২-কলাম গ্রিড ভিউ
     const savedView = localStorage.getItem('layoutView') || 'grid';
     const grids = document.querySelectorAll('[id^="serviceGrid"]');
     const icon = document.getElementById('viewIcon');
@@ -2382,7 +2344,6 @@ function loadLiveGoogleSheetData() {
                         if (deptEl && item.dept) {
                             deptEl.innerText = item.dept;
                         }
-                        // গুগল শিটে color কলামে clr-pink, clr-yellow ইত্যাদি লিখলে তা স্বয়ংক্রিয়ভাবে কার্ডে যুক্ত হবে
                         if (item.color) {
                             card.className = card.className.replace(/clr-\w+/g, item.color.trim());
                         }
