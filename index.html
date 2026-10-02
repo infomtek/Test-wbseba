@@ -33,6 +33,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="নাগরিক সেবা">
 
+    <!-- প্রিমিয়াম ও স্পষ্ট বাংলা ফন্ট (Noto Sans Bengali) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     
@@ -69,9 +73,11 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Bengali", sans-serif;
+            font-family: 'Noto Sans Bengali', 'Inter', system-ui, -apple-system, sans-serif;
             -webkit-tap-highlight-color: transparent;
             transition: background-color 0.2s ease, color 0.2s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
@@ -113,6 +119,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            letter-spacing: -0.2px;
         }
 
         .header-controls {
@@ -134,20 +141,21 @@
         }
 
         .header-sub {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-top: 2px;
+            font-size: 12.5px;
+            opacity: 0.92;
+            margin-top: 3px;
+            font-weight: 500;
         }
 
         .search-box {
-            margin-top: 12px;
+            margin-top: 13px;
             position: relative;
             max-width: 600px;
         }
 
         .search-box input {
             width: 100%;
-            padding: 10px 14px 10px 38px;
+            padding: 11px 14px 11px 40px;
             border-radius: 12px;
             border: none;
             outline: none;
@@ -163,7 +171,7 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-sub);
-            font-size: 19px;
+            font-size: 20px;
         }
 
         .content {
@@ -172,52 +180,52 @@
         }
 
         /* ============================================================
-           বড় ব্যানার: ফ্ল্যাশ লাইট সুইপ ও স্পষ্ট জুম ইন-আউট অ্যানিমেশন
+           ১. জনকল্যাণ শিবির: সুস্পষ্ট ও বড় জাম্বো ফ্ল্যাশ ব্যানার
            ============================================================ */
         @keyframes bannerZoomPulse {
-            0% { transform: scale(1); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
-            50% { transform: scale(1.025); box-shadow: 0 0 24px rgba(255, 255, 255, 0.7), 0 8px 30px rgba(234, 88, 12, 0.6); }
-            100% { transform: scale(1); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+            0% { transform: scale(1); box-shadow: 0 4px 14px rgba(234, 88, 12, 0.25); }
+            50% { transform: scale(1.02); box-shadow: 0 0 25px rgba(255, 255, 255, 0.8), 0 8px 32px rgba(234, 88, 12, 0.65); }
+            100% { transform: scale(1); box-shadow: 0 4px 14px rgba(234, 88, 12, 0.25); }
         }
 
         @keyframes shineSweep {
             0% { left: -120%; }
-            20% { left: 130%; }
+            25% { left: 130%; }
             100% { left: 130%; }
         }
 
         .featured-banner {
             display: none;
             width: 100%;
+            background: linear-gradient(135deg, #ea580c, #c2410c);
             color: #ffffff;
-            border-radius: 15px;
-            padding: 12px 16px;
-            margin-bottom: 9px;
+            border-radius: 16px;
+            padding: 16px 18px;
+            margin-bottom: 11px;
             text-decoration: none;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.45);
+            gap: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
             animation: bannerZoomPulse 2.8s infinite ease-in-out;
             cursor: pointer;
             position: relative;
             overflow: hidden;
         }
 
-        /* সাদা ফ্ল্যাশ লাইট রেখা যা লেখার ভেতর দিয়ে বয়ে যাবে */
         .featured-banner::after {
             content: '';
             position: absolute;
             top: 0;
             left: -120%;
-            width: 70%;
+            width: 60%;
             height: 100%;
             background: linear-gradient(
                 90deg,
                 transparent,
-                rgba(255, 255, 255, 0.45),
-                rgba(255, 255, 255, 0.8),
-                rgba(255, 255, 255, 0.45),
+                rgba(255, 255, 255, 0.35),
+                rgba(255, 255, 255, 0.85),
+                rgba(255, 255, 255, 0.35),
                 transparent
             );
             transform: skewX(-25deg);
@@ -225,16 +233,17 @@
             pointer-events: none;
         }
 
-        .fb-content { display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
+        .fb-content { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
         .fb-icon {
-            width: 40px; height: 40px;
+            width: 50px; height: 50px;
             background: rgba(255, 255, 255, 0.25);
-            border-radius: 11px;
+            border-radius: 13px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 22px; flex-shrink: 0;
+            font-size: 27px; flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
-        .fb-title { font-size: 15px; font-weight: 900; line-height: 1.25; }
-        .fb-desc { font-size: 11.5px; opacity: 0.95; margin-top: 2px; font-weight: 600; }
+        .fb-title { font-size: 16.5px; font-weight: 800; line-height: 1.3; }
+        .fb-desc { font-size: 12.5px; opacity: 0.95; margin-top: 3px; font-weight: 600; }
 
         /* স্লিম ইমার্জেন্সি কার্ড */
         .standalone-emergency-card {
@@ -245,8 +254,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 9px;
-            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+            margin-bottom: 10px;
+            box-shadow: 0 3px 10px rgba(225, 29, 72, 0.22);
             border: 1.5px solid #f43f5e;
             cursor: pointer;
             transition: transform 0.15s ease;
@@ -260,17 +269,18 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 19px; flex-shrink: 0;
         }
-        .sec-title { font-size: 14px; font-weight: 900; letter-spacing: 0.3px; }
+        .sec-title { font-size: 14px; font-weight: 800; letter-spacing: 0.3px; }
         .sec-desc { font-size: 11px; opacity: 0.92; margin-top: 1px; }
 
         /* ============================================================
-           স্লিম ক্যাটাগরি স্ট্রিপস: পারফেক্ট অল্টারনেটিভ (ডিপ ➔ হালকা ➔ ডিপ ➔ হালকা)
+           ২. মার্জিত, প্রফেশনাল ও চোখে আরামদায়ক ক্যাটাগরি ফোল্ডার
+           (অতিরিক্ত হিজিবিজি দূর করে হালকা ও শান্ত রঙ)
            ============================================================ */
         .category-group {
             margin-bottom: 7px;
             border-radius: 13px;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.035);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.025);
             transition: all 0.2s ease;
             border: 1.5px solid transparent;
         }
@@ -279,7 +289,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 9px 14px;
+            padding: 9.5px 14px;
             cursor: pointer;
             user-select: none;
             transition: all 0.15s ease;
@@ -289,9 +299,9 @@
         .category-header-title {
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 10px;
             font-size: 13.8px;
-            font-weight: 800;
+            font-weight: 700;
         }
 
         .category-icon-badge {
@@ -303,13 +313,14 @@
             justify-content: center;
             font-size: 16px;
             flex-shrink: 0;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
         }
 
         .category-arrow {
             font-size: 20px;
             transition: transform 0.25s ease;
-            opacity: 0.85;
+            opacity: 0.8;
         }
 
         .category-group.open .category-arrow {
@@ -327,106 +338,74 @@
             display: block;
         }
 
-        /* ১. ডিপ রয়্যাল ব্লু (Deep Blue) */
-        .alt-deep-blue {
-            background: linear-gradient(135deg, #0284c7, #1e3a8a);
-            border-color: #38bdf8;
-        }
-        .alt-deep-blue .category-header-title { color: #ffffff; }
-        .alt-deep-blue .category-icon-badge { background: rgba(255, 255, 255, 0.22); }
-        .alt-deep-blue .category-arrow { color: #ffffff; }
+        /* পরিচ্ছন্ন মার্জিত ও হালকা অল্টারনেটিভ থিম (চোখে আরামদায়ক ও প্রফেশনাল) */
+        .soft-cat-blue { background: #f0f7ff; border-color: #bfdbfe; }
+        .soft-cat-blue .category-header-title { color: #1e40af; }
+        .soft-cat-blue .category-arrow { color: #2563eb; }
 
-        /* ২. হালকা সফট টিল (Soft Pastel Teal) */
-        .alt-soft-teal {
-            background: linear-gradient(135deg, #ccfbf1, #99f6e4);
-            border-color: #5eead4;
-        }
-        .alt-soft-teal .category-header-title { color: #0f766e; }
-        .alt-soft-teal .category-icon-badge { background: #ffffff; }
-        .alt-soft-teal .category-arrow { color: #0f766e; }
+        .soft-cat-teal { background: #f0fdfa; border-color: #99f6e4; }
+        .soft-cat-teal .category-header-title { color: #0f766e; }
+        .soft-cat-teal .category-arrow { color: #0d9488; }
 
-        /* ৩. ডিপ ভাইব্র্যান্ট পার্পল (Deep Purple) */
-        .alt-deep-purple {
-            background: linear-gradient(135deg, #9333ea, #6b21a8);
-            border-color: #c084fc;
-        }
-        .alt-deep-purple .category-header-title { color: #ffffff; }
-        .alt-deep-purple .category-icon-badge { background: rgba(255, 255, 255, 0.22); }
-        .alt-deep-purple .category-arrow { color: #ffffff; }
+        .soft-cat-purple { background: #faf5ff; border-color: #e9d5ff; }
+        .soft-cat-purple .category-header-title { color: #6b21a8; }
+        .soft-cat-purple .category-arrow { color: #7e22ce; }
 
-        /* ৪. হালকা সফট অরেঞ্জ (Soft Pastel Orange) */
-        .alt-soft-orange {
-            background: linear-gradient(135deg, #ffedd5, #fed7aa);
-            border-color: #fdba74;
-        }
-        .alt-soft-orange .category-header-title { color: #c2410c; }
-        .alt-soft-orange .category-icon-badge { background: #ffffff; }
-        .alt-soft-orange .category-arrow { color: #c2410c; }
+        .soft-cat-orange { background: #fff7ed; border-color: #fed7aa; }
+        .soft-cat-orange .category-header-title { color: #9a3412; }
+        .soft-cat-orange .category-arrow { color: #c2410c; }
 
-        /* ৫. ডিপ ভাইব্র্যান্ট গ্রিন (Deep Emerald Green) */
-        .alt-deep-green {
-            background: linear-gradient(135deg, #16a34a, #15803d);
-            border-color: #4ade80;
-        }
-        .alt-deep-green .category-header-title { color: #ffffff; }
-        .alt-deep-green .category-icon-badge { background: rgba(255, 255, 255, 0.22); }
-        .alt-deep-green .category-arrow { color: #ffffff; }
+        .soft-cat-green { background: #f0fdf4; border-color: #bbf7d0; }
+        .soft-cat-green .category-header-title { color: #166534; }
+        .soft-cat-green .category-arrow { color: #15803d; }
 
-        /* ৬. হালকা সফট পিঙ্ক/রোজ (Soft Pastel Rose) */
-        .alt-soft-pink {
-            background: linear-gradient(135deg, #ffe4e6, #fecdd3);
-            border-color: #fda4af;
-        }
-        .alt-soft-pink .category-header-title { color: #be123c; }
-        .alt-soft-pink .category-icon-badge { background: #ffffff; }
-        .alt-soft-pink .category-arrow { color: #be123c; }
+        .soft-cat-rose { background: #fff1f2; border-color: #fecdd3; }
+        .soft-cat-rose .category-header-title { color: #9f1239; }
+        .soft-cat-rose .category-arrow { color: #be123c; }
 
-        /* ৭. ডিপ ভাইব্র্যান্ট গোল্ড/অ্যাম্বার (Deep Amber) */
-        .alt-deep-amber {
-            background: linear-gradient(135deg, #d97706, #b45309);
-            border-color: #fcd34d;
-        }
-        .alt-deep-amber .category-header-title { color: #ffffff; }
-        .alt-deep-amber .category-icon-badge { background: rgba(255, 255, 255, 0.22); }
-        .alt-deep-amber .category-arrow { color: #ffffff; }
+        .soft-cat-amber { background: #fffbeb; border-color: #fde68a; }
+        .soft-cat-amber .category-header-title { color: #92400e; }
+        .soft-cat-amber .category-arrow { color: #b45309; }
 
-        /* ৮. হালকা সফট ল্যাভেন্ডার/ইন্ডিগো (Soft Pastel Indigo) */
-        .alt-soft-indigo {
-            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
-            border-color: #a5b4fc;
-        }
-        .alt-soft-indigo .category-header-title { color: #4338ca; }
-        .alt-soft-indigo .category-icon-badge { background: #ffffff; }
-        .alt-soft-indigo .category-arrow { color: #4338ca; }
+        .soft-cat-indigo { background: #eef2ff; border-color: #c7d2fe; }
+        .soft-cat-indigo .category-header-title { color: #3730a3; }
+        .soft-cat-indigo .category-arrow { color: #4338ca; }
 
-        /* ৯. ডিপ ভাইব্র্যান্ট সায়ান/নেভি (Deep Cyan / Navy) */
-        .alt-deep-cyan {
-            background: linear-gradient(135deg, #0d9488, #0f766e);
-            border-color: #5eead4;
-        }
-        .alt-deep-cyan .category-header-title { color: #ffffff; }
-        .alt-deep-cyan .category-icon-badge { background: rgba(255, 255, 255, 0.22); }
-        .alt-deep-cyan .category-arrow { color: #ffffff; }
+        .soft-cat-emerald { background: #ecfdf5; border-color: #a7f3d0; }
+        .soft-cat-emerald .category-header-title { color: #065f46; }
+        .soft-cat-emerald .category-arrow { color: #047857; }
 
-        /* ডার্ক মোডে অল্টারনেটিভ স্টাইল */
-        [data-theme="dark"] .alt-soft-teal { background: #073832; border-color: #0d9488; }
-        [data-theme="dark"] .alt-soft-teal .category-header-title { color: #5eead4; }
-        [data-theme="dark"] .alt-soft-teal .category-icon-badge { background: rgba(255, 255, 255, 0.15); }
-        
-        [data-theme="dark"] .alt-soft-orange { background: #441a05; border-color: #ea580c; }
-        [data-theme="dark"] .alt-soft-orange .category-header-title { color: #fdba74; }
-        [data-theme="dark"] .alt-soft-orange .category-icon-badge { background: rgba(255, 255, 255, 0.15); }
+        /* ডার্ক মোডে মার্জিত শেড */
+        [data-theme="dark"] .category-icon-badge { background: rgba(255, 255, 255, 0.12); }
+        [data-theme="dark"] .soft-cat-blue { background: #0c233c; border-color: #1e3a8a; }
+        [data-theme="dark"] .soft-cat-blue .category-header-title { color: #93c5fd; }
 
-        [data-theme="dark"] .alt-soft-pink { background: #450a1b; border-color: #f43f5e; }
-        [data-theme="dark"] .alt-soft-pink .category-header-title { color: #fda4af; }
-        [data-theme="dark"] .alt-soft-pink .category-icon-badge { background: rgba(255, 255, 255, 0.15); }
+        [data-theme="dark"] .soft-cat-teal { background: #092c28; border-color: #134e4a; }
+        [data-theme="dark"] .soft-cat-teal .category-header-title { color: #5eead4; }
 
-        [data-theme="dark"] .alt-soft-indigo { background: #1d2159; border-color: #4f46e5; }
-        [data-theme="dark"] .alt-soft-indigo .category-header-title { color: #a5b4fc; }
-        [data-theme="dark"] .alt-soft-indigo .category-icon-badge { background: rgba(255, 255, 255, 0.15); }
+        [data-theme="dark"] .soft-cat-purple { background: #26123a; border-color: #581c87; }
+        [data-theme="dark"] .soft-cat-purple .category-header-title { color: #d8b4fe; }
+
+        [data-theme="dark"] .soft-cat-orange { background: #2f1505; border-color: #7c2d12; }
+        [data-theme="dark"] .soft-cat-orange .category-header-title { color: #fdba74; }
+
+        [data-theme="dark"] .soft-cat-green { background: #082914; border-color: #14532d; }
+        [data-theme="dark"] .soft-cat-green .category-header-title { color: #86efac; }
+
+        [data-theme="dark"] .soft-cat-rose { background: #2f0714; border-color: #881337; }
+        [data-theme="dark"] .soft-cat-rose .category-header-title { color: #fda4af; }
+
+        [data-theme="dark"] .soft-cat-amber { background: #291a03; border-color: #78350f; }
+        [data-theme="dark"] .soft-cat-amber .category-header-title { color: #fde68a; }
+
+        [data-theme="dark"] .soft-cat-indigo { background: #13173d; border-color: #312e81; }
+        [data-theme="dark"] .soft-cat-indigo .category-header-title { color: #a5b4fc; }
+
+        [data-theme="dark"] .soft-cat-emerald { background: #052b20; border-color: #064e3b; }
+        [data-theme="dark"] .soft-cat-emerald .category-header-title { color: #6ee7b7; }
 
         /* ============================================================
-           গ্রিড ও লিস্ট ভিউ
+           গ্রিড ও লিস্ট ভিউ ফরম্যাট
            ============================================================ */
         .app-view-grid {
             display: grid;
@@ -477,8 +456,8 @@
         }
 
         .card-info { display: flex; flex-direction: column; }
-        .card-title { font-size: 13px; font-weight: 800; line-height: 1.25; }
-        .card-dept { font-size: 10.5px; margin-top: 2px; font-weight: 600; opacity: 0.92; }
+        .card-title { font-size: 13.2px; font-weight: 700; line-height: 1.3; }
+        .card-dept { font-size: 10.8px; margin-top: 2px; font-weight: 500; opacity: 0.92; }
 
         /* কার্ড কালার প্যালেট */
         .clr-red { background: linear-gradient(135deg, #ef4444, #dc2626) !important; border-color: #b91c1c !important; color: #ffffff !important; }
@@ -518,7 +497,7 @@
         .clr-emerald .card-dept, .clr-emerald .fb-desc { color: #d1fae5 !important; }
 
         /* ============================================================
-           মোডাল ও রঙিন অল্টারনেটিভ সাব-কার্ডস
+           মোডাল ও সাব-কার্ডস (Sub-cards)
            ============================================================ */
         .modal-overlay {
             position: fixed;
@@ -566,62 +545,62 @@
             gap: 10px;
             margin-bottom: 8px;
             border: 1.5px solid transparent;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
 
-        .sub-theme-blue { background: #f0f9ff; border-color: #bae6fd; }
-        .sub-theme-blue .bs-title { color: #0369a1; }
+        .sub-theme-blue { background: #f0f7ff; border-color: #bfdbfe; }
+        .sub-theme-blue .bs-title { color: #1e40af; }
 
         .sub-theme-teal { background: #f0fdfa; border-color: #99f6e4; }
         .sub-theme-teal .bs-title { color: #0f766e; }
 
         .sub-theme-emerald { background: #ecfdf5; border-color: #a7f3d0; }
-        .sub-theme-emerald .bs-title { color: #047857; }
+        .sub-theme-emerald .bs-title { color: #065f46; }
 
         .sub-theme-green { background: #f0fdf4; border-color: #bbf7d0; }
-        .sub-theme-green .bs-title { color: #15803d; }
+        .sub-theme-green .bs-title { color: #166534; }
 
         .sub-theme-amber { background: #fffbeb; border-color: #fde68a; }
-        .sub-theme-amber .bs-title { color: #b45309; }
+        .sub-theme-amber .bs-title { color: #92400e; }
 
         .sub-theme-orange { background: #fff7ed; border-color: #fed7aa; }
-        .sub-theme-orange .bs-title { color: #c2410c; }
+        .sub-theme-orange .bs-title { color: #9a3412; }
 
         .sub-theme-purple { background: #faf5ff; border-color: #e9d5ff; }
-        .sub-theme-purple .bs-title { color: #7e22ce; }
+        .sub-theme-purple .bs-title { color: #6b21a8; }
 
-        .sub-theme-red { background: #fef2f2; border-color: #fecaca; }
-        .sub-theme-red .bs-title { color: #b91c1c; }
+        .sub-theme-red { background: #fff1f2; border-color: #fecdd3; }
+        .sub-theme-red .bs-title { color: #9f1239; }
 
         .sub-theme-indigo { background: #eef2ff; border-color: #c7d2fe; }
-        .sub-theme-indigo .bs-title { color: #4338ca; }
+        .sub-theme-indigo .bs-title { color: #3730a3; }
 
         /* ডার্ক মোডে সাব-কার্ডস */
-        [data-theme="dark"] .sub-theme-blue { background: #0c233c; border-color: #0369a1; }
-        [data-theme="dark"] .sub-theme-blue .bs-title { color: #7dd3fc; }
+        [data-theme="dark"] .sub-theme-blue { background: #0c233c; border-color: #1e3a8a; }
+        [data-theme="dark"] .sub-theme-blue .bs-title { color: #93c5fd; }
 
-        [data-theme="dark"] .sub-theme-teal { background: #092c28; border-color: #0f766e; }
+        [data-theme="dark"] .sub-theme-teal { background: #092c28; border-color: #134e4a; }
         [data-theme="dark"] .sub-theme-teal .bs-title { color: #5eead4; }
 
-        [data-theme="dark"] .sub-theme-emerald { background: #063428; border-color: #047857; }
+        [data-theme="dark"] .sub-theme-emerald { background: #052b20; border-color: #064e3b; }
         [data-theme="dark"] .sub-theme-emerald .bs-title { color: #6ee7b7; }
 
-        [data-theme="dark"] .sub-theme-green { background: #0c311c; border-color: #15803d; }
+        [data-theme="dark"] .sub-theme-green { background: #082914; border-color: #14532d; }
         [data-theme="dark"] .sub-theme-green .bs-title { color: #86efac; }
 
-        [data-theme="dark"] .sub-theme-amber { background: #372306; border-color: #b45309; }
+        [data-theme="dark"] .sub-theme-amber { background: #291a03; border-color: #78350f; }
         [data-theme="dark"] .sub-theme-amber .bs-title { color: #fde68a; }
 
-        [data-theme="dark"] .sub-theme-orange { background: #381806; border-color: #c2410c; }
+        [data-theme="dark"] .sub-theme-orange { background: #2f1505; border-color: #7c2d12; }
         [data-theme="dark"] .sub-theme-orange .bs-title { color: #fdba74; }
 
-        [data-theme="dark"] .sub-theme-purple { background: #2b1248; border-color: #7e22ce; }
+        [data-theme="dark"] .sub-theme-purple { background: #26123a; border-color: #581c87; }
         [data-theme="dark"] .sub-theme-purple .bs-title { color: #d8b4fe; }
 
-        [data-theme="dark"] .sub-theme-red { background: #380b0b; border-color: #b91c1c; }
-        [data-theme="dark"] .sub-theme-red .bs-title { color: #fca5a5; }
+        [data-theme="dark"] .sub-theme-red { background: #2f0714; border-color: #881337; }
+        [data-theme="dark"] .sub-theme-red .bs-title { color: #fda4af; }
 
-        [data-theme="dark"] .sub-theme-indigo { background: #191c49; border-color: #4338ca; }
+        [data-theme="dark"] .sub-theme-indigo { background: #13173d; border-color: #312e81; }
         [data-theme="dark"] .sub-theme-indigo .bs-title { color: #a5b4fc; }
 
         .bank-card-item {
@@ -653,11 +632,11 @@
         }
 
         .bs-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-        .bs-title { font-size: 13.5px; font-weight: 800; display: flex; align-items: center; gap: 5px; }
-        .bs-desc { font-size: 11.5px; font-weight: 600; color: var(--text-sub); }
+        .bs-title { font-size: 13.5px; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+        .bs-desc { font-size: 11.5px; font-weight: 500; color: var(--text-sub); }
 
         .bs-btn {
-            padding: 7px 12px; border-radius: 9px; font-size: 12px; font-weight: 800;
+            padding: 7px 12px; border-radius: 9px; font-size: 12px; font-weight: 700;
             text-decoration: none; color: #ffffff; display: inline-flex; align-items: center;
             gap: 4px; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.08);
             flex-shrink: 0; border: none; cursor: pointer;
@@ -688,8 +667,8 @@
         }
 
         [data-theme="dark"] .psc-badge { background: #1e3a8a; color: #93c5fd; }
-        .psc-title { font-size: 15px; font-weight: 700; color: var(--text-main); line-height: 1.35; }
-        .psc-desc { font-size: 12px; color: var(--text-sub); line-height: 1.5; }
+        .psc-title { font-size: 15px; font-weight: 800; color: var(--text-main); line-height: 1.35; }
+        .psc-desc { font-size: 12px; color: var(--text-sub); line-height: 1.5; font-weight: 500; }
         .psc-buttons { display: flex; gap: 8px; margin-top: 2px; }
         .psc-btn {
             flex: 1; padding: 8px 11px; border-radius: 10px; font-size: 12px; font-weight: 700;
@@ -719,11 +698,11 @@
 
         .floating-round-btn span.material-symbols-outlined, 
         .floating-round-btn i { font-size: 18px; }
-        .floating-round-btn span.btn-label { font-size: 7px; font-weight: 700; margin-top: 2px; line-height: 1; }
+        .floating-round-btn span.btn-label { font-size: 7.5px; font-weight: 700; margin-top: 2px; line-height: 1; }
 
         footer {
             padding: 18px 16px 120px 16px; background: var(--footer-bg);
-            border-top: 1px solid var(--footer-border); font-size: 10.5px;
+            border-top: 1px solid var(--footer-border); font-size: 11px;
             text-align: center; color: var(--text-sub); line-height: 1.5;
         }
     </style>
@@ -757,16 +736,16 @@
 
     <div class="content">
 
-        <!-- ১. বড় ব্যানার: শাইন লাইট ও জুম পালস অ্যানিমেশন সহ -->
-        <a id="featuredDynamicBanner" href="#" target="_blank" class="featured-banner clr-orange">
+        <!-- ১. বড় ও সুস্পষ্ট জনকল্যাণ শিবির ব্যানার: ফ্ল্যাশ লাইট ও জুম অ্যানিমেশন সহ -->
+        <a id="featuredDynamicBanner" href="#" target="_blank" class="featured-banner">
             <div class="fb-content">
                 <div class="fb-icon" id="fbIcon">⛺</div>
                 <div>
-                    <div class="fb-title" id="fbTitle">জরুরি নাগরিক ঘোষণা</div>
+                    <div class="fb-title" id="fbTitle">জনকল্যাণ শিবির চলছে (2nd - 4th October)</div>
                     <div class="fb-desc" id="fbDesc">বিস্তারিত তথ্য জানতে এখানে ক্লিক করুন</div>
                 </div>
             </div>
-            <span class="material-symbols-outlined" style="font-size: 22px; font-weight: 800; position: relative; z-index: 1;">arrow_forward</span>
+            <span class="material-symbols-outlined" style="font-size: 24px; font-weight: 800; position: relative; z-index: 1;">arrow_forward</span>
         </a>
 
         <!-- ২. স্লিম ইমার্জেন্সি সার্ভিস কুইক কার্ড -->
@@ -784,11 +763,11 @@
         </div>
 
         <!-- ============================================================
-             স্লিম ক্যাটাগরি ফোল্ডারসমূহ: অল্টারনেটিভ (ডিপ ➔ হালকা ➔ ডিপ ➔ হালকা)
+             মার্জিত, পরিচ্ছন্ন ও চোখ-জুড়ানো ক্যাটাগরি ফোল্ডারসমূহ
              ============================================================ -->
 
-        <!-- ১. ব্যাংকিং ও পরিচয়পত্র (১. ডিপ রয়্যাল ব্লু) -->
-        <div class="category-group alt-deep-blue open" id="groupBanking">
+        <!-- ১. ব্যাংকিং ও পরিচয়পত্র -->
+        <div class="category-group soft-cat-blue open" id="groupBanking">
             <div class="category-header" onclick="toggleCategory('groupBanking')">
                 <div class="category-header-title">
                     <div class="category-icon-badge">🏦</div>
@@ -835,8 +814,8 @@
             </div>
         </div>
 
-        <!-- ২. সার্টিফিকেট ও নাগরিক শংসাপত্র (২. হালকা সফট টিল) -->
-        <div class="category-group alt-soft-teal" id="groupCert">
+        <!-- ২. সার্টিফিকেট ও নাগরিক শংসাপত্র -->
+        <div class="category-group soft-cat-teal" id="groupCert">
             <div class="category-header" onclick="toggleCategory('groupCert')">
                 <div class="category-header-title">
                     <div class="category-icon-badge">📜</div>
@@ -885,8 +864,8 @@
             </div>
         </div>
 
-        <!-- ৩. সামাজিক সুরক্ষা ও পেনশন (৩. ডিপ ভাইব্র্যান্ট পার্পল) -->
-        <div class="category-group alt-deep-purple" id="groupSocial">
+        <!-- ৩. সামাজিক সুরক্ষা ও পেনশন -->
+        <div class="category-group soft-cat-purple" id="groupSocial">
             <div class="category-header" onclick="toggleCategory('groupSocial')">
                 <div class="category-header-title">
                     <div class="category-icon-badge">🛡️</div>
@@ -949,8 +928,8 @@
             </div>
         </div>
 
-        <!-- ৪. খাদ্য ও রান্নার গ্যাস (৪. হালকা সফট অরেঞ্জ) -->
-        <div class="category-group alt-soft-orange" id="groupFood">
+        <!-- ৪. খাদ্য ও রান্নার গ্যাস -->
+        <div class="category-group soft-cat-orange" id="groupFood">
             <div class="category-header" onclick="toggleCategory('groupFood')">
                 <div class="category-header-title">
                     <div class="category-icon-badge">🍚</div>
@@ -990,8 +969,8 @@
             </div>
         </div>
 
-        <!-- ৫. কৃষক কল্যাণ ও জমির রেকর্ড (৫. ডিপ ভাইব্র্যান্ট গ্রিন) -->
-        <div class="category-group alt-deep-green" id="groupFarmer">
+        <!-- ৫. কৃষক কল্যাণ ও জমির রেকর্ড , খাজনা -->
+        <div class="category-group soft-cat-green" id="groupFarmer">
             <div class="category-header" onclick="toggleCategory('groupFarmer')">
                 <div class="category-header-title">
                     <div class="category-icon-badge">🌾</div>
@@ -1015,7 +994,7 @@
                             <div class="card-dept">বাংলার ভূমি পোর্টাল ও খতিয়ান রঙিন প্রিন্ট কপি</div>
                         </div>
                     </div>
-                    <div class="service-card clr-amber" onclick="openModal('taxModal')" data-keywords="khajna tax holding municipality panchayat খাজনা ট্যাক্স হোল্ডিং মিউনিসিপ্যালিটি পঞ্চায়েত রসিদ">
+                    <div class="service-card clr-amber" onclick="openModal('taxModal')" data-keywords="khajna tax holding municipality panchayat খাজনা ট্যাক্স হোল্ডিং মিউসিপ্যালিটি পঞ্চায়েত রসিদ">
                         <div class="icon-circle">🏠</div>
                         <div class="card-info">
                             <div class="card-title">খাজনা ও বাড়ির হোল্ডিং ট্যাক্স</div>
@@ -1054,8 +1033,8 @@
             </div>
         </div>
 
-        <!-- ৬. স্বাস্থ্য ও চিকিৎসা সেবা (৬. হালকা সফট পিঙ্ক/রোজ) -->
-        <div class="category-group alt-soft-pink" id="groupHealth">
+        <!-- ৬. স্বাস্থ্য ও চিকিৎসা সেবা -->
+        <div class="category-group soft-cat-rose" id="groupHealth">
             <div class="category-header" onclick="toggleCategory('groupHealth')">
                 <div class="category-header-title">
                     <div class="category-icon-badge">🩺</div>
@@ -1118,8 +1097,8 @@
             </div>
         </div>
 
-        <!-- ৭. পরিবহন ও যানবাহন (৭. ডিপ ভাইব্র্যান্ট গোল্ড/অ্যাম্বার) -->
-        <div class="category-group alt-deep-amber" id="groupVehicle">
+        <!-- ৭. পরিবহন ও যানবাহন -->
+        <div class="category-group soft-cat-amber" id="groupVehicle">
             <div class="category-header" onclick="toggleCategory('groupVehicle')">
                 <div class="category-header-title">
                     <div class="category-icon-badge">🚗</div>
@@ -1161,8 +1140,8 @@
             </div>
         </div>
 
-        <!-- ৮. ভোটার পরিষেবা ECI (৮. হালকা সফট ল্যাভেন্ডার/ইন্ডিগো) -->
-        <div class="category-group alt-soft-indigo" id="groupVoter">
+        <!-- ৮. ভোটার পরিষেবা ECI -->
+        <div class="category-group soft-cat-indigo" id="groupVoter">
             <div class="category-header" onclick="toggleCategory('groupVoter')">
                 <div class="category-header-title">
                     <div class="category-icon-badge">📜</div>
@@ -1204,8 +1183,8 @@
             </div>
         </div>
 
-        <!-- ৯. বিদ্যুৎ পরিষেবা (৯. ডিপ ভাইব্র্যান্ট সায়ান/নেভি) -->
-        <div class="category-group alt-deep-cyan" id="groupElectric">
+        <!-- ৯. বিদ্যুৎ পরিষেবা -->
+        <div class="category-group soft-cat-emerald" id="groupElectric">
             <div class="category-header" onclick="toggleCategory('groupElectric')">
                 <div class="category-header-title">
                     <div class="category-icon-badge">⚡</div>
@@ -1287,7 +1266,7 @@
     <!-- PWA Install Modal -->
     <div id="pwaCardOverlay" class="modal-overlay" onclick="closePwaPrompt()">
         <div style="background: var(--modal-bg); width: 100%; max-width: 340px; border-radius: 20px; padding: 20px 18px; text-align: center; position: relative; box-shadow: 0 16px 40px rgba(0,0,0,0.25);" onclick="event.stopPropagation()">
-            <button onclick="closePwaPrompt()" style="position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,0.06); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: display: flex; align-items: center; justify-content: center; color: var(--text-main);">✕</button>
+            <button onclick="closePwaPrompt()" style="position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,0.06); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main);">✕</button>
             <div style="width: 68px; height: 68px; background: #eff6ff; border-radius: 18px; margin: 8px auto 14px auto; display: flex; align-items: center; justify-content: center; font-size: 34px;">🏛️</div>
             <h3 style="font-size: 17px; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">Install নাগরিক পরিষেবা</h3>
             <p style="font-size: 12.5px; color: var(--text-sub); line-height: 1.5; margin-bottom: 18px;">
@@ -1297,7 +1276,7 @@
         </div>
     </div>
 
-    <!-- মোডাল: EMERGENCY (কালারফুল অল্টারনেটিভ রো) -->
+    <!-- মোডাল: EMERGENCY -->
     <div id="emergencyModal" class="modal-overlay" onclick="closeModal('emergencyModal')">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -1408,13 +1387,13 @@
                 <button class="modal-close" onclick="closeModal('lpgModal')">&times;</button>
             </div>
             <div class="modal-scroll-area">
-                <div class="bank-card-item" style="border-color: #fdba74; background: #fffaf5;">
+                <div class="bank-card-item" style="border-color: #fed7aa; background: #fffaf5;">
                     <div class="bank-header-btn" onclick="toggleBank('indaneDetails')">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <span style="font-size: 22px;">🟠</span>
-                            <div class="b-name" style="color: #c2410c;">Indane Gas (ইন্ডেন গ্যাস)</div>
+                            <div class="b-name" style="color: #9a3412;">Indane Gas (ইন্ডেন গ্যাস)</div>
                         </div>
-                        <span class="material-symbols-outlined b-arrow" style="color: #c2410c;">expand_more</span>
+                        <span class="material-symbols-outlined b-arrow" style="color: #9a3412;">expand_more</span>
                     </div>
                     <div id="indaneDetails" class="bank-body-content" style="display: none;">
                         <div class="sub-card-row sub-theme-orange">
@@ -1438,9 +1417,9 @@
                     <div class="bank-header-btn" onclick="toggleBank('bharatDetails')">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <span style="font-size: 22px;">🟡</span>
-                            <div class="b-name" style="color: #b45309;">Bharat Gas (ভারত গ্যাস)</div>
+                            <div class="b-name" style="color: #92400e;">Bharat Gas (ভারত গ্যাস)</div>
                         </div>
-                        <span class="material-symbols-outlined b-arrow" style="color: #b45309;">expand_more</span>
+                        <span class="material-symbols-outlined b-arrow" style="color: #92400e;">expand_more</span>
                     </div>
                     <div id="bharatDetails" class="bank-body-content" style="display: none;">
                         <div class="sub-card-row sub-theme-amber">
@@ -1460,13 +1439,13 @@
                     </div>
                 </div>
 
-                <div class="bank-card-item" style="border-color: #bae6fd; background: #f5faff;">
+                <div class="bank-card-item" style="border-color: #bfdbfe; background: #f5faff;">
                     <div class="bank-header-btn" onclick="toggleBank('hpDetails')">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <span style="font-size: 22px;">🔵</span>
-                            <div class="b-name" style="color: #0369a1;">HP Gas (এইচপি গ্যাস)</div>
+                            <div class="b-name" style="color: #1e40af;">HP Gas (এইচপি গ্যাস)</div>
                         </div>
-                        <span class="material-symbols-outlined b-arrow" style="color: #0369a1;">expand_more</span>
+                        <span class="material-symbols-outlined b-arrow" style="color: #1e40af;">expand_more</span>
                     </div>
                     <div id="hpDetails" class="bank-body-content" style="display: none;">
                         <div class="sub-card-row sub-theme-blue">
@@ -2147,13 +2126,13 @@ const categoryContainerMap = {
 };
 
 const bankColorThemes = [
-    { bg: '#f0f9ff', border: '#bae6fd', color: '#0369a1', icon: '🔵' },
-    { bg: '#fff5f5', border: '#fecaca', color: '#b91c1c', icon: '🔴' },
-    { bg: '#fff7ed', border: '#fed7aa', color: '#c2410c', icon: '🟠' },
+    { bg: '#f0f7ff', border: '#bfdbfe', color: '#1e40af', icon: '🔵' },
+    { bg: '#fff1f2', border: '#fecdd3', color: '#9f1239', icon: '🔴' },
+    { bg: '#fff7ed', border: '#fed7aa', color: '#9a3412', icon: '🟠' },
     { bg: '#f0fdfa', border: '#99f6e4', color: '#0f766e', icon: '🟢' },
-    { bg: '#faf5ff', border: '#e9d5ff', color: '#7e22ce', icon: '🟣' },
-    { bg: '#fffbeb', border: '#fde68a', color: '#b45309', icon: '🟡' },
-    { bg: '#eef2ff', border: '#c7d2fe', color: '#4338ca', icon: '🔷' }
+    { bg: '#faf5ff', border: '#e9d5ff', color: '#6b21a8', icon: '🟣' },
+    { bg: '#fffbeb', border: '#fde68a', color: '#92400e', icon: '🟡' },
+    { bg: '#eef2ff', border: '#c7d2fe', color: '#3730a3', icon: '🔷' }
 ];
 
 function loadLiveGoogleSheetData() {
@@ -2203,9 +2182,6 @@ function loadLiveGoogleSheetData() {
                     document.getElementById('fbTitle').innerText = bannerItem.name;
                     document.getElementById('fbDesc').innerText = bannerItem.dept || bannerItem.desc || 'বিস্তারিত তথ্য জানতে ক্লিক করুন';
                     document.getElementById('fbIcon').innerText = bannerItem.icon || '⛺';
-                    
-                    const bannerColor = (bannerItem.color && bannerItem.color.trim()) ? bannerItem.color.trim() : 'clr-orange';
-                    bannerEl.className = `featured-banner ${bannerColor}`;
                 } else {
                     bannerEl.style.display = 'none';
                 }
