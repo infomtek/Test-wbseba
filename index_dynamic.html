@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>নাগরিক পরিষেবা</title>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1K62MKE3JN"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date()); gtag('config','G-1K62MKE3JN');
+</script>
+
+<!-- OneSignal -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+window.OneSignalDeferred=window.OneSignalDeferred||[];
+OneSignalDeferred.push(async function(OneSignal){
+  try{await OneSignal.init({appId:"8800109f-2e45-4275-a331-4e95d429a516"});}catch(e){}
+});
+</script>
+
+<meta name="theme-color" content="#1e3a8a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="নাগরিক সেবা">
+
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%E0%A6%A8%E0%A6%BE%E0%A6%97%E0%A6%B0%E0%A6%BF%E0%A6%95%20%E0%A6%AA%E0%A6%B0%E0%A6%BF%E0%A6%B7%E0%A7%87%E0%A6%AC%E0%A6%BE%22%2C%22short_name%22%3A%22%E0%A6%A8%E0%A6%BE%E0%A6%97%E0%A6%B0%E0%A6%BF%E0%A6%95%20%E0%A6%B8%E0%A7%87%E0%A6%AC%E0%A6%BE%22%2C%22start_url%22%3A%22/%22%2C%22display%22%3A%22standalone%22%2C%22theme_color%22%3A%22%231e3a8a%22%7D">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+  --bg:#f8fafc;--panel:#fff;--text:#0f172a;--muted:#64748b;
+  --head1:#1e3a8a;--head2:#2563eb;--border:#e2e8f0;
+  --footer:#f1f5f9;--shadow:0 4px 14px rgba(0,0,0,.07);
+}
+[data-theme="dark"]{
+  --bg:#0b0f19;--panel:#111827;--text:#f8fafc;--muted:#94a3b8;
+  --head1:#0b1329;--head2:#1e293b;--border:#374151;--footer:#0b0f19;
+  --shadow:0 4px 14px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Bengali",sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);display:flex;justify-content:center;min-height:100vh}
+.app{width:100%;max-width:1080px;min-height:100vh;background:var(--panel);box-shadow:0 0 25px rgba(0,0,0,.08);position:relative}
+header{background:linear-gradient(135deg,var(--head1),var(--head2));color:#fff;padding:20px 24px;border-radius:0 0 24px 24px;box-shadow:0 4px 15px rgba(0,0,0,.15)}
+.header-top{display:flex;justify-content:space-between;align-items:center;gap:15px}
+.header-title{font-size:22px;font-weight:900;display:flex;align-items:center;gap:8px}
+.header-sub{font-size:13px;opacity:.9;margin-top:4px}
+.controls{display:flex;gap:8px}
+.hbtn{border:0;background:rgba(255,255,255,.2);color:#fff;width:38px;height:38px;border-radius:50%;cursor:pointer;display:grid;place-items:center}
+.search{margin-top:16px;position:relative}
+.search input{width:100%;padding:13px 45px 13px 42px;border:0;outline:0;border-radius:13px;background:#fff;color:#0f172a;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.search .material-symbols-outlined{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#64748b}
+#clearSearch{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:#e2e8f0;color:#475569;border-radius:50%;width:27px;height:27px;cursor:pointer;display:none}
+.content{padding:20px 24px 100px}
+.banner{display:none;color:#fff;text-decoration:none;border-radius:22px;padding:20px 22px;margin-bottom:20px;align-items:center;justify-content:space-between;gap:14px;border:2px solid rgba(255,255,255,.35);box-shadow:0 7px 22px rgba(0,0,0,.15);animation:pulse 2.3s infinite}
+@keyframes pulse{50%{transform:scale(1.012);box-shadow:0 0 26px rgba(255,255,255,.35),0 9px 28px rgba(0,0,0,.2)}}
+.fb{display:flex;align-items:center;gap:15px}.fb-icon{width:58px;height:58px;border-radius:17px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:30px;flex-shrink:0}.fb-title{font-size:18px;font-weight:900}.fb-desc{font-size:13px;opacity:.95;margin-top:4px}
+.filterbar{display:flex;gap:8px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none}.filterbar::-webkit-scrollbar{display:none}
+.filter-btn{border:1px solid var(--border);background:var(--bg);color:var(--muted);border-radius:999px;padding:8px 13px;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer}
+.filter-btn.active{background:#2563eb;color:#fff;border-color:#2563eb}
+.section{margin-top:20px}.section-label{font-size:15px;font-weight:900;color:var(--muted);margin:0 0 11px 3px;display:flex;align-items:center;gap:7px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.list{display:flex;flex-direction:column;gap:11px}
+.card{display:flex;position:relative;text-decoration:none;border-radius:16px;padding:14px;min-width:0;box-shadow:var(--shadow);border:1px solid rgba(0,0,0,.07);cursor:pointer;transition:transform .15s,opacity .15s}
+.grid .card{flex-direction:column;align-items:flex-start}.list .card{align-items:center;gap:14px}.card:active{transform:scale(.985)}
+.icon{width:45px;height:45px;border-radius:13px;background:rgba(255,255,255,.92);display:grid;place-items:center;font-size:21px;flex-shrink:0;margin-right:6px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.grid .icon{margin:0 0 10px}.info{min-width:0}.title{font-size:14.5px;font-weight:900;line-height:1.35}.desc{font-size:12px;font-weight:650;margin-top:3px;line-height:1.4;opacity:.88}
+.badge{position:absolute;top:8px;right:8px;font-size:9px;background:#fff;color:#dc2626;border-radius:999px;padding:3px 6px;font-weight:900;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.empty{display:none;text-align:center;padding:35px 15px;color:var(--muted)}.empty .material-symbols-outlined{font-size:42px;display:block;margin-bottom:7px}
+.status{text-align:center;font-size:12px;color:var(--muted);padding:15px;display:none}
+.clr-red{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff}.clr-blue{background:linear-gradient(135deg,#0284c7,#1e3a8a);color:#fff}.clr-green{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff}.clr-purple{background:linear-gradient(135deg,#9333ea,#6b21a8);color:#fff}.clr-amber{background:linear-gradient(135deg,#d97706,#b45309);color:#fff}.clr-orange{background:linear-gradient(135deg,#ea580c,#c2410c);color:#fff}.clr-teal{background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff}.clr-indigo{background:linear-gradient(135deg,#4f46e5,#3730a3);color:#fff}.clr-emerald{background:linear-gradient(135deg,#059669,#047857);color:#fff}.clr-slate{background:linear-gradient(135deg,#475569,#1e293b);color:#fff}
+[data-theme="dark"] .icon{background:rgba(255,255,255,.2);color:#fff}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.67);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:1000;padding:12px}
+.modal-box{background:var(--panel);color:var(--text);width:100%;max-width:650px;max-height:88vh;border-radius:23px;padding:18px 20px;box-shadow:0 18px 45px rgba(0,0,0,.3);overflow:auto}
+.modal-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:13px}
+.modal-head h3{font-size:17px;font-weight:900}.close{border:0;background:rgba(100,116,139,.12);color:var(--text);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:19px}
+.action-row{border:1px solid var(--border);background:var(--bg);border-radius:14px;padding:13px;margin:9px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}.action-info{min-width:0}.action-title{font-weight:850;font-size:14px}.action-desc{font-size:12px;color:var(--muted);margin-top:3px}.actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.action-btn{display:inline-flex;align-items:center;gap:5px;border:0;border-radius:10px;padding:9px 12px;color:#fff;text-decoration:none;font-size:12px;font-weight:850;white-space:nowrap;cursor:pointer}.btn-blue{background:#2563eb}.btn-green{background:#16a34a}.btn-wa{background:#16a34a}.btn-call{background:#0f766e}.btn-gray{background:#475569}
+.contact-box{margin-top:22px;border:1px solid var(--border);border-radius:18px;padding:16px;background:var(--bg)}.contact-title{font-weight:900;margin-bottom:9px}.contact-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--border)}.contact-item:last-child{border-bottom:0}.contact-name{font-size:13px;font-weight:800}.contact-number{font-size:12px;color:var(--muted)}
+.support{margin-top:25px;padding:20px;border-radius:20px;background:linear-gradient(135deg,#0f766e,#115e59);color:#fff}.support-badge{font-size:11px;font-weight:900;opacity:.9}.support h3{font-size:18px;margin:5px 0}.support p{font-size:13px;line-height:1.55;opacity:.95}.support-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.support a{background:#fff;color:#0f766e;text-decoration:none;padding:10px 14px;border-radius:11px;font-size:12px;font-weight:900}
+.floating{position:fixed;right:16px;bottom:17px;z-index:900;display:flex;flex-direction:column;gap:8px}.float{width:48px;height:48px;border-radius:50%;border:0;color:#fff;display:grid;place-items:center;text-decoration:none;box-shadow:0 5px 16px rgba(0,0,0,.25);cursor:pointer}.install{background:#1e3a8a}.share{background:#2563eb}.wa{background:#16a34a}.float .label{display:none}
+footer{padding:18px 24px;text-align:center;background:var(--footer);border-top:1px solid var(--border);color:var(--muted);font-size:12px;line-height:1.5}
+.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%) translateY(80px);background:#111827;color:#fff;padding:10px 16px;border-radius:999px;font-size:12px;font-weight:800;z-index:2000;transition:.25s;opacity:0}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1000px){.grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:520px){header{padding:17px}.content{padding:16px 15px 100px}.header-title{font-size:19px}.controls{gap:5px}.hbtn{width:35px;height:35px}.fb-title{font-size:16px}.fb-icon{width:50px;height:50px}.action-row{align-items:flex-start;flex-direction:column}.actions{width:100%;justify-content:flex-start}}
+</style>
+</head>
+
+<body>
+<div class="app">
+<header>
+  <div class="header-top">
+    <div>
+      <div class="header-title">🏛️ নাগরিক পরিষেবা</div>
+      <div class="header-sub">প্রয়োজনীয় সরকারি ও জনসেবা এক জায়গায়</div>
+    </div>
+    <div class="controls">
+      <button class="hbtn" onclick="toggleLayout()" title="Grid/List"><span id="viewIcon" class="material-symbols-outlined">view_list</span></button>
+      <button class="hbtn" onclick="toggleTheme()" title="Theme"><span id="themeIcon" class="material-symbols-outlined">dark_mode</span></button>
+    </div>
+  </div>
+  <div class="search">
+    <span class="material-symbols-outlined">search</span>
+    <input id="searchInput" type="search" placeholder="সার্ভিস, বিভাগ বা কীওয়ার্ড লিখে খুঁজুন..." oninput="filterServices()">
+    <button id="clearSearch" onclick="clearSearch()">✕</button>
+  </div>
+</header>
+
+<main class="content">
+  <a id="featuredBanner" class="banner clr-orange" href="#" target="_blank">
+    <div class="fb">
+      <div id="bannerIcon" class="fb-icon">📢</div>
+      <div><div id="bannerTitle" class="fb-title"></div><div id="bannerDesc" class="fb-desc"></div></div>
+    </div>
+    <span class="material-symbols-outlined">arrow_forward</span>
+  </a>
+
+  <div id="categoryFilters" class="filterbar"></div>
+  <div id="loading" class="status">⏳ পরিষেবাগুলি লোড হচ্ছে...</div>
+  <div id="serviceContainer"></div>
+  <div id="emptyState" class="empty"><span class="material-symbols-outlined">search_off</span><b>কোনো পরিষেবা পাওয়া যায়নি</b><div style="margin-top:5px">অন্য শব্দ দিয়ে আবার চেষ্টা করুন।</div></div>
+
+  <div id="supportBox" class="support" style="display:none">
+    <div class="support-badge">🤝 আপনার ডিজিটাল বন্ধু</div>
+    <h3 id="supportTitle">Online পরিষেবা</h3>
+    <p id="supportDesc">অনলাইন ফর্ম, কার্ড ডাউনলোড, সংশোধন বা প্রিন্টের প্রয়োজনে যোগাযোগ করতে পারেন।</p>
+    <div id="supportActions" class="support-actions"></div>
+  </div>
+</main>
+
+<footer>
+  <p><strong>সতর্কবার্তা:</strong> এটি কোনো সরকারি অ্যাপ নয়। সাধারণ নাগরিকের সুবিধার্থে অফিশিয়াল সেবার লিঙ্ক একত্রিত করা হয়েছে।</p>
+  <p style="margin-top:7px;border-top:1px dashed var(--border);padding-top:7px;font-weight:700;color:#2563eb">Developed with ❤️ by Subhankar</p>
+</footer>
+</div>
+
+<div class="floating">
+  <button class="float install" onclick="installApp()" title="Install"><span class="material-symbols-outlined">download</span></button>
+  <button class="float share" onclick="shareApp()" title="Share"><span class="material-symbols-outlined">share</span></button>
+  <a id="floatWhatsApp" class="float wa" href="#" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+</div>
+
+<div id="serviceModal" class="modal" onclick="closeModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h3 id="modalTitle">পরিষেবা</h3>
+      <button class="close" onclick="hideModal()">✕</button>
+    </div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+/* =========================================================
+   GOOGLE SHEET CONFIGURATION
+   ========================================================= */
+const CONTACT_SHEET_ID = "116flqqFRP8Z1xw6rGG1QKOlGYIydOn1Sn3ffClqtbd0";
+const SERVICES_SHEET_ID = "1GEqurAZh1_GRDfNkUpyRBXl6dAmTtyo36_6dBpTbbZo";
+const SHEET_NAME = "Sheet1";
+
+/*
+SERVICES SHEET recommended columns:
+id | category | category_icon | name | description | icon | link |
+type | color | active | order | badge | keywords
+
+type:
+link          = normal website link
+phone         = tel link
+whatsapp      = WhatsApp link
+modal         = opens popup; link/action_link can be used
+coming-soon   = shows coming soon popup
+contact       = opens contact popup
+
+color:
+clr-red / clr-blue / clr-green / clr-purple / clr-amber /
+clr-orange / clr-teal / clr-indigo / clr-emerald / clr-slate
+
+active:
+TRUE / FALSE
+*/
+
+/*
+CONTACT SHEET recommended columns:
+category | name | desc | call | whatsapp | action_link | mini_statement | active | order
+
+Examples:
+bank | SBI | SBI Balance Check | 18001234 | 919xxxxxxxxx | https://... | 18001234 | TRUE | 1
+contact | WhatsApp | Online support | 9332434992 | 919332434992 | | | TRUE | 1
+contact | Call | Direct support | 9332434992 | | | | TRUE | 2
+*/
+
+let allServices = [];
+let allContacts = [];
+let currentCategory = "all";
+let deferredPrompt = null;
+let layoutMode = localStorage.getItem("layoutView") || "grid";
+
+/* ---------- নিরাপদ HTML ---------- */
+function esc(value){
+  return String(value ?? "").replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
+}
+function clean(value){ return String(value ?? "").trim(); }
+function activeRow(row){ return !["false","no","0","off","inactive"].includes(clean(row.active).toLowerCase()); }
+function orderValue(row){ const n=parseInt(row.order,10); return Number.isFinite(n)?n:999999; }
+function colorClass(row){ const c=clean(row.color); return /^clr-[a-z]+$/i.test(c)?c:"clr-blue"; }
+function iconValue(row){ return clean(row.icon)||clean(row.category_icon)||"🔗"; }
+
+/* ---------- theme ---------- */
+function applyTheme(theme){
+  document.documentElement.setAttribute("data-theme",theme);
+  document.getElementById("themeIcon").textContent=theme==="dark"?"light_mode":"dark_mode";
+}
+function toggleTheme(){
+  const t=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";
+  applyTheme(t); localStorage.setItem("theme",t);
+}
+applyTheme(localStorage.getItem("theme")||"light");
+
+/* ---------- grid/list ---------- */
+function applyLayout(){
+  document.querySelectorAll(".service-grid").forEach(el=>{
+    el.classList.toggle("grid",layoutMode==="grid");
+    el.classList.toggle("list",layoutMode==="list");
+  });
+  document.getElementById("viewIcon").textContent=layoutMode==="grid"?"view_list":"grid_view";
+}
+function toggleLayout(){
+  layoutMode=layoutMode==="grid"?"list":"grid";
+  localStorage.setItem("layoutView",layoutMode); applyLayout();
+}
+
+/* ---------- URL helpers ---------- */
+function normalizePhone(v){
+  return clean(v).replace(/[^\d+]/g,"");
+}
+function waUrl(number,message=""){
+  let n=clean(number).replace(/[^\d]/g,"");
+  if(n.length===10) n="91"+n;
+  return "https://wa.me/"+n+(message?"?text="+encodeURIComponent(message):"");
+}
+function openUrl(url){
+  if(!url) return;
+  window.open(url,"_blank","noopener,noreferrer");
+}
+
+/* ---------- card action ---------- */
+function cardMarkup(row){
+  const name=clean(row.name)||"পরিষেবা";
+  const desc=clean(row.description)||clean(row.desc)||clean(row.dept)||"বিস্তারিত দেখতে ক্লিক করুন";
+  const type=clean(row.type).toLowerCase()||"link";
+  const color=colorClass(row);
+  const icon=iconValue(row);
+  const badge=clean(row.badge);
+  const keywords=clean(row.keywords);
+  const searchable=(name+" "+desc+" "+clean(row.category)+" "+keywords).toLowerCase();
+
+  let action="";
+  if(type==="phone" || clean(row.call)){
+    action=`onclick="event.preventDefault(); openPhone('${esc(normalizePhone(row.call||row.link))}')"`;
+  }else if(type==="whatsapp"){
+    action=`onclick="event.preventDefault(); openWhatsApp('${esc(row.whatsapp||row.link)}','${esc(row.whatsapp_message||name)}')"`;
+  }else if(type==="modal" || type==="contact"){
+    action=`onclick="event.preventDefault(); openServiceModal(${JSON.stringify(row).replace(/</g,"\\u003c")})"`;
+  }else if(type==="coming-soon"){
+    action=`onclick="event.preventDefault(); showComingSoon('${esc(name)}')"`;
+  }else{
+    const href=clean(row.link)||clean(row.action_link)||"#";
+    action=`href="${esc(href)}" target="_blank" rel="noopener noreferrer"`;
+  }
+
+  return `<a class="card ${color}" data-search="${esc(searchable)}" data-category="${esc(clean(row.category))}" ${action}>
+    ${badge?`<span class="badge">${esc(badge)}</span>`:""}
+    <div class="icon">${esc(icon)}</div>
+    <div class="info"><div class="title">${esc(name)}</div><div class="desc">${esc(desc)}</div></div>
+  </a>`;
+}
+
+function renderServices(){
+  const container=document.getElementById("serviceContainer");
+  container.innerHTML="";
+  const categories=[...new Set(allServices.map(x=>clean(x.category)).filter(Boolean))];
+
+  const filtered=allServices.filter(row=>{
+    const cat=clean(row.category);
+    return currentCategory==="all" || cat===currentCategory;
+  });
+
+  if(!filtered.length){
+    document.getElementById("emptyState").style.display="block";
+    return;
+  }
+  document.getElementById("emptyState").style.display="none";
+
+  const groups={};
+  filtered.forEach(row=>{
+    const cat=clean(row.category)||"অন্যান্য";
+    if(!groups[cat]) groups[cat]=[];
+    groups[cat].push(row);
+  });
+
+  Object.keys(groups).forEach(cat=>{
+    const rows=groups[cat].sort((a,b)=>orderValue(a)-orderValue(b));
+    const first=rows[0];
+    const section=document.createElement("section");
+    section.className="section service-section";
+    section.dataset.category=cat;
+    section.innerHTML=`
+      <div class="section-label">${esc(clean(first.category_icon)||"📌")} ${esc(cat)}</div>
+      <div class="service-grid">${rows.map(cardMarkup).join("")}</div>`;
+    container.appendChild(section);
+  });
+  applyLayout();
+  filterServices();
+}
+
+function renderFilters(){
+  const box=document.getElementById("categoryFilters");
+  const categories=[...new Set(allServices.map(x=>clean(x.category)).filter(Boolean))];
+  box.innerHTML=`<button class="filter-btn active" data-cat="all" onclick="setCategory('all')">সব</button>`+
+    categories.map(c=>`<button class="filter-btn" data-cat="${esc(c)}" onclick="setCategory('${esc(c)}')">${esc(c)}</button>`).join("");
+}
+function setCategory(cat){
+  currentCategory=cat;
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.toggle("active",b.dataset.cat===cat));
+  renderServices();
+}
+
+/* ---------- search ---------- */
+function filterServices(){
+  const q=clean(document.getElementById("searchInput").value).toLowerCase();
+  document.getElementById("clearSearch").style.display=q?"block":"none";
+  let visible=0;
+  document.querySelectorAll(".service-section").forEach(section=>{
+    let sectionVisible=0;
+    section.querySelectorAll(".card").forEach(card=>{
+      const hit=!q || clean(card.dataset.search).toLowerCase().includes(q);
+      card.style.display=hit?(layoutMode==="grid"?"flex":"flex"):"none";
+      if(hit)sectionVisible++;
+    });
+    section.style.display=sectionVisible?"block":"none";
+    visible+=sectionVisible;
+  });
+  document.getElementById("emptyState").style.display=visible?"none":"block";
+}
+function clearSearch(){
+  document.getElementById("searchInput").value="";
+  filterServices();
+  document.getElementById("searchInput").focus();
+}
+
+/* ---------- modal ---------- */
+function showModal(title,html){
+  document.getElementById("modalTitle").textContent=title||"পরিষেবা";
+  document.getElementById("modalContent").innerHTML=html;
+  document.getElementById("serviceModal").style.display="flex";
+}
+function hideModal(){document.getElementById("serviceModal").style.display="none";}
+function closeModal(e){if(e.target.id==="serviceModal")hideModal();}
+function showComingSoon(name){
+  showModal(name,`<div style="text-align:center;padding:18px 5px">
+    <div style="font-size:45px">⏳</div>
+    <h3 style="margin:8px 0">শীঘ্রই আসছে</h3>
+    <p style="color:var(--muted);line-height:1.6;font-size:13px">এই পরিষেবাটির লিঙ্ক এখনও দেওয়া হয়নি। Google Sheet-এর <b>link</b> কলামে লিঙ্ক বসালে এটি সরাসরি চালু করা যাবে।</p>
+  </div>`);
+}
+function openServiceModal(row){
+  const name=clean(row.name)||"পরিষেবা";
+  const desc=clean(row.description)||clean(row.desc)||"";
+  const links=[];
+  const link=clean(row.link)||clean(row.action_link);
+  const call=normalizePhone(row.call);
+  const wa=clean(row.whatsapp);
+  if(link) links.push(`<a class="action-btn btn-blue" href="${esc(link)}" target="_blank" rel="noopener">পোর্টাল <span class="material-symbols-outlined" style="font-size:15px">open_in_new</span></a>`);
+  if(call) links.push(`<a class="action-btn btn-call" href="tel:${esc(call)}">📞 Call</a>`);
+  if(wa) links.push(`<a class="action-btn btn-wa" href="${esc(waUrl(wa,name))}" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>`);
+  showModal(name,`<div class="action-row">
+    <div class="action-info"><div class="action-title">${esc(name)}</div><div class="action-desc">${esc(desc)}</div></div>
+    <div class="actions">${links.join("")||'<span style="font-size:12px;color:var(--muted)">কোনো action link দেওয়া হয়নি</span>'}</div>
+  </div>`);
+}
+function openPhone(number){ if(number) location.href="tel:"+number; }
+function openWhatsApp(number,message){
+  if(number) window.open(waUrl(number,message||"নমস্কার"),"_blank","noopener");
+}
+
+/* ---------- banner ---------- */
+function renderBanner(){
+  const b=allServices.find(x=>clean(x.category).toLowerCase()==="banner" && activeRow(x));
+  const el=document.getElementById("featuredBanner");
+  if(!b){el.style.display="none";return;}
+  el.style.display="flex";
+  el.className="banner "+colorClass(b);
+  el.href=clean(b.link)||clean(b.action_link)||"#";
+  el.target="_blank";
+  document.getElementById("bannerIcon").textContent=iconValue(b);
+  document.getElementById("bannerTitle").textContent=clean(b.name)||"বিশেষ ঘোষণা";
+  document.getElementById("bannerDesc").textContent=clean(b.description)||clean(b.desc)||"বিস্তারিত জানতে ক্লিক করুন";
+}
+
+/* ---------- contacts ---------- */
+function renderContacts(){
+  const active=allContacts.filter(activeRow).sort((a,b)=>orderValue(a)-orderValue(b));
+  const wa=active.find(x=>clean(x.whatsapp));
+  const phone=active.find(x=>clean(x.call));
+
+  const floatWa=document.getElementById("floatWhatsApp");
+  if(wa) floatWa.href=waUrl(wa.whatsapp,"নমস্কার, নাগরিক পরিষেবা সম্পর্কে যোগাযোগ করতে চাই।");
+  else if(phone) floatWa.href="tel:"+normalizePhone(phone.call);
+  else floatWa.style.display="none";
+
+  const supportRows=active.filter(x=>clean(x.category).toLowerCase()==="contact" || clean(x.category).toLowerCase()==="support");
+  if(!supportRows.length)return;
+
+  const box=document.getElementById("supportBox");
+  box.style.display="block";
+  const title=supportRows.find(x=>clean(x.name))?.name;
+  if(title) document.getElementById("supportTitle").textContent=title;
+  const desc=supportRows.find(x=>clean(x.desc))?.desc;
+  if(desc) document.getElementById("supportDesc").textContent=desc;
+
+  document.getElementById("supportActions").innerHTML=supportRows.map(x=>{
+    const n=clean(x.name)||"যোগাযোগ";
+    if(clean(x.whatsapp)) return `<a href="${esc(waUrl(x.whatsapp,n))}" target="_blank"><i class="fa-brands fa-whatsapp"></i> ${esc(n)}</a>`;
+    if(clean(x.call)) return `<a href="tel:${esc(normalizePhone(x.call))}">📞 ${esc(n)}</a>`;
+    if(clean(x.action_link)) return `<a href="${esc(x.action_link)}" target="_blank">🔗 ${esc(n)}</a>`;
+    return "";
+  }).join("");
+}
+
+/* ---------- Google Sheets ---------- */
+async function fetchSheet(id){
+  const url=`https://opensheet.elk.sh/${id}/${encodeURIComponent(SHEET_NAME)}`;
+  const res=await fetch(url,{cache:"no-store"});
+  if(!res.ok) throw new Error("Sheet HTTP "+res.status);
+  const data=await res.json();
+  return Array.isArray(data)?data:[];
+}
+async function loadSheets(){
+  document.getElementById("loading").style.display="block";
+  try{
+    const [services,contacts]=await Promise.all([
+      fetchSheet(SERVICES_SHEET_ID),
+      fetchSheet(CONTACT_SHEET_ID)
+    ]);
+    allServices=services.filter(activeRow).filter(x=>clean(x.name)).sort((a,b)=>orderValue(a)-orderValue(b));
+    allContacts=contacts.filter(activeRow).sort((a,b)=>orderValue(a)-orderValue(b));
+
+    if(allServices.length){
+      renderBanner(); renderFilters(); renderServices();
+    }else{
+      document.getElementById("emptyState").style.display="block";
+      document.getElementById("emptyState").innerHTML="<span class='material-symbols-outlined'>cloud_off</span><b>Services Sheet-এ কোনো active service পাওয়া যায়নি</b><div style='margin-top:5px'>active কলামে TRUE দিন এবং name পূরণ করুন।</div>";
+    }
+    renderContacts();
+  }catch(err){
+    console.error(err);
+    document.getElementById("emptyState").style.display="block";
+    document.getElementById("emptyState").innerHTML="<span class='material-symbols-outlined'>error</span><b>Google Sheet থেকে তথ্য আনা যায়নি</b><div style='margin-top:5px'>Sheet ID, Sheet name এবং public access পরীক্ষা করুন।</div>";
+    showToast("Google Sheet লোড করতে সমস্যা হয়েছে");
+  }finally{
+    document.getElementById("loading").style.display="none";
+  }
+}
+
+/* ---------- PWA / share ---------- */
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;});
+async function installApp(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    try{await deferredPrompt.userChoice;}catch(e){}
+    deferredPrompt=null;
+  }else{
+    showToast("Browser-এর Menu থেকে Install / Add to Home Screen ব্যবহার করুন");
+  }
+}
+function shareApp(){
+  const data={title:"নাগরিক পরিষেবা",text:"দরকারি সরকারি ও জনসেবা এক জায়গায়",url:location.href};
+  if(navigator.share) navigator.share(data).catch(()=>{});
+  else openWhatsApp("",data.text+" "+data.url);
+}
+function showToast(msg){
+  const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");
+  clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),2600);
+}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")hideModal();});
+
+/* ---------- start ---------- */
+document.addEventListener("DOMContentLoaded",loadSheets);
+</script>
+
+<script>
+window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
