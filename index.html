@@ -36,7 +36,7 @@
     <!-- প্রিমিয়াম ও স্পষ্ট বাংলা ফন্ট -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     
@@ -179,12 +179,12 @@
         }
 
         /* ============================================================
-           বাসন্তী ব্যানার (অটো-ব্রেক ও লাইট পাস অ্যানিমেশন)
+           ১. বড় ব্যানার: ১০০% উজ্জ্বল গেরুয়া/অরেঞ্জ রঙ এবং বাধ্যতামূলক দুই লাইন
            ============================================================ */
         @keyframes bannerZoomPulse {
-            0% { transform: scale(1); box-shadow: 0 4px 14px rgba(132, 204, 22, 0.3); }
-            50% { transform: scale(1.02); box-shadow: 0 0 25px rgba(255, 255, 255, 0.85), 0 8px 30px rgba(132, 204, 22, 0.65); }
-            100% { transform: scale(1); box-shadow: 0 4px 14px rgba(132, 204, 22, 0.3); }
+            0% { transform: scale(1); box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35); }
+            50% { transform: scale(1.02); box-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 8px 30px rgba(249, 115, 22, 0.65); }
+            100% { transform: scale(1); box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35); }
         }
 
         @keyframes shineSweep {
@@ -194,7 +194,7 @@
         }
 
         .featured-banner {
-            display: none;
+            display: flex !important;
             width: 100%;
             border-radius: 16px;
             padding: 14px 18px;
@@ -208,12 +208,8 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
-        }
-
-        /* বিশেষ বাসন্তী কালার ক্লাস */
-        .clr-basanti-banner {
-            background: linear-gradient(135deg, #bef264, #a3e635, #84cc16) !important;
-            color: #14532d !important;
+            background: linear-gradient(135deg, #f97316, #ea580c, #c2410c) !important;
+            color: #ffffff !important;
         }
 
         .featured-banner::after {
@@ -248,75 +244,97 @@
         .fb-icon {
             width: 48px; 
             height: 48px;
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.25);
             border-radius: 12px;
             display: flex; 
             align-items: center; 
             justify-content: center;
             font-size: 26px; 
             flex-shrink: 0;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            color: #ffffff;
         }
 
+        /* বাধ্যতামূলক দুই লাইন (কখনই এক লাইনে যাবে না) */
         .fb-text-wrap {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 3px !important;
+            align-items: flex-start !important;
         }
 
         .fb-title { 
-            font-size: 16.5px; 
-            font-weight: 800; 
-            line-height: 1.3; 
-            color: #14532d;
+            display: block !important;
+            font-size: 18px !important; 
+            font-weight: 900 !important; 
+            line-height: 1.25 !important; 
+            color: #ffffff !important;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+            letter-spacing: 0.2px !important;
         }
 
         .fb-desc { 
-            font-size: 12.8px; 
-            font-weight: 700; 
-            color: #166534;
-            line-height: 1.35;
+            display: block !important;
+            font-size: 13px !important; 
+            font-weight: 700 !important; 
+            color: #fff7ed !important;
+            line-height: 1.35 !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.25) !important;
         }
 
-        @media (min-width: 768px) {
-            .fb-text-wrap {
-                flex-direction: row;
-                align-items: baseline;
-                gap: 10px;
-            }
-            .fb-title::after {
-                content: ' • ';
-                margin-left: 6px;
-                opacity: 0.6;
-            }
-        }
-
-        /* ইমার্জেন্সি কার্ড */
+        /* ============================================================
+           ২. ইমার্জেন্সি কল: সরু লাল ফিতার বর্ডার, সাদা ব্যাকগ্রাউন্ড, লাল মোটা লেখা
+           ============================================================ */
         .standalone-emergency-card {
-            background: linear-gradient(135deg, #e11d48, #be123c);
-            color: #ffffff;
-            border-radius: 13px;
-            padding: 9.5px 14px;
+            background: #ffffff !important;
+            border: 2px solid #ef4444 !important; /* লাল সরু ফিতার মতো বর্ডার */
+            border-radius: 14px;
+            padding: 10px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 10px;
-            box-shadow: 0 3px 10px rgba(225, 29, 72, 0.22);
-            border: 1.5px solid #f43f5e;
+            margin-bottom: 11px;
+            box-shadow: 0 3px 10px rgba(239, 68, 68, 0.12);
             cursor: pointer;
-            transition: transform 0.15s ease;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
+
+        [data-theme="dark"] .standalone-emergency-card {
+            background: #111827 !important;
+            border-color: #ef4444 !important;
+            box-shadow: 0 3px 12px rgba(239, 68, 68, 0.25);
+        }
+
         .standalone-emergency-card:active { transform: scale(0.985); }
-        .sec-left { display: flex; align-items: center; gap: 10px; }
+        .sec-left { display: flex; align-items: center; gap: 12px; }
+
         .sec-icon {
-            width: 34px; height: 34px;
-            background: rgba(255,255,255,0.22);
-            border-radius: 9px;
+            width: 36px; height: 36px;
+            background: #fee2e2;
+            color: #dc2626;
+            border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 19px; flex-shrink: 0;
+            font-size: 20px; flex-shrink: 0;
+            box-shadow: 0 2px 5px rgba(220, 38, 38, 0.15);
         }
-        .sec-title { font-size: 14px; font-weight: 800; letter-spacing: 0.3px; }
-        .sec-desc { font-size: 11px; opacity: 0.92; margin-top: 1px; }
+
+        [data-theme="dark"] .sec-icon {
+            background: #7f1d1d;
+            color: #fca5a5;
+        }
+
+        /* শুধু মোটা মোটা করে 'ইমার্জেন্সি কল' */
+        .sec-title { 
+            font-size: 17px !important; 
+            font-weight: 900 !important; 
+            letter-spacing: 0.5px !important; 
+            color: #dc2626 !important;
+            line-height: 1 !important;
+        }
+
+        [data-theme="dark"] .sec-title {
+            color: #f87171 !important;
+        }
 
         /* ক্যাটাগরি ফোল্ডার স্ট্রিপস */
         .category-group {
@@ -729,9 +747,7 @@
         .floating-round-btn i { font-size: 18px; }
         .floating-round-btn span.btn-label { font-size: 7.5px; font-weight: 700; margin-top: 2px; line-height: 1; }
 
-        /* ============================================================
-           ফুটার (সতর্কবার্তা সেন্টার অ্যালাইন)
-           ============================================================ */
+        /* ফুটার */
         footer {
             padding: 24px 16px 120px 16px; 
             background: var(--footer-bg);
@@ -797,34 +813,35 @@
 
     <div class="content">
 
-        <!-- ১. বড় বাসন্তী ব্যানার: অটো-ব্রেক ও লিঙ্ক সহ -->
-        <a id="featuredDynamicBanner" href="https://jks.wb.gov.in" target="_blank" class="featured-banner clr-basanti-banner" style="display: flex;">
+        <!-- ১. বড় ব্যানার: ১০০% গেরুয়া/অরেঞ্জ কালার এবং বাধ্যতামূলক ২ লাইন -->
+        <a id="featuredDynamicBanner" href="https://jks.wb.gov.in" target="_blank" class="featured-banner">
             <div class="fb-content">
                 <div class="fb-icon" id="fbIcon">⛺</div>
                 <div class="fb-text-wrap">
-                    <span class="fb-title" id="fbTitle">জনকল্যাণ শিবির</span>
-                    <span class="fb-desc" id="fbDesc">২রা থেকে ৪ঠা অক্টোবর পর্যন্ত চলবে</span>
+                    <span class="fb-title" id="fbTitle">জনকল্যাণ শিবির চলছে</span>
+                    <span class="fb-desc" id="fbDesc">২রা অক্টোবর থেকে ১৪ই অক্টোবর পর্যন্ত • বিস্তারিত জানতে ক্লিক করুন</span>
                 </div>
             </div>
-            <span class="material-symbols-outlined" style="font-size: 24px; font-weight: 800; position: relative; z-index: 1; color: #14532d;">arrow_forward</span>
+            <span class="material-symbols-outlined" style="font-size: 24px; font-weight: 900; position: relative; z-index: 1; color: #ffffff;">arrow_forward</span>
         </a>
 
-        <!-- ২. স্লিম ইমার্জেন্সি সার্ভিস কুইক কার্ড -->
+        <!-- ২. ইমার্জেন্সি কল: লাল সরু ফিতার বর্ডার, সাদা ব্যাকগ্রাউন্ড, লাল মোটা লেখা -->
         <div class="standalone-emergency-card" onclick="openModal('emergencyModal')">
             <div class="sec-left">
-                <div class="sec-icon">🚨</div>
+                <div class="sec-icon">
+                    <span class="material-symbols-outlined" style="font-size: 22px;">call</span>
+                </div>
                 <div>
-                    <div class="sec-title">EMERGENCY (জরুরি সেবা)</div>
-                    <div class="sec-desc">পুলিশ (১১২), অ্যাম্বুলেন্স (১০২), দমকল ও হেল্পলাইন</div>
+                    <div class="sec-title">ইমার্জেন্সি কল</div>
                 </div>
             </div>
-            <div style="background: #22c55e; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 7px rgba(0,0,0,0.2); flex-shrink: 0;">
-                <span class="material-symbols-outlined" style="font-size: 18px; color: #ffffff;">call</span>
+            <div style="background: #ef4444; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 7px rgba(239, 68, 68, 0.35); flex-shrink: 0;">
+                <span class="material-symbols-outlined" style="font-size: 20px; color: #ffffff;">call</span>
             </div>
         </div>
 
         <!-- ============================================================
-             ক্যাটাগরি ফোল্ডারসমূহ: অল্টারনেটিভ কালার প্যালেট
+             ক্যাটাগরি ফোল্ডারসমূহ
              ============================================================ -->
 
         <!-- ১. ব্যাংকিং ও DBT Link (PAN / Aadhaar) -->
@@ -937,22 +954,16 @@
             <div class="category-body">
                 <div id="serviceGrid1" class="app-view-grid">
                     
-                    <!-- জনকল্যাণ শিবির (ঘাটাল বিধানসভা মোডাল) -->
-                    <div class="service-card clr-basanti" onclick="openModal('ghatalCampModal')" data-keywords="jonokalyan shibir seva sankalp ghatal camp জনকল্যাণ শিবির সেবা সংকল্প ক্যাম্প ঘাটাল শীতল কপাট ১৪টি প্রকল্প">
+                    <!-- ১. জনকল্যাণ শিবির (ঘাটাল বিধানসভা) -->
+                    <div class="service-card clr-basanti" onclick="openModal('ghatalCampModal')" data-keywords="jonokalyan shibir seva sankalp ghatal camp জনকল্যাণ শিবির সেবা সংকল্প ক্যাম্প ঘাটাল বিধানসভা ১৪টি প্রকল্প">
                         <div class="icon-circle">⛺</div>
                         <div class="card-info">
-                            <div class="card-title">সেবা সংকল্প ক্যাম্প (ঘাটাল বিধানসভা)</div>
+                            <div class="card-title">জনকল্যাণ শিবির (ঘাটাল বিধানসভা)</div>
                             <div class="card-dept">১৪টি সরকারি প্রকল্প ও প্রয়োজনীয় নথিপত্রের তালিকা</div>
                         </div>
                     </div>
 
-                    <a href="https://samarth.wb.gov.in/track-applicant-public" target="_blank" class="service-card clr-purple" data-keywords="pension samarth bardhokya bidhoba dibyango ভাতা বার্ধক্য বিধবা দিব্যাঙ্গ পেনশন">
-                        <div class="icon-circle">♿</div>
-                        <div class="card-info">
-                            <div class="card-title">বার্ধক্য, বিধবা ও দিব্যাঙ্গ ভাতা</div>
-                            <div class="card-dept">সমর্থ (Samarth) পোর্টাল আবেদন ট্র্যাকিং</div>
-                        </div>
-                    </a>
+                    <!-- ২. সরাসরি মুখ্যমন্ত্রী -->
                     <a href="https://cmo.wb.gov.in/landing/raise-grievance" target="_blank" class="service-card clr-orange" data-keywords="cmo grievance sorasori mukhyamantri সরাসরি মুখ্যমন্ত্রী অভিযোগ হেল্পলাইন">
                         <div class="icon-circle">📢</div>
                         <div class="card-info">
@@ -960,6 +971,17 @@
                             <div class="card-dept">অভিযোগ ও সহায়তা পোর্টাল</div>
                         </div>
                     </a>
+
+                    <!-- ৩. বার্ধক্য, বিধবা ও দিব্যাঙ্গ ভাতা -->
+                    <a href="https://samarth.wb.gov.in/track-applicant-public" target="_blank" class="service-card clr-purple" data-keywords="pension samarth bardhokya bidhoba dibyango ভাতা বার্ধক্য বিধবা দিব্যাঙ্গ পেনশন">
+                        <div class="icon-circle">♿</div>
+                        <div class="card-info">
+                            <div class="card-title">বার্ধক্য, বিধবা ও দিব্যাঙ্গ ভাতা</div>
+                            <div class="card-dept">সমর্থ (Samarth) পোর্টাল আবেদন ট্র্যাকিং</div>
+                        </div>
+                    </a>
+
+                    <!-- ৪. PM বিশ্বকর্মা যোজনা -->
                     <a href="https://pmvishwakarma.gov.in/" target="_blank" class="service-card clr-yellow" data-keywords="pm vishwakarma বিশ্বকর্মা যোজনা কারিগর লোন ঋণ">
                         <div class="icon-circle">🛠️</div>
                         <div class="card-info">
@@ -967,6 +989,8 @@
                             <div class="card-dept">কারিগরদের অফিসিয়াল পোর্টাল</div>
                         </div>
                     </a>
+
+                    <!-- ৫. ই-শ্রম কার্ড -->
                     <a href="https://register.eshram.gov.in/#/user/aadhaar-login" target="_blank" class="service-card clr-pink" data-keywords="eshram e-shram শ্রম কার্ড শ্রমিক মজদুর লেবার">
                         <div class="icon-circle">👷</div>
                         <div class="card-info">
@@ -974,6 +998,8 @@
                             <div class="card-dept">আধার ওটিপি দিয়ে সরাসরি ডাউনলোড</div>
                         </div>
                     </a>
+
+                    <!-- ৬. অন্নপূর্ণা যোজনা -->
                     <a href="https://socialregistry.wb.gov.in/citizen/#/" target="_blank" class="service-card clr-teal" data-keywords="annapurna yojana অন্নপূর্ণা যোজনা সোশ্যাল রেজিস্ট্রি খাদ্য">
                         <div class="icon-circle">🍚</div>
                         <div class="card-info">
@@ -981,6 +1007,8 @@
                             <div class="card-dept">সোশ্যাল রেজিস্ট্রি পশ্চিমবঙ্গ</div>
                         </div>
                     </a>
+
+                    <!-- ৭. যুব শক্তি -->
                     <a href="https://yubasathi.wb.gov.in/Default.aspx" target="_blank" class="service-card clr-blue" data-keywords="yuba sathi shakti যুবসাথী যুব শক্তি বেকার ভাতা">
                         <div class="icon-circle">⚡</div>
                         <div class="card-info">
@@ -1072,7 +1100,7 @@
                             <div class="card-dept">ভোটার কার্ড দিয়ে স্ট্যাটাস ও আইডি বের করুন</div>
                         </div>
                     </a>
-                    <a href="https://krishakbandhu.wb.gov.in/" target="_blank" class="service-card clr-indigo" data-keywords="krishak bandhu new নতুন কৃষক বন্ধু পোর্টাল আবেদন টাকা">
+                    <a href="https://krishakbandhu.wb.gov.in/" target="_blank" class="service-card clr-indigo" data-keywords="krishak band new নতুন কৃষক বন্ধু পোর্টাল আবেদন টাকা">
                         <div class="icon-circle">🆕</div>
                         <div class="card-info">
                             <div class="card-title">নতুন কৃষক বন্ধু পোর্টাল</div>
@@ -1343,19 +1371,19 @@
     </div>
 
     <!-- ============================================================
-         মোডাল: ঘাটাল বিধানসভা সেবা সংকল্প ক্যাম্প (১৪টি সরকারি প্রকল্প)
+         মোডাল: জনকল্যাণ শিবির (ঘাটাল বিধানসভা) - ১৪টি প্রকল্প
          ============================================================ -->
     <div id="ghatalCampModal" class="modal-overlay" onclick="closeModal('ghatalCampModal')">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <h3>⛺ সেবা সংকল্প ক্যাম্প — ঘাটাল বিধানসভা</h3>
+                <h3>⛺ জনকল্যাণ শিবির (ঘাটাল বিধানসভা)</h3>
                 <button class="modal-close" onclick="closeModal('ghatalCampModal')">&times;</button>
             </div>
             <div class="modal-scroll-area">
                 
-                <div style="background: linear-gradient(135deg, #fef3c7, #fed7aa); border: 1.5px solid #f59e0b; border-radius: 14px; padding: 12px 14px; margin-bottom: 12px;">
-                    <div style="font-size: 14.5px; font-weight: 800; color: #9a3412;">তারিখ: ২ - ৪ঠা অক্টোবর, ২০২৬</div>
-                    <div style="font-size: 12px; font-weight: 600; color: #b45309; margin-top: 2px;">জনতার সাথে, জনতার পাশে • শীতল কপাট (বিধায়ক, ঘাটাল বিধানসভা)</div>
+                <div style="background: linear-gradient(135deg, #fff7ed, #ffedd5); border: 1.5px solid #fdba74; border-radius: 14px; padding: 12px 14px; margin-bottom: 12px;">
+                    <div style="font-size: 14.5px; font-weight: 800; color: #c2410c;">তারিখ: ২ - ৪ঠা অক্টোবর, ২০২৬ (ঘাটাল বিধানসভা)</div>
+                    <div style="font-size: 12px; font-weight: 600; color: #9a3412; margin-top: 2px;">জনতার সুবিধার্থে ক্যাম্পে উপস্থিত সরকারি প্রকল্পের তালিকা</div>
                 </div>
 
                 <div style="font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
@@ -1407,7 +1435,7 @@
                     </div>
                 </div>
 
-                <div style="background: var(--bg-color); border: 1.5px solid var(--card-border); border-radius: 14px; padding: 12px 14px; margin-bottom: 12px;">
+                <div style="background: var(--bg-color); border: 1.5px solid var(--card-border); border-radius: 14px; padding: 12px 14px;">
                     <div style="font-size: 13.5px; font-weight: 800; color: var(--text-main); margin-bottom: 7px;">📄 প্রয়োজনীয় নথিপত্র:</div>
                     <div style="display: flex; flex-direction: column; gap: 5px; font-size: 12.2px; font-weight: 600; color: var(--text-sub);">
                         <div>✔ আধার কার্ড</div>
@@ -1418,24 +1446,34 @@
                     </div>
                 </div>
 
-                <div style="display: flex; gap: 8px;">
-                    <a href="https://wa.me/919332434992?text=নমস্কার,%20ঘাটাল%20সেবা%20সংকল্প%20ক্যাম্পের%20স্থান%20ও%20কাজের%20বিষয়ে%20জানতে%20চাই।" target="_blank" class="bs-btn btn-wa" style="flex: 1; justify-content: center; padding: 10px; font-size: 13px;">
-                        <i class="fa-brands fa-whatsapp"></i> ক্যাম্প লোকেশন জানতে WhatsApp করুন
-                    </a>
-                </div>
-
             </div>
         </div>
     </div>
 
-    <!-- মোডাল: EMERGENCY -->
+    <!-- ============================================================
+         মোডাল: ইমার্জেন্সি কল ও অভিযোগ হেল্পলাইন (সরাসরি মুখ্যমন্ত্রী সহ)
+         ============================================================ -->
     <div id="emergencyModal" class="modal-overlay" onclick="closeModal('emergencyModal')">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <h3>🚨 জরুরি ও প্রশাসনিক হেল্পলাইন</h3>
+                <h3 style="color: #dc2626;">🚨 জরুরি হেল্পলাইন ও অভিযোগ পোর্টাল</h3>
                 <button class="modal-close" onclick="closeModal('emergencyModal')">&times;</button>
             </div>
             <div class="modal-scroll-area">
+                
+                <!-- সরাসরি মুখ্যমন্ত্রী গ্রিভেন্স -->
+                <div class="sub-card-row sub-theme-orange" style="border: 1.5px solid #f97316;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #c2410c;">📢 সরাসরি মুখ্যমন্ত্রী অভিযোগ পোর্টাল</span>
+                        <span class="bs-desc">টোল-ফ্রি হেল্পলাইন: ৯১৩৭০৯১৩৭০ / সরাসরি অভিযোগ দাখিল</span>
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <a href="tel:9137091370" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 15px;">call</span> Call</a>
+                        <a href="https://cmo.wb.gov.in/landing/raise-grievance" target="_blank" class="bs-btn btn-link">পোর্টাল <span class="material-symbols-outlined" style="font-size: 15px;">open_in_new</span></a>
+                    </div>
+                </div>
+
+                <!-- জাতীয় জরুরি সেবা -->
                 <div class="sub-card-row sub-theme-red">
                     <div class="bs-info">
                         <span class="bs-title">জাতীয় জরুরি সেবা (All in One)</span>
@@ -1443,6 +1481,8 @@
                     </div>
                     <a href="tel:112" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 112</a>
                 </div>
+
+                <!-- অ্যাম্বুলেন্স -->
                 <div class="sub-card-row sub-theme-green">
                     <div class="bs-info">
                         <span class="bs-title">বিনামূল্যে সরকারি অ্যাম্বুলেন্স</span>
@@ -1450,13 +1490,26 @@
                     </div>
                     <a href="tel:102" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 102</a>
                 </div>
+
+                <!-- সাইবার ফ্রড -->
                 <div class="sub-card-row sub-theme-blue">
                     <div class="bs-info">
                         <span class="bs-title">সাইবার আর্থিক প্রতারণা হেল্পলাইন</span>
-                        <span class="bs-desc">1930 (অনলাইন ব্যাঙ্ক ফ্রড রোধে)</span>
+                        <span class="bs-desc">1930 (অনলাইন ব্যাঙ্ক ফ্রড রোধে দ্রুত কল)</span>
                     </div>
                     <a href="tel:1930" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 1930</a>
                 </div>
+
+                <!-- আধার হেল্পলাইন -->
+                <div class="sub-card-row sub-theme-teal">
+                    <div class="bs-info">
+                        <span class="bs-title">আধার অভিযোগ ও তথ্য হেল্পলাইন (UIDAI)</span>
+                        <span class="bs-desc">1947 (আধার কার্ড সংক্রান্ত অভিযোগ ও তথ্য)</span>
+                    </div>
+                    <a href="tel:1947" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 1947</a>
+                </div>
+
+                <!-- মহিলা হেল্পলাইন -->
                 <div class="sub-card-row sub-theme-purple">
                     <div class="bs-info">
                         <span class="bs-title">মহিলা হেল্পলাইন (Women Helpline)</span>
@@ -1464,20 +1517,25 @@
                     </div>
                     <a href="tel:1091" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 1091</a>
                 </div>
+
+                <!-- শিশু হেল্পলাইন -->
                 <div class="sub-card-row sub-theme-amber">
                     <div class="bs-info">
                         <span class="bs-title">শিশু সুরক্ষা হেল্পলাইন (Childline)</span>
-                        <span class="bs-desc">1098 (বিপদগ্রস্ত শিশুদের দ্রুত সুরক্ষায়)</span>
+                        <span class="bs-desc">1098 (বিপদগ্রস্ত শিশুদের সুরক্ষায়)</span>
                     </div>
                     <a href="tel:1098" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 1098</a>
                 </div>
+
+                <!-- দমকল -->
                 <div class="sub-card-row sub-theme-orange">
                     <div class="bs-info">
                         <span class="bs-title">দমকল পরিষেবা (Fire Brigade)</span>
-                        <span class="bs-desc">101 (অগ্নি নির্বাপণ ও উদ্ধার কাজ)</span>
+                        <span class="bs-desc">101 (অগ্নি নির্বাপণ ও জরুরি উদ্ধার)</span>
                     </div>
                     <a href="tel:101" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 101</a>
                 </div>
+
             </div>
         </div>
     </div>
@@ -1525,7 +1583,7 @@
                     <input type="text" id="bankSearchInput" placeholder="ব্যাংকের নাম খুঁজুন (SBI, PNB, UCO, BOB, বাংলা বা ইংরেজি)..." onkeyup="filterBankList()" style="width: 100%; padding: 10px 14px 10px 38px; border-radius: 12px; border: 1.5px solid var(--card-border); outline: none; font-size: 14px; background: var(--bg-color); color: var(--text-main);">
                 </div>
                 <div id="bankListContainer">
-                    <!-- শিট থেকে ডাইনামিক ও রঙিন ব্যাংক লিস্ট লোড হবে -->
+                    <!-- শিট থেকে ডাইনামিক ব্যাংক লিস্ট লোড হবে -->
                 </div>
             </div>
         </div>
@@ -1942,7 +2000,7 @@
         </div>
     </div>
 
-    <!-- ফুটার (সতর্কবার্তা সেন্টার অ্যালাইন) -->
+    <!-- ফুটার -->
     <footer>
         <div class="footer-warning-heading">সতর্কবার্তা</div>
         <div class="footer-warning-text">
@@ -2032,10 +2090,9 @@ if (pwaAddNowBtn) {
     });
 }
 
-// সোশ্যাল শেয়ারিং (বিকল্প ১)
 function shareCitizenApp() {
     const shareTitle = 'নাগরিক পরিষেবা';
-    const shareMsg = '🏛️️ নাগরিক পরিষেবা — ব্যাংকিং, রেশন, বিদ্যুৎ, স্বাস্থ্য সহ সব সরকারি সেবা এক ক্লিকে:\n';
+    const shareMsg = '🏛 নাগরিক পরিষেবা — ব্যাংকিং, রেশন, বিদ্যুৎ, স্বাস্থ্য সহ সব সরকারি সেবা এক ক্লিকে:\n';
     const shareUrl = window.location.href;
 
     if (navigator.share) {
@@ -2330,18 +2387,7 @@ function loadLiveGoogleSheetData() {
         .then(data => {
             if (!Array.isArray(data) || data.length === 0) return;
 
-            const bannerItem = data.find(d => d.category && d.category.toLowerCase().trim() === 'banner');
-            const bannerEl = document.getElementById('featuredDynamicBanner');
-            if (bannerEl) {
-                if (bannerItem && bannerItem.name) {
-                    bannerEl.style.display = 'flex';
-                    bannerEl.href = cleanUrl(bannerItem.action_link) || 'https://jks.wb.gov.in';
-                    document.getElementById('fbTitle').innerText = bannerItem.name;
-                    document.getElementById('fbDesc').innerText = bannerItem.dept || bannerItem.desc || '২রা থেকে ৪ঠা অক্টোবর পর্যন্ত চলবে';
-                    document.getElementById('fbIcon').innerText = bannerItem.icon || '⛺';
-                }
-            }
-
+            // শিট থেকে সার্ভিস কার্ড আপডেট (ব্যানার ওভাররাইট করা বন্ধ রাখা হলো যাতে আপনার অরেঞ্জ ব্যানার অক্ষুণ্ণ থাকে)
             data.forEach(item => {
                 if (!item.name || item.category === 'banner') return;
                 
