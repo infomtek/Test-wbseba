@@ -178,9 +178,7 @@
             flex: 1;
         }
 
-        /* ============================================================
-           বড় ব্যানার: ফ্ল্যাশ লাইট ও জুম অ্যানিমেশন
-           ============================================================ */
+        /* বড় ব্যানার */
         @keyframes bannerZoomPulse {
             0% { transform: scale(1); box-shadow: 0 4px 14px rgba(234, 88, 12, 0.25); }
             50% { transform: scale(1.02); box-shadow: 0 0 25px rgba(255, 255, 255, 0.8), 0 8px 32px rgba(234, 88, 12, 0.65); }
@@ -271,9 +269,7 @@
         .sec-title { font-size: 14px; font-weight: 800; letter-spacing: 0.3px; }
         .sec-desc { font-size: 11px; opacity: 0.92; margin-top: 1px; }
 
-        /* ============================================================
-           মার্জিত, পরিচ্ছন্ন ও চোখ-জুড়ানো ক্যাটাগরি ফোল্ডার
-           ============================================================ */
+        /* ক্যাটাগরি ফোল্ডার স্ট্রিপস */
         .category-group {
             margin-bottom: 8px;
             border-radius: 13px;
@@ -336,7 +332,7 @@
             display: block;
         }
 
-        /* পরিচ্ছন্ন অল্টারনেটিভ থিম */
+        /* ফোল্ডার থিম */
         .soft-cat-blue { background: #f0f7ff; border-color: #bfdbfe; }
         .soft-cat-blue .category-header-title { color: #1e40af; }
         .soft-cat-blue .category-arrow { color: #2563eb; }
@@ -377,34 +373,24 @@
         [data-theme="dark"] .category-icon-badge { background: rgba(255, 255, 255, 0.12); }
         [data-theme="dark"] .soft-cat-blue { background: #0c233c; border-color: #1e3a8a; }
         [data-theme="dark"] .soft-cat-blue .category-header-title { color: #93c5fd; }
-
         [data-theme="dark"] .soft-cat-teal { background: #092c28; border-color: #134e4a; }
         [data-theme="dark"] .soft-cat-teal .category-header-title { color: #5eead4; }
-
         [data-theme="dark"] .soft-cat-purple { background: #26123a; border-color: #581c87; }
         [data-theme="dark"] .soft-cat-purple .category-header-title { color: #d8b4fe; }
-
         [data-theme="dark"] .soft-cat-orange { background: #2f1505; border-color: #7c2d12; }
         [data-theme="dark"] .soft-cat-orange .category-header-title { color: #fdba74; }
-
         [data-theme="dark"] .soft-cat-green { background: #082914; border-color: #14532d; }
         [data-theme="dark"] .soft-cat-green .category-header-title { color: #86efac; }
-
         [data-theme="dark"] .soft-cat-rose { background: #2f0714; border-color: #881337; }
         [data-theme="dark"] .soft-cat-rose .category-header-title { color: #fda4af; }
-
         [data-theme="dark"] .soft-cat-amber { background: #291a03; border-color: #78350f; }
         [data-theme="dark"] .soft-cat-amber .category-header-title { color: #fde68a; }
-
         [data-theme="dark"] .soft-cat-indigo { background: #13173d; border-color: #312e81; }
         [data-theme="dark"] .soft-cat-indigo .category-header-title { color: #a5b4fc; }
-
         [data-theme="dark"] .soft-cat-emerald { background: #052b20; border-color: #064e3b; }
         [data-theme="dark"] .soft-cat-emerald .category-header-title { color: #6ee7b7; }
 
-        /* ============================================================
-           গ্রিড ও লিস্ট ভিউ ফরম্যাট
-           ============================================================ */
+        /* গ্রিড ও লিস্ট ভিউ ফরম্যাট */
         .app-view-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -421,7 +407,6 @@
             gap: 8px;
         }
 
-        /* সার্ভিস কার্ড: লেখার সাইজ ও গ্যাপ সুষম করা */
         .service-card {
             border-radius: 13px;
             padding: 11px 13px;
@@ -458,7 +443,9 @@
         .card-title { font-size: 14px; font-weight: 700; line-height: 1.35; }
         .card-dept { font-size: 11.5px; margin-top: 3px; font-weight: 500; opacity: 0.92; }
 
-        /* কার্ড কালার প্যালেট */
+        /* ============================================================
+           রঙের উন্নত প্যালেট (গোলাপী, হলুদ ও বাসন্তী স্পেশাল)
+           ============================================================ */
         .clr-red { background: linear-gradient(135deg, #ef4444, #dc2626) !important; border-color: #b91c1c !important; color: #ffffff !important; }
         .clr-red .card-title { color: #ffffff !important; }
         .clr-red .card-dept { color: #fee2e2 !important; }
@@ -495,18 +482,42 @@
         .clr-emerald .card-title { color: #ffffff !important; }
         .clr-emerald .card-dept { color: #d1fae5 !important; }
 
-        /* পিঙ্ক কার্ড: স্পেশাল গোলাপি লুক */
+        /* ১. পিঙ্ক / গোলাপী কার্ড (Vibrant Pink Gradient) */
         .clr-pink {
             background: linear-gradient(135deg, #ec4899, #db2777) !important;
-            border: 1.5px dashed #f472b6 !important;
+            border: 1.5px solid #f472b6 !important;
             color: #ffffff !important;
         }
-        .clr-pink .card-title { color: #ffffff !important; }
-        .clr-pink .card-dept { color: #fce7f3 !important; }
+        .clr-pink .card-title { color: #ffffff !important; font-weight: 800 !important; }
+        .clr-pink .card-dept { color: #fdf2f8 !important; }
+        .clr-pink .icon-circle { color: #db2777 !important; }
 
-        /* ============================================================
-           মোডাল ও সাব-কার্ডস (Sub-cards)
-           ============================================================ */
+        /* ২. হলুদ কার্ড (উজ্জ্বল হলুদ ব্যাকগ্রাউন্ড ও কালো লেখা) */
+        .clr-yellow {
+            background: linear-gradient(135deg, #facc15, #eab308) !important;
+            border: 1.5px solid #ca8a04 !important;
+            color: #0f172a !important;
+        }
+        .clr-yellow .card-title { color: #0f172a !important; font-weight: 800 !important; }
+        .clr-yellow .card-dept { color: #334155 !important; font-weight: 700 !important; }
+        .clr-yellow .icon-circle { color: #854d0e !important; }
+
+        /* ৩. বাসন্তী হাইলাইট কালার (সবুজের ওপর বাসন্তী আভা - Neon-Lime/Basanti) */
+        .clr-basanti {
+            background: linear-gradient(135deg, #a3e635, #84cc16) !important;
+            border: 1.5px solid #65a30d !important;
+            color: #14532d !important;
+        }
+        .clr-basanti .card-title { color: #14532d !important; font-weight: 800 !important; }
+        .clr-basanti .card-dept { color: #166534 !important; font-weight: 700 !important; }
+        .clr-basanti .icon-circle { color: #3f6212 !important; }
+
+        /* ডার্ক মোডে আইকন সার্কেল দৃশ্যমানতা */
+        [data-theme="dark"] .icon-circle {
+            background: rgba(255, 255, 255, 0.95) !important;
+        }
+
+        /* মোডাল স্টাইল */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -558,58 +569,22 @@
 
         .sub-theme-blue { background: #f0f7ff; border-color: #bfdbfe; }
         .sub-theme-blue .bs-title { color: #1e40af; }
-
         .sub-theme-teal { background: #f0fdfa; border-color: #99f6e4; }
         .sub-theme-teal .bs-title { color: #0f766e; }
-
         .sub-theme-emerald { background: #ecfdf5; border-color: #a7f3d0; }
         .sub-theme-emerald .bs-title { color: #065f46; }
-
         .sub-theme-green { background: #f0fdf4; border-color: #bbf7d0; }
         .sub-theme-green .bs-title { color: #166534; }
-
         .sub-theme-amber { background: #fffbeb; border-color: #fde68a; }
         .sub-theme-amber .bs-title { color: #92400e; }
-
         .sub-theme-orange { background: #fff7ed; border-color: #fed7aa; }
         .sub-theme-orange .bs-title { color: #9a3412; }
-
         .sub-theme-purple { background: #faf5ff; border-color: #e9d5ff; }
         .sub-theme-purple .bs-title { color: #6b21a8; }
-
         .sub-theme-red { background: #fff1f2; border-color: #fecdd3; }
         .sub-theme-red .bs-title { color: #9f1239; }
-
         .sub-theme-indigo { background: #eef2ff; border-color: #c7d2fe; }
         .sub-theme-indigo .bs-title { color: #3730a3; }
-
-        /* ডার্ক মোডে সাব-কার্ডস */
-        [data-theme="dark"] .sub-theme-blue { background: #0c233c; border-color: #1e3a8a; }
-        [data-theme="dark"] .sub-theme-blue .bs-title { color: #93c5fd; }
-
-        [data-theme="dark"] .sub-theme-teal { background: #092c28; border-color: #134e4a; }
-        [data-theme="dark"] .sub-theme-teal .bs-title { color: #5eead4; }
-
-        [data-theme="dark"] .sub-theme-emerald { background: #052b20; border-color: #064e3b; }
-        [data-theme="dark"] .sub-theme-emerald .bs-title { color: #6ee7b7; }
-
-        [data-theme="dark"] .sub-theme-green { background: #082914; border-color: #14532d; }
-        [data-theme="dark"] .sub-theme-green .bs-title { color: #86efac; }
-
-        [data-theme="dark"] .sub-theme-amber { background: #291a03; border-color: #78350f; }
-        [data-theme="dark"] .sub-theme-amber .bs-title { color: #fde68a; }
-
-        [data-theme="dark"] .sub-theme-orange { background: #2f1505; border-color: #7c2d12; }
-        [data-theme="dark"] .sub-theme-orange .bs-title { color: #fdba74; }
-
-        [data-theme="dark"] .sub-theme-purple { background: #26123a; border-color: #581c87; }
-        [data-theme="dark"] .sub-theme-purple .bs-title { color: #d8b4fe; }
-
-        [data-theme="dark"] .sub-theme-red { background: #2f0714; border-color: #881337; }
-        [data-theme="dark"] .sub-theme-red .bs-title { color: #fda4af; }
-
-        [data-theme="dark"] .sub-theme-indigo { background: #13173d; border-color: #312e81; }
-        [data-theme="dark"] .sub-theme-indigo .bs-title { color: #a5b4fc; }
 
         .bank-card-item {
             border: 1.5px solid var(--card-border);
@@ -794,7 +769,7 @@
                         </div>
                     </div>
 
-                    <div class="service-card clr-green" onclick="openModal('dbtModal')" data-keywords="dbt npci aadhar seeding khata bank account change সরকারি টাকা ডিবিটি একাউন্ট পরিবর্তন">
+                    <div class="service-card clr-basanti" onclick="openModal('dbtModal')" data-keywords="dbt npci aadhar seeding khata bank account change সরকারি টাকা ডিবিটি একাউন্ট পরিবর্তন">
                         <div class="icon-circle">🔄</div>
                         <div class="card-info">
                             <div class="card-title">DBT লিংক ব্যাংক পরিবর্তন</div>
@@ -847,7 +822,7 @@
                             <div class="card-dept">Citizen Services থেকে সার্টিফিকেট প্রিন্ট</div>
                         </div>
                     </a>
-                    <a href="https://castcertificatewb.gov.in/searchappl" target="_blank" class="service-card clr-emerald" data-keywords="caste certificate sc st কাস্ট সার্টিফিকেট এসসি এসটি শংসাপত্র অনুসন্ধান">
+                    <a href="https://castcertificatewb.gov.in/searchappl" target="_blank" class="service-card clr-basanti" data-keywords="caste certificate sc st কাস্ট সার্টিফিকেট এসসি এসটি শংসাপত্র অনুসন্ধান">
                         <div class="icon-circle">🪪</div>
                         <div class="card-info">
                             <div class="card-title">কাস্ট সার্টিফিকেট ভেরিফাই</div>
@@ -861,7 +836,7 @@
                             <div class="card-dept">অনগ্রসর শ্রেণি কল্যাণ দপ্তর ও ওবিসি স্ট্যাটাস</div>
                         </div>
                     </a>
-                    <a href="https://wb.gov.in/" target="_blank" class="service-card clr-amber" data-keywords="panchayat income certificate পঞ্চায়েত ইনকাম সার্টিফিকেট আয়ের শংসাপত্র">
+                    <a href="https://wb.gov.in/" target="_blank" class="service-card clr-yellow" data-keywords="panchayat income certificate পঞ্চায়েত ইনকাম সার্টিফিকেট আয়ের শংসাপত্র">
                         <div class="icon-circle">📜</div>
                         <div class="card-info">
                             <div class="card-title">পঞ্চায়েত ইনকাম সার্টিফিকেট</div>
@@ -897,21 +872,21 @@
                             <div class="card-dept">অভিযোগ ও সহায়তা পোর্টাল</div>
                         </div>
                     </a>
-                    <a href="https://jks.wb.gov.in/Default.aspx" target="_blank" class="service-card clr-emerald" data-keywords="jonokalyan shibir duare sarkar জনকল্যাণ শিবির ক্যাম্প দুয়ারে সরকার">
+                    <a href="https://jks.wb.gov.in/Default.aspx" target="_blank" class="service-card clr-basanti" data-keywords="jonokalyan shibir duare sarkar জনকল্যাণ শিবির ক্যাম্প দুয়ারে সরকার">
                         <div class="icon-circle">⛺</div>
                         <div class="card-info">
                             <div class="card-title">জনকল্যাণ শিবির</div>
                             <div class="card-dept">ক্যাম্পের বিস্তারিত ও পরিষেবা</div>
                         </div>
                     </a>
-                    <a href="https://pmvishwakarma.gov.in/" target="_blank" class="service-card clr-amber" data-keywords="pm vishwakarma বিশ্বকর্মা যোজনা কারিগর লোন ঋণ">
+                    <a href="https://pmvishwakarma.gov.in/" target="_blank" class="service-card clr-yellow" data-keywords="pm vishwakarma বিশ্বকর্মা যোজনা কারিগর লোন ঋণ">
                         <div class="icon-circle">🛠️</div>
                         <div class="card-info">
                             <div class="card-title">PM বিশ্বকর্মা যোজনা</div>
                             <div class="card-dept">কারিগরদের অফিসিয়াল পোর্টাল</div>
                         </div>
                     </a>
-                    <a href="https://register.eshram.gov.in/#/user/aadhaar-login" target="_blank" class="service-card clr-amber" data-keywords="eshram e-shram শ্রম কার্ড শ্রমিক মজদুর লেবার">
+                    <a href="https://register.eshram.gov.in/#/user/aadhaar-login" target="_blank" class="service-card clr-pink" data-keywords="eshram e-shram শ্রম কার্ড শ্রমিক মজদুর লেবার">
                         <div class="icon-circle">👷</div>
                         <div class="card-info">
                             <div class="card-title">ই-শ্রম কার্ড (e-Shram)</div>
@@ -954,19 +929,19 @@
                             <div class="card-dept">ডাউনলোড, e-KYC, মোবাইল লিংক ও কারেকশন</div>
                         </div>
                     </div>
-                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমি%20ভালো%20কোয়ালিটির%20রেশন%20PVC%20কার্ড%20অর্ডার%20করতে%20চাই।" target="_blank" class="service-card clr-green" data-keywords="ration pvc card smart plastic print অর্ডার প্লাস্টিক রেশন স্মার্ট কার্ড">
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমি%20ভালো%20কোয়ালিটির%20রেশন%20PVC%20কার্ড%20অর্ডার%20করতে%20চাই।" target="_blank" class="service-card clr-pink" data-keywords="ration pvc card smart plastic print অর্ডার প্লাস্টিক রেশন স্মার্ট কার্ড">
                         <div class="icon-circle">🪪</div>
                         <div class="card-info">
                             <div class="card-title">রেশন PVC কার্ড অর্ডার</div>
                             <div class="card-dept" style="display: flex; align-items: center; gap: 4px; margin-top: 4px;">
                                 <span>প্লাস্টিক স্মার্ট কার্ড প্রিন্ট</span> • 
-                                <span style="display: inline-flex; align-items: center; gap: 3px; color: #16a34a; font-weight: 700;">
+                                <span style="display: inline-flex; align-items: center; gap: 3px; color: #ffffff; font-weight: 800;">
                                     <i class="fa-brands fa-whatsapp" style="font-size: 13px;"></i> Order Now
                                 </span>
                             </div>
                         </div>
                     </a>
-                    <div class="service-card clr-amber" onclick="openModal('lpgModal')" data-keywords="lpg gas booking indane bharat hp cylinder রিফিল সিলিন্ডার রান্নার গ্যাস বুকিং ইন্ডেন ভারত এইচপি">
+                    <div class="service-card clr-yellow" onclick="openModal('lpgModal')" data-keywords="lpg gas booking indane bharat hp cylinder রিফিল সিলিন্ডার রান্নার গ্যাস বুকিং ইন্ডেন ভারত এইচপি">
                         <div class="icon-circle">🔥</div>
                         <div class="card-info">
                             <div class="card-title">LPG গ্যাস বুকিং ও e-KYC স্ট্যাটাস</div>
@@ -1002,7 +977,7 @@
                             <div class="card-dept">বাংলার ভূমি পোর্টাল ও খতিয়ান রঙিন প্রিন্ট কপি</div>
                         </div>
                     </div>
-                    <div class="service-card clr-amber" onclick="openModal('taxModal')" data-keywords="khajna tax holding municipality panchayat খাজনা ট্যাক্স হোল্ডিং মিউসিপ্যালিটি পঞ্চায়েত রসিদ">
+                    <div class="service-card clr-yellow" onclick="openModal('taxModal')" data-keywords="khajna tax holding municipality panchayat খাজনা ট্যাক্স হোল্ডিং মিউসিপ্যালিটি পঞ্চায়েত রসিদ">
                         <div class="icon-circle">🏠</div>
                         <div class="card-info">
                             <div class="card-title">খাজনা ও বাড়ির হোল্ডিং ট্যাক্স</div>
@@ -1023,7 +998,7 @@
                             <div class="card-dept">নতুন আবেদনের স্ট্যাটাস ও তথ্য যাচাই</div>
                         </div>
                     </a>
-                    <a href="https://pmkisan.gov.in/BeneficiaryStatus_New.aspx" target="_blank" class="service-card clr-amber" data-keywords="pm kisan pmkisan ekyc টাকা ২০০০ কিস্তি পিএম কিসান স্ট্যাটাস">
+                    <a href="https://pmkisan.gov.in/BeneficiaryStatus_New.aspx" target="_blank" class="service-card clr-basanti" data-keywords="pm kisan pmkisan ekyc টাকা ২০০০ কিস্তি পিএম কিসান স্ট্যাটাস">
                         <div class="icon-circle">🔍</div>
                         <div class="card-info">
                             <div class="card-title">PM Kisan স্ট্যাটাস ও e-KYC</div>
@@ -1073,18 +1048,18 @@
                             <div class="card-dept">লাইভ ব্লাড স্টক চেক ও হেল্পলাইন</div>
                         </div>
                     </div>
-                    <a href="https://ssai.swasthyasathi.gov.in/OnlinePublicInfoHub/OnlineCardVerificationIndex" target="_blank" class="service-card clr-blue" data-keywords="swasthya sathi স্বাস্থ্যসাথী কার্ড চেক ব্যালেন্স সক্রিয়তা">
+                    <a href="https://ssai.swasthyasathi.gov.in/OnlinePublicInfoHub/OnlineCardVerificationIndex" target="_blank" class="service-card clr-basanti" data-keywords="swasthya sathi স্বাস্থ্যসাথী কার্ড চেক ব্যালেন্স সক্রিয়তা">
                         <div class="icon-circle">🏥</div>
                         <div class="card-info">
                             <div class="card-title">স্বাস্থ্যসাথী কার্ড ভেরিফিকেশন</div>
                             <div class="card-dept">কার্ড সক্রিয়তা ও ব্যালেন্স চেক</div>
                         </div>
                     </a>
-                    <div class="service-card clr-amber" onclick="openComingSoon('মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা')" style="border: 1.5px dashed #f59e0b; cursor: pointer;" data-keywords="mukhyamantri swasthya bima মুখ্যমন্ত্রী স্বাস্থ্য বীমা">
+                    <div class="service-card clr-yellow" onclick="openComingSoon('মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা')" style="border: 1.5px dashed #ca8a04; cursor: pointer;" data-keywords="mukhyamantri swasthya bima মুখ্যমন্ত্রী স্বাস্থ্য বীমা">
                         <div class="icon-circle">⏳</div>
                         <div class="card-info">
-                            <div class="card-title" style="color: #b45309;">মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা</div>
-                            <div class="card-dept" style="font-weight: 700; color: #d97706;">শীঘ্রই আসছে (ক্লিক করুন)</div>
+                            <div class="card-title">মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা</div>
+                            <div class="card-dept">শীঘ্রই আসছে (ক্লিক করুন)</div>
                         </div>
                     </div>
                     <a href="https://beneficiary.nha.gov.in/" target="_blank" class="service-card clr-green" data-keywords="ayushman bharat pmjay আয়ুষ্মান ভারত কার্ড ৫ লাখ চিকিৎসা">
@@ -1094,7 +1069,7 @@
                             <div class="card-dept">কেন্দ্রীয় সরকারি স্বাস্থ্য বীমা পোর্টাল</div>
                         </div>
                     </a>
-                    <a href="https://abha.rqbeonline.co.in/ABHA/SearchAbhaCard" target="_blank" class="service-card clr-purple" data-keywords="abha card download আভা হেলথ আইডি ডিজিটাল স্বাস্থ্য কার্ড">
+                    <a href="https://abha.rqbeonline.co.in/ABHA/SearchAbhaCard" target="_blank" class="service-card clr-pink" data-keywords="abha card download আভা হেলথ আইডি ডিজিটাল স্বাস্থ্য কার্ড">
                         <div class="icon-circle">🪪</div>
                         <div class="card-info">
                             <div class="card-title">আভা (ABHA) কার্ড ডাউনলোড</div>
@@ -1105,7 +1080,7 @@
             </div>
         </div>
 
-        <!-- ৭. পরিবহন ও যানবাহন -->
+        <!-- ৭. পরিবহন ও যানবাহন (গোলাপি পিঙ্ক কার্ড সহ) -->
         <div class="category-group soft-cat-amber" id="groupVehicle">
             <div class="category-header" onclick="toggleCategory('groupVehicle')">
                 <div class="category-header-title">
@@ -1131,16 +1106,16 @@
                         </div>
                     </a>
                     <a href="https://echallan.parivahan.gov.in/index/accused-challan" target="_blank" class="service-card clr-orange" data-keywords="traffic fine echallan ট্রাফিক চালান ফাইন গাড়ি কেস">
-                        <div class="icon-circle">⚠️</div>
+                        <div class="icon-circle">⚠️️</div>
                         <div class="card-info">
                             <div class="card-title">ট্রাফিক ই-চালান ও ফাইন</div>
                             <div class="card-dept">গাড়ির চালান যাচাই ও পেমেন্ট</div>
                         </div>
                     </a>
                     
-                    <!-- পিঙ্ক কার্ড: স্পেশাল গোলাপী লুক -->
+                    <!-- পিঙ্ক কার্ড (Pink Card) - ১০০% দৃশ্যমান ও গোলাপি রঙে উজ্জ্বল -->
                     <div class="service-card clr-pink" onclick="openComingSoon('পিঙ্ক কার্ড (Pink Card)')" style="cursor: pointer;" data-keywords="pink card পিঙ্ক কার্ড">
-                        <div class="icon-circle" style="color: #db2777;">🎫</div>
+                        <div class="icon-circle">🎫</div>
                         <div class="card-info">
                             <div class="card-title">পিঙ্ক কার্ড (Pink Card)</div>
                             <div class="card-dept">শীঘ্রই আসছে (ক্লিক করুন)</div>
@@ -1813,7 +1788,6 @@
 </div>
 
 <script>
-// ক্যাটাগরি ফোল্ডার টগল
 function toggleCategory(groupId) {
     const group = document.getElementById(groupId);
     if (!group) return;
@@ -1889,7 +1863,6 @@ if (pwaAddNowBtn) {
     });
 }
 
-// সোশ্যাল শেয়ারিং (বিকল্প ১ অনুযায়ী ক্যাচি ও সংক্ষিপ্ত)
 function shareCitizenApp() {
     const shareTitle = 'নাগরিক পরিষেবা';
     const shareMsg = '🏛️ নাগরিক পরিষেবা — ব্যাংকিং, রেশন, বিদ্যুৎ, স্বাস্থ্য সহ সব সরকারি সেবা এক ক্লিকে:\n';
@@ -1932,7 +1905,6 @@ function sendLandRecordWhatsApp() {
     window.open(whatsappUrl, '_blank');
 }
 
-/* লিস্ট / গ্রিড ভিউ সম্পূর্ণ লেআউট পরিবর্তন (ব্যানার বাদে) */
 function toggleLayoutView() {
     const grids = document.querySelectorAll('[id^="serviceGrid"]');
     const icon = document.getElementById('viewIcon');
@@ -2195,7 +2167,7 @@ function loadLiveGoogleSheetData() {
                     bannerEl.style.display = 'flex';
                     bannerEl.href = cleanUrl(bannerItem.action_link) || '#';
                     document.getElementById('fbTitle').innerText = bannerItem.name;
-                    document.getElementById('fbDesc').innerText = bannerItem.dept || bannerItem.desc || 'বিস্তারিত তথ্য জানতে ক্লিক করুন';
+                    document.getElementById('fbDesc').innerText = bannerItem.dept || bannerItem.desc || '২রা অক্টোবর থেকে ৪ঠা অক্টোবর পর্যন্ত চলবে';
                     document.getElementById('fbIcon').innerText = bannerItem.icon || '⛺';
                 } else {
                     bannerEl.style.display = 'none';
