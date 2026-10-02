@@ -33,7 +33,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="নাগরিক সেবা">
 
-    <!-- প্রিমিয়াম ও স্পষ্ট বাংলা ফন্ট (Noto Sans Bengali) -->
+    <!-- প্রিমিয়াম ও স্পষ্ট বাংলা ফন্ট -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -77,7 +77,6 @@
             -webkit-tap-highlight-color: transparent;
             transition: background-color 0.2s ease, color 0.2s ease;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
@@ -180,7 +179,7 @@
         }
 
         /* ============================================================
-           ১. জনকল্যাণ শিবির: সুস্পষ্ট ও বড় জাম্বো ফ্ল্যাশ ব্যানার
+           বড় ব্যানার: ফ্ল্যাশ লাইট ও জুম অ্যানিমেশন
            ============================================================ */
         @keyframes bannerZoomPulse {
             0% { transform: scale(1); box-shadow: 0 4px 14px rgba(234, 88, 12, 0.25); }
@@ -201,7 +200,7 @@
             color: #ffffff;
             border-radius: 16px;
             padding: 16px 18px;
-            margin-bottom: 11px;
+            margin-bottom: 12px;
             text-decoration: none;
             align-items: center;
             justify-content: space-between;
@@ -235,22 +234,22 @@
 
         .fb-content { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
         .fb-icon {
-            width: 50px; height: 50px;
+            width: 52px; height: 52px;
             background: rgba(255, 255, 255, 0.25);
             border-radius: 13px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 27px; flex-shrink: 0;
+            font-size: 28px; flex-shrink: 0;
             box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
-        .fb-title { font-size: 16.5px; font-weight: 800; line-height: 1.3; }
-        .fb-desc { font-size: 12.5px; opacity: 0.95; margin-top: 3px; font-weight: 600; }
+        .fb-title { font-size: 17px; font-weight: 800; line-height: 1.3; }
+        .fb-desc { font-size: 13px; opacity: 0.95; margin-top: 3px; font-weight: 600; }
 
         /* স্লিম ইমার্জেন্সি কার্ড */
         .standalone-emergency-card {
             background: linear-gradient(135deg, #e11d48, #be123c);
             color: #ffffff;
             border-radius: 13px;
-            padding: 9px 14px;
+            padding: 9.5px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -273,11 +272,10 @@
         .sec-desc { font-size: 11px; opacity: 0.92; margin-top: 1px; }
 
         /* ============================================================
-           ২. মার্জিত, প্রফেশনাল ও চোখে আরামদায়ক ক্যাটাগরি ফোল্ডার
-           (অতিরিক্ত হিজিবিজি দূর করে হালকা ও শান্ত রঙ)
+           মার্জিত, পরিচ্ছন্ন ও চোখ-জুড়ানো ক্যাটাগরি ফোল্ডার
            ============================================================ */
         .category-group {
-            margin-bottom: 7px;
+            margin-bottom: 8px;
             border-radius: 13px;
             overflow: hidden;
             box-shadow: 0 2px 5px rgba(0,0,0,0.025);
@@ -338,7 +336,7 @@
             display: block;
         }
 
-        /* পরিচ্ছন্ন মার্জিত ও হালকা অল্টারনেটিভ থিম (চোখে আরামদায়ক ও প্রফেশনাল) */
+        /* পরিচ্ছন্ন অল্টারনেটিভ থিম */
         .soft-cat-blue { background: #f0f7ff; border-color: #bfdbfe; }
         .soft-cat-blue .category-header-title { color: #1e40af; }
         .soft-cat-blue .category-arrow { color: #2563eb; }
@@ -410,24 +408,25 @@
         .app-view-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
+            gap: 10px;
         }
 
         @media (min-width: 768px) {
-            .app-view-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .app-view-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
         }
 
         .app-view-list {
             display: flex;
             flex-direction: column;
-            gap: 7px;
+            gap: 8px;
         }
 
+        /* সার্ভিস কার্ড: লেখার সাইজ ও গ্যাপ সুষম করা */
         .service-card {
-            border-radius: 12px;
-            padding: 9px 11px;
+            border-radius: 13px;
+            padding: 11px 13px;
             display: flex;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.035);
             cursor: pointer;
             position: relative;
             text-decoration: none;
@@ -437,64 +436,73 @@
         .service-card:active { transform: scale(0.98); }
 
         .app-view-grid .service-card { flex-direction: column; align-items: flex-start; }
-        .app-view-grid .icon-circle { margin-bottom: 6px; margin-right: 0; }
+        .app-view-grid .icon-circle { margin-bottom: 8px; margin-right: 0; }
 
-        .app-view-list .service-card { flex-direction: row; align-items: center; gap: 10px; padding: 9px 12px; }
+        .app-view-list .service-card { flex-direction: row; align-items: center; gap: 12px; padding: 11px 14px; }
         .app-view-list .icon-circle { margin-bottom: 0; margin-right: 0; }
 
         .icon-circle {
-            width: 34px;
-            height: 34px;
-            border-radius: 9px;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 17px;
+            font-size: 18px;
             background: rgba(255,255,255,0.92);
             box-shadow: 0 1px 3px rgba(0,0,0,0.07);
             flex-shrink: 0;
         }
 
-        .card-info { display: flex; flex-direction: column; }
-        .card-title { font-size: 13.2px; font-weight: 700; line-height: 1.3; }
-        .card-dept { font-size: 10.8px; margin-top: 2px; font-weight: 500; opacity: 0.92; }
+        .card-info { display: flex; flex-direction: column; flex: 1; }
+        .card-title { font-size: 14px; font-weight: 700; line-height: 1.35; }
+        .card-dept { font-size: 11.5px; margin-top: 3px; font-weight: 500; opacity: 0.92; }
 
         /* কার্ড কালার প্যালেট */
         .clr-red { background: linear-gradient(135deg, #ef4444, #dc2626) !important; border-color: #b91c1c !important; color: #ffffff !important; }
-        .clr-red .card-title, .clr-red .fb-title { color: #ffffff !important; }
-        .clr-red .card-dept, .clr-red .fb-desc { color: #fee2e2 !important; }
+        .clr-red .card-title { color: #ffffff !important; }
+        .clr-red .card-dept { color: #fee2e2 !important; }
 
         .clr-blue { background: linear-gradient(135deg, #0284c7, #1e3a8a) !important; border-color: #38bdf8 !important; color: #ffffff !important; }
-        .clr-blue .card-title, .clr-blue .fb-title { color: #ffffff !important; }
-        .clr-blue .card-dept, .clr-blue .fb-desc { color: #e0f2fe !important; }
+        .clr-blue .card-title { color: #ffffff !important; }
+        .clr-blue .card-dept { color: #e0f2fe !important; }
 
         .clr-green { background: linear-gradient(135deg, #16a34a, #15803d) !important; border-color: #4ade80 !important; color: #ffffff !important; }
-        .clr-green .card-title, .clr-green .fb-title { color: #ffffff !important; }
-        .clr-green .card-dept, .clr-green .fb-desc { color: #dcfce7 !important; }
+        .clr-green .card-title { color: #ffffff !important; }
+        .clr-green .card-dept { color: #dcfce7 !important; }
 
         .clr-purple { background: linear-gradient(135deg, #9333ea, #6b21a8) !important; border-color: #c084fc !important; color: #ffffff !important; }
-        .clr-purple .card-title, .clr-purple .fb-title { color: #ffffff !important; }
-        .clr-purple .card-dept, .clr-purple .fb-desc { color: #f3e8ff !important; }
+        .clr-purple .card-title { color: #ffffff !important; }
+        .clr-purple .card-dept { color: #f3e8ff !important; }
 
         .clr-amber { background: linear-gradient(135deg, #d97706, #b45309) !important; border-color: #fcd34d !important; color: #ffffff !important; }
-        .clr-amber .card-title, .clr-amber .fb-title { color: #ffffff !important; }
-        .clr-amber .card-dept, .clr-amber .fb-desc { color: #fef3c7 !important; }
+        .clr-amber .card-title { color: #ffffff !important; }
+        .clr-amber .card-dept { color: #fef3c7 !important; }
 
         .clr-orange { background: linear-gradient(135deg, #ea580c, #c2410c) !important; border-color: #fdba74 !important; color: #ffffff !important; }
-        .clr-orange .card-title, .clr-orange .fb-title { color: #ffffff !important; }
-        .clr-orange .card-dept, .clr-orange .fb-desc { color: #ffedd5 !important; }
+        .clr-orange .card-title { color: #ffffff !important; }
+        .clr-orange .card-dept { color: #ffedd5 !important; }
 
         .clr-teal { background: linear-gradient(135deg, #0d9488, #0f766e) !important; border-color: #5eead4 !important; color: #ffffff !important; }
-        .clr-teal .card-title, .clr-teal .fb-title { color: #ffffff !important; }
-        .clr-teal .card-dept, .clr-teal .fb-desc { color: #ccfbf1 !important; }
+        .clr-teal .card-title { color: #ffffff !important; }
+        .clr-teal .card-dept { color: #ccfbf1 !important; }
 
         .clr-indigo { background: linear-gradient(135deg, #4f46e5, #3730a3) !important; border-color: #818cf8 !important; color: #ffffff !important; }
-        .clr-indigo .card-title, .clr-indigo .fb-title { color: #ffffff !important; }
-        .clr-indigo .card-dept, .clr-indigo .fb-desc { color: #e0e7ff !important; }
+        .clr-indigo .card-title { color: #ffffff !important; }
+        .clr-indigo .card-dept { color: #e0e7ff !important; }
 
         .clr-emerald { background: linear-gradient(135deg, #059669, #047857) !important; border-color: #6ee7b7 !important; color: #ffffff !important; }
-        .clr-emerald .card-title, .clr-emerald .fb-title { color: #ffffff !important; }
-        .clr-emerald .card-dept, .clr-emerald .fb-desc { color: #d1fae5 !important; }
+        .clr-emerald .card-title { color: #ffffff !important; }
+        .clr-emerald .card-dept { color: #d1fae5 !important; }
+
+        /* পিঙ্ক কার্ড: স্পেশাল গোলাপি লুক */
+        .clr-pink {
+            background: linear-gradient(135deg, #ec4899, #db2777) !important;
+            border: 1.5px dashed #f472b6 !important;
+            color: #ffffff !important;
+        }
+        .clr-pink .card-title { color: #ffffff !important; }
+        .clr-pink .card-dept { color: #fce7f3 !important; }
 
         /* ============================================================
            মোডাল ও সাব-কার্ডস (Sub-cards)
@@ -736,13 +744,13 @@
 
     <div class="content">
 
-        <!-- ১. বড় ও সুস্পষ্ট জনকল্যাণ শিবির ব্যানার: ফ্ল্যাশ লাইট ও জুম অ্যানিমেশন সহ -->
+        <!-- ১. বড় ও সুস্পষ্ট জনকল্যাণ শিবির ব্যানার: ২ লাইনে সুনির্দিষ্ট ও ফ্ল্যাশ লাইট সহ -->
         <a id="featuredDynamicBanner" href="#" target="_blank" class="featured-banner">
             <div class="fb-content">
                 <div class="fb-icon" id="fbIcon">⛺</div>
                 <div>
-                    <div class="fb-title" id="fbTitle">জনকল্যাণ শিবির চলছে (2nd - 4th October)</div>
-                    <div class="fb-desc" id="fbDesc">বিস্তারিত তথ্য জানতে এখানে ক্লিক করুন</div>
+                    <div class="fb-title" id="fbTitle">জনকল্যাণ শিবির</div>
+                    <div class="fb-desc" id="fbDesc">২রা অক্টোবর থেকে ৪ঠা অক্টোবর পর্যন্ত চলবে</div>
                 </div>
             </div>
             <span class="material-symbols-outlined" style="font-size: 24px; font-weight: 800; position: relative; z-index: 1;">arrow_forward</span>
@@ -766,12 +774,12 @@
              মার্জিত, পরিচ্ছন্ন ও চোখ-জুড়ানো ক্যাটাগরি ফোল্ডারসমূহ
              ============================================================ -->
 
-        <!-- ১. ব্যাংকিং ও পরিচয়পত্র -->
+        <!-- ১. ব্যাংকিং ও DBT Link (PAN / Aadhaar) -->
         <div class="category-group soft-cat-blue open" id="groupBanking">
             <div class="category-header" onclick="toggleCategory('groupBanking')">
                 <div class="category-header-title">
                     <div class="category-icon-badge">🏦</div>
-                    <span>ব্যাংকিং ও পরিচয়পত্র (PAN / Aadhar)</span>
+                    <span>ব্যাংকিং ও DBT Link (PAN / Aadhaar)</span>
                 </div>
                 <span class="material-symbols-outlined category-arrow">expand_more</span>
             </div>
@@ -1129,11 +1137,13 @@
                             <div class="card-dept">গাড়ির চালান যাচাই ও পেমেন্ট</div>
                         </div>
                     </a>
-                    <div class="service-card clr-purple" onclick="openComingSoon('পিঙ্ক কার্ড (Pink Card)')" style="border: 1.5px dashed #a855f7; cursor: pointer;" data-keywords="pink card পিঙ্ক কার্ড">
-                        <div class="icon-circle">🎫</div>
+                    
+                    <!-- পিঙ্ক কার্ড: স্পেশাল গোলাপী লুক -->
+                    <div class="service-card clr-pink" onclick="openComingSoon('পিঙ্ক কার্ড (Pink Card)')" style="cursor: pointer;" data-keywords="pink card পিঙ্ক কার্ড">
+                        <div class="icon-circle" style="color: #db2777;">🎫</div>
                         <div class="card-info">
-                            <div class="card-title" style="color: #7e22ce;">পিঙ্ক কার্ড (Pink Card)</div>
-                            <div class="card-dept" style="font-weight: 700; color: #9333ea;">শীঘ্রই আসছে (ক্লিক করুন)</div>
+                            <div class="card-title">পিঙ্ক কার্ড (Pink Card)</div>
+                            <div class="card-dept">শীঘ্রই আসছে (ক্লিক করুন)</div>
                         </div>
                     </div>
                 </div>
@@ -1879,17 +1889,21 @@ if (pwaAddNowBtn) {
     });
 }
 
+// সোশ্যাল শেয়ারিং (বিকল্প ১ অনুযায়ী ক্যাচি ও সংক্ষিপ্ত)
 function shareCitizenApp() {
+    const shareTitle = 'নাগরিক পরিষেবা';
+    const shareMsg = '🏛️ নাগরিক পরিষেবা — ব্যাংকিং, রেশন, বিদ্যুৎ, স্বাস্থ্য সহ সব সরকারি সেবা এক ক্লিকে:\n';
+    const shareUrl = window.location.href;
+
     if (navigator.share) {
         navigator.share({
-            title: 'নাগরিক পরিষেবা',
-            text: 'জরুরি ব্যাংকিং, রেশন, গ্যাস, বিদ্যুৎ, স্বাস্থ্য ও সরকারি সেবা এক প্ল্যাটফর্মে পান:\n',
-            url: window.location.href
+            title: shareTitle,
+            text: shareMsg,
+            url: shareUrl
         }).catch(() => {});
     } else {
-        const shareUrl = encodeURIComponent(window.location.href);
-        const shareText = encodeURIComponent("নাগরিক পরিষেবা — সমস্ত দরকারি সরকারি সেবা এক প্ল্যাটফর্মে পান:\n");
-        window.open(`https://api.whatsapp.com/send?text=${shareText}${shareUrl}`, '_blank');
+        const fullText = encodeURIComponent(shareMsg + shareUrl);
+        window.open(`https://api.whatsapp.com/send?text=${fullText}`, '_blank');
     }
 }
 
@@ -1918,6 +1932,7 @@ function sendLandRecordWhatsApp() {
     window.open(whatsappUrl, '_blank');
 }
 
+/* লিস্ট / গ্রিড ভিউ সম্পূর্ণ লেআউট পরিবর্তন (ব্যানার বাদে) */
 function toggleLayoutView() {
     const grids = document.querySelectorAll('[id^="serviceGrid"]');
     const icon = document.getElementById('viewIcon');
