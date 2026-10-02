@@ -55,19 +55,76 @@
             --card-border: #cbd5e1;
         }
 
-        [data-theme="dark"] {
-            --bg-color: #0b0f19;
-            --container-bg: #111827;
-            --text-main: #f8fafc;
-            --text-sub: #cbd5e1;
-            --header-grad-1: #0b1329;
-            --header-grad-2: #1e293b;
-            --search-bg: #1e293b;
-            --footer-bg: #0b0f19;
-            --footer-border: #1f2937;
-            --modal-bg: #1e293b;
-            --card-border: #334155;
-        }
+/* ============================================================
+   পারফেক্ট ও স্পষ্ট ডার্ক মোড ফিক্স
+   ============================================================ */
+[data-theme="dark"] {
+    --bg-color: #0b0f19;
+    --container-bg: #0f172a;
+    --text-main: #f8fafc;
+    --text-sub: #cbd5e1;
+    --card-border: #334155;
+    --modal-bg: #1e293b;
+}
+
+/* ডার্ক মোডে ফোল্ডার হেডিং ও টেক্সট স্পষ্ট সাদা/উজ্জ্বল রাখা */
+[data-theme="dark"] .category-header-title {
+    color: #f8fafc !important;
+}
+
+[data-theme="dark"] .category-arrow {
+    color: #94a3b8 !important;
+}
+
+/* ডার্ক মোডে ফোল্ডারের ব্যাকগ্রাউন্ড কালচে-সফট ও পরিচ্ছন্ন বর্ডার */
+[data-theme="dark"] .soft-cat-blue { background: #132238 !important; border-color: #3b82f6 !important; }
+[data-theme="dark"] .soft-cat-teal { background: #0c2727 !important; border-color: #14b8a6 !important; }
+[data-theme="dark"] .soft-cat-purple { background: #221538 !important; border-color: #a855f7 !important; }
+[data-theme="dark"] .soft-cat-orange { background: #2d1808 !important; border-color: #f97316 !important; }
+[data-theme="dark"] .soft-cat-green { background: #0d2818 !important; border-color: #22c55e !important; }
+[data-theme="dark"] .soft-cat-rose { background: #2d0e1b !important; border-color: #f43f5e !important; }
+[data-theme="dark"] .soft-cat-amber { background: #281c07 !important; border-color: #f59e0b !important; }
+[data-theme="dark"] .soft-cat-indigo { background: #171c42 !important; border-color: #6366f1 !important; }
+[data-theme="dark"] .soft-cat-emerald { background: #082820 !important; border-color: #10b981 !important; }
+
+/* ডার্ক মোডে ইমার্জেন্সি কার্ডের লেখা উজ্জ্বল ও স্পষ্ট করা */
+[data-theme="dark"] .standalone-emergency-card {
+    background: #1e151b !important;
+    border-color: #ef4444 !important;
+}
+
+[data-theme="dark"] .standalone-emergency-card .sec-title {
+    color: #fca5a5 !important;
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+}
+
+[data-theme="dark"] .standalone-emergency-card .sec-icon {
+    background: #7f1d1d !important;
+}
+
+/* ডার্ক মোডে প্রতিটি কার্ডের ভেতরের সাদা টেক্সট নিশ্চিত করা */
+[data-theme="dark"] .service-card .card-title {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .service-card.clr-yellow .card-title,
+[data-theme="dark"] .service-card.clr-basanti .card-title {
+    color: #0f172a !important; /* হলুদ ও বাসন্তী কার্ডে কালো লেখা স্পষ্ট থাকবে */
+}
+
+[data-theme="dark"] .service-card.clr-yellow .card-dept,
+[data-theme="dark"] .service-card.clr-basanti .card-dept {
+    color: #1e293b !important;
+}
+
+/* আইকন ব্যাকগ্রাউন্ড ঠিক রাখা */
+[data-theme="dark"] .icon-circle {
+    background: rgba(255, 255, 255, 0.95) !important;
+}
+
+[data-theme="dark"] .category-icon-badge {
+    background: #1e293b !important;
+}
 
         * {
             box-sizing: border-box;
