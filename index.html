@@ -1,0 +1,1991 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>নাগরিক পরিষেবা</title>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1K62MKE3JN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1K62MKE3JN');
+    </script>
+
+    <!-- OneSignal Web Push Integration -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "8800109f-2e45-4275-a331-4e95d429a516",
+        });
+      });
+    </script>
+
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%E0%A6%A8%E0%A6%BE%E0%A6%97%E0%A6%B0%E0%A6%BF%E0%A6%95%20%E0%A6%AA%E0%A6%B0%E0%A6%BF%E0%A6%B7%E0%A7%87%E0%A6%AC%E0%A6%BE%22%2C%22short_name%22%3A%22%E0%A6%A8%E0%A6%BE%E0%A6%97%E0%A6%B0%E0%A6%BF%E0%A6%95%20%E0%A6%B8%E0%A7%87%E0%A6%AC%E0%A6%BE%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23ffffff%22%2C%22theme_color%22%3A%22%231e3a8a%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20512%20512'%253E%253Crect%20width%3D'512'%20height%3D'512'%20rx%3D'110'%20fill%3D'%25231e3a8a'%2F%253E%253Cpath%20d%3D'M256%20120%20L130%20190%20L130%20215%20L382%20215%20L382%20190%20Z'%20fill%3D'%2523ffffff'%2F%253E%253Crect%20x%3D'155'%20y%3D'230'%20width%3D'30'%20height%3D'120'%20rx%3D'6'%20fill%3D'%2523ffffff'%2F%253E%253Crect%20x%3D'215'%20y%3D'230'%20width%3D'30'%20height%3D'120'%20rx%3D'6'%20fill%3D'%2523ffffff'%2F%253E%253Crect%20x%3D'275'%20y%3D'230'%20width%3D'30'%20height%3D'120'%20rx%3D'6'%20fill%3D'%2523ffffff'%2F%253E%253Crect%20x%3D'335'%20y%3D'230'%20width%3D'30'%20height%3D'120'%20rx%3D'6'%20fill%3D'%2523ffffff'%2F%253E%253Crect%20x%3D'120'%20y%3D'360'%20width%3D'272'%20height%3D'24'%20rx%3D'5'%20fill%3D'%2523ffffff'%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+    
+    <meta name="theme-color" content="#1e3a8a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="নাগরিক সেবা">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --container-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --header-grad-1: #1e3a8a;
+            --header-grad-2: #2563eb;
+            --search-bg: #ffffff;
+            --footer-bg: #f1f5f9;
+            --footer-border: #e2e8f0;
+            --modal-bg: #ffffff;
+            --card-border: #e2e8f0;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0b0f19;
+            --container-bg: #111827;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --header-grad-1: #0b1329;
+            --header-grad-2: #1e293b;
+            --search-bg: #1e293b;
+            --footer-bg: #0b0f19;
+            --footer-border: #1f2937;
+            --modal-bg: #1f2937;
+            --card-border: #374151;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Bengali", sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1080px;
+            min-height: 100vh;
+            background: var(--container-bg);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 25px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, var(--header-grad-1), var(--header-grad-2));
+            color: #ffffff;
+            padding: 20px 24px;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 22px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #ffffff;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .header-sub {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        .search-box {
+            margin-top: 16px;
+            position: relative;
+            max-width: 600px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 14px 12px 42px;
+            border-radius: 12px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            background: var(--search-bg);
+            color: var(--text-main);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .search-box .material-symbols-outlined {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-sub);
+            font-size: 20px;
+        }
+
+        .content {
+            padding: 20px 24px;
+            flex: 1;
+        }
+
+        /* জাম্বো ফ্ল্যাশ বড় ব্যানার ও গ্লো ব্লিংকিং অ্যানিমেশন */
+        @keyframes bannerPulseGlow {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            }
+            50% {
+                transform: scale(1.018);
+                box-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 8px 30px rgba(249, 115, 22, 0.6);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            }
+        }
+
+        .featured-banner {
+            display: none;
+            width: 100%;
+            color: #ffffff;
+            border-radius: 22px;
+            padding: 22px 24px;
+            margin-bottom: 22px;
+            text-decoration: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            animation: bannerPulseGlow 2.2s infinite ease-in-out;
+            cursor: pointer;
+        }
+
+        .featured-banner:hover {
+            animation-play-state: paused;
+        }
+
+        .fb-content {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .fb-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+        }
+
+        .fb-title {
+            font-size: 19px;
+            font-weight: 900;
+            line-height: 1.35;
+            letter-spacing: 0.2px;
+        }
+
+        .fb-desc {
+            font-size: 14px;
+            opacity: 0.95;
+            margin-top: 5px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .section-label {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-sub);
+            margin: 24px 0 12px 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .app-view-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        @media (min-width: 768px) {
+            .app-view-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        }
+
+        @media (min-width: 1024px) {
+            .app-view-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+        }
+
+        .app-view-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .service-card {
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .app-view-grid .service-card { flex-direction: column; align-items: flex-start; }
+        .app-view-list .service-card { flex-direction: row; align-items: center; gap: 16px; }
+        .service-card:active { transform: scale(0.98); }
+
+        .icon-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            background: rgba(255,255,255,0.92);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            flex-shrink: 0;
+            margin-right: 6px;
+        }
+
+        .app-view-grid .icon-circle { margin-bottom: 10px; margin-right: 0; }
+
+        .card-info { display: flex; flex-direction: column; }
+        .card-title { font-size: 14.5px; font-weight: 800; line-height: 1.35; }
+        .card-dept { font-size: 12px; margin-top: 3px; font-weight: 600; }
+
+        /* কার্ড এবং ব্যানারের কালার ক্লাস (উভয় ক্ষেত্রে প্রযোজ্য) */
+        .clr-red {
+            background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+            border-color: #b91c1c !important;
+            color: #ffffff !important;
+        }
+        .clr-red .card-title, .clr-red .fb-title { color: #ffffff !important; }
+        .clr-red .card-dept, .clr-red .fb-desc  { color: #fee2e2 !important; }
+
+        .clr-blue {
+            background: linear-gradient(135deg, #0284c7, #1e3a8a) !important;
+            border-color: #38bdf8 !important;
+            color: #ffffff !important;
+        }
+        .clr-blue .card-title, .clr-blue .fb-title { color: #ffffff !important; }
+        .clr-blue .card-dept, .clr-blue .fb-desc  { color: #e0f2fe !important; }
+
+        .clr-green {
+            background: linear-gradient(135deg, #16a34a, #15803d) !important;
+            border-color: #4ade80 !important;
+            color: #ffffff !important;
+        }
+        .clr-green .card-title, .clr-green .fb-title { color: #ffffff !important; }
+        .clr-green .card-dept, .clr-green .fb-desc  { color: #dcfce7 !important; }
+
+        .clr-purple {
+            background: linear-gradient(135deg, #9333ea, #6b21a8) !important;
+            border-color: #c084fc !important;
+            color: #ffffff !important;
+        }
+        .clr-purple .card-title, .clr-purple .fb-title { color: #ffffff !important; }
+        .clr-purple .card-dept, .clr-purple .fb-desc  { color: #f3e8ff !important; }
+
+        .clr-amber {
+            background: linear-gradient(135deg, #d97706, #b45309) !important;
+            border-color: #fcd34d !important;
+            color: #ffffff !important;
+        }
+        .clr-amber .card-title, .clr-amber .fb-title { color: #ffffff !important; }
+        .clr-amber .card-dept, .clr-amber .fb-desc  { color: #fef3c7 !important; }
+
+        .clr-orange {
+            background: linear-gradient(135deg, #ea580c, #c2410c) !important;
+            border-color: #fdba74 !important;
+            color: #ffffff !important;
+        }
+        .clr-orange .card-title, .clr-orange .fb-title { color: #ffffff !important; }
+        .clr-orange .card-dept, .clr-orange .fb-desc  { color: #ffedd5 !important; }
+
+        .clr-teal {
+            background: linear-gradient(135deg, #0d9488, #0f766e) !important;
+            border-color: #5eead4 !important;
+            color: #ffffff !important;
+        }
+        .clr-teal .card-title, .clr-teal .fb-title { color: #ffffff !important; }
+        .clr-teal .card-dept, .clr-teal .fb-desc  { color: #ccfbf1 !important; }
+
+        .clr-indigo {
+            background: linear-gradient(135deg, #4f46e5, #3730a3) !important;
+            border-color: #818cf8 !important;
+            color: #ffffff !important;
+        }
+        .clr-indigo .card-title, .clr-indigo .fb-title { color: #ffffff !important; }
+        .clr-indigo .card-dept, .clr-indigo .fb-desc  { color: #e0e7ff !important; }
+
+        .clr-emerald {
+            background: linear-gradient(135deg, #059669, #047857) !important;
+            border-color: #6ee7b7 !important;
+            color: #ffffff !important;
+        }
+        .clr-emerald .card-title, .clr-emerald .fb-title { color: #ffffff !important; }
+        .clr-emerald .card-dept, .clr-emerald .fb-desc  { color: #d1fae5 !important; }
+
+        /* ডার্ক মোডে কার্ড শ্যাডো ও উজ্জ্বলতা */
+        [data-theme="dark"] .service-card { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); }
+        [data-theme="dark"] .icon-circle {
+            background: rgba(255, 255, 255, 0.22) !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3) !important;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 12px;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-box {
+            background: var(--modal-bg);
+            color: var(--text-main);
+            width: 100%;
+            max-width: 720px;
+            height: 92vh;
+            border-radius: 24px;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-main);
+        }
+
+        .modal-close {
+            background: rgba(0,0,0,0.06);
+            border: none;
+            color: var(--text-main);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .bank-card-item {
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--bg-color);
+            margin-bottom: 12px;
+        }
+
+        .bank-header-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 18px;
+            cursor: pointer;
+            background: rgba(0,0,0,0.02);
+        }
+
+        .bank-header-btn .b-name {
+            font-weight: 800;
+            font-size: 16.5px;
+            color: var(--text-main);
+        }
+
+        .bank-body-content {
+            padding: 14px;
+            border-top: 1px dashed var(--card-border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .bank-service-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--container-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            gap: 14px;
+        }
+
+        .bs-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            flex: 1;
+        }
+
+        .bs-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .bs-desc {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-sub);
+        }
+
+        .bs-btn {
+            padding: 9px 16px;
+            border-radius: 11px;
+            font-size: 13.5px;
+            font-weight: 800;
+            text-decoration: none;
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            flex-shrink: 0;
+            border: none;
+            cursor: pointer;
+        }
+
+        .bs-btn:active { transform: scale(0.96); }
+        .btn-wa { background: #25d366; color: #ffffff; }
+        .btn-call { background: #16a34a; color: #ffffff; }
+        .btn-call-sub { background: #2563eb; color: #ffffff; }
+        .btn-sms { background: #ea580c; color: #ffffff; }
+        .btn-link { background: #2563eb; color: #ffffff; }
+
+        .personal-support-card {
+            background: linear-gradient(135deg, #eff6ff, #f0fdf4);
+            border: 1.5px solid #bfdbfe;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 28px 0 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.08);
+        }
+
+        [data-theme="dark"] .personal-support-card {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-color: #334155;
+        }
+
+        .psc-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-size: 12.5px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        [data-theme="dark"] .psc-badge { background: #1e3a8a; color: #93c5fd; }
+        .psc-title { font-size: 16.5px; font-weight: 700; color: var(--text-main); line-height: 1.4; }
+        .psc-desc { font-size: 13px; color: var(--text-sub); line-height: 1.6; }
+
+        .psc-buttons { display: flex; gap: 10px; margin-top: 4px; }
+        .psc-btn {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .psc-btn-wa { background: #25d366; color: #ffffff; }
+        .psc-btn-call { background: #2563eb; color: #ffffff; }
+
+        .floating-action-group {
+            position: fixed;
+            bottom: 24px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .floating-round-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            color: #ffffff;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .floating-round-btn:active { transform: scale(0.92); }
+        .float-install-btn {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            box-shadow: 0 5px 16px rgba(37, 99, 235, 0.4);
+        }
+        .float-share-btn {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            box-shadow: 0 5px 16px rgba(139, 92, 246, 0.4);
+        }
+        .float-whatsapp-btn {
+            background: #25d366;
+            box-shadow: 0 5px 16px rgba(37, 211, 102, 0.4);
+        }
+
+        .floating-round-btn span.material-symbols-outlined, 
+        .floating-round-btn i { font-size: 20px; }
+
+        .floating-round-btn span.btn-label {
+            font-size: 8px;
+            font-weight: 700;
+            margin-top: 2px;
+            line-height: 1;
+        }
+
+        footer {
+            padding: 24px 20px 140px 20px;
+            background: var(--footer-bg);
+            border-top: 1px solid var(--footer-border);
+            font-size: 11.5px;
+            text-align: center;
+            color: var(--text-sub);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+    <div class="app-header">
+        <div class="header-top">
+            <div class="header-title">
+                <span class="material-symbols-outlined">account_balance</span>
+                নাগরিক পরিষেবা
+            </div>
+            <div class="header-controls">
+                <button class="header-btn" onclick="toggleLayoutView()" title="লিস্ট/গ্রিড ভিউ">
+                    <span class="material-symbols-outlined" id="viewIcon">view_list</span>
+                </button>
+                <button class="header-btn" onclick="toggleTheme()" title="ডার্ক/লাইট মোড">
+                    <span class="material-symbols-outlined" id="themeIcon">dark_mode</span>
+                </button>
+            </div>
+        </div>
+        <div class="header-sub">জরুরি সরকারি ও নাগরিক সেবাসমূহ এক প্ল্যাটফর্মে</div>
+        
+        <div class="search-box">
+            <span class="material-symbols-outlined">search</span>
+            <input type="text" id="searchInput" placeholder="সেবা খুঁজুন (ব্যাংক, রেশন, বিদ্যুৎ, কিসান, আধার, পর্চা, ট্যাক্স)..." onkeyup="filterServices()">
+        </div>
+    </div>
+
+    <div class="content">
+
+        <!-- ১. ডায়নামিক জাম্বো ফ্ল্যাশ ব্যানার (Pulse & Glow Effect সহ) -->
+        <a id="featuredDynamicBanner" href="#" target="_blank" class="featured-banner clr-orange">
+            <div class="fb-content">
+                <div class="fb-icon" id="fbIcon">⛺</div>
+                <div>
+                    <div class="fb-title" id="fbTitle">জরুরি নাগরিক ঘোষণা</div>
+                    <div class="fb-desc" id="fbDesc">বিস্তারিত তথ্য জানতে এখানে ক্লিক করুন</div>
+                </div>
+            </div>
+            <span class="material-symbols-outlined" style="font-size: 28px; font-weight: 800;">arrow_forward</span>
+        </a>
+
+        <!-- ২. জরুরি ও শীর্ষ কার্ড (স্থায়ী) -->
+        <div class="section-label">⚡ জরুরি ও প্রয়োজনীয় সার্ভিস</div>
+        <div id="serviceGridTop" class="app-view-grid">
+            
+            <div class="service-card clr-red" onclick="openModal('emergencyModal')">
+                <div class="icon-circle" style="color: #dc2626;">🚨</div>
+                <div class="card-info">
+                    <div class="card-title">EMERGENCY (জরুরি সেবা)</div>
+                    <div class="card-dept">পুলিশ (১১২), অ্যাম্বুলেন্স (১০২), দমকল ও হেল্পলাইন</div>
+                </div>
+            </div>
+
+            <div class="service-card clr-blue" onclick="openModal('bankFullModal')">
+                <div class="icon-circle">🏦</div>
+                <div class="card-info">
+                    <div class="card-title">ব্যাংক ব্যালেন্স চেক ✅</div>
+                    <div class="card-dept">SBI, PNB, UCO সহ সব ব্যাংকের মিসকল ব্যালেন্স</div>
+                </div>
+            </div>
+
+            <div class="service-card clr-green" onclick="openModal('dbtModal')">
+                <div class="icon-circle">🔄</div>
+                <div class="card-info">
+                    <div class="card-title">DBT লিংক ব্যাংক পরিবর্তন</div>
+                    <div class="card-dept">আধার সিডিং খাতা পরিবর্তন সহায়িকা (NPCI)</div>
+                </div>
+            </div>
+
+            <a href="https://eportal.incometax.gov.in/iec/foservices/#/pre-login/link-aadhaar-status" target="_blank" class="service-card clr-indigo">
+                <div class="icon-circle">💳</div>
+                <div class="card-info">
+                    <div class="card-title">প্যান-আধার লিংক স্ট্যাটাস</div>
+                    <div class="card-dept">PAN & Aadhaar সিডিং ও সক্রিয়তা সরাসরি যাচাই</div>
+                </div>
+            </a>
+                
+            <div class="service-card clr-teal" onclick="openModal('aadhaarModal')">
+                <div class="icon-circle">🪪</div>
+                <div class="card-info">
+                    <div class="card-title">আধার কার্ড</div>
+                    <div class="card-dept">ডাউনলোড, ঠিকানা ও বাবার/স্বামীর নাম বদল</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ৩. সার্টিফিকেট ও নাগরিক শংসাপত্র -->
+        <div class="section-label">📜 সার্টিফিকেট ও নাগরিক শংসাপত্র</div>
+        <div id="serviceGridCert" class="app-view-grid">
+            
+            <a href="https://janma-mrityutathya.wb.gov.in/verifycertificate" target="_blank" class="service-card clr-teal">
+                <div class="icon-circle">📷</div>
+                <div class="card-info">
+                    <div class="card-title">জন্ম শংসাপত্র Verify (QR Code)</div>
+                    <div class="card-dept">কিউআর কোড বা নম্বর দিয়ে সত্যতা যাচাই</div>
+                </div>
+            </a>
+
+            <a href="https://janma-mrityutathya.wb.gov.in/citizen-service/track-status-download" target="_blank" class="service-card clr-blue">
+                <div class="icon-circle">📥</div>
+                <div class="card-info">
+                    <div class="card-title">জন্ম ও মৃত্যু শংসাপত্র Download</div>
+                    <div class="card-dept">হারিয়ে যাওয়া বা নতুন সার্টিফিকেট প্রিন্ট</div>
+                </div>
+            </a>
+
+            <a href="https://castcertificatewb.gov.in/" target="_blank" class="service-card clr-emerald">
+                <div class="icon-circle">🪪</div>
+                <div class="card-info">
+                    <div class="card-title">কাস্ট সার্টিফিকেট ভেরিফাই</div>
+                    <div class="card-dept">SC / ST শংসাপত্র অনুসন্ধান ও স্ট্যাটাস</div>
+                </div>
+            </a>
+
+            <a href="https://castcertificatewb.gov.in/" target="_blank" class="service-card clr-purple">
+                <div class="icon-circle">📋</div>
+                <div class="card-info">
+                    <div class="card-title">OBC সার্টিফিকেট ভেরিফাই</div>
+                    <div class="card-dept">অনগ্রসর শ্রেণি কল্যাণ দপ্তর ও ওবিসি স্ট্যাটাস</div>
+                </div>
+            </a>
+
+            <a href="https://wb.gov.in/" target="_blank" class="service-card clr-amber">
+                <div class="icon-circle">📜</div>
+                <div class="card-info">
+                    <div class="card-title">পঞ্চায়েত ইনকাম সার্টিফিকেট</div>
+                    <div class="card-dept">গ্রাম পঞ্চায়েত আয়ের শংসাপত্র আবেদন</div>
+                </div>
+            </a>
+
+        </div>
+             
+        <!-- ৪. সামাজিক সুরক্ষা ও পেনশন -->
+        <div class="section-label">🛡️ সামাজিক সুরক্ষা ও পেনশন</div>
+        <div id="serviceGrid1" class="app-view-grid">
+            <a href="https://samarth.wb.gov.in/track-applicant-public" target="_blank" class="service-card clr-purple">
+                <div class="icon-circle">♿</div>
+                <div class="card-info">
+                    <div class="card-title">বার্ধক্য, বিধবা ও দিব্যাঙ্গ ভাতা</div>
+                    <div class="card-dept">সমর্থ (Samarth) পোর্টাল আবেদন ট্র্যাকিং</div>
+                </div>
+            </a>
+            <a href="https://cmo.wb.gov.in/landing/raise-grievance" target="_blank" class="service-card clr-orange">
+                <div class="icon-circle">📢</div>
+                <div class="card-info">
+                    <div class="card-title">সরাসরি মুখ্যমন্ত্রী</div>
+                    <div class="card-dept">অভিযোগ ও সহায়তা পোর্টাল</div>
+                </div>
+            </a>
+            <a href="https://jks.wb.gov.in/Default.aspx" target="_blank" class="service-card clr-emerald">
+                <div class="icon-circle">⛺</div>
+                <div class="card-info">
+                    <div class="card-title">জনকল্যাণ শিবির</div>
+                    <div class="card-dept">ক্যাম্পের বিস্তারিত ও পরিষেবা</div>
+                </div>
+            </a>
+            <a href="https://pmvishwakarma.gov.in/" target="_blank" class="service-card clr-amber">
+                <div class="icon-circle">🛠️</div>
+                <div class="card-info">
+                    <div class="card-title">PM বিশ্বকর্মা যোজনা</div>
+                    <div class="card-dept">কারিগরদের অফিসিয়াল পোর্টাল</div>
+                </div>
+            </a>
+            <a href="https://register.eshram.gov.in/#/user/aadhaar-login" target="_blank" class="service-card clr-amber">
+                <div class="icon-circle">👷</div>
+                <div class="card-info">
+                    <div class="card-title">ই-শ্রম কার্ড (e-Shram)</div>
+                    <div class="card-dept">আধার ওটিপি দিয়ে সরাসরি ডাউনলোড</div>
+                </div>
+            </a>
+            <a href="https://socialregistry.wb.gov.in/citizen/#/" target="_blank" class="service-card clr-teal">
+                <div class="icon-circle">🍚</div>
+                <div class="card-info">
+                    <div class="card-title">অন্নপূর্ণা যোজনা Status</div>
+                    <div class="card-dept">সোশ্যাল রেজিস্ট্রি পশ্চিমবঙ্গ</div>
+                </div>
+            </a>
+            <a href="https://yubasathi.wb.gov.in/Default.aspx" target="_blank" class="service-card clr-blue">
+                <div class="icon-circle">⚡</div>
+                <div class="card-info">
+                    <div class="card-title">যুব শক্তি Status</div>
+                    <div class="card-dept">যুবসাথী স্কিম পোর্টাল</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- ৫. খাদ্য ও রান্নার গ্যাস (LPG) -->
+        <div class="section-label">🍚 খাদ্য ও রান্নার গ্যাস (LPG)</div>
+        <div id="serviceGrid2" class="app-view-grid">
+            
+            <div class="service-card clr-orange" onclick="openModal('rationModal')">
+                <div class="icon-circle">🍚</div>
+                <div class="card-info">
+                    <div class="card-title">রেশন কার্ড পরিষেবা</div>
+                    <div class="card-dept">ডাউনলোড, e-KYC, মোবাইল লিংক ও কারেকশন</div>
+                </div>
+            </div>
+
+            <a href="https://wa.me/919332434992?text=নমস্কার,%20আমি%20ভালো%20কোয়ালিটির%20রেশন%20PVC%20কার্ড%20অর্ডার%20করতে%20চাই।" target="_blank" class="service-card clr-green">
+                <div class="icon-circle">🪪</div>
+                <div class="card-info">
+                    <div class="card-title">রেশন PVC কার্ড অর্ডার</div>
+                    <div class="card-dept" style="display: flex; align-items: center; gap: 4px; margin-top: 4px;">
+                        <span>প্লাস্টিক স্মার্ট কার্ড প্রিন্ট</span> • 
+                        <span style="display: inline-flex; align-items: center; gap: 3px; color: #16a34a; font-weight: 700;">
+                            <i class="fa-brands fa-whatsapp" style="font-size: 13px;"></i> Order Now
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            <div class="service-card clr-amber" onclick="openModal('lpgModal')">
+                <div class="icon-circle">🔥</div>
+                <div class="card-info">
+                    <div class="card-title">LPG গ্যাস বুকিং ও e-KYC স্ট্যাটাস</div>
+                    <div class="card-dept">Indane, Bharat ও HP গ্যাস রিফিল ও কল</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ৬. কৃষক কল্যাণ ও জমি রেকর্ড -->
+        <div class="section-label">🌾 কৃষক কল্যাণ ও জমি রেকর্ড</div>
+        <div id="serviceGrid3" class="app-view-grid">
+            
+            <a href="https://pmfby.gov.in/farmerLogin" target="_blank" class="service-card clr-green">
+                <div class="icon-circle">🌾</div>
+                <div class="card-info">
+                    <div class="card-title">প্রধানমন্ত্রী ফসল বীমা যোজনা</div>
+                    <div class="card-dept">ফসল বীমা পোর্টাল ও স্ট্যাটাস</div>
+                </div>
+            </a>
+
+            <div class="service-card clr-teal" onclick="openModal('landRecordHelpModal')">
+                <div class="icon-circle">📜</div>
+                <div class="card-info">
+                    <div class="card-title">জমির পর্চা / রেকর্ড (ROR)</div>
+                    <div class="card-dept">বাংলার ভূমি পোর্টাল ও খতিয়ান রঙিন প্রিন্ট কপি</div>
+                </div>
+            </div>
+
+            <div class="service-card clr-amber" onclick="openModal('taxModal')">
+                <div class="icon-circle">🏠</div>
+                <div class="card-info">
+                    <div class="card-title">খাজনা ও বাড়ির হোল্ডিং ট্যাক্স</div>
+                    <div class="card-dept">পঞ্চায়েত ও পৌরসভার ট্যাক্স এবং রসিদ</div>
+                </div>
+            </div>
+
+            <a href="https://krishakbandhu.wb.gov.in/farmer_search" target="_blank" class="service-card clr-blue">
+                <div class="icon-circle">🌱</div>
+                <div class="card-info">
+                    <div class="card-title">কৃষক বন্ধু আইডি চেক (পুরনো পোর্টাল)</div>
+                    <div class="card-dept">ভোটার কার্ড দিয়ে স্ট্যাটাস ও আইডি বের করুন</div>
+                </div>
+            </a>
+
+            <a href="https://krishakbandhu.wb.gov.in/" target="_blank" class="service-card clr-indigo">
+                <div class="icon-circle">🆕</div>
+                <div class="card-info">
+                    <div class="card-title">নতুন কৃষক বন্ধু পোর্টাল</div>
+                    <div class="card-dept">নতুন আবেদনের স্ট্যাটাস ও তথ্য যাচাই</div>
+                </div>
+            </a>
+
+            <a href="https://pmkisan.gov.in/BeneficiaryStatus_New.aspx" target="_blank" class="service-card clr-amber">
+                <div class="icon-circle">🔍</div>
+                <div class="card-info">
+                    <div class="card-title">PM Kisan স্ট্যাটাস ও e-KYC</div>
+                    <div class="card-dept">কিস্তির টাকা ঢোকার অবস্থা ও কেওয়াইসি যাচাই</div>
+                </div>
+            </a>
+
+            <a href="https://wbfr.agristack.gov.in/farmer-registry-wb/#/homePrintEnrollmentDetails" target="_blank" class="service-card clr-teal">
+                <div class="icon-circle">🪪</div>
+                <div class="card-info">
+                    <div class="card-title">AgriStack কৃষক ID</div>
+                    <div class="card-dept">ডিজিটাল ফার্মার আইডি কার্ড প্রিন্ট</div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- ৭. স্বাস্থ্য ও চিকিৎসা সেবা -->
+        <div class="section-label">🩺 স্বাস্থ্য ও চিকিৎসা সেবা</div>
+        <div id="serviceGrid4" class="app-view-grid">
+            
+            <a href="https://onlinehmis.wbhealth.gov.in/MobileOPDTicketBooking.aspx?HC=xskVKHEM7dSleQ3LyFJ2dQ%3d%3d" target="_blank" class="service-card clr-teal" style="border: 1.5px solid #2dd4bf;">
+                <div class="icon-circle">🏥</div>
+                <div class="card-info">
+                    <div class="card-title" style="color: #0f766e;">ঘাটাল সুপার স্পেশালিটি OPD টিকিট</div>
+                    <div class="card-dept">ঘাটাল হাসপাতালের সরাসরি টিকিট বুকিং</div>
+                </div>
+            </a>
+
+            <div class="service-card clr-blue" onclick="openModal('wbHospModal')" style="border: 1.5px solid #93c5fd;">
+                <div class="icon-circle">🩺</div>
+                <div class="card-info">
+                    <div class="card-title" style="color: #1d4ed8;">মেডিকেল কলেজ OPD ও ল্যাব রিপোর্ট</div>
+                    <div class="card-dept">SSKM ও কলকাতা হাসপাতালের রিপোর্ট</div>
+                </div>
+            </div>
+
+            <div class="service-card clr-red" onclick="openModal('bloodBankModal')">
+                <div class="icon-circle">🩸</div>
+                <div class="card-info">
+                    <div class="card-title">রক্তের সন্ধান ও ব্লাড ব্যাংক</div>
+                    <div class="card-dept">লাইভ ব্লাড স্টক চেক ও হেল্পলাইন</div>
+                </div>
+            </div>
+
+            <a href="https://ssai.swasthyasathi.gov.in/OnlinePublicInfoHub/OnlineCardVerificationIndex" target="_blank" class="service-card clr-blue">
+                <div class="icon-circle">🏥</div>
+                <div class="card-info">
+                    <div class="card-title">স্বাস্থ্যসাথী কার্ড ভেরিফিকেশন</div>
+                    <div class="card-dept">কার্ড সক্রিয়তা ও ব্যালেন্স চেক</div>
+                </div>
+            </a>
+
+            <div class="service-card clr-amber" onclick="openComingSoon('মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা')" style="border: 1.5px dashed #f59e0b; cursor: pointer;">
+                <div class="icon-circle">⏳</div>
+                <div class="card-info">
+                    <div class="card-title" style="color: #b45309;">মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা</div>
+                    <div class="card-dept" style="font-weight: 700; color: #d97706;">শীঘ্রই আসছে (ক্লিক করুন)</div>
+                </div>
+            </div>
+
+            <a href="https://beneficiary.nha.gov.in/" target="_blank" class="service-card clr-green">
+                <div class="icon-circle">💉</div>
+                <div class="card-info">
+                    <div class="card-title">আয়ুষ্মান ভারত কার্ড (PMJAY)</div>
+                    <div class="card-dept">কেন্দ্রীয় সরকারি স্বাস্থ্য বীমা পোর্টাল</div>
+                </div>
+            </a>
+
+            <a href="https://abha.rqbeonline.co.in/ABHA/SearchAbhaCard" target="_blank" class="service-card clr-purple">
+                <div class="icon-circle">🪪</div>
+                <div class="card-info">
+                    <div class="card-title">আভা (ABHA) কার্ড ডাউনলোড</div>
+                    <div class="card-dept">ডিজিটাল হেলথ অ্যাকাউন্ট কার্ড</div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- ৮. পরিবহন ও যানবাহন (Parivahan) -->
+        <div class="section-label">🚗 পরিবহন ও যানবাহন (Parivahan)</div>
+        <div id="serviceGrid5" class="app-view-grid">
+            
+            <a href="https://vahan.parivahan.gov.in/nrservices/faces/user/citizen/searchstatus.xhtml" target="_blank" class="service-card clr-blue">
+                <div class="icon-circle">🚘</div>
+                <div class="card-info">
+                    <div class="card-title">গাড়ির বিবরণ ও মালিক (RC)</div>
+                    <div class="card-dept">Vahan গাড়ির নম্বর যাচাই</div>
+                </div>
+            </a>
+
+            <a href="https://sarathi.parivahan.gov.in/sarathiservice/applViewStatus.do" target="_blank" class="service-card clr-amber">
+                <div class="icon-circle">🪪</div>
+                <div class="card-info">
+                    <div class="card-title">ড্রাইভিং লাইসেন্স Status</div>
+                    <div class="card-dept">সারথি লাইসেন্স আবেদন ট্র্যাকিং</div>
+                </div>
+            </a>
+
+            <a href="https://echallan.parivahan.gov.in/index/accused-challan" target="_blank" class="service-card clr-orange">
+                <div class="icon-circle">⚠️</div>
+                <div class="card-info">
+                    <div class="card-title">ট্রাফিক ই-চালান ও ফাইন</div>
+                    <div class="card-dept">গাড়ির চালান যাচাই ও পেমেন্ট</div>
+                </div>
+            </a>
+
+            <div class="service-card clr-purple" onclick="openComingSoon('পিঙ্ক কার্ড (Pink Card)')" style="border: 1.5px dashed #a855f7; cursor: pointer;">
+                <div class="icon-circle">🎫</div>
+                <div class="card-info">
+                    <div class="card-title" style="color: #7e22ce;">পিঙ্ক কার্ড (Pink Card)</div>
+                    <div class="card-dept" style="font-weight: 700; color: #9333ea;">শীঘ্রই আসছে (ক্লিক করুন)</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ৯. ভোটার পরিষেবা (ECI) -->
+        <div class="section-label">📜 ভোটার পরিষেবা (ECI)</div>
+        <div id="serviceGrid6" class="app-view-grid">
+            
+            <a href="https://electoralsearch.eci.gov.in/uesfmempmlkypo" target="_blank" class="service-card clr-blue">
+                <div class="icon-circle">🔎</div>
+                <div class="card-info">
+                    <div class="card-title">ভোটার লিস্টে নাম অনুসন্ধান</div>
+                    <div class="card-dept">ভোটার কার্ড নম্বর দিয়ে সার্চ</div>
+                </div>
+            </a>
+
+            <div class="service-card clr-purple" onclick="openModal('voterUpdateModal')">
+                <div class="icon-circle">📲</div>
+                <div class="card-info">
+                    <div class="card-title">নতুন ভোটার কার্ড ও সংশোধন</div>
+                    <div class="card-dept">নতুন নাম নথিভুক্তিকরণ ও মোবাইল লিংক</div>
+                </div>
+            </div>
+
+            <a href="https://ceowestbengal.wb.gov.in/roll_dist" target="_blank" class="service-card clr-teal">
+                <div class="icon-circle">📜</div>
+                <div class="card-info">
+                    <div class="card-title">SIR লিস্ট 2002</div>
+                    <div class="card-dept">ঐতিহাসিক ভোটার তালিকা অনুসন্ধান</div>
+                </div>
+            </a>
+
+            <a href="https://voters.eci.gov.in/download-eroll?stateCode=S25" target="_blank" class="service-card clr-indigo">
+                <div class="icon-circle">📥</div>
+                <div class="card-info">
+                    <div class="card-title">SIR লিস্ট 2026</div>
+                    <div class="card-dept">বর্তমান বুথভিত্তিক ভোটার তালিকা</div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- ১০. বিদ্যুৎ পরিষেবা (WBSEDCL) -->
+        <div class="section-label">⚡ বিদ্যুৎ পরিষেবা (WBSEDCL)</div>
+        <div id="serviceGrid7" class="app-view-grid">
+            
+            <a href="https://portal.wbsedcl.in/onlinepay/OnlineBillPay.jsp" target="_blank" class="service-card clr-orange">
+                <div class="icon-circle">💳</div>
+                <div class="card-info">
+                    <div class="card-title">বিদ্যুৎ বিল পেমেন্ট (Quick Pay)</div>
+                    <div class="card-dept">Consumer ID দিয়ে সরাসরি বিল জমা দিন</div>
+                </div>
+            </a>
+
+            <a href="https://portal.wbsedcl.in/webdynpro/resources/wbsedcl/paymenthistory/ViewPaymentHistoryApp?payReceipt=Y#" target="_blank" class="service-card clr-blue">
+                <div class="icon-circle">🧾</div>
+                <div class="card-info">
+                    <div class="card-title">বিল পেমেন্ট রসিদ ডাউনলোড</div>
+                    <div class="card-dept">টাকা জমার অফিশিয়াল রসিদ পান</div>
+                </div>
+            </a>
+
+            <a href="https://portal.wbsedcl.in/irj/go/km/docs/bills/IFRAME/ViewBillWithoutLogin.html" target="_blank" class="service-card clr-teal">
+                <div class="icon-circle">💡</div>
+                <div class="card-info">
+                    <div class="card-title">বিদ্যুৎ বিল View ও Download</div>
+                    <div class="card-dept">চলতি কোয়ার্টার বিল চেক</div>
+                </div>
+            </a>
+
+            <div class="service-card clr-green" onclick="openModal('electricModal')">
+                <div class="icon-circle">📞</div>
+                <div class="card-info">
+                    <div class="card-title">বিদ্যুৎ বিভ্রাট ও অভিযোগ</div>
+                    <div class="card-dept">19121 কল, WhatsApp ও SMS অভিযোগ</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- লোকাল ডিজিটাল সাপোর্ট কার্ড -->
+        <div class="personal-support-card">
+            <div class="psc-badge">🤝 আপনার ডিজিটাল বন্ধু</div>
+            <div class="psc-title">"Online পরিষেবা " — আপনার পাশে শুভঙ্কর</div>
+            <p class="psc-desc">
+                অনলাইন যেকোনো ফর্ম ফিলাপ, কার্ড ডাউনলোড, ভুল সংশোধন বা স্পষ্ট রঙিন প্রিন্ট কপির প্রয়োজনে সরাসরি যোগাযোগ করতে পারেন।
+            </p>
+            <div class="psc-buttons">
+                <a href="https://wa.me/919332434992?text=নমস্কার%20শুভঙ্করবাবু,%20একটি%20অনলাইন%20কাজের%20জন্য%20যোগাযোগ%20করছি।" target="_blank" class="psc-btn psc-btn-wa">
+                    <i class="fa-brands fa-whatsapp"></i> সরাসরি WhatsApp
+                </a>
+                <a href="tel:9332434992" class="psc-btn psc-btn-call">
+                    <span class="material-symbols-outlined" style="font-size: 17px;">call</span> কথা বলুন
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ৩টি ফ্লোটিং বাটন গ্রুপ -->
+    <div class="floating-action-group">
+        <button onclick="triggerPwaPrompt()" class="floating-round-btn float-install-btn" title="হোম স্ক্রিনে ইনস্টল করুন">
+            <span class="material-symbols-outlined">download</span>
+            <span class="btn-label" style="font-weight: 800; letter-spacing: 0.5px;">Install</span>
+        </button>
+
+        <button onclick="shareCitizenApp()" class="floating-round-btn float-share-btn" title="বন্ধুদের সাথে শেয়ার করুন">
+            <span class="material-symbols-outlined">share</span>
+            <span class="btn-label">শেয়ার</span>
+        </button>
+
+        <a href="https://wa.me/919332434992?text=নমস্কার,%20নাগরিক%20পরিসেবা%20অ্যাপ%20সম্পর্কে%20মতামত%20জানাতে%20চাই।" target="_blank" class="floating-round-btn float-whatsapp-btn" title="মতামত দিন">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span class="btn-label">মতামত</span>
+        </a>
+    </div>
+
+    <!-- PWA Install Modal -->
+    <div id="pwaCardOverlay" class="modal-overlay" onclick="closePwaPrompt()">
+        <div style="background: #ffffff; width: 100%; max-width: 350px; border-radius: 24px; padding: 24px 20px; text-align: center; position: relative; box-shadow: 0 16px 40px rgba(0,0,0,0.25);" onclick="event.stopPropagation()">
+            <button onclick="closePwaPrompt()" style="position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,0.06); border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #333;">✕</button>
+            <div style="width: 76px; height: 76px; background: #eff6ff; border-radius: 20px; margin: 10px auto 16px auto; display: flex; align-items: center; justify-content: center; font-size: 38px;">🏛️</div>
+            <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 8px;">Install নাগরিক পরিষেবা</h3>
+            <p style="font-size: 13px; color: #64748b; line-height: 1.5; margin-bottom: 20px;">
+                সহজে ব্যবহারের জন্য আপনার ডিভাইসের হোম স্ক্রিনে অ্যাপটি যুক্ত করুন।
+            </p>
+            <button id="pwaAddNowBtn" style="width: 100%; background: #003366; color: #ffffff; border: none; padding: 13px; border-radius: 12px; font-size: 14.5px; font-weight: 700; cursor: pointer;">ADD NOW!</button>
+        </div>
+    </div>
+
+    <!-- মোডাল: EMERGENCY -->
+    <div id="emergencyModal" class="modal-overlay" onclick="closeModal('emergencyModal')">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>🚨 জরুরি ও প্রশাসনিক হেল্পলাইন</h3>
+                <button class="modal-close" onclick="closeModal('emergencyModal')">&times;</button>
+            </div>
+            <div class="modal-scroll-area">
+                <div class="bank-service-row">
+                    <div class="bs-info">
+                        <span class="bs-title">জাতীয় জরুরি সেবা (All in One)</span>
+                        <span class="bs-desc">112 (পুলিশ / দমকল / বিপর্যয় মোকাবিলা)</span>
+                    </div>
+                    <a href="tel:112" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 17px;">call</span> 112</a>
+                </div>
+                <div class="bank-service-row" style="margin-top: 8px;">
+                    <div class="bs-info">
+                        <span class="bs-title">বিনামূল্যে সরকারি অ্যাম্বুলেন্স</span>
+                        <span class="bs-desc">102 (রোগী ও প্রসূতি পরিবহন)</span>
+                    </div>
+                    <a href="tel:102" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 17px;">call</span> 102</a>
+                </div>
+                <div class="bank-service-row" style="margin-top: 8px;">
+                    <div class="bs-info">
+                        <span class="bs-title">সাইবার আর্থিক প্রতারণা হেল্পলাইন</span>
+                        <span class="bs-desc">1930 (অনলাইন ব্যাঙ্ক ফ্রড রোধে)</span>
+                    </div>
+                    <a href="tel:1930" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 17px;">call</span> 1930</a>
+                </div>
+                <div class="bank-service-row" style="margin-top: 8px;">
+                    <div class="bs-info">
+                        <span class="bs-title">মহিলা হেল্পলাইন (Women Helpline)</span>
+                        <span class="bs-desc">1091 / 181 (নারী সুরক্ষা ও জরুরি আইনি সহায়তা)</span>
+                    </div>
+                    <a href="tel:1091" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 17px;">call</span> 1091</a>
+                </div>
+                <div class="bank-service-row" style="margin-top: 8px;">
+                    <div class="bs-info">
+                        <span class="bs-title">শিশু সুরক্ষা হেল্পলাইন (Childline)</span>
+                        <span class="bs-desc">1098 (বিপদগ্রস্ত শিশুদের দ্রুত সুরক্ষায়)</span>
+                    </div>
+                    <a href="tel:1098" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 17px;">call</span> 1098</a>
+                </div>
+                <div class="bank-service-row" style="margin-top: 8px;">
+                    <div class="bs-info">
+                        <span class="bs-title">দমকল পরিষেবা (Fire Brigade)</span>
+                        <span class="bs-desc">101 (অগ্নি নির্বাপণ ও উদ্ধার কাজ)</span>
+                    </div>
+                    <a href="tel:101" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 17px;">call</span> 101</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- মোডাল: DBT লিংক ব্যাংক পরিবর্তন -->
+    <div id="dbtModal" class="modal-overlay" onclick="closeModal('dbtModal')">
+        <div class="modal-box" style="height: auto; max-height: 80vh;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>🔄 DBT লিংক ব্যাংক পরিবর্তন</h3>
+                <button class="modal-close" onclick="closeModal('dbtModal')">&times;</button>
+            </div>
+            <div class="modal-scroll-area">
+                <div class="bank-service-row" style="background: rgba(37, 99, 235, 0.03); border: 1.5px solid #bfdbfe;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #1d4ed8;">১. নিজে NPCI পোর্টাল থেকে করুন</span>
+                        <span class="bs-desc">NPCI বা আধার পোর্টাল থেকে নিজে ওটিপি দিয়ে বদলান।</span>
+                    </div>
+                    <a href="https://myaadhaar.uidai.gov.in/" target="_blank" class="bs-btn btn-link">
+                        নিজে পোর্টাল থেকে করুন <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+                    </a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(37, 211, 102, 0.05); border: 1.5px solid #86efac; margin-top: 12px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #166534;">২. নির্ভুলভাবে কাজটি করিয়ে নিতে যোগাযোগ করুন</span>
+                        <span class="bs-desc">কোনো ভুল ছাড়া সম্পূর্ণ কাজটি করিয়ে নিতে সরাসরি WhatsApp-এ বার্তা দিন।</span>
+                    </div>
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমার%20DBT%20লিংক%20ব্যাংক%20পরিবর্তন%20করার%20কাজটি%20নির্ভুলভাবে%20করিয়ে%20নিতে%20চাই।" target="_blank" class="bs-btn btn-wa">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp-এ করিয়ে নিন
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- মোডাল: ব্যাংকের ব্যালেন্স চেক -->
+    <div id="bankFullModal" class="modal-overlay" onclick="closeModal('bankFullModal')">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>🏦 ব্যাংকের ব্যালেন্স চেক ✅</h3>
+                <button class="modal-close" onclick="closeModal('bankFullModal')">&times;</button>
+            </div>
+            <div class="modal-scroll-area">
+                <div style="position: relative; margin-bottom: 14px;">
+                    <span class="material-symbols-outlined" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-sub); font-size: 22px;">search</span>
+                    <input type="text" id="bankSearchInput" placeholder="ব্যাংকের নাম দিয়ে খুঁজুন..." onkeyup="filterBankList()" style="width: 100%; padding: 12px 14px 12px 44px; border-radius: 14px; border: 1.5px solid var(--card-border); outline: none; font-size: 15px; background: var(--bg-color); color: var(--text-main);">
+                </div>
+                <div id="bankListContainer">
+                    <!-- শিট থেকে ডায়নামিক ব্যাংক লিস্ট আসবে -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- মোডাল: LPG গ্যাস বুকিং -->
+    <div id="lpgModal" class="modal-overlay" onclick="closeModal('lpgModal')">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>🔥 LPG গ্যাস বুকিং ও e-KYC স্ট্যাটাস</h3>
+                <button class="modal-close" onclick="closeModal('lpgModal')">&times;</button>
+            </div>
+            <div class="modal-scroll-area">
+                <div class="bank-card-item">
+                    <div class="bank-header-btn" onclick="toggleBank('indaneDetails')">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size: 24px;">🟠</span>
+                            <div class="b-name">Indane Gas (ইন্ডেন গ্যাস)</div>
+                        </div>
+                        <span class="material-symbols-outlined b-arrow">expand_more</span>
+                    </div>
+                    <div id="indaneDetails" class="bank-body-content" style="display: none;">
+                        <div class="bank-service-row">
+                            <div class="bs-info">
+                                <span class="bs-title">কল বুকিং (Call)</span>
+                                <span class="bs-desc">7718955555</span>
+                            </div>
+                            <a href="tel:7718955555" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 17px;">call</span> Call</a>
+                        </div>
+                        <div class="bank-service-row">
+                            <div class="bs-info">
+                                <span class="bs-title">WhatsApp বুকিং</span>
+                                <span class="bs-desc">7588888824 (REFILL)</span>
+                            </div>
+                            <a href="https://wa.me/917588888824?text=REFILL" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> বুকিং</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bank-card-item">
+                    <div class="bank-header-btn" onclick="toggleBank('bharatDetails')">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size: 24px;">🟡</span>
+                            <div class="b-name">Bharat Gas (ভারত গ্যাস)</div>
+                        </div>
+                        <span class="material-symbols-outlined b-arrow">expand_more</span>
+                    </div>
+                    <div id="bharatDetails" class="bank-body-content" style="display: none;">
+                        <div class="bank-service-row">
+                            <div class="bs-info">
+                                <span class="bs-title">কল বুকিং (Call)</span>
+                                <span class="bs-desc">1800224344</span>
+                            </div>
+                            <a href="tel:1800224344" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 17px;">call</span> Call</a>
+                        </div>
+                        <div class="bank-service-row">
+                            <div class="bs-info">
+                                <span class="bs-title">WhatsApp বুকিং</span>
+                                <span class="bs-desc">1800224344 (Hi)</span>
+                            </div>
+                            <a href="https://wa.me/911800224344?text=Hi" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> বুকিং</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bank-card-item">
+                    <div class="bank-header-btn" onclick="toggleBank('hpDetails')">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size: 24px;">🔵</span>
+                            <div class="b-name">HP Gas (এইচপি গ্যাস)</div>
+                        </div>
+                        <span class="material-symbols-outlined b-arrow">expand_more</span>
+                    </div>
+                    <div id="hpDetails" class="bank-body-content" style="display: none;">
+                        <div class="bank-service-row">
+                            <div class="bs-info">
+                                <span class="bs-title">কল বুকিং (Call)</span>
+                                <span class="bs-desc">9493622222</span>
+                            </div>
+                            <a href="tel:9493622222" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 17px;">call</span> Call</a>
+                        </div>
+                        <div class="bank-service-row">
+                            <div class="bs-info">
+                                <span class="bs-title">WhatsApp বুকিং</span>
+                                <span class="bs-desc">9222201122 (Hi)</span>
+                            </div>
+                            <a href="https://wa.me/919222201122?text=Hi" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> বুকিং</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- মোডাল: বিদ্যুৎ হেল্পলাইন -->
+    <div id="electricModal" class="modal-overlay" onclick="closeModal('electricModal')">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>⚡ বিদ্যুৎ বিভ্রাট ও অভিযোগ (WBSEDCL)</h3>
+                <button class="modal-close" onclick="closeModal('electricModal')">&times;</button>
+            </div>
+            <div class="modal-scroll-area">
+                <div class="bank-service-row">
+                    <div class="bs-info">
+                        <span class="bs-title">টোল-ফ্রি হেল্পলাইন কল</span>
+                        <span class="bs-desc">19121 (সরাসরি কাস্টমার কেয়ারে কথা বলুন)</span>
+                    </div>
+                    <a href="tel:19121" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 17px;">call</span> Call 19121</a>
+                </div>
+                <div class="bank-service-row" style="margin-top: 10px;">
+                    <div class="bs-info">
+                        <span class="bs-title">অফিসিয়াল WhatsApp চ্যাটবট</span>
+                        <span class="bs-desc">বিদ্যুৎ না থাকলে চ্যাটে কমপ্লেইন জানান</span>
+                    </div>
+                    <a href="https://wa.me/918433719121?text=Hi" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> চ্যাটবট</a>
+                </div>
+                <div class="bank-service-row" style="margin-top: 10px;">
+                    <div class="bs-info">
+                        <span class="bs-title">SMS অভিযোগ পদ্ধতি</span>
+                        <span class="bs-desc">NOPOWER &lt;Consumer ID&gt; লিখে পাঠান</span>
+                    </div>
+                    <a href="sms:8433719121?body=NOPOWER%20" class="bs-btn btn-sms"><span class="material-symbols-outlined" style="font-size: 17px;">sms</span> SMS</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- মোডাল: জমির পর্চা ও রেকর্ড সেবা -->
+    <div id="landRecordHelpModal" class="modal-overlay" onclick="closeModal('landRecordHelpModal')">
+        <div class="modal-box" style="height: auto; max-height: 90vh;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>📜 জমির পর্চা ও রেকর্ড সেবা</h3>
+                <button class="modal-close" onclick="closeModal('landRecordHelpModal')">&times;</button>
+            </div>
+            <div class="modal-scroll-area">
+                <div style="background: #f8fafc; border: 1.5px solid var(--card-border); border-radius: 16px; padding: 14px; margin-bottom: 14px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                        <div>
+                            <div style="font-size: 15px; font-weight: 800; color: var(--text-main);">১. বাংলার ভূমি পোর্টাল (নিজে দেখুন)</div>
+                            <div style="font-size: 12px; color: var(--text-sub); margin-top: 2px;">অফিশিয়াল ওয়েবসাইট থেকে খতিয়ান ও দাগের তথ্য জানুন</div>
+                        </div>
+                        <a href="https://banglarbhumi.gov.in/BanglarBhumi/Home.action" target="_blank" class="bs-btn btn-link" style="padding: 9px 14px; border-radius: 10px;">
+                            পোর্টাল <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div style="background: var(--bg-color); border: 1.5px solid var(--card-border); border-radius: 16px; padding: 16px;">
+                    <div style="font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 4px;">২. ছবি অথবা কয়েকটি তথ্য লিখে পাঠান</div>
+                    <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;">পর্চা বের করা বা স্পষ্ট রঙিন প্রিন্ট নিতে পুরনো কাগজের ছবি পাঠান অথবা তথ্যগুলো পূরণ করুন:</p>
+
+                    <div style="margin-bottom: 14px;">
+                        <a href="https://wa.me/919332434992?text=নমস্কার,%20আমি%20জমির%20কাগজের%20ছবি%20তুলে%20পাঠাচ্ছি,%20রেকর্ড/পর্চা%20প্রিন্ট%20নিতে%20চাই।" target="_blank" class="bs-btn btn-wa" style="width: 100%; justify-content: center; padding: 10px; font-size: 13.5px; border-radius: 10px; gap: 8px;">
+                            <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> পুরনো কাগজের ছবি তুলে পাঠান
+                        </a>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <input type="text" id="lrBlock" placeholder="ব্লকের নাম (যেমন: ঘাটাল / আরামবাগ)" style="width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--card-border); font-size: 13.5px; outline: none; background: var(--container-bg); color: var(--text-main);">
+                        <input type="text" id="lrMouzaJL" placeholder="মৌজা ও জে.এল. (J.L) নম্বর" style="width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--card-border); font-size: 13.5px; outline: none; background: var(--container-bg); color: var(--text-main);">
+                        <input type="text" id="lrKhatian" placeholder="খতিয়ান নম্বর / দাগ নম্বর" style="width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--card-border); font-size: 13.5px; outline: none; background: var(--container-bg); color: var(--text-main);">
+                        <input type="text" id="lrOwnerName" placeholder="জমির মালিকের নাম ও অভিভাবকের নাম" style="width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--card-border); font-size: 13.5px; outline: none; background: var(--container-bg); color: var(--text-main);">
+                        <input type="text" id="lrVillage" placeholder="গ্রামের নাম (ঠিকানা)" style="width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--card-border); font-size: 13.5px; outline: none; background: var(--container-bg); color: var(--text-main);">
+
+                        <button onclick="sendLandRecordWhatsApp()" style="background: #25d366; color: #ffffff; width: 100%; padding: 13px 18px; border-radius: 12px; margin-top: 6px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-size: 14.5px; font-weight: 800; box-shadow: 0 3px 10px rgba(37, 211, 102, 0.35);">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> তথ্য হোয়াটসঅ্যাপে পাঠান
+                            </span>
+                            <span class="material-symbols-outlined" style="font-size: 20px;">send</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- মোডাল: খাজনা ও হোল্ডিং ট্যাক্স -->
+    <div id="taxModal" class="modal-overlay" onclick="closeModal('taxModal')">
+        <div class="modal-box" style="height: auto; max-height: 85vh;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>🏠 খাজনা ও বাড়ির হোল্ডিং ট্যাক্স</h3>
+                <button class="modal-close" onclick="closeModal('taxModal')">&times;</button>
+            </div>
+            <div class="modal-scroll-area">
+                <div class="bank-service-row" style="background: rgba(37, 99, 235, 0.04); border: 1.5px solid #bfdbfe;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #1d4ed8;">🌾 জমির খাজনা (বাংলার ভূমি)</span>
+                        <span class="bs-desc">অনলাইন খাজনা প্রদান ও দাখিলা (রসিদ) সংগ্রহ</span>
+                    </div>
+                    <a href="https://banglarbhumi.gov.in/BanglarBhumi/Home.action" target="_blank" class="bs-btn btn-link">খাজনা পোর্টাল <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span></a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(234, 88, 12, 0.04); border: 1.5px solid #fdba74; margin-top: 10px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #c2410c;">🏢 পৌরসভা হোল্ডিং ট্যাক্স (Municipality)</span>
+                        <span class="bs-desc">শহর এলাকার মিউসিপ্যালিটি বাড়ির ট্যাক্স প্রদান ও রসিদ</span>
+                    </div>
+                    <a href="https://wburbanservices.gov.in/" target="_blank" class="bs-btn btn-sms">পৌরসভা পোর্টাল <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span></a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(22, 163, 74, 0.04); border: 1.5px solid #86efac; margin-top: 10px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #166534;">🏡 গ্রাম পঞ্চায়েত ট্যাক্স (অঞ্চল)</span>
+                        <span class="bs-desc">গ্রামাঞ্চলের বাড়ির পঞ্চায়েত ট্যাক্স ও রসিদ অনুসন্ধান</span>
+                    </div>
+                    <a href="https://wbprd.gov.in/" target="_blank" class="bs-btn btn-call">পঞ্চায়েত পোর্টাল <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span></a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(37, 211, 102, 0.05); border: 1.5px solid #86efac; margin-top: 14px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #166534;">💬 অনলাইন ট্যাক্স জমা বা প্রিন্ট সংক্রান্ত সাহায্য</span>
+                        <span class="bs-desc">জটিলতা এড়াতে ট্যাক্স জমা ও রসিদ প্রিন্টের জন্য কথা বলুন</span>
+                    </div>
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20খাজনা%20বা%20বাড়ির%20ট্যাক্স%20জমা%20ও%20রসিদ%20প্রিন্টের%20কাজে%20সহায়তা%20চাই।" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- মোডাল: রক্তের সন্ধান ও ব্লাড ব্যাংক -->
+    <div id="bloodBankModal" class="modal-overlay" onclick="closeModal('bloodBankModal')">
+        <div class="modal-box" style="height: auto; max-height: 85vh;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>🩸 রক্তের সন্ধান ও ব্লাড ব্যাংক</h3>
+                <button class="modal-close" onclick="closeModal('bloodBankModal')">&times;</button>
+            </div>
+            <div class="modal-scroll-area">
+                <div class="bank-service-row" style="background: rgba(239, 68, 68, 0.05); border: 1.5px solid #fca5a5;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #b91c1c;"><span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">water_drop</span> লাইভ ব্লাড ব্যাংক স্টক (e-RaktKosh)</span>
+                        <span class="bs-desc">পশ্চিমবঙ্গ ও জেলার ব্লাড ব্যাংকে রক্তের গ্রুপ অনুযায়ী মজুত দেখুন</span>
+                    </div>
+                    <a href="https://eraktkosh.mohfw.gov.in/BLDAHIMS/bloodbank/stockAvailability.cnt" target="_blank" class="bs-btn" style="background: #dc2626;">রক্ত খুঁজুন <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span></a>
+                </div>
+                <div class="bank-service-row" style="margin-top: 10px;">
+                    <div class="bs-info">
+                        <span class="bs-title">📞 রাজ্য স্বাস্থ্য হেল্পলাইন (104)</span>
+                        <span class="bs-desc">জরুরি রক্ত ও সরকারি হাসপাতালের স্বাস্থ্য সহায়তায় সরাসরি ফোন করুন</span>
+                    </div>
+                    <a href="tel:104" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 17px;">call</span> Call 104</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- মোডাল: বড় হাসপাতাল ও মেডিকেল কলেজ OPD -->
+    <div id="wbHospModal" class="modal-overlay" onclick="closeModal('wbHospModal')">
+        <div class="modal-box" style="height: auto; max-height: 85vh;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>🩺 মেডিকেল কলেজ ও বড় হাসপাতাল</h3>
+                <button class="modal-close" onclick="closeModal('wbHospModal')">&times;</button>
+            </div>
+            <div class="modal-scroll-area">
+                <div class="bank-service-row" style="background: rgba(37, 99, 235, 0.04); border: 1.5px solid #bfdbfe;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #1d4ed8;">🎟 অনলাইন OPD টিকিট বুকিং</span>
+                        <span class="bs-desc">SSKM, মেদিনীপুর ও রাজ্যের মেডিকেল কলেজের টিকিট</span>
+                    </div>
+                    <a href="https://onlinehmis.wbhealth.gov.in/NewLogin.aspx?A=0" target="_blank" class="bs-btn btn-link">টিকিট বুকিং <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span></a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(22, 163, 74, 0.04); border: 1.5px solid #86efac; margin-top: 12px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #166534;">📋 অনলাইন ল্যাব টেস্ট রিপোর্ট</span>
+                        <span class="bs-desc">সরকারি হাসপাতালের রক্ত, এক্স-রে ও অন্যান্য রিপোর্ট প্রিন্ট</span>
+                    </div>
+                    <a href="https://onlinehmis.wbhealth.gov.in/IPD/IPDInPatientTestResultPrint.aspx" target="_blank" class="bs-btn btn-call">রিপোর্ট প্রিন্ট <span class="material-symbols-outlined" style="font-size: 16px;">print</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- মোডাল: রেশন কার্ড পরিষেবা (সব ডাউনলোড, ই-কেওয়াইসি সহ) -->
+    <div id="rationModal" class="modal-overlay" onclick="closeModal('rationModal')">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>🍚 রেশন কার্ড পরিষেবা (WBPDS)</h3>
+                <button class="modal-close" onclick="closeModal('rationModal')">&times;</button>
+            </div>
+            <div class="modal-scroll-area">
+                <div class="bank-service-row">
+                    <div class="bs-info">
+                        <span class="bs-title">রেশন e-KYC ও সিডিং Status</span>
+                        <span class="bs-desc">আধার ও রেশন সংযোগ যাচাই</span>
+                    </div>
+                    <a href="https://wbpds.wb.gov.in/Checkonorc_Status.aspx" target="_blank" class="bs-btn btn-link">যাচাই <span class="material-symbols-outlined" style="font-size: 17px;">open_in_new</span></a>
+                </div>
+                <div class="bank-service-row" style="margin-top: 8px;">
+                    <div class="bs-info">
+                        <span class="bs-title">ই-রেশন কার্ড Download</span>
+                        <span class="bs-desc">ডিজিটাল রেশন কার্ড সংগ্রহ (PDF)</span>
+                    </div>
+                    <a href="https://wbpds.wb.gov.in/(S(l1yjujmotamwgvowbziyk303))/E_Card_Download.aspx" target="_blank" class="bs-btn btn-call">ডাউনলোড <span class="material-symbols-outlined" style="font-size: 17px;">download</span></a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(37, 99, 235, 0.04); border: 1.5px solid #bfdbfe; margin-top: 10px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #1d4ed8;">✏ রেশন কার্ডে নাম বা ঠিকানা ভুল সংশোধন</span>
+                        <span class="bs-desc">ভুল তথ্য সংশোধন ও স্থানান্তরের অনলাইন কাজ</span>
+                    </div>
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমার%20রেশন%20কার্ডে%20নাম/ঠিকানা%20ভুল%20আছে,%20সংশোধন%20করার%20জন্য%20সহায়তা%20চাই।" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> ভুল ঠিক করান</a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(37, 99, 235, 0.04); border: 1.5px solid #bfdbfe; margin-top: 8px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #1d4ed8;">📲 রেশন কার্ডে মোবাইল নম্বর লিংক</span>
+                        <span class="bs-desc">মেসেজ ও ওটিপি পেতে মোবাইল লিংক করান</span>
+                    </div>
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমি%20রেশন%20কার্ডে%20মোবাইল%20নম্বর%20লিংক/আপডেট%20করিয়ে%20নিতে%20চাই।" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> মোবাইল লিংক</a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(37, 99, 235, 0.04); border: 1.5px solid #bfdbfe; margin-top: 8px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #1d4ed8;">🆔 রেশন কার্ডে আধার লিংক</span>
+                        <span class="bs-desc">রেশন সক্রিয় রাখতে আধার সংযোগ</span>
+                    </div>
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমি%20রেশন%20কার্ডে%20আধার%20লিংক%20করিয়ে%20নিতে%20চাই।" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> আধার লিংক</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- মোডাল: আধার কার্ডের কাজ (সমস্ত অপশন ও C/o সহ) -->
+    <div id="aadhaarModal" class="modal-overlay" onclick="closeModal('aadhaarModal')">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>🪪 আধার কার্ড পরিষেবা</h3>
+                <button class="modal-close" onclick="closeModal('aadhaarModal')">&times;</button>
+            </div>
+            <div class="modal-scroll-area">
+                <div class="bank-service-row">
+                    <div class="bs-info">
+                        <span class="bs-title">e-আধার কার্ড ডাউনলোড</span>
+                        <span class="bs-desc">MyAadhaar অফিসিয়াল সরাসরি পোর্টাল</span>
+                    </div>
+                    <a href="https://myaadhaar.uidai.gov.in/gen-download-eaadhaar" target="_blank" class="bs-btn btn-call">ডাউনলোড <span class="material-symbols-outlined" style="font-size: 17px;">download</span></a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(37, 99, 235, 0.04); border: 1.5px solid #bfdbfe; margin-top: 10px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #1d4ed8;">📲 আধারে মোবাইল নম্বর লিংক ও আপডেট</span>
+                        <span class="bs-desc">মোবাইল লিংক থাকলে বা না থাকলে কী করবেন জানুন</span>
+                    </div>
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমি%20আধার%20কার্ডে%20মোবাইল%20নম্বর%20লিংক/আপডেটের%20সহায়তা%20নিতে%20চাই।" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> কথা বলুন</a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(37, 99, 235, 0.04); border: 1.5px solid #bfdbfe; margin-top: 8px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #1d4ed8;">👨‍👩‍👧 বাবার নাম বা স্বামীর নাম (C/o) আপডেট</span>
+                        <span class="bs-desc">বিয়ের পর স্বামীর নাম বা অভিভাবকের নাম পরিবর্তন</span>
+                    </div>
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমার%20আধার%20কার্ডে%20বাবার%20নাম/স্বামীর%20নাম%20(Care%20of)%20আপডেট%20করতে%20চাই।" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> নাম পরিবর্তন</a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(37, 99, 235, 0.04); border: 1.5px solid #bfdbfe; margin-top: 8px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #1d4ed8;">🏠 আধার ঠিকানা (Address) সংশোধন</span>
+                        <span class="bs-desc">অনলাইন সাপোর্টিং ডকুমেন্টস দিয়ে নির্ভুল ঠিকানা বদল</span>
+                    </div>
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমি%20আধার%20কার্ডে%20ঠিকানা%20সংশোধন%20করিয়ে%20নিতে%20চাই।" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> ঠিকানা বদল</a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(37, 99, 235, 0.04); border: 1.5px solid #bfdbfe; margin-top: 8px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #1d4ed8;">📑 আধার ডকুমেন্ট আপডেট</span>
+                        <span class="bs-desc">১০ বছরের পুরোনো কার্ডে পরিচয় ও ঠিকানার নথি আপডেট</span>
+                    </div>
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমার%20আধার%20কার্ডে%20ডকুমেন্ট%20আপডেট%20করিয়ে%20নিতে%20চাই।" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> ডকুমেন্ট আপডেট</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- মোডাল: নতুন ভোটার কার্ড ও সংশোধন -->
+    <div id="voterUpdateModal" class="modal-overlay" onclick="closeModal('voterUpdateModal')">
+        <div class="modal-box" style="height: auto; max-height: 85vh;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>📜 ভোটার কার্ড সংযোগ ও আবেদন</h3>
+                <button class="modal-close" onclick="closeModal('voterUpdateModal')">&times;</button>
+            </div>
+            <div class="modal-scroll-area">
+                <div class="bank-service-row" style="background: rgba(124, 58, 237, 0.04); border: 1.5px solid #ddd6fe;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #6d28d9;">🆕 নতুন ভোটার কার্ড তৈরি</span>
+                        <span class="bs-desc">১৮ বছর পূর্ণ হলে বা নতুন নাম নথিভুক্ত করতে আবেদন</span>
+                    </div>
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমি%20নতুন%20ভোটার%20কার্ডের%20আবেদন%20করতে%20সহায়তা%20চাই।" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> নতুন কার্ড</a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(124, 58, 237, 0.04); border: 1.5px solid #ddd6fe; margin-top: 10px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #6d28d9;">📲 ভোটার কার্ডে মোবাইল নম্বর লিংক</span>
+                        <span class="bs-desc">অনলাইনে কার্ড ডাউনলোড ও ওটিপি পেতে নম্বর লিংক</span>
+                    </div>
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমি%20ভোটার%20কার্ডে%20মোবাইল%20নম্বর%20লিংক/আপডেট%20করিয়ে%20নিতে%20চাই।" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> মোবাইল লিংক</a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(124, 58, 237, 0.04); border: 1.5px solid #ddd6fe; margin-top: 10px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #6d28d9;">🆔 ভোটার কার্ডে আধার লিংক</span>
+                        <span class="bs-desc">ভোটার তালিকায় নাম সক্রিয় রাখতে আধার সংযোগ</span>
+                    </div>
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমি%20ভোটার%20কার্ডে%20আধার%20লিংক%20করিয়ে%20নিতে%20চাই।" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> আধার লিংক</a>
+                </div>
+                <div class="bank-service-row" style="background: rgba(124, 58, 237, 0.04); border: 1.5px solid #ddd6fe; margin-top: 10px;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #6d28d9;">✏️ ভোটার কার্ডে নাম বা ঠিকানা ভুল সংশোধন</span>
+                        <span class="bs-desc">নাম, বয়স, বাবার নাম বা ছবি সংশোধন করিয়ে নিন</span>
+                    </div>
+                    <a href="https://wa.me/919332434992?text=নমস্কার,%20আমার%20ভোটার%20কার্ডে%20নাম/ঠিকানা%20ভুল%20আছে,%20সংশোধন%20করতে%20সহায়তা%20চাই।" target="_blank" class="bs-btn btn-wa"><i class="fa-brands fa-whatsapp"></i> ভুল ঠিক করান</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- মোডাল: শীঘ্রই আসছে (Coming Soon) -->
+    <div id="comingSoonModal" class="modal-overlay" onclick="closeModal('comingSoonModal')">
+        <div class="modal-box" style="height: auto; max-width: 420px; text-align: center; padding: 24px 20px; border-radius: 20px;" onclick="event.stopPropagation()">
+            <div style="width: 60px; height: 60px; background: #fef3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 14px auto;">
+                ⏳
+            </div>
+            <h3 id="csTitle" style="font-size: 18px; font-weight: 800; margin-bottom: 8px; color: var(--text-main);">পরিষেবাটি শীঘ্রই চালু হচ্ছে</h3>
+            <p style="font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 18px;">
+                এই পরিষেবাটির অফিশিয়াল অনলাইন পোর্টাল চালু হওয়ার কাজ চলছে। পোর্টাল লাইভ হওয়ামাত্রই এখানে লিংক আপডেট করে দেওয়া হবে।
+            </p>
+            <button onclick="closeModal('comingSoonModal')" style="background: #2563eb; color: #ffffff; border: none; padding: 10px 24px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer;">
+                ঠিক আছে
+            </button>
+        </div>
+    </div>
+
+    <!-- ফুটার -->
+    <footer>
+        <p style="margin-bottom: 8px;">
+            <strong>সতর্কবার্তা:</strong> এটি কোনো সরকারি অ্যাপ নয়। সাধারণ নাগরিকের সুবিধার্থে অফিশিয়াল সেবা একত্রিত করা হয়েছে।
+        </p>
+        <p style="font-size: 12px; font-weight: 600; color: #2563eb; border-top: 1px dashed var(--footer-border); padding-top: 8px; margin-top: 8px;">
+            Developed with ❤️ by Subhankar
+        </p>
+    </footer>
+
+</div>
+
+<script>
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.style.display = 'flex';
+    history.pushState({ openModalId: modalId }, '');
+}
+
+function closeModal(modalId, isFromPopstate = false) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.style.display = 'none';
+    if (!isFromPopstate && history.state && history.state.openModalId === modalId) {
+        history.back();
+    }
+}
+
+function openComingSoon(serviceName) {
+    const titleElem = document.getElementById('csTitle');
+    if (titleElem) {
+        titleElem.innerText = serviceName;
+    }
+    openModal('comingSoonModal');
+}
+
+window.addEventListener('popstate', () => {
+    const openModals = document.querySelectorAll('.modal-overlay');
+    openModals.forEach(m => {
+        if (m.style.display === 'flex') m.style.display = 'none';
+    });
+});
+
+let deferredPrompt = null;
+const pwaCardOverlay = document.getElementById('pwaCardOverlay');
+const pwaAddNowBtn = document.getElementById('pwaAddNowBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+});
+
+function triggerPwaPrompt() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') closeModal('pwaCardOverlay');
+            deferredPrompt = null;
+        });
+    } else {
+        openModal('pwaCardOverlay');
+    }
+}
+
+function closePwaPrompt() {
+    closeModal('pwaCardOverlay');
+}
+
+if (pwaAddNowBtn) {
+    pwaAddNowBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') closeModal('pwaCardOverlay');
+            deferredPrompt = null;
+        } else {
+            closeModal('pwaCardOverlay');
+        }
+    });
+}
+
+function shareCitizenApp() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'নাগরিক পরিষেবা',
+            text: 'জরুরি ব্যাংকিং, রেশন, গ্যাস, বিদ্যুৎ, স্বাস্থ্য ও সরকারি সেবা এক প্ল্যাটফর্মে পান:\n',
+            url: window.location.href
+        }).catch(() => {});
+    } else {
+        const shareUrl = encodeURIComponent(window.location.href);
+        const shareText = encodeURIComponent("নাগরিক পরিষেবা — সমস্ত দরকারি সরকারি সেবা এক প্ল্যাটফর্মে পান:\n");
+        window.open(`https://api.whatsapp.com/send?text=${shareText}${shareUrl}`, '_blank');
+    }
+}
+
+function sendLandRecordWhatsApp() {
+    const block = document.getElementById('lrBlock').value.trim();
+    const mouzaJL = document.getElementById('lrMouzaJL').value.trim();
+    const khatian = document.getElementById('lrKhatian').value.trim();
+    const ownerName = document.getElementById('lrOwnerName').value.trim();
+    const village = document.getElementById('lrVillage').value.trim();
+
+    if (!khatian && !mouzaJL) {
+        alert('অনুগ্রহ করে অন্তত খতিয়ান/দাগ নম্বর এবং মৌজার নাম লিখুন অথবা উপরের বাটন দিয়ে ছবি পাঠান।');
+        return;
+    }
+
+    const message = `নমস্কার, আমি জমির পর্চা/রেকর্ড প্রিন্ট নিতে চাই।
+
+📌 প্রয়োজনীয় বিবরণ:
+• ব্লক: ${block || 'দেওয়া হয়নি'}
+• মৌজা ও JL নং: ${mouzaJL || 'দেওয়া হয়নি'}
+• খতিয়ান / দাগ নং: ${khatian || 'দেওয়া হয়নি'}
+• নাম ও অভিভাবকের নাম: ${ownerName || 'দেওয়া হয়নি'}
+• গ্রামের নাম: ${village || 'দেওয়া হয়নি'}`;
+
+    const whatsappUrl = `https://wa.me/919332434992?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
+
+function toggleLayoutView() {
+    const grids = document.querySelectorAll('[id^="serviceGrid"]');
+    const icon = document.getElementById('viewIcon');
+    const isGrid = grids[0].classList.contains('app-view-grid');
+
+    grids.forEach(grid => {
+        if (isGrid) {
+            grid.classList.remove('app-view-grid');
+            grid.classList.add('app-view-list');
+        } else {
+            grid.classList.remove('app-view-list');
+            grid.classList.add('app-view-grid');
+        }
+    });
+
+    icon.innerText = isGrid ? 'grid_view' : 'view_list';
+    localStorage.setItem('layoutView', isGrid ? 'list' : 'grid');
+}
+
+(function initLayout() {
+    const savedView = localStorage.getItem('layoutView') || 'grid';
+    if (savedView === 'list') {
+        const grids = document.querySelectorAll('[id^="serviceGrid"]');
+        grids.forEach(grid => {
+            grid.classList.remove('app-view-grid');
+            grid.classList.add('app-view-list');
+        });
+        const icon = document.getElementById('viewIcon');
+        if (icon) icon.innerText = 'grid_view';
+    }
+})();
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+    applyTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+}
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const icon = document.getElementById('themeIcon');
+    if (icon) {
+        icon.innerText = (theme === 'dark') ? 'light_mode' : 'dark_mode';
+    }
+}
+
+(function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme);
+})();
+
+function filterServices() {
+    let input = document.getElementById('searchInput').value.toLowerCase();
+    let cards = document.getElementsByClassName('service-card');
+    for (let i = 0; i < cards.length; i++) {
+        let title = cards[i].querySelector('.card-title').innerText.toLowerCase();
+        let dept = cards[i].querySelector('.card-dept').innerText.toLowerCase();
+        cards[i].style.display = (title.includes(input) || dept.includes(input)) ? "flex" : "none";
+    }
+}
+
+function filterBankList() {
+    let query = document.getElementById('bankSearchInput').value.toLowerCase();
+    let bankCards = document.querySelectorAll('#bankListContainer .bank-card-item');
+    bankCards.forEach(card => {
+        let name = card.querySelector('.b-name').innerText.toLowerCase();
+        card.style.display = name.includes(query) ? 'block' : 'none';
+    });
+}
+
+function toggleBank(bankId) {
+    const target = document.getElementById(bankId);
+    if (!target) return;
+    const isCurrentlyOpen = target.style.display === 'block';
+    document.querySelectorAll('#bankListContainer .bank-body-content, #lpgModal .bank-body-content').forEach(el => el.style.display = 'none');
+    target.style.display = isCurrentlyOpen ? 'none' : 'block';
+}
+
+const CONTACT_SHEET_ID = "116flqqFRP8Z1xw6rGG1QKOlGYIydOn1Sn3ffClqtbd0";
+const SERVICES_SHEET_ID = "1GEqurAZh1_GRDfNkUpyRBXl6dAmTtyo36_6dBpTbbZo";
+
+function renderServiceRow(item) {
+    const callBtn = item.call ? `
+        <a href="tel:${item.call}" class="bs-btn btn-call">
+            <span class="material-symbols-outlined" style="font-size: 16px;">call</span> Call
+        </a>` : '';
+    
+    const miniBtn = item.mini_statement ? `
+        <a href="tel:${item.mini_statement}" class="bs-btn btn-call-sub">
+            <span class="material-symbols-outlined" style="font-size: 16px;">receipt_long</span> মিনি
+        </a>` : '';
+
+    const waBtn = item.whatsapp ? `
+        <a href="https://wa.me/${item.whatsapp}?text=Hi" target="_blank" class="bs-btn btn-wa">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+        </a>` : '';
+
+    const linkBtn = item.action_link ? `
+        <a href="${item.action_link}" target="_blank" class="bs-btn btn-link">
+            পোর্টাল <span class="material-symbols-outlined" style="font-size: 16px;">open_in_new</span>
+        </a>` : '';
+
+    return `
+        <div class="bank-service-row" style="margin-top: 8px;">
+            <div class="bs-info">
+                <span class="bs-title">${item.name}</span>
+                <span class="bs-desc">${item.desc || ''} ${item.call ? `(${item.call})` : ''}</span>
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end;">
+                ${callBtn}
+                ${miniBtn}
+                ${waBtn}
+                ${linkBtn}
+            </div>
+        </div>
+    `;
+}
+
+function loadLiveGoogleSheetData() {
+    // ১. ফোন নম্বর এবং ব্যাংকের তালিকা লোড
+    fetch(`https://opensheet.elk.sh/${CONTACT_SHEET_ID}/Sheet1`)
+        .then(res => res.json())
+        .then(data => {
+            if (!Array.isArray(data) || data.length === 0) return;
+
+            const bankContainer = document.getElementById('bankListContainer');
+            const bankData = data.filter(d => d.category === 'bank');
+            if (bankContainer && bankData.length > 0) {
+                bankContainer.innerHTML = bankData.map((b, i) => `
+                    <div class="bank-card-item">
+                        <div class="bank-header-btn" onclick="toggleBank('bank_sheet_${i}')">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span style="font-size: 24px;">🏛️</span>
+                                <div>
+                                    <div class="b-name">${b.name}</div>
+                                    <div style="font-size: 12.5px; color: var(--text-sub);">${b.desc || 'ব্যালেন্স ও সার্ভিস'}</div>
+                                </div>
+                            </div>
+                            <span class="material-symbols-outlined b-arrow">expand_more</span>
+                        </div>
+                        <div id="bank_sheet_${i}" class="bank-body-content" style="display: none;">
+                            ${renderServiceRow(b)}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        })
+        .catch(err => console.error("কন্টাক্ট শিট ফেচ সমস্যা:", err));
+
+    // ২. জাম্বো ব্যানার লোড (কালার ও অ্যানিমেশন ডাইনামিক হ্যান্ডলিং)
+    fetch(`https://opensheet.elk.sh/${SERVICES_SHEET_ID}/Sheet1`)
+        .then(res => res.json())
+        .then(data => {
+            if (!Array.isArray(data) || data.length === 0) return;
+
+            const bannerItem = data.find(d => d.category && d.category.toLowerCase().trim() === 'banner');
+            const bannerEl = document.getElementById('featuredDynamicBanner');
+            if (bannerEl) {
+                if (bannerItem && bannerItem.name) {
+                    bannerEl.style.display = 'flex';
+                    bannerEl.href = bannerItem.action_link || '#';
+                    document.getElementById('fbTitle').innerText = bannerItem.name;
+                    document.getElementById('fbDesc').innerText = bannerItem.dept || bannerItem.desc || 'বিস্তারিত তথ্য জানতে ক্লিক করুন';
+                    document.getElementById('fbIcon').innerText = bannerItem.icon || '📢';
+                    
+                    // গুগল শিট থেকে color পড়ে ক্লাস বসানো (যেমন: clr-orange, clr-red ইত্যাদি)
+                    const bannerColor = (bannerItem.color && bannerItem.color.trim()) ? bannerItem.color.trim() : 'clr-orange';
+                    bannerEl.className = `featured-banner ${bannerColor}`;
+                } else {
+                    bannerEl.style.display = 'none';
+                }
+            }
+        })
+        .catch(err => console.error("ব্যানার ফেচ সমস্যা:", err));
+}
+
+document.addEventListener('DOMContentLoaded', loadLiveGoogleSheetData);
+</script>
+
+<!-- Vercel Web Analytics -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
+</body>
+</html>
