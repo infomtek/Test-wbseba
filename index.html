@@ -178,9 +178,7 @@
             flex: 1;
         }
 
-        /* ============================================================
-           ১. বড় ব্যানার: আকর্ষণীয় চওড়া সাইজ ও অরেঞ্জ গ্রেডিয়েন্ট
-           ============================================================ */
+        /* ১. বড় ব্যানার: আকর্ষণীয় চওড়া সাইজ ও অরেঞ্জ গ্রেডিয়েন্ট */
         @keyframes bannerZoomPulse {
             0% { transform: scale(1); box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35); }
             50% { transform: scale(1.02); box-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 8px 30px rgba(249, 115, 22, 0.65); }
@@ -282,9 +280,7 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.25) !important;
         }
 
-        /* ============================================================
-           ২. ইমার্জেন্সি কল / অভিযোগ: সাদা কার্ড, লাল ফিতা বর্ডার, সবুজ কলিং বাটন
-           ============================================================ */
+        /* ২. ইমার্জেন্সি কল / অভিযোগ কার্ড */
         .standalone-emergency-card {
             background: #ffffff !important;
             border: 2px solid #ef4444 !important;
@@ -333,7 +329,6 @@
             color: #f87171 !important;
         }
 
-        /* সবুজ কল বাটন */
         .sec-call-btn {
             background: #22c55e !important;
             width: 36px; height: 36px;
@@ -518,7 +513,7 @@
         .card-title { font-size: 14px; font-weight: 800; line-height: 1.35; }
         .card-dept { font-size: 11.5px; margin-top: 3px; font-weight: 600; }
 
-        /* কার্ড কালার প্যালেট (কোনো ফ্যাকাসে ভাব নেই) */
+        /* কার্ড কালার প্যালেট */
         .clr-blue { background: linear-gradient(135deg, #0284c7, #1e3a8a) !important; border-color: #38bdf8 !important; color: #ffffff !important; }
         .clr-blue .card-title { color: #ffffff !important; }
         .clr-blue .card-dept { color: #e0f2fe !important; }
@@ -543,7 +538,10 @@
         .clr-indigo .card-title { color: #ffffff !important; }
         .clr-indigo .card-dept { color: #e0e7ff !important; }
 
-        /* ভাইব্র্যান্ট পিঙ্ক কার্ড */
+        .clr-red { background: linear-gradient(135deg, #ef4444, #dc2626) !important; border-color: #b91c1c !important; color: #ffffff !important; }
+        .clr-red .card-title { color: #ffffff !important; }
+        .clr-red .card-dept { color: #fee2e2 !important; }
+
         .clr-pink {
             background: linear-gradient(135deg, #ec4899, #db2777) !important;
             border: 1.5px solid #f472b6 !important;
@@ -553,7 +551,6 @@
         .clr-pink .card-dept { color: #fdf2f8 !important; font-weight: 600 !important; }
         .clr-pink .icon-circle { color: #db2777 !important; }
 
-        /* উজ্জ্বল হলুদ কার্ড (কালো গাঢ় টেক্সট) */
         .clr-yellow {
             background: linear-gradient(135deg, #facc15, #eab308) !important;
             border: 1.5px solid #ca8a04 !important;
@@ -563,7 +560,6 @@
         .clr-yellow .card-dept { color: #1e293b !important; font-weight: 700 !important; }
         .clr-yellow .icon-circle { color: #854d0e !important; }
 
-        /* নিয়ন-লাইম বাসন্তী কার্ড */
         .clr-basanti {
             background: linear-gradient(135deg, #a3e635, #84cc16) !important;
             border: 1.5px solid #65a30d !important;
@@ -809,7 +805,7 @@
 
     <div class="content">
 
-        <!-- ১. বড় ব্যানার: ১০০% গেরুয়া/অরেঞ্জ কালার ও বড় জমকালো সাইজ -->
+        <!-- ১. বড় ব্যানার: ১০০% গেরুয়া/অরেঞ্জ কালার ও বড় সাইজ -->
         <a id="featuredDynamicBanner" href="https://jks.wb.gov.in" target="_blank" class="featured-banner">
             <div class="fb-content">
                 <div class="fb-icon" id="fbIcon">⛺</div>
@@ -835,7 +831,7 @@
         </div>
 
         <!-- ============================================================
-             ক্যাটাগরি ফোল্ডারসমূহ
+             ক্যাটাগরি ফোল্ডারসমূহ (ডিফল্ট ২-কলাম গ্রিড লেআউট)
              ============================================================ -->
 
         <!-- ১. ব্যাংকিং ও DBT Link (PAN / Aadhaar) -->
@@ -936,7 +932,7 @@
             </div>
         </div>
 
-        <!-- ৩. সামাজিক সুরক্ষা ও পেনশন (সরাসরি মুখ্যমন্ত্রী বাদ দেওয়া হয়েছে) -->
+        <!-- ৩. সামাজিক সুরক্ষা ও পেনশন -->
         <div class="category-group soft-cat-purple" id="groupSocial">
             <div class="category-header" onclick="toggleCategory('groupSocial')">
                 <div class="category-header-title">
@@ -1115,17 +1111,17 @@
             </div>
             <div class="category-body">
                 <div id="serviceGrid4" class="app-view-grid">
-                    <a href="https://onlinehmis.wbhealth.gov.in/MobileOPDTicketBooking.aspx?HC=xskVKHEM7dSleQ3LyFJ2dQ%3d%3d" target="_blank" class="service-card clr-teal" style="border: 1.5px solid #2dd4bf;" data-keywords="ghatal hospital opd ticket বুকিং ঘাটাল মহকুমা সুপার স্পেশালিটি হাসপাতাল ওপিডি">
+                    <a href="https://onlinehmis.wbhealth.gov.in/MobileOPDTicketBooking.aspx?HC=xskVKHEM7dSleQ3LyFJ2dQ%3d%3d" target="_blank" class="service-card clr-teal" data-keywords="ghatal hospital opd ticket বুকিং ঘাটাল মহকুমা সুপার স্পেশালিটি হাসপাতাল ওপিডি">
                         <div class="icon-circle">🏥</div>
                         <div class="card-info">
-                            <div class="card-title" style="color: #0f766e;">ঘাটাল সুপার স্পেশালিটি OPD টিকিট</div>
+                            <div class="card-title">ঘাটাল সুপার স্পেশালিটি OPD টিকিট</div>
                             <div class="card-dept">ঘাটাল হাসপাতালের সরাসরি টিকিট বুকিং</div>
                         </div>
                     </a>
-                    <div class="service-card clr-blue" onclick="openModal('wbHospModal')" style="border: 1.5px solid #93c5fd;" data-keywords="medical college opd sskm test report মেডিকেল কলেজ কলকাতা ডাক্তার টেস্ট রিপোর্ট">
+                    <div class="service-card clr-pink" onclick="openModal('wbHospModal')" data-keywords="medical college opd sskm test report মেডিকেল কলেজ কলকাতা ডাক্তার টেস্ট রিপোর্ট">
                         <div class="icon-circle">🩺</div>
                         <div class="card-info">
-                            <div class="card-title" style="color: #1d4ed8;">মেডিকেল কলেজ OPD ও ল্যাব রিপোর্ট</div>
+                            <div class="card-title">মেডিকেল কলেজ OPD ও ল্যাব রিপোর্ট</div>
                             <div class="card-dept">SSKM ও কলকাতা হাসপাতালের রিপোর্ট</div>
                         </div>
                     </div>
@@ -1143,21 +1139,21 @@
                             <div class="card-dept">কার্ড সক্রিয়তা ও ব্যালেন্স চেক</div>
                         </div>
                     </a>
-                    <div class="service-card clr-yellow" onclick="openComingSoon('মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা')" style="border: 1.5px dashed #ca8a04; cursor: pointer;" data-keywords="mukhyamantri swasthya bima মুখ্যমন্ত্রী স্বাস্থ্য বীমা">
+                    <div class="service-card clr-yellow" onclick="openComingSoon('মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা')" data-keywords="mukhyamantri swasthya bima মুখ্যমন্ত্রী স্বাস্থ্য বীমা">
                         <div class="icon-circle">⏳</div>
                         <div class="card-info">
                             <div class="card-title">মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা</div>
                             <div class="card-dept">শীঘ্রই আসছে (ক্লিক করুন)</div>
                         </div>
                     </div>
-                    <a href="https://beneficiary.nha.gov.in/" target="_blank" class="service-card clr-green" data-keywords="ayushman bharat pmjay আয়ুষ্মান ভারত কার্ড ৫ লাখ চিকিৎসা">
+                    <a href="https://beneficiary.nha.gov.in/" target="_blank" class="service-card clr-blue" data-keywords="ayushman bharat pmjay আয়ুষ্মান ভারত কার্ড ৫ লাখ চিকিৎসা">
                         <div class="icon-circle">💉</div>
                         <div class="card-info">
                             <div class="card-title">আয়ুষ্মান ভারত কার্ড (PMJAY)</div>
                             <div class="card-dept">কেন্দ্রীয় সরকারি স্বাস্থ্য বীমা পোর্টাল</div>
                         </div>
                     </a>
-                    <a href="https://abha.rqbeonline.co.in/ABHA/SearchAbhaCard" target="_blank" class="service-card clr-pink" data-keywords="abha card download আভা হেলথ আইডি ডিজিটাল স্বাস্থ্য কার্ড">
+                    <a href="https://abha.rqbeonline.co.in/ABHA/SearchAbhaCard" target="_blank" class="service-card clr-purple" data-keywords="abha card download আভা হেলথ আইডি ডিজিটাল স্বাস্থ্য কার্ড">
                         <div class="icon-circle">🪪</div>
                         <div class="card-info">
                             <div class="card-title">আভা (ABHA) কার্ড ডাউনলোড</div>
@@ -1201,7 +1197,7 @@
                         </div>
                     </a>
                     
-                    <div class="service-card clr-yellow" onclick="openComingSoon('পিঙ্ক কার্ড (Pink Card)')" style="cursor: pointer;" data-keywords="pink card পিঙ্ক কার্ড">
+                    <div class="service-card clr-yellow" onclick="openComingSoon('পিঙ্ক কার্ড (Pink Card)')" data-keywords="pink card পিঙ্ক কার্ড">
                         <div class="icon-circle">🎫</div>
                         <div class="card-info">
                             <div class="card-title">পিঙ্ক কার্ড (Pink Card)</div>
@@ -1335,7 +1331,7 @@
         </a>
     </div>
 
-    <!-- PWA Install / Add to Home Screen Modal (বাংলা পপআপ) -->
+    <!-- বাংলা অ্যাড টু হোম স্ক্রিন পপআপ -->
     <div id="pwaCardOverlay" class="modal-overlay" onclick="closePwaPrompt()">
         <div style="background: var(--modal-bg); width: 100%; max-width: 340px; border-radius: 20px; padding: 22px 18px; text-align: center; position: relative; box-shadow: 0 16px 40px rgba(0,0,0,0.25);" onclick="event.stopPropagation()">
             <button onclick="closePwaPrompt()" style="position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,0.06); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main);">✕</button>
@@ -1350,9 +1346,7 @@
         </div>
     </div>
 
-    <!-- ============================================================
-         মোডাল: জনকল্যাণ শিবির (ঘাটাল বিধানসভা) - ১৪টি প্রকল্প
-         ============================================================ -->
+    <!-- মোডাল: জনকল্যাণ শিবির (ঘাটাল বিধানসভা) - ১৪টি প্রকল্প -->
     <div id="ghatalCampModal" class="modal-overlay" onclick="closeModal('ghatalCampModal')">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -1430,9 +1424,7 @@
         </div>
     </div>
 
-    <!-- ============================================================
-         মোডাল: ইমার্জেন্সি কল ও অভিযোগ হেল্পলাইন (সরাসরি মুখ্যমন্ত্রী সহ)
-         ============================================================ -->
+    <!-- মোডাল: ইমার্জেন্সি কল ও অভিযোগ হেল্পলাইন -->
     <div id="emergencyModal" class="modal-overlay" onclick="closeModal('emergencyModal')">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -1441,7 +1433,6 @@
             </div>
             <div class="modal-scroll-area">
                 
-                <!-- সরাসরি মুখ্যমন্ত্রী গ্রিভেন্স -->
                 <div class="sub-card-row sub-theme-orange" style="border: 1.5px solid #f97316;">
                     <div class="bs-info">
                         <span class="bs-title" style="color: #c2410c;">📢 সরাসরি মুখ্যমন্ত্রী অভিযোগ পোর্টাল</span>
@@ -1453,7 +1444,6 @@
                     </div>
                 </div>
 
-                <!-- জাতীয় জরুরি সেবা -->
                 <div class="sub-card-row sub-theme-red">
                     <div class="bs-info">
                         <span class="bs-title">জাতীয় জরুরি সেবা (All in One)</span>
@@ -1462,7 +1452,6 @@
                     <a href="tel:112" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 112</a>
                 </div>
 
-                <!-- অ্যাম্বুলেন্স -->
                 <div class="sub-card-row sub-theme-green">
                     <div class="bs-info">
                         <span class="bs-title">বিনামূল্যে সরকারি অ্যাম্বুলেন্স</span>
@@ -1471,7 +1460,6 @@
                     <a href="tel:102" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 102</a>
                 </div>
 
-                <!-- সাইবার ফ্রড -->
                 <div class="sub-card-row sub-theme-blue">
                     <div class="bs-info">
                         <span class="bs-title">সাইবার আর্থিক প্রতারণা হেল্পলাইন</span>
@@ -1480,7 +1468,6 @@
                     <a href="tel:1930" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 1930</a>
                 </div>
 
-                <!-- আধার হেল্পলাইন -->
                 <div class="sub-card-row sub-theme-teal">
                     <div class="bs-info">
                         <span class="bs-title">আধার অভিযোগ ও তথ্য হেল্পলাইন (UIDAI)</span>
@@ -1489,7 +1476,6 @@
                     <a href="tel:1947" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 1947</a>
                 </div>
 
-                <!-- মহিলা হেল্পলাইন -->
                 <div class="sub-card-row sub-theme-purple">
                     <div class="bs-info">
                         <span class="bs-title">মহিলা হেল্পলাইন (Women Helpline)</span>
@@ -1498,7 +1484,6 @@
                     <a href="tel:1091" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 1091</a>
                 </div>
 
-                <!-- শিশু হেল্পলাইন -->
                 <div class="sub-card-row sub-theme-amber">
                     <div class="bs-info">
                         <span class="bs-title">শিশু সুরক্ষা হেল্পলাইন (Childline)</span>
@@ -1507,7 +1492,6 @@
                     <a href="tel:1098" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 16px;">call</span> 1098</a>
                 </div>
 
-                <!-- দমকল -->
                 <div class="sub-card-row sub-theme-orange">
                     <div class="bs-info">
                         <span class="bs-title">দমকল পরিষেবা (Fire Brigade)</span>
@@ -1562,9 +1546,7 @@
                     <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-sub); font-size: 20px;">search</span>
                     <input type="text" id="bankSearchInput" placeholder="ব্যাংকের নাম খুঁজুন (SBI, PNB, UCO, BOB, বাংলা বা ইংরেজি)..." onkeyup="filterBankList()" style="width: 100%; padding: 10px 14px 10px 38px; border-radius: 12px; border: 1.5px solid var(--card-border); outline: none; font-size: 14px; background: var(--bg-color); color: var(--text-main);">
                 </div>
-                <div id="bankListContainer">
-                    <!-- শিট থেকে ডাইনামিক ব্যাংক লিস্ট লোড হবে -->
-                </div>
+                <div id="bankListContainer"></div>
             </div>
         </div>
     </div>
@@ -2139,15 +2121,23 @@ function toggleLayoutView() {
 }
 
 (function initLayout() {
+    // সর্বদা ডিফল্ট ২-কলাম গ্রিড ভিউ
     const savedView = localStorage.getItem('layoutView') || 'grid';
+    const grids = document.querySelectorAll('[id^="serviceGrid"]');
+    const icon = document.getElementById('viewIcon');
+
     if (savedView === 'list') {
-        const grids = document.querySelectorAll('[id^="serviceGrid"]');
         grids.forEach(grid => {
             grid.classList.remove('app-view-grid');
             grid.classList.add('app-view-list');
         });
-        const icon = document.getElementById('viewIcon');
         if (icon) icon.innerText = 'grid_view';
+    } else {
+        grids.forEach(grid => {
+            grid.classList.remove('app-view-list');
+            grid.classList.add('app-view-grid');
+        });
+        if (icon) icon.innerText = 'view_list';
     }
 })();
 
@@ -2374,7 +2364,6 @@ function loadLiveGoogleSheetData() {
         .then(data => {
             if (!Array.isArray(data) || data.length === 0) return;
 
-            // শিটের ব্যানার ওভাররাইট বন্ধ রেখে শুধু সার্ভিস কার্ড আপডেট
             data.forEach(item => {
                 if (!item.name || item.category === 'banner') return;
                 
@@ -2393,6 +2382,7 @@ function loadLiveGoogleSheetData() {
                         if (deptEl && item.dept) {
                             deptEl.innerText = item.dept;
                         }
+                        // গুগল শিটে color কলামে clr-pink, clr-yellow ইত্যাদি লিখলে তা স্বয়ংক্রিয়ভাবে কার্ডে যুক্ত হবে
                         if (item.color) {
                             card.className = card.className.replace(/clr-\w+/g, item.color.trim());
                         }
