@@ -1593,7 +1593,6 @@ function openModal(modalId) {
     modal.style.display = 'flex';
     history.pushState({ openModalId: modalId }, '');
 
-    // জরুরি মোডাল খুললে যাতে ভেতরকার ড্রপডাউন ও কার্ডগুলো সঠিকভাবে রেন্ডার হয়
     if (modalId === 'wbEmergencyModal') {
         initWbDirectory();
     }
@@ -2300,7 +2299,6 @@ function loadLiveGoogleSheetData() {
         .catch(err => console.error("সার্ভিস ডেটা লোড সমস্যা:", err));
 }
 
-// পেজ লোড হওয়ার পর ডিরেক্টরি এবং ডেটা একযোগে সক্রিয় করা
 document.addEventListener('DOMContentLoaded', () => {
     initWbDirectory();
     loadLiveGoogleSheetData();
