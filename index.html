@@ -2079,7 +2079,7 @@ function renderDirectoryCards() {
         card.innerHTML = `
             <div class="bs-info">
                 <span class="bs-title">${item.role}</span>
-                <span class="bs-desc">${item.desc}${phoneNumber ? `• ${phoneNumber}` : ''}</span>
+                <span class="bs-desc">${item.desc} ${phoneNumber ? `• ${phoneNumber}` : ''}</span>
             </div>
             ${actionButtonHtml}
         `;
@@ -2126,4 +2126,192 @@ function submitCrowdNumber() {
     }
 
     const msg = `🏛 *জরুরি নাগরিক সেবা - নম্বর সংযোজন অনুরোধ*\n\n• মহকুমা: ${subDiv}\n• দপ্তর: ${role}\n• প্রস্তাবিত নম্বর: ${phone}\n• তথ্যসূত্র/প্রমাণ: ${proof || 'দেওয়া হয়নি'}\n\nদয়া করে নম্বরটি যাচাই করে অ্যাপে অনুমোদন দিন।`;
-    const waUrl = `
+    const waUrl = `https://wa.me/919332434992?text=${encodeURIComponent(msg)}`;
+    window.open(waUrl, '_blank');
+
+    alert("ধন্যবাদ! নম্বরটি অনুমোদনের জন্য পাঠানো হয়েছে। সত্যতা যাচাইয়ের পর এটি সিস্টেমে লাইভ করে দেওয়া হবে।");
+    closeModal('addNumberModal');
+}
+
+/* ========================================================
+   গুগল শিট লাইভ ফেচিং
+   ======================================================== */
+const CONTACT_SHEET_ID = "116flqqFRP8Z1xw6rGG1QKOlGYIydOn1Sn3ffClqtbd0";
+const SERVICES_SHEET_ID = "1GEqurAZh1_GRDfNkUpyRBXl6dAmTtyo36_6dBpTbbZo";
+
+function cleanUrl(url) {
+    if (!url) return '';
+    let match = url.match(/https?:\/\/[^\s\)\"\'>]+/);
+    return match ? match[0] : url.trim();
+}
+
+function renderServiceRow(item) {
+    const callBtn = item.call ? `
+        <a href="tel:${item.call}" class="bs-btn btn-call">
+            <span class="material-symbols-outlined" style="font-size: 15px;">call</span> Call
+        </a>` : '';
+    
+    const miniBtn = item.mini_statement ? `
+        <a href="tel:${item.mini_statement}" class="bs-btn btn-call-sub">
+            <span class="material-symbols-outlined" style="font-size: 15px;">receipt_long</span> মিনি
+        </a>` : '';
+
+    const waBtn = item.whatsapp ? `
+        <a href="https://wa.me/${item.whatsapp}?text=Hi" target="_blank" class="bs-btn btn-wa">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+        </a>` : '';
+
+    const linkBtn = item.action_link ? `
+        <a href="${cleanUrl(item.action_link)}" target="_blank" class="bs-btn btn-link">
+            পোর্টাল <span class="material-symbols-outlined" style="font-size: 15px;">open_in_new</span>
+        </a>` : '';
+
+    return `
+        <div class="sub-card-row sub-theme-blue" style="margin-bottom: 0;">
+            <div class="bs-info">
+                <span class="bs-title">${item.name}</span>
+                <span class="bs-desc">${item.desc || ''} ${item.call ? `(${item.call})` : ''}</span>
+            </div>
+            <div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end;">
+                ${callBtn}
+                ${miniBtn}
+                ${waBtn}
+                ${linkBtn}
+            </div>
+        </div>
+    `;
+}
+
+function createCardHTML(item) {
+    let safeUrl = cleanUrl(item.action_link);
+    let cardIdAttr = item.id ? `id="${item.id}"` : '';
+    let isModalLink = safeUrl && safeUrl.startsWith('#');
+    let modalAction = isModalLink ? `onclick="openModal('${safeUrl.substring(1)}'); return false;"` : '';
+    let hrefAttr = isModalLink ? 'href="javascript:void(0);"' : `href="${safeUrl}" target="_blank"`;
+
+    return `
+        <a ${cardIdAttr} ${hrefAttr} ${modalAction} class="service-card ${item.color || 'clr-blue'}" data-keywords="${item.name} ${item.dept || ''}">
+            <div class="icon-circle">${item.icon || '🔗'}</div>
+            <div class="card-info">
+                <div class="card-title">${item.name}</div>
+                <div class="card-dept">${item.dept || ''}</div>
+            </div>
+        </a>
+    `;
+}
+
+const categoryContainerMap = {
+    'top': 'serviceGridBanking',
+    'certificate': 'serviceGridCert',
+    'social': 'serviceGrid1',
+    'food': 'serviceGrid2',
+    'farmer': 'serviceGrid3',
+    'health': 'serviceGrid4',
+    'vehicle': 'serviceGrid5',
+    'voter': 'serviceGrid6',
+    'electric': 'serviceGrid7'
+};
+
+const bankColorThemes = [
+    { bg: '#f0f7ff', border: '#bfdbfe', color: '#1e40af', icon: '🔵' },
+    { bg: '#fff1f2', border: '#fecdd3', color: '#9f1239', icon: '🔴' },
+    { bg: '#fff7ed', border: '#fed7aa', color: '#9a3412', icon: '🟠' },
+    { bg: '#f0fdfa', border: '#99f6e4', color: '#0f766e', icon: '🟢' },
+    { bg: '#faf5ff', border: '#e9d5ff', color: '#6b21a8', icon: '🟣' },
+    { bg: '#fffbeb', border: '#fde68a', color: '#92400e', icon: '🟡' },
+    { bg: '#eef2ff', border: '#c7d2fe', color: '#3730a3', icon: '🔷' }
+];
+
+function loadLiveGoogleSheetData() {
+    fetch(`https://opensheet.elk.sh/${CONTACT_SHEET_ID}/Sheet1`)
+        .then(res => res.json())
+        .then(data => {
+            if (!Array.isArray(data) || data.length === 0) return;
+
+            const bankContainer = document.getElementById('bankListContainer');
+            let bankData = data.filter(d => d.category === 'bank');
+            bankData.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+
+            if (bankContainer && bankData.length > 0) {
+                bankContainer.innerHTML = bankData.map((b, i) => {
+                    const theme = bankColorThemes[i % bankColorThemes.length];
+                    return `
+                    <div class="bank-card-item" style="border-color: ${theme.border}; background: ${theme.bg};">
+                        <div class="bank-header-btn" onclick="toggleBank('bank_sheet_${i}')">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 20px;">${theme.icon}</span>
+                                <div>
+                                    <div class="b-name" style="color: ${theme.color};">${b.name}</div>
+                                    <div style="font-size: 11.5px; color: var(--text-sub);">${b.desc || 'ব্যালেন্স ও সার্ভিস'}</div>
+                                </div>
+                            </div>
+                            <span class="material-symbols-outlined b-arrow" style="color: ${theme.color};">expand_more</span>
+                        </div>
+                        <div id="bank_sheet_${i}" class="bank-body-content" style="display: none;">
+                            ${renderServiceRow(b)}
+                        </div>
+                    </div>
+                `;
+                }).join('');
+            }
+        })
+        .catch(err => console.error("কন্টাক্ট শিট সমস্যা:", err));
+
+    fetch(`https://opensheet.elk.sh/${SERVICES_SHEET_ID}/Sheet1`)
+        .then(res => {
+            if (!res.ok) throw new Error("Google Sheets ফেচ ব্যর্থ");
+            return res.json();
+        })
+        .catch(err => {
+            console.warn("গুগল শিট ব্যাকআপ ব্যবহার করা হচ্ছে...", err);
+            return fetch('./services.json').then(r => r.json());
+        })
+        .then(data => {
+            if (!Array.isArray(data) || data.length === 0) return;
+
+            const grouped = {};
+            data.forEach(item => {
+                if (item.category === 'banner') {
+                    const bannerElem = document.getElementById('featuredDynamicBanner');
+                    const bTitle = document.getElementById('fbTitle');
+                    const bDesc = document.getElementById('fbDesc');
+                    const bIcon = document.getElementById('fbIcon');
+                    if (bannerElem && item.action_link) bannerElem.href = cleanUrl(item.action_link);
+                    if (bTitle && item.name) bTitle.innerText = item.name;
+                    if (bDesc && item.dept) bDesc.innerText = item.dept;
+                    if (bIcon && item.icon) bIcon.innerText = item.icon;
+                    return;
+                }
+                const cat = (item.category || '').toLowerCase().trim();
+                if (!grouped[cat]) grouped[cat] = [];
+                grouped[cat].push(item);
+            });
+
+            for (let cat in grouped) {
+                const targetContainerId = categoryContainerMap[cat];
+                if (targetContainerId) {
+                    const container = document.getElementById(targetContainerId);
+                    if (container && grouped[cat].length > 0) {
+                        container.innerHTML = grouped[cat].map(item => createCardHTML(item)).join('');
+                    }
+                }
+            }
+        })
+        .catch(err => console.error("সার্ভিস ডেটা লোড সমস্যা:", err));
+}
+
+// পেজ লোড হওয়ার পর ডিরেক্টরি এবং ডেটা একযোগে সক্রিয় করা
+document.addEventListener('DOMContentLoaded', () => {
+    initWbDirectory();
+    loadLiveGoogleSheetData();
+});
+</script>
+
+<!-- Vercel Analytics -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
+</body>
+</html>
