@@ -565,13 +565,13 @@
 
     <div class="content">
 
-        <!-- ব্যানার -->
-        <a id="featuredDynamicBanner" href="https://jks.wb.gov.in" target="_blank" class="featured-banner">
+        <!-- ব্যানার: ডিফল্ট টেক্সট (গুগল শিট থেকে নিজে নিজে আপডেট হবে) -->
+        <a id="featuredDynamicBanner" href="javascript:void(0);" class="featured-banner">
             <div class="fb-content">
-                <div class="fb-icon" id="fbIcon">⛺</div>
+                <div class="fb-icon" id="fbIcon">📢</div>
                 <div class="fb-text-wrap">
-                    <span class="fb-title" id="fbTitle">জনকল্যাণ শিবির চলছে</span>
-                    <span class="fb-desc" id="fbDesc">২রা অক্টোবর থেকে ১৪ই অক্টোবর পর্যন্ত • বিস্তারিত জানতে ক্লিক করুন</span>
+                    <span class="fb-title" id="fbTitle">নতুন আপডেট খুব শীঘ্রই আসছে... </span>
+                    <span class="fb-desc" id="fbDesc">বিস্তারিত জানতে চোখ রাখুন</span>
                 </div>
             </div>
             <span class="material-symbols-outlined" style="font-size: 26px; font-weight: 900; position: relative; z-index: 1; color: #ffffff;">arrow_forward</span>
@@ -1536,7 +1536,7 @@
     <footer>
         <div class="footer-warning-heading">সতর্কবার্তা</div>
         <div class="footer-warning-text">
-            <span>⚠ এটি কোনো সরকারি অ্যাপ নয়।</span>
+            <span>⚠️ এটি কোনো সরকারি অ্যাপ নয়।</span>
             <span>সাধারণ নাগরিকের সুবিধার্থে অফিশিয়াল সেবা একত্রিত করা হয়েছে।</span>
         </div>
         <p style="font-size: 11.5px; font-weight: 600; color: #2563eb; border-top: 1px dashed var(--footer-border); padding-top: 6px; margin-top: 8px; width: 100%; max-width: 300px;">
@@ -1883,8 +1883,12 @@ function renderServiceRow(item) {
 function createCardHTML(item) {
     let safeUrl = cleanUrl(item.action_link);
     let cardIdAttr = item.id ? `id="${item.id}"` : '';
+    let isModalLink = safeUrl && safeUrl.startsWith('#');
+    let modalAction = isModalLink ? `onclick="openModal('${safeUrl.substring(1)}'); return false;"` : '';
+    let hrefAttr = isModalLink ? 'href="javascript:void(0);"' : `href="${safeUrl}" target="_blank"`;
+
     return `
-        <a ${cardIdAttr} href="${safeUrl}" target="_blank" class="service-card ${item.color || 'clr-blue'}" data-keywords="${item.name} ${item.dept || ''}">
+        <a ${cardIdAttr} ${hrefAttr} ${modalAction} class="service-card ${item.color || 'clr-blue'}" data-keywords="${item.name} ${item.dept || ''}">
             <div class="icon-circle">${item.icon || '🔗'}</div>
             <div class="card-info">
                 <div class="card-title">${item.name}</div>
@@ -1952,66 +1956,51 @@ function loadLiveGoogleSheetData() {
         })
         .catch(err => console.error("কন্টাক্ট শিট সমস্যা:", err));
 
-    /* ২. সার্ভিস শিট থেকে কালার, নাম ও লিংক আপডেট (কখনোই ডাবল কার্ড হবে না) */
+    /* ২. সার্ভিস শিট থেকে ডেটা ফেচ (Google Sheets ব্যর্থ হলে services.json ফলব্যাক) */
     fetch(`https://opensheet.elk.sh/${SERVICES_SHEET_ID}/Sheet1`)
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error("Google Sheets ফেচ ব্যর্থ");
+            return res.json();
+        })
+        .catch(err => {
+            console.warn("গুগল শিট থেকে ফেচ করা সম্ভব হয়নি, GitHub ব্যাকআপ (services.json) ব্যবহার করা হচ্ছে...", err);
+            return fetch('./services.json').then(r => r.json());
+        })
         .then(data => {
             if (!Array.isArray(data) || data.length === 0) return;
 
+            // শিটে থাকা রো-অর্ডার অক্ষুণ্ণ রেখে ক্যাটাগরি অনুযায়ী গ্রুপিং
+            const grouped = {};
             data.forEach(item => {
-                if (item.category === 'banner') return;
-                
-                let safeUrl = cleanUrl(item.action_link);
-                let matchedCard = null;
-
-                // প্রথমে শিটের ID দিয়ে নির্দিষ্ট কার্ডটি খোঁজা হবে
-                if (item.id) {
-                    matchedCard = document.getElementById(item.id.trim());
+                if (item.category === 'banner') {
+                    // বড় ব্যানার ডাইনামিক আপডেট
+                    const bannerElem = document.getElementById('featuredDynamicBanner');
+                    const bTitle = document.getElementById('fbTitle');
+                    const bDesc = document.getElementById('fbDesc');
+                    const bIcon = document.getElementById('fbIcon');
+                    if (bannerElem && item.action_link) bannerElem.href = cleanUrl(item.action_link);
+                    if (bTitle && item.name) bTitle.innerText = item.name;
+                    if (bDesc && item.dept) bDesc.innerText = item.dept;
+                    if (bIcon && item.icon) bIcon.innerText = item.icon;
+                    return;
                 }
-
-                // ID না থাকলে বা না মিললে কার্ডের নাম দিয়ে খোঁজা হবে
-                if (!matchedCard && item.name) {
-                    const allCards = document.querySelectorAll('.service-card');
-                    for (let c of allCards) {
-                        const titleEl = c.querySelector('.card-title');
-                        if (titleEl && titleEl.innerText.trim().toLowerCase() === item.name.trim().toLowerCase()) {
-                            matchedCard = c;
-                            break;
-                        }
-                    }
-                }
-
-                // কার্ড পাওয়া গেলে: নাম, লিংক, কালার ও বিবরণ সবই আপডেট হবে (কোনো ডাবল কার্ড হবে না)
-                if (matchedCard) {
-                    if (item.name) {
-                        const titleEl = matchedCard.querySelector('.card-title');
-                        if (titleEl) titleEl.innerText = item.name.trim();
-                    }
-                    if (item.dept) {
-                        const deptEl = matchedCard.querySelector('.card-dept');
-                        if (deptEl) deptEl.innerText = item.dept.trim();
-                    }
-                    if (item.icon) {
-                        const iconEl = matchedCard.querySelector('.icon-circle');
-                        if (iconEl) iconEl.innerText = item.icon.trim();
-                    }
-                    if (matchedCard.tagName.toLowerCase() === 'a' && safeUrl && !safeUrl.startsWith('#')) {
-                        matchedCard.href = safeUrl;
-                    }
-                    if (item.color) {
-                        matchedCard.className = matchedCard.className.replace(/clr-\w+/g, item.color.trim());
-                    }
-                } else if (item.category && categoryContainerMap[item.category.toLowerCase().trim()]) {
-                    // একদম সম্পূর্ণ নতুন সার্ভিস যোগ করলে তবেই কেবল নতুন কার্ড যুক্ত হবে
-                    const targetContainerId = categoryContainerMap[item.category.toLowerCase().trim()];
-                    const container = document.getElementById(targetContainerId);
-                    if (container) {
-                        container.insertAdjacentHTML('beforeend', createCardHTML(item));
-                    }
-                }
+                const cat = (item.category || '').toLowerCase().trim();
+                if (!grouped[cat]) grouped[cat] = [];
+                grouped[cat].push(item);
             });
+
+            // শিটের সিরিয়াল অনুযায়ী প্রতিটি ফোল্ডারে কার্ড সাজানো (কোনো ডাবল কার্ড হবে না)
+            for (let cat in grouped) {
+                const targetContainerId = categoryContainerMap[cat];
+                if (targetContainerId) {
+                    const container = document.getElementById(targetContainerId);
+                    if (container && grouped[cat].length > 0) {
+                        container.innerHTML = grouped[cat].map(item => createCardHTML(item)).join('');
+                    }
+                }
+            }
         })
-        .catch(err => console.error("সার্ভিস শিট সমস্যা:", err));
+        .catch(err => console.error("সার্ভিস ডেটা লোড সমস্যা:", err));
 }
 
 document.addEventListener('DOMContentLoaded', loadLiveGoogleSheetData);
