@@ -300,7 +300,7 @@
         .category-body { display: none; padding: 12px; background: transparent !important; }
         .category-group.open .category-body { display: block; }
 
-        /* লাইট মোড ফোল্ডার */
+        /* ফোল্ডার কালার */
         .soft-cat-blue { background: #eff6ff !important; border-color: #3b82f6 !important; }
         .soft-cat-blue .category-header-title { color: #1d4ed8; }
         .soft-cat-blue .category-arrow { color: #2563eb; }
@@ -337,7 +337,7 @@
         .soft-cat-emerald .category-header-title { color: #065f46; }
         .soft-cat-emerald .category-arrow { color: #047857; }
 
-        /* ডার্ক মোড ফোল্ডার */
+        /* ডার্ক মোড */
         [data-theme="dark"] .category-header-title { color: #f8fafc !important; }
         [data-theme="dark"] .category-arrow { color: #94a3b8 !important; }
         [data-theme="dark"] .category-icon-badge { background: #1e293b !important; }
@@ -356,7 +356,7 @@
         [data-theme="dark"] .standalone-emergency-card .sec-title { color: #7dd3fc !important; }
         [data-theme="dark"] .standalone-emergency-card .sec-icon { background: #0c4a6e !important; color: #38bdf8 !important; }
 
-        /* কার্ড লেআউট */
+        /* কার্ড স্টাইল */
         .app-view-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
         .app-view-list { display: flex; flex-direction: column; gap: 8px; }
 
@@ -384,7 +384,6 @@
         .card-title { font-size: 14px; font-weight: 800; line-height: 1.35; color: #ffffff !important; }
         .card-dept { font-size: 11.5px; margin-top: 3px; font-weight: 600; opacity: 0.95; }
 
-        /* কালার প্যালেট */
         .clr-blue { background: linear-gradient(135deg, #0284c7, #1e3a8a) !important; border-color: #38bdf8 !important; color: #ffffff !important; }
         .clr-blue .card-dept { color: #e0f2fe !important; }
 
@@ -578,13 +577,13 @@
             <span class="material-symbols-outlined" style="font-size: 26px; font-weight: 900; position: relative; z-index: 1; color: #ffffff;">arrow_forward</span>
         </a>
 
-        <!-- আপডেট করা স্মার্ট মহকুমা ইমার্জেন্সি কার্ড -->
+        <!-- জরুরি সেবা ডিরেক্টরি কার্ড -->
         <div class="standalone-emergency-card" onclick="openModal('wbEmergencyModal')">
             <div class="sec-left">
                 <div class="sec-icon">🏛️</div>
                 <div>
                     <div class="sec-title">জরুরি হেল্পলাইন ও নাগরিক সেবা</div>
-                    <div style="font-size: 11.5px; color: var(--text-sub); font-weight: 600; margin-top: 2px;">হাসপাতাল, থানা ও মহকুমা প্রশাসন (WB All Sub-Divisions)</div>
+                    <div style="font-size: 11.5px; color: var(--text-sub); font-weight: 600; margin-top: 2px;">হাসপাতাল, থানা ও মহকুমা প্রশাসন (পশ্চিমবঙ্গ)</div>
                 </div>
             </div>
             <div class="sec-call-btn">
@@ -1078,9 +1077,9 @@
     </div>
 
     <!-- বাংলা অ্যাড টু হোম স্ক্রিন পপআপ -->
-    <div id="pwaCardOverlay" class="modal-overlay" onclick="closePwaPrompt()">
+    <div id="pwaCardOverlay" class="modal-overlay" onclick="closeModal('pwaCardOverlay')">
         <div style="background: var(--modal-bg); width: 100%; max-width: 340px; border-radius: 20px; padding: 22px 18px; text-align: center; position: relative; box-shadow: 0 16px 40px rgba(0,0,0,0.25);" onclick="event.stopPropagation()">
-            <button onclick="closePwaPrompt()" style="position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,0.06); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main);">✕</button>
+            <button onclick="closeModal('pwaCardOverlay')" style="position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,0.06); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main);">✕</button>
             <div style="width: 68px; height: 68px; background: #eff6ff; border-radius: 18px; margin: 8px auto 14px auto; display: flex; align-items: center; justify-content: center; font-size: 34px;">🏛️</div>
             <h3 style="font-size: 17.5px; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">হোম স্ক্রিনে যুক্ত করুন</h3>
             <p style="font-size: 12.8px; color: var(--text-sub); line-height: 1.5; margin-bottom: 18px;">
@@ -1153,13 +1152,13 @@
 
             <!-- কেন্দ্রীয় হেল্পলাইন কার্ড (টোল-ফ্রি) -->
             <div style="background: #f8fafc; border: 1px solid var(--card-border); border-radius: 12px; padding: 9px 12px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-                <div style="font-size: 12px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
+                <div style="font-size: 12px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                     <span>🚨 সেন্ট্রাল হেল্পলাইন:</span>
-                    <a href="tel:112" style="color: #dc2626; text-decoration: none; font-weight: 800;">112 (জরুরি)</a> | 
-                    <a href="tel:102" style="color: #16a34a; text-decoration: none; font-weight: 800;">102 (অ্যাম্বুলেন্স)</a> | 
-                    <a href="tel:1930" style="color: #2563eb; text-decoration: none; font-weight: 800;">1930 (সাইবার)</a>
+                    <a href="tel:112" style="color: #dc2626; text-decoration: none; font-weight: 800;">112</a> | 
+                    <a href="tel:102" style="color: #16a34a; text-decoration: none; font-weight: 800;">102</a> | 
+                    <a href="tel:1930" style="color: #2563eb; text-decoration: none; font-weight: 800;">1930</a>
                 </div>
-                <a href="tel:9137091370" class="bs-btn btn-call" style="padding: 4px 8px; font-size: 11px; background: #ea580c;">সরাসরি মুখ্যমন্ত্রী</a>
+                <a href="tel:9137091370" class="bs-btn btn-call" style="padding: 4px 8px; font-size: 11px; background: #ea580c;">মুখ্যমন্ত্রী হেল্পলাইন</a>
             </div>
 
             <!-- এলাকা নির্বাচন: জেলা ও মহকুমা ড্রপডাউন -->
@@ -1593,6 +1592,11 @@ function openModal(modalId) {
     if (!modal) return;
     modal.style.display = 'flex';
     history.pushState({ openModalId: modalId }, '');
+
+    // জরুরি মোডাল খুললে যাতে ভেতরকার ড্রপডাউন ও কার্ডগুলো সঠিকভাবে রেন্ডার হয়
+    if (modalId === 'wbEmergencyModal') {
+        initWbDirectory();
+    }
 }
 
 function closeModal(modalId, isFromPopstate = false) {
@@ -1706,7 +1710,6 @@ function sendLandRecordWhatsApp() {
     window.open(whatsappUrl, '_blank');
 }
 
-/* লিস্ট / গ্রিড ভিউ টগল */
 function toggleLayoutView() {
     const appContainer = document.getElementById('appMainContainer');
     const isCurrentlyGrid = appContainer.classList.contains('page-view-grid');
@@ -1798,7 +1801,6 @@ function filterServices() {
     });
 }
 
-/* ব্যাংক সার্চিং */
 const bankSearchAliases = {
     'sbi': ['sbi', 'state bank', 'স্টেট ব্যাঙ্ক', 'স্টেট ব্যাংক', 'এসবিআই'],
     'pnb': ['pnb', 'punjab national', 'পাঞ্জাব ন্যাশনাল', 'পিএনবি'],
@@ -1898,7 +1900,6 @@ const wbAdministrativeData = {
     "কালিম্পং": ["কালিম্পং সদর"]
 };
 
-// প্রতিটি মহকুমার জন্য প্রাতিষ্ঠানিক পদের কাঠামোগত তালিকা
 const defaultCategoryRoles = {
     health: [
         { role: "মহকুমা সুপার স্পেশালিটি / সদর হাসপাতাল (জরুরি বিভাগ)", desc: "রোগী ভর্তি, ট্রমা কেয়ার ও জরুরি চিকিৎসা" },
@@ -1919,7 +1920,6 @@ const defaultCategoryRoles = {
     ]
 };
 
-// ঘাটাল মহকুমার জন্য হাইপার-লোকাল নির্ধারিত তালিকা
 const ghatalSpecificRoles = {
     health: [
         { role: "ঘাটাল মহকুমা সুপার স্পেশালিটি হাসপাতাল", desc: "মহকুমা সদর জরুরি বিভাগ ও রোগী ভর্তি", call: "03225255259" },
@@ -1949,11 +1949,181 @@ const ghatalSpecificRoles = {
     ]
 };
 
-// প্রাথমিক সংরক্ষিত সঠিক সরকারি নম্বর ডেটাবেস
 let verifiedContactsDB = {
     "ঘাটাল": {
         "ঘাটাল মহকুমা সুপার স্পেশালিটি হাসপাতাল": "03225255259",
         "ঘাটাল পৌর স্বাস্থ্য কেন্দ্র (৫ নম্বর ওয়ার্ড - মিনি হাসপাতাল)": "03225255259",
         "ব্লক স্বাস্থ্য আধিকারিক (BMOH)": "8967914180",
         "ঘাটাল থানা (ভারপ্রাপ্ত আধিকারিক - IC)": "9800989924",
-        "ঘাটাল থানা (ডিউটি অফিসার ল্যান্ডলাইন)": "03225
+        "ঘাটাল থানা (ডিউটি অফিসার ল্যান্ডলাইন)": "03225255211",
+        "ঘাটাল ব্লক উন্নয়ন আধিকারিক (BDO)": "8348691759",
+        "BDO অফিস ল্যান্ডলাইন": "03225255047",
+        "ঘাটাল পৌর কার্যালয়": "03225255059",
+        "অগ্নি নির্বাপণ কেন্দ্র (ঘাটাল দমকল)": "03225244131"
+    },
+    "আরামবাগ": {
+        "মহকুমা সুপার স্পেশালিটি / সদর হাসপাতাল (জরুরি বিভাগ)": "03211255104",
+        "স্থানীয় প্রধান থানা (Duty Officer / IC)": "03211255100",
+        "অগ্নি নির্বাপণ কেন্দ্র (Fire Brigade Station)": "03211255199",
+        "মহকুমা শাসক কার্যালয় (SDO Office)": "03211255122",
+        "স্থানীয় পৌর কার্যালয় (Municipality Desk)": "03211255227"
+    },
+    "চন্দননগর": {
+        "মহকুমা সুপার স্পেশালিটি / সদর হাসপাতাল (জরুরি বিভাগ)": "03212276224",
+        "স্থানীয় প্রধান থানা (Duty Officer / IC)": "03212276100",
+        "অগ্নি নির্বাপণ কেন্দ্র (Fire Brigade Station)": "03212279101"
+    },
+    "তমলুক সদর": {
+        "মহকুমা সুপার স্পেশালিটি / সদর হাসপাতাল (জরুরি বিভাগ)": "03228266008",
+        "স্থানীয় প্রধান থানা (Duty Officer / IC)": "03228266023",
+        "অগ্নি নির্বাপণ কেন্দ্র (Fire Brigade Station)": "03228266101",
+        "মহকুমা শাসক কার্যালয় (SDO Office)": "03228266022",
+        "স্থানীয় পৌর কার্যালয় (Municipality Desk)": "03228266006"
+    }
+};
+
+let currentSelectedDistrict = "পশ্চিম মেদিনীপুর";
+let currentSelectedSubDiv = "ঘাটাল";
+let currentSelectedWbCategory = "health";
+
+function initWbDirectory() {
+    const distSelect = document.getElementById('districtSelect');
+    if (!distSelect) return;
+    
+    distSelect.innerHTML = '';
+    Object.keys(wbAdministrativeData).forEach(dist => {
+        const opt = document.createElement('option');
+        opt.value = dist;
+        opt.textContent = dist;
+        if (dist === currentSelectedDistrict) opt.selected = true;
+        distSelect.appendChild(opt);
+    });
+    
+    updateSubDivDropdown();
+}
+
+function onDistrictChange() {
+    currentSelectedDistrict = document.getElementById('districtSelect').value;
+    updateSubDivDropdown();
+}
+
+function updateSubDivDropdown() {
+    const subDivSelect = document.getElementById('subDivSelect');
+    if (!subDivSelect) return;
+    subDivSelect.innerHTML = '';
+    
+    const subDivs = wbAdministrativeData[currentSelectedDistrict] || [];
+    subDivs.forEach((sd, index) => {
+        const opt = document.createElement('option');
+        opt.value = sd;
+        opt.textContent = sd + (sd.includes('মহকুমা') || sd.includes('এলাকা') ? '' : ' মহকুমা');
+        if (sd === currentSelectedSubDiv || index === 0) opt.selected = true;
+        subDivSelect.appendChild(opt);
+    });
+    
+    currentSelectedSubDiv = subDivSelect.value || subDivs[0] || '';
+    renderDirectoryCards();
+}
+
+function onSubDivChange() {
+    currentSelectedSubDiv = document.getElementById('subDivSelect').value;
+    renderDirectoryCards();
+}
+
+function switchWbCategory(cat) {
+    currentSelectedWbCategory = cat;
+    ['health', 'police', 'admin'].forEach(c => {
+        const btn = document.getElementById('wbTabBtn' + c.charAt(0).toUpperCase() + c.slice(1));
+        if (btn) {
+            if (c === cat) {
+                btn.style.background = '#0284c7';
+                btn.style.color = '#ffffff';
+            } else {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--text-sub)';
+            }
+        }
+    });
+    renderDirectoryCards();
+}
+
+function renderDirectoryCards() {
+    const container = document.getElementById('wbContactsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+
+    let roles = (currentSelectedSubDiv === 'ঘাটাল') 
+        ? (ghatalSpecificRoles[currentSelectedWbCategory] || [])
+        : (defaultCategoryRoles[currentSelectedWbCategory] || []);
+
+    const subDivNumbers = verifiedContactsDB[currentSelectedSubDiv] || {};
+
+    roles.forEach(item => {
+        const phoneNumber = item.call || subDivNumbers[item.role];
+        const card = document.createElement('div');
+        card.className = 'sub-card-row sub-theme-teal';
+
+        let actionButtonHtml = '';
+        if (phoneNumber) {
+            actionButtonHtml = `
+                <a href="tel:${phoneNumber}" class="bs-btn btn-call" style="background:#16a34a;">
+                    <span class="material-symbols-outlined" style="font-size:15px;">call</span> Call
+                </a>`;
+        } else {
+            actionButtonHtml = `
+                <button onclick="openAddNumberModal('${item.role}', '${currentSelectedSubDiv}')" class="bs-btn" style="background:#e0f2fe; color:#0284c7; border:1px dashed #0284c7; cursor:pointer; font-size:11px; font-weight:700;">
+                    <span class="material-symbols-outlined" style="font-size:14px;">add_call</span> + নম্বর যোগ করুন
+                </button>`;
+        }
+
+        card.innerHTML = `
+            <div class="bs-info">
+                <span class="bs-title">${item.role}</span>
+                <span class="bs-desc">${item.desc}${phoneNumber ? `• ${phoneNumber}` : ''}</span>
+            </div>
+            ${actionButtonHtml}
+        `;
+        container.appendChild(card);
+    });
+
+    if (currentSelectedWbCategory === 'health') {
+        const ambBox = document.createElement('div');
+        ambBox.style.cssText = 'background: #f0fdf4; border: 1.5px solid #22c55e; border-radius: 12px; padding: 10px; margin-top: 4px;';
+        
+        let localAmbHtml = '';
+        if (currentSelectedSubDiv === 'ঘাটাল') {
+            localAmbHtml = `<a href="tel:9474360552" class="bs-btn btn-call" style="flex: 1; justify-content: center; background: #0284c7; font-size: 11.5px;">ঘাটাল অ্যাম্বুলেন্স: 9474360552</a>`;
+        }
+
+        ambBox.innerHTML = `
+            <div style="font-size: 12px; font-weight: 800; color: #15803d; margin-bottom: 6px;">🚑 জরুরি রোগী পরিবহন ও অ্যাম্বুলেন্স</div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <a href="tel:102" class="bs-btn btn-call" style="flex: 1; justify-content: center; background: #16a34a; font-size: 11.5px;">বিনামূল্যে সরকারি অ্যাম্বুলেন্স: 102</a>
+                ${localAmbHtml}
+            </div>
+        `;
+        container.appendChild(ambBox);
+    }
+}
+
+function openAddNumberModal(roleName, subDiv) {
+    document.getElementById('crowdEntityName').value = roleName;
+    document.getElementById('crowdSubDiv').value = subDiv + " মহকুমা";
+    document.getElementById('crowdPhoneNumber').value = '';
+    document.getElementById('crowdSourceProof').value = '';
+    openModal('addNumberModal');
+}
+
+function submitCrowdNumber() {
+    const role = document.getElementById('crowdEntityName').value;
+    const subDiv = document.getElementById('crowdSubDiv').value;
+    const phone = document.getElementById('crowdPhoneNumber').value.trim();
+    const proof = document.getElementById('crowdSourceProof').value.trim();
+
+    if (!phone) {
+        alert("দয়া করে সঠিক ফোন বা ল্যান্ডলাইন নম্বরটি লিখুন।");
+        return;
+    }
+
+    const msg = `🏛 *জরুরি নাগরিক সেবা - নম্বর সংযোজন অনুরোধ*\n\n• মহকুমা: ${subDiv}\n• দপ্তর: ${role}\n• প্রস্তাবিত নম্বর: ${phone}\n• তথ্যসূত্র/প্রমাণ: ${proof || 'দেওয়া হয়নি'}\n\nদয়া করে নম্বরটি যাচাই করে অ্যাপে অনুমোদন দিন।`;
+    const waUrl = `
