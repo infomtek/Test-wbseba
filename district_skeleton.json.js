@@ -1,1 +1,0 @@
-fetch('./districts_skeleton.json')
