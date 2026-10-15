@@ -299,7 +299,7 @@
         .category-body { display: none; padding: 12px; background: transparent !important; }
         .category-group.open .category-body { display: block; }
 
-        /* ফোল্ডার থিম কালার */
+        /* লাইট মোড ফোল্ডার */
         .soft-cat-blue { background: #eff6ff !important; border-color: #3b82f6 !important; }
         .soft-cat-blue .category-header-title { color: #1d4ed8; }
         .soft-cat-blue .category-arrow { color: #2563eb; }
@@ -336,7 +336,7 @@
         .soft-cat-emerald .category-header-title { color: #065f46; }
         .soft-cat-emerald .category-arrow { color: #047857; }
 
-        /* ডার্ক মোড */
+        /* ডার্ক মোড ফোল্ডার ও টেক্সট */
         [data-theme="dark"] .category-header-title { color: #f8fafc !important; }
         [data-theme="dark"] .category-arrow { color: #94a3b8 !important; }
         [data-theme="dark"] .category-icon-badge { background: #1e293b !important; }
@@ -481,8 +481,8 @@
         }
         .bs-btn:active { transform: scale(0.96); }
         .btn-wa { background: #22c55e; color: #ffffff; }
-        .btn-call { background: #16a34a !important; color: #ffffff; }
-        .btn-call-sub { background: #16a34a !important; color: #ffffff; }
+        .btn-call { background: #16a34a; color: #ffffff; }
+        .btn-call-sub { background: #2563eb; color: #ffffff; }
         .btn-sms { background: #ea580c; color: #ffffff; }
         .btn-link { background: #2563eb; color: #ffffff; }
 
@@ -506,7 +506,7 @@
             text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 5px;
         }
         .psc-btn-wa { background: #22c55e; color: #ffffff; }
-        .psc-btn-call { background: #16a34a; color: #ffffff; }
+        .psc-btn-call { background: #2563eb; color: #ffffff; }
 
         /* ফ্লোটিং বাটন */
         .floating-action-group {
@@ -534,9 +534,11 @@
         .footer-warning-heading { font-size: 13px; font-weight: 800; color: #b91c1c; letter-spacing: 0.5px; }
         [data-theme="dark"] .footer-warning-heading { color: #f87171; }
         .footer-warning-text { font-size: 11px; font-weight: 600; line-height: 1.5; max-width: 520px; display: flex; align-items: center; justify-content: center; gap: 4px; flex-wrap: wrap; }
-
-        /* ইমার্জেন্সি ডিরেক্টরি ট্যাব ও ফিল্টার */
-        .wb-filter-row { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    
+        /* ইমার্জেন্সি ডিরেক্টরি ট্যাব ও ফিল্টার স্টাইল */
+        .wb-filter-row {
+            display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;
+        }
         .wb-select {
             flex: 1; min-width: 130px; padding: 8px 12px; border-radius: 10px;
             border: 1.5px solid var(--card-border); background: var(--search-bg);
@@ -560,7 +562,7 @@
         [data-theme="dark"] .wb-tab-btn.active {
             background: #2563eb; border-color: #2563eb;
         }
-    </style>
+</style>
 </head>
 <body>
 
@@ -591,7 +593,7 @@
 
     <div class="content">
 
-        <!-- ব্যানার -->
+        <!-- ব্যানার: ডিফল্ট টেক্সট (গুগল শিট থেকে নিজে নিজে আপডেট হবে) -->
         <a id="featuredDynamicBanner" href="javascript:void(0);" class="featured-banner">
             <div class="fb-content">
                 <div class="fb-icon" id="fbIcon">📢</div>
@@ -603,7 +605,7 @@
             <span class="material-symbols-outlined" style="font-size: 26px; font-weight: 900; position: relative; z-index: 1; color: #ffffff;">arrow_forward</span>
         </a>
 
-        <!-- ইমার্জেন্সি কার্ড -->
+        <!-- ইমার্জেন্সি কল / অভিযোগ -->
         <div class="standalone-emergency-card" onclick="openModal('emergencyModal')">
             <div class="sec-left">
                 <div class="sec-icon">🚨</div>
@@ -1164,7 +1166,7 @@
         </div>
     </div>
 
-    <!-- মোডাল: ইমার্জেন্সি কল ও আঞ্চলিক ডিরেক্টরি -->
+        <!-- মোডাল: ইমার্জেন্সি কল ও আঞ্চলিক ডিরেক্টরি -->
     <div id="emergencyModal" class="modal-overlay" onclick="closeModal('emergencyModal')">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -1172,7 +1174,7 @@
                 <button class="modal-close" onclick="closeModal('emergencyModal')">&times;</button>
             </div>
             <div class="modal-scroll-area">
-                <!-- ১. রাজ্য হেল্পলাইন ও অভিযোগ -->
+                <!-- ১. রাজ্য হেল্পলাইন ও অভিযোগ (সর্বোচ্চ জরুরি) -->
                 <div class="sub-card-row sub-theme-orange" style="border: 1.5px solid #f97316;">
                     <div class="bs-info">
                         <span class="bs-title" style="color: #c2410c;">📢 সরাসরি মুখ্যমন্ত্রী অভিযোগ পোর্টাল</span>
@@ -1186,7 +1188,7 @@
 
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 12px;">
                     <a href="tel:112" class="bs-btn" style="background:#dc2626; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">call</span> 🚨 পুলিশ / দমকল: 112</a>
-                    <a href="tel:102" class="bs-btn btn-call" style="justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">ambulance</span> অ্যাম্বুলেন্স: 102</a>
+                    <a href="tel:102" class="bs-btn" style="background:#16a34a; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">ambulance</span> অ্যাম্বুলেন্স: 102</a>
                     <a href="tel:1930" class="bs-btn" style="background:#0284c7; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">lock_reset</span> সাইবার ফ্রড: 1930</a>
                     <a href="tel:1091" class="bs-btn" style="background:#9333ea; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">female</span> নারী সুরক্ষা: 1091</a>
                 </div>
@@ -1256,7 +1258,7 @@
         </div>
     </div>
 
-    <!-- মোডাল: DBT লিংক ব্যাংক পরিবর্তন -->
+<!-- মোডাল: DBT লিংক ব্যাংক পরিবর্তন -->
     <div id="dbtModal" class="modal-overlay" onclick="closeModal('dbtModal')">
         <div class="modal-box" style="height: auto; max-height: 80vh;" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -1373,7 +1375,7 @@
             </div>
             <div class="modal-scroll-area">
                 <div class="sub-card-row sub-theme-blue">
-                    <div class="bs-info"><span class="bs-title">Toll-Free হেল্পলাইন কল</span><span class="bs-desc">19121 (সরাসরি কাস্টমার কেয়ারে কথা বলুন)</span></div>
+                    <div class="bs-info"><span class="bs-title">টোল-ফ্রি হেল্পলাইন কল</span><span class="bs-desc">19121 (সরাসরি কাস্টমার কেয়ারে কথা বলুন)</span></div>
                     <a href="tel:19121" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 15px;">call</span> 19121</a>
                 </div>
                 <div class="sub-card-row sub-theme-green">
@@ -1739,6 +1741,7 @@ function sendLandRecordWhatsApp() {
     window.open(whatsappUrl, '_blank');
 }
 
+/* লিস্ট / গ্রিড ভিউ টগল */
 function toggleLayoutView() {
     const appContainer = document.getElementById('appMainContainer');
     const isCurrentlyGrid = appContainer.classList.contains('page-view-grid');
@@ -1830,6 +1833,7 @@ function filterServices() {
     });
 }
 
+/* ব্যাংক সার্চিং */
 const bankSearchAliases = {
     'sbi': ['sbi', 'state bank', 'স্টেট ব্যাঙ্ক', 'স্টেট ব্যাংক', 'এসবিআই'],
     'pnb': ['pnb', 'punjab national', 'পাঞ্জাব ন্যাশনাল', 'পিএনবি'],
@@ -1987,10 +1991,12 @@ const bankColorThemes = [
 ];
 
 function loadLiveGoogleSheetData() {
+    /* ১. কন্টাক্ট শিট থেকে ব্যাংক লিস্ট ফেচ ও A-to-Z সাজানো */
     fetch(`https://opensheet.elk.sh/${CONTACT_SHEET_ID}/Sheet1`)
         .then(res => res.json())
         .then(data => {
             if (!Array.isArray(data) || data.length === 0) return;
+
             const bankContainer = document.getElementById('bankListContainer');
             let bankData = data.filter(d => d.category === 'bank');
             bankData.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
@@ -2020,19 +2026,24 @@ function loadLiveGoogleSheetData() {
         })
         .catch(err => console.error("কন্টাক্ট শিট সমস্যা:", err));
 
+    /* ২. সার্ভিস শিট থেকে ডেটা ফেচ (Google Sheets ব্যর্থ হলে services.json ফলব্যাক) */
     fetch(`https://opensheet.elk.sh/${SERVICES_SHEET_ID}/Sheet1`)
         .then(res => {
             if (!res.ok) throw new Error("Google Sheets ফেচ ব্যর্থ");
             return res.json();
         })
         .catch(err => {
-            return fetch('./services.json').then(r => r.json()).catch(() => []);
+            console.warn("গুগল শিট থেকে ফেচ করা সম্ভব হয়নি, GitHub ব্যাকআপ (services.json) ব্যবহার করা হচ্ছে...", err);
+            return fetch('./services.json').then(r => r.json());
         })
         .then(data => {
             if (!Array.isArray(data) || data.length === 0) return;
+
+            // শিটে থাকা রো-অর্ডার অক্ষুণ্ণ রেখে ক্যাটাগরি অনুযায়ী গ্রুপিং
             const grouped = {};
             data.forEach(item => {
                 if (item.category === 'banner') {
+                    // বড় ব্যানার ডাইনামিক আপডেট
                     const bannerElem = document.getElementById('featuredDynamicBanner');
                     const bTitle = document.getElementById('fbTitle');
                     const bDesc = document.getElementById('fbDesc');
@@ -2048,6 +2059,7 @@ function loadLiveGoogleSheetData() {
                 grouped[cat].push(item);
             });
 
+            // শিটের সিরিয়াল অনুযায়ী প্রতিটি ফোল্ডারে কার্ড সাজানো (কোনো ডাবল কার্ড হবে না)
             for (let cat in grouped) {
                 const targetContainerId = categoryContainerMap[cat];
                 if (targetContainerId) {
@@ -2058,8 +2070,9 @@ function loadLiveGoogleSheetData() {
                 }
             }
         })
-        .catch(err => console.error("সার্ভিস ডেটা সমস্যা:", err));
+        .catch(err => console.error("সার্ভিস ডেটা লোড সমস্যা:", err));
 }
+
 
 /* ==============================================
    জরুরি ডিরেক্টরি (৮টি জেলা), ডুয়াল বাটন ও শিট সিঙ্ক
@@ -2067,10 +2080,10 @@ function loadLiveGoogleSheetData() {
 const CROWD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvFwvZ4DkFSR6p_tbYcXsGZmwsIAAOJpmwLmPkx5nnx-qhlkt4dx12slHQ41twEtfl5Q/exec";
 
 let emergencyDirectoryData = {};
-let verifiedContactsDB = {};
+let verifiedContactsDB = {}; // Google Sheet থেকে অনুমোদিত নম্বর
 let currentSelectedDistrict = "পশ্চিম মেদিনীপুর";
 let currentSelectedSubDiv = "ঘাটাল";
-let currentSelectedWbCategory = "utility";
+let currentSelectedWbCategory = "utility"; // ডিফল্ট নাগরিক পরিষেবা (জল/বিদ্যুৎ/সাফাই/রেসকিউ)
 
 function initWbDirectory() {
     const distSelect = document.getElementById('wbDistrictSelect');
@@ -2135,16 +2148,16 @@ function switchWbTab(cat, btn) {
 }
 
 function getOfficeLabel(item, subDiv) {
-    if (item.name.includes("পৌরসভা") || item.name.includes("সাফাই") || item.sub.includes("পৌর")) {
+    if (item.name.includes("বিদ্যুৎ") || item.name.includes("WBSEDCL") || item.name.includes("কারেন্ট")) {
+        return `${subDiv} ইলেকট্রিক অফিস`;
+    } else if (item.name.includes("পৌরসভা") || item.name.includes("সাফাই") || item.sub.includes("পৌর")) {
         return `${subDiv} পৌর কার্যালয়`;
-    } else if (item.name.includes("বিদ্যুৎ") || item.name.includes("WBSEDCL")) {
-        return `${subDiv} বিদ্যুৎ কার্যালয়`;
     } else if (item.name.includes("জল") || item.name.includes("PHE")) {
-        return `${subDiv} PHE কার্যালয়`;
+        return `${subDiv} জল দপ্তর (PHE)`;
     } else if (item.name.includes("সাপ") || item.name.includes("বন")) {
-        return `${subDiv} বন বিভাগ রেঞ্জ কার্যালয়`;
+        return `${subDiv} বন দপ্তর`;
     }
-    return `${subDiv} কার্যালয়`;
+    return `${subDiv} অফিস`;
 }
 
 function renderDirectoryCards() {
@@ -2165,12 +2178,14 @@ function renderDirectoryCards() {
     }
 
     filteredItems.forEach(item => {
+        // গুগল শিটে অনুমোদিত নম্বর চেক (লাইভ ওভাররাইড)
         const liveApprovedNum = (verifiedContactsDB[currentSelectedSubDiv] && verifiedContactsDB[currentSelectedSubDiv][item.name])
                                 ? verifiedContactsDB[currentSelectedSubDiv][item.name]
                                 : item.phone;
 
         const card = document.createElement('div');
 
+        // ক. ইউটিলিটি সার্ভিস (ডুয়াল বাটন: সেন্ট্রাল ফ্রি + লোকাল অফিস)
         if (item.type === 'utility') {
             card.className = 'sub-card-row sub-theme-amber';
             card.style.cssText = 'flex-direction: column; align-items: flex-start; gap: 8px;';
@@ -2179,7 +2194,7 @@ function renderDirectoryCards() {
             const officeTitle = getOfficeLabel(item, currentSelectedSubDiv);
 
             if (liveApprovedNum && liveApprovedNum.trim() !== '') {
-                localBtn = `<a href="tel:${liveApprovedNum}" class="bs-btn btn-call" style="background:#16a34a !important; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">call</span> 📞 ${officeTitle} (${liveApprovedNum})</a>`;
+                localBtn = `<a href="tel:${liveApprovedNum}" class="bs-btn btn-call" style="background:#16a34a !important; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">call</span> ${officeTitle} (${liveApprovedNum})</a>`;
             } else {
                 localBtn = `<button onclick="openAddNumberModal('${item.name}', '${currentSelectedSubDiv}')" class="bs-btn" style="background:#e0f2fe; color:#0284c7; border:1px dashed #0284c7; font-size:11px; cursor:pointer;"><span class="material-symbols-outlined" style="font-size:13px;">add_call</span> + লোকাল নম্বর দিন</button>`;
             }
@@ -2196,12 +2211,14 @@ function renderDirectoryCards() {
                     ${localBtn}
                 </div>
             `;
-        } else {
+        } 
+        // খ. স্বাস্থ্য, পুলিশ ও প্রশাসন ক্যাটাগরি
+        else {
             card.className = 'sub-card-row ' + (item.type === 'health' ? 'sub-theme-teal' : (item.type === 'police' ? 'sub-theme-blue' : 'sub-theme-indigo'));
 
             let actionBtnHtml = '';
             if (liveApprovedNum && liveApprovedNum.trim() !== '') {
-                actionBtnHtml = `<a href="tel:${liveApprovedNum}" class="bs-btn btn-call" style="background:#16a34a !important; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:15px;">call</span> Call</a>`;
+                actionBtnHtml = `<a href="tel:${liveApprovedNum}" class="bs-btn btn-call" style="background:#16a34a; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:15px;">call</span> Call</a>`;
             } else {
                 actionBtnHtml = `<button onclick="openAddNumberModal('${item.name}', '${currentSelectedSubDiv}')" class="bs-btn" style="background:#e0f2fe; color:#0284c7; border:1px dashed #0284c7; cursor:pointer; font-size:11px; font-weight:700;"><span class="material-symbols-outlined" style="font-size:14px;">add_call</span> + নম্বর দিন</button>`;
             }
@@ -2226,14 +2243,15 @@ function renderDirectoryCards() {
         container.appendChild(card);
     });
 
+    // স্বাস্থ্য বিভাগের নিচে সরাসরি অ্যাম্বুলেন্স কুইক ডায়াল
     if (currentSelectedWbCategory === 'health') {
         const ambBox = document.createElement('div');
         ambBox.style.cssText = 'background: #f0fdf4; border: 1.5px solid #22c55e; border-radius: 12px; padding: 10px; margin-top: 6px;';
         ambBox.innerHTML = `
             <div style="font-size: 12px; font-weight: 800; color: #15803d; margin-bottom: 6px;">🚑 জরুরি রোগী পরিবহন ও অ্যাম্বুলেন্স</div>
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                <a href="tel:102" class="bs-btn btn-call" style="flex: 1; justify-content: center; background: #16a34a !important; font-size: 11.5px; text-decoration:none;">বিনামূল্যে সরকারি অ্যাম্বুলেন্স: 102</a>
-                ${currentSelectedSubDiv === 'ঘাটal' || currentSelectedSubDiv === 'ঘাটাল' ? '<a href="tel:9474360552" class="bs-btn btn-call" style="flex: 1; justify-content: center; background: #16a34a !important; font-size: 11.5px; text-decoration:none;">ঘাটাল লোকাল অ্যাম্বুলেন্স: 9474360552</a>' : ''}
+                <a href="tel:102" class="bs-btn btn-call" style="flex: 1; justify-content: center; background: #16a34a; font-size: 11.5px; text-decoration:none;">বিনামূল্যে সরকারি অ্যাম্বুলেন্স: 102</a>
+                ${currentSelectedSubDiv === 'ঘাটal' || currentSelectedSubDiv === 'ঘাটাল' ? '<a href="tel:9474360552" class="bs-btn btn-call" style="flex: 1; justify-content: center; background: #0284c7; font-size: 11.5px; text-decoration:none;">ঘাটাল লোকাল অ্যাম্বুলেন্স: 9474360552</a>' : ''}
             </div>
         `;
         container.appendChild(ambBox);
@@ -2292,6 +2310,7 @@ function submitCrowdNumber() {
 }
 
 function loadEmergencyDirectoryAndSheets() {
+    // ১. district_skeleton.json থেকে ৮টি জেলার কাঠামো লোড
     fetch('./district_skeleton.json')
         .then(res => {
             if (!res.ok) throw new Error("JSON ফেচ ব্যর্থ");
@@ -2302,9 +2321,15 @@ function loadEmergencyDirectoryAndSheets() {
             initWbDirectory();
         })
         .catch(err => {
-            console.warn("JSON ফেচ বিলম্ব, ব্যাকআপ সক্রিয় হচ্ছে...", err);
+            console.warn("JSON ফাইল সমস্যা, ব্যাকআপ লোড করা হচ্ছে...", err);
+            // ব্যাকআপ ডেটা হ্যান্ডলার
+            if (typeof backupDistrictData !== 'undefined') {
+                emergencyDirectoryData = backupDistrictData;
+                initWbDirectory();
+            }
         });
 
+    // ২. কন্টাক্ট শিটের 'Emergency' ট্যাব থেকে অনুমোদিত নম্বর সিঙ্ক
     fetch(`https://opensheet.elk.sh/${CONTACT_SHEET_ID}/Emergency`)
         .then(res => res.json())
         .then(data => {
@@ -2331,6 +2356,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadLiveGoogleSheetData();
     loadEmergencyDirectoryAndSheets();
 });
+
 </script>
 
 <!-- Vercel Analytics -->
