@@ -1632,6 +1632,36 @@ function openModal(modalId) {
     history.pushState({ openModalId: modalId }, '');
 }
 
+    
+// রিফ্রেশ বা পেজ রিলোডের পর শেষ খোলা মোডাল বা পেজ রিফ্রেশ করে সচল রাখা
+window.addEventListener('load', () => {
+    const lastOpenModal = sessionStorage.getItem('currentOpenModal');
+    if (lastOpenModal) {
+        openModal(lastOpenModal);
+    }
+});
+
+// openModal ফাংশনের ভেতর সেশন স্টোরেজ যুক্ত করা
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.style.display = 'flex';
+    sessionStorage.setItem('currentOpenModal', modalId);
+    history.pushState({ openModalId: modalId }, '');
+}
+
+// closeModal ফাংশনের ভেতর থেকে মুছে ফেলা
+function closeModal(modalId, isFromPopstate = false) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.style.display = 'none';
+    sessionStorage.removeItem('currentOpenModal');
+    if (!isFromPopstate && history.state && history.state.openModalId === modalId) {
+        history.back();
+    }
+}
+
+
 function closeModal(modalId, isFromPopstate = false) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
@@ -2369,31 +2399,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
-// রিফ্রেশ বা পেজ রিলোডের পর শেষ খোলা মোডাল বা পেজ রিফ্রেশ করে সচল রাখা
-window.addEventListener('load', () => {
-    const lastOpenModal = sessionStorage.getItem('currentOpenModal');
-    if (lastOpenModal) {
-        openModal(lastOpenModal);
-    }
-});
-
-// openModal ফাংশনের ভেতর সেশন স্টোরেজ যুক্ত করা
-function openModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (!modal) return;
-    modal.style.display = 'flex';
-    sessionStorage.setItem('currentOpenModal', modalId);
-    history.pushState({ openModalId: modalId }, '');
-}
-
-// closeModal ফাংশনের ভেতর থেকে মুছে ফেলা
-function closeModal(modalId, isFromPopstate = false) {
-    const modal = document.getElementById(modalId);
-    if (!modal) return;
-    modal.style.display = 'none';
-    sessionStorage.removeItem('currentOpenModal');
-    if (!isFromPopstate && history.state && history.state.openModalId === modalId) {
-        history.back();
-    }
-}
