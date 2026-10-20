@@ -1166,14 +1166,14 @@
         </div>
     </div>
 
-        <!-- মোডাল: ইমার্জেন্সি কল ও আঞ্চলিক ডিরেক্টরি -->
+    <!-- মোডাল: ইমার্জেন্সি কল ও আঞ্চলিক ডিরেক্টরি -->
     <div id="emergencyModal" class="modal-overlay" onclick="closeModal('emergencyModal')">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <h3 style="color: #dc2626;">🚨 জরুরি সেবা ও জেলাভিত্তিক নাগরিক ডিরেক্টরি</h3>
                 <button class="modal-close" onclick="closeModal('emergencyModal')">&times;</button>
             </div>
-                <div class="modal-scroll-area">
+            <div class="modal-scroll-area">
                 <!-- ১. জেলা ও মহকুমা নির্বাচন ফিল্টার (এখন একদম উপরে) -->
                 <div style="background: var(--bg-color); border: 1.5px solid var(--card-border); border-radius: 14px; padding: 11px 12px; margin-bottom: 12px;">
                     <div style="font-size: 12.5px; font-weight: 800; color: var(--text-main); margin-bottom: 8px; display:flex; align-items:center; justify-content:space-between;">
@@ -1249,7 +1249,7 @@
                     </div>
                     <div>
                         <label style="font-size: 11.5px; font-weight: 800; color: var(--text-sub);">ফোন নম্বর (১০ সংখ্যার মোবাইল বা ল্যান্ডলাইন):</label>
-                        <input type="tel" id="crowdPhone" placeholder="যেমন: 03225255... অথবা 9832..." style="width: 100%; padding: 9px 12px; border-radius: 9px; border: 1.5px solid var(--card-border); font-size: 14px; font-weight:700; outline:none; background: var(--search-bg); color: var(--text-main); margin-top:3px;">
+                        <input type="tel" id="crowdPhone" placeholder="যেমন: 03225255... অথবা 9832..." style="width: 100%; padding: 99px 12px; border-radius: 9px; border: 1.5px solid var(--card-border); font-size: 14px; font-weight:700; outline:none; background: var(--search-bg); color: var(--text-main); margin-top:3px;">
                     </div>
                     <button id="crowdSubmitBtn" onclick="submitCrowdNumber()" style="background: #0284c7; color: #ffffff; border: none; padding: 11px; border-radius: 10px; font-size: 13.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 3px 8px rgba(2, 132, 199, 0.3);">
                         <span class="material-symbols-outlined" style="font-size: 18px;">cloud_upload</span> নম্বর জমা দিন
@@ -1260,7 +1260,7 @@
         </div>
     </div>
 
-<!-- মোডাল: DBT লিংক ব্যাংক পরিবর্তন -->
+    <!-- মোডাল: DBT লিংক ব্যাংক পরিবর্তন -->
     <div id="dbtModal" class="modal-overlay" onclick="closeModal('dbtModal')">
         <div class="modal-box" style="height: auto; max-height: 80vh;" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -1625,14 +1625,6 @@ function toggleCategory(groupId) {
     group.classList.toggle('open');
 }
 
-function openModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (!modal) return;
-    modal.style.display = 'flex';
-    history.pushState({ openModalId: modalId }, '');
-}
-
-    
 // রিফ্রেশ বা পেজ রিলোডের পর শেষ খোলা মোডাল বা পেজ রিফ্রেশ করে সচল রাখা
 window.addEventListener('load', () => {
     const lastOpenModal = sessionStorage.getItem('currentOpenModal');
@@ -1641,7 +1633,6 @@ window.addEventListener('load', () => {
     }
 });
 
-// openModal ফাংশনের ভেতর সেশন স্টোরেজ যুক্ত করা
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
@@ -1650,22 +1641,11 @@ function openModal(modalId) {
     history.pushState({ openModalId: modalId }, '');
 }
 
-// closeModal ফাংশনের ভেতর থেকে মুছে ফেলা
 function closeModal(modalId, isFromPopstate = false) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
     modal.style.display = 'none';
     sessionStorage.removeItem('currentOpenModal');
-    if (!isFromPopstate && history.state && history.state.openModalId === modalId) {
-        history.back();
-    }
-}
-
-
-function closeModal(modalId, isFromPopstate = false) {
-    const modal = document.getElementById(modalId);
-    if (!modal) return;
-    modal.style.display = 'none';
     if (!isFromPopstate && history.state && history.state.openModalId === modalId) {
         history.back();
     }
@@ -1682,7 +1662,10 @@ function openComingSoon(serviceName) {
 window.addEventListener('popstate', () => {
     const openModals = document.querySelectorAll('.modal-overlay');
     openModals.forEach(m => {
-        if (m.style.display === 'flex') m.style.display = 'none';
+        if (m.style.display === 'flex') {
+            m.style.display = 'none';
+            sessionStorage.removeItem('currentOpenModal');
+        }
     });
 });
 
