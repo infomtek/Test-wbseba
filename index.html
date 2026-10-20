@@ -1173,27 +1173,8 @@
                 <h3 style="color: #dc2626;">🚨 জরুরি সেবা ও জেলাভিত্তিক নাগরিক ডিরেক্টরি</h3>
                 <button class="modal-close" onclick="closeModal('emergencyModal')">&times;</button>
             </div>
-            <div class="modal-scroll-area">
-                <!-- ১. রাজ্য হেল্পলাইন ও অভিযোগ (সর্বোচ্চ জরুরি) -->
-                <div class="sub-card-row sub-theme-orange" style="border: 1.5px solid #f97316;">
-                    <div class="bs-info">
-                        <span class="bs-title" style="color: #c2410c;">📢 সরাসরি মুখ্যমন্ত্রী অভিযোগ পোর্টাল</span>
-                        <span class="bs-desc">টোল-ফ্রি হেল্পলাইন: ৯১৩৭০৯১৩৭০ / সরাসরি অভিযোগ দাখিল</span>
-                    </div>
-                    <div style="display: flex; gap: 5px;">
-                        <a href="tel:9137091370" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 15px;">call</span> Call</a>
-                        <a href="https://cmo.wb.gov.in/landing/raise-grievance" target="_blank" class="bs-btn btn-link">পোর্টাল <span class="material-symbols-outlined" style="font-size: 15px;">open_in_new</span></a>
-                    </div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 12px;">
-                    <a href="tel:112" class="bs-btn" style="background:#dc2626; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">call</span> 🚨 পুলিশ / দমকল: 112</a>
-                    <a href="tel:102" class="bs-btn" style="background:#16a34a; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">ambulance</span> অ্যাম্বুলেন্স: 102</a>
-                    <a href="tel:1930" class="bs-btn" style="background:#0284c7; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">lock_reset</span> সাইবার ফ্রড: 1930</a>
-                    <a href="tel:1091" class="bs-btn" style="background:#9333ea; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">female</span> নারী সুরক্ষা: 1091</a>
-                </div>
-
-                <!-- ২. জেলা ও মহকুমা নির্বাচন ফিল্টার -->
+                <div class="modal-scroll-area">
+                <!-- ১. জেলা ও মহকুমা নির্বাচন ফিল্টার (এখন একদম উপরে) -->
                 <div style="background: var(--bg-color); border: 1.5px solid var(--card-border); border-radius: 14px; padding: 11px 12px; margin-bottom: 12px;">
                     <div style="font-size: 12.5px; font-weight: 800; color: var(--text-main); margin-bottom: 8px; display:flex; align-items:center; justify-content:space-between;">
                         <span>📍 আপনার জেলা ও মহকুমা নির্বাচন করুন:</span>
@@ -1208,6 +1189,36 @@
                         </select>
                     </div>
                 </div>
+
+                <!-- ২. সরাসরি মুখ্যমন্ত্রী অভিযোগ পোর্টাল -->
+                <div class="sub-card-row sub-theme-orange" style="border: 1.5px solid #f97316;">
+                    <div class="bs-info">
+                        <span class="bs-title" style="color: #c2410c;">📢 সরাসরি মুখ্যমন্ত্রী অভিযোগ পোর্টাল</span>
+                        <span class="bs-desc">টোল-ফ্রি হেল্পলাইন: ৯১৩৭০৯১৩৭০ / সরাসরি অভিযোগ দাখিল</span>
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <a href="tel:9137091370" class="bs-btn btn-call"><span class="material-symbols-outlined" style="font-size: 15px;">call</span> Call</a>
+                        <a href="https://cmo.wb.gov.in/landing/raise-grievance" target="_blank" class="bs-btn btn-link">পোর্টাল <span class="material-symbols-outlined" style="font-size: 15px;">open_in_new</span></a>
+                    </div>
+                </div>
+
+                <!-- ৩. জরুরি নম্বর গ্রিড -->
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 12px;">
+                    <a href="tel:112" class="bs-btn" style="background:#dc2626; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">call</span> 🚨 পুলিশ / দমকল: 112</a>
+                    <a href="tel:102" class="bs-btn btn-call" style="justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">ambulance</span> অ্যাম্বুলেন্স: 102</a>
+                    <a href="tel:1930" class="bs-btn" style="background:#0284c7; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">lock_reset</span> সাইবার ফ্রড: 1930</a>
+                    <a href="tel:1091" class="bs-btn" style="background:#9333ea; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">female</span> নারী সুরক্ষা: 1091</a>
+                </div>
+                
+
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 12px;">
+                    <a href="tel:112" class="bs-btn" style="background:#dc2626; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">call</span> 🚨 পুলিশ / দমকল: 112</a>
+                    <a href="tel:102" class="bs-btn" style="background:#16a34a; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">ambulance</span> অ্যাম্বুলেন্স: 102</a>
+                    <a href="tel:1930" class="bs-btn" style="background:#0284c7; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">lock_reset</span> সাইবার ফ্রড: 1930</a>
+                    <a href="tel:1091" class="bs-btn" style="background:#9333ea; justify-content:center; padding:8px 6px; font-size:11.5px; text-decoration:none;"><span class="material-symbols-outlined" style="font-size:14px;">female</span> নারী সুরক্ষা: 1091</a>
+                </div>
+
+               
 
                 <!-- ৩. ৪টি সুনির্দিষ্ট জরুরি ক্যাটাগরি ট্যাব -->
                 <div class="wb-tab-row">
