@@ -1,611 +1,132 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>জরুরি সেবা ও জেলাভিত্তিক নাগরিক ডিরেক্টরি</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* অনুভূমিক স্ক্রোলবার লুকানোর জন্য */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
+/* ইনপুট ইভেন্ট ও এন্টার কি ট্র্যাকিং */
+function handleSearchInput(event) {
+    // সাধারণ টাইপিংয়ে সার্ভিস কার্ড ফিল্টার হবে
+    filterServices();
+
+    // এন্টার (Enter) প্রেস করলে সরাসরি এআই / এক্সটার্নাল নলেজ কার্যকর হবে
+    if (event.key === "Enter") {
+        executeSmartQuery();
     }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    /* কারাওকে অডিও হাইলাইট স্টাইল */
-    .word-highlight {
-      background-color: #fef08a;
-      color: #854d0e;
-      font-weight: bold;
-      border-radius: 4px;
-      padding: 0 4px;
-      transition: background-color 0.2s ease;
-    }
-  </style>
-</head>
-<body class="bg-slate-900 text-slate-800 flex justify-center min-h-screen p-0 sm:p-4">
+}
 
-  <!-- মোবাইল কন্টেইনার -->
-  <div class="bg-white w-full max-w-md min-h-screen sm:min-h-0 sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden relative pb-10">
+/* স্মার্ট কোয়েরি এক্সিকিউশন লজিক */
+async function executeSmartQuery() {
+    const input = document.getElementById('searchInput');
+    const query = input.value.trim();
+    if (!query) return;
 
-    <!-- হেডার বার -->
-    <div class="flex items-center justify-between px-5 pt-4 pb-2 border-b border-gray-100">
-      <div class="flex items-center gap-2">
-        <span class="text-2xl">🚨</span>
-        <h1 class="text-lg font-bold text-red-600 leading-tight">জরুরি সেবা ও জেলাভিত্তিক নাগরিক ডিরেক্টরি</h1>
-      </div>
-      <div class="flex items-center gap-2">
-        <!-- ইনস্টল বাটন -->
-        <button id="installBtn" class="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold px-2.5 py-1.5 rounded-full shadow transition">
-          <i class="fa-solid fa-download"></i> ইনস্টল
-        </button>
-        <button class="text-gray-400 hover:text-gray-600 p-1 rounded-full"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-    </div>
-
-    <div class="p-4 space-y-4 overflow-y-auto">
-
-      <!-- জেলা ও মহকুমা নির্বাচন -->
-      <div class="border border-green-200 bg-green-50/40 rounded-2xl p-3 shadow-sm">
-        <div class="flex items-center justify-between text-xs font-bold text-gray-700 mb-2">
-          <span>📍 আপনার জেলা ও মহকুমা নির্বাচন করুন:</span>
-          <span class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          <select class="border border-gray-300 rounded-xl px-2.5 py-2 text-xs font-medium bg-white outline-none focus:border-green-500">
-            <option>পশ্চিম মেদিনীপুর</option>
-            <option>পূর্ব মেদিনীপুর</option>
-            <option>ঝাড়গ্রাম</option>
-          </select>
-          <select class="border border-gray-300 rounded-xl px-2.5 py-2 text-xs font-medium bg-white outline-none focus:border-green-500">
-            <option>ঘাটাল মহকুমা</option>
-            <option>মেদিনীপুর সদর</option>
-            <option>খড়গপুর মহকুমা</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- ভয়েস সার্চ ও জেমিনি AI অ্যাসিস্ট্যান্ট -->
-      <div class="relative">
-        <div class="flex items-center border border-indigo-200 rounded-2xl bg-indigo-50/30 px-3 py-2 shadow-sm focus-within:ring-2 ring-indigo-400">
-          <i class="fa-solid fa-magnifying-glass text-indigo-500 text-sm mr-2"></i>
-          <input type="text" id="aiSearchInput" placeholder="যেকোনো সেবা খুঁজুন বা কথা বলুন..." class="w-full bg-transparent text-xs outline-none text-gray-800 placeholder-gray-400">
-          <button id="micBtn" onclick="toggleVoiceSearch()" title="কথা বলুন" class="text-indigo-600 hover:text-indigo-800 p-1.5 ml-1 transition">
-            <i class="fa-solid fa-microphone text-base" id="micIcon"></i>
-          </button>
-          <button onclick="askGeminiAI()" class="bg-indigo-600 text-white rounded-xl px-2.5 py-1 text-xs font-semibold ml-1.5 hover:bg-indigo-700 shadow">
-            জানুন
-          </button>
-        </div>
-        <!-- AI উত্তর প্রদর্শন বক্স -->
-        <div id="aiResponseBox" class="hidden mt-2 bg-indigo-900 text-white rounded-2xl p-3 text-xs shadow-lg transition">
-          <div class="flex items-center justify-between pb-1.5 border-b border-indigo-700 mb-1.5">
-            <span class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-robot text-indigo-300"></i> AI উত্তর</span>
-            <button onclick="closeAiResponse()" class="text-indigo-300 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-          </div>
-          <p id="aiResponseText" class="leading-relaxed"></p>
-        </div>
-      </div>
-
-      <!-- সরাসরি মুখ্যমন্ত্রী অভিযোগ পোর্টাল -->
-      <div class="border border-amber-300 bg-amber-50/60 rounded-2xl p-3 shadow-sm flex items-center justify-between">
-        <div>
-          <h2 class="text-xs font-bold text-amber-900 flex items-center gap-1.5">
-            <i class="fa-solid fa-bullhorn text-red-500"></i> সরাসরি মুখ্যমন্ত্রী অভিযোগ পোর্টাল
-          </h2>
-          <p class="text-[11px] text-gray-600 mt-0.5">হেল্পলাইন: 9137091370 / সরাসরি অভিযোগ</p>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <a href="https://cmogwb.gov.in" target="_blank" class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow hover:bg-blue-700">
-            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-          </a>
-          <a href="tel:9137091370" class="w-8 h-8 rounded-xl bg-green-600 text-white flex items-center justify-center shadow hover:bg-green-700">
-            <i class="fa-solid fa-phone text-xs"></i>
-          </a>
-        </div>
-      </div>
-
-      <!-- সরাসরি মুখ্যমন্ত্রীর নিচে প্রধান ৬টি রঙিন ফিক্সড বাটন -->
-      <div>
-        <p class="text-[11px] font-bold text-gray-500 mb-1.5 px-1 uppercase tracking-wider">জরুরি সহায়তা নম্বর</p>
-        <div class="grid grid-cols-3 gap-2">
-          <!-- পুলিশ 112 -->
-          <a href="tel:112" class="bg-red-600 text-white rounded-2xl p-2.5 flex flex-col items-center justify-center shadow text-center hover:opacity-95 transition">
-            <i class="fa-solid fa-shield-halved text-base mb-1"></i>
-            <span class="text-xs font-bold">পুলিশ</span>
-            <span class="text-[10px] opacity-90">১১২</span>
-          </a>
-          <!-- দমকল 112 -->
-          <a href="tel:112" class="bg-amber-600 text-white rounded-2xl p-2.5 flex flex-col items-center justify-center shadow text-center hover:opacity-95 transition">
-            <i class="fa-solid fa-fire text-base mb-1 text-yellow-300"></i>
-            <span class="text-xs font-bold">দমকল</span>
-            <span class="text-[10px] opacity-90">১১২</span>
-          </a>
-          <!-- অ্যাম্বুলেন্স 102 -->
-          <a href="tel:102" class="bg-emerald-600 text-white rounded-2xl p-2.5 flex flex-col items-center justify-center shadow text-center hover:opacity-95 transition">
-            <i class="fa-solid fa-truck-medical text-base mb-1"></i>
-            <span class="text-xs font-bold">অ্যাম্বুলেন্স</span>
-            <span class="text-[10px] opacity-90">১০২</span>
-          </a>
-          <!-- রক্তের সন্ধান -->
-          <a href="https://www.eraktkosh.in" target="_blank" class="bg-rose-700 text-white rounded-2xl p-2.5 flex flex-col items-center justify-center shadow text-center hover:opacity-95 transition">
-            <i class="fa-solid fa-droplet text-base mb-1 text-red-200"></i>
-            <span class="text-xs font-bold">রক্তের সন্ধান</span>
-            <span class="text-[10px] opacity-90">ব্লাড ব্যাংক</span>
-          </a>
-          <!-- সাইবার প্রতারণা 1930 -->
-          <a href="tel:1930" class="bg-indigo-700 text-white rounded-2xl p-2.5 flex flex-col items-center justify-center shadow text-center hover:opacity-95 transition">
-            <i class="fa-solid fa-user-secret text-base mb-1"></i>
-            <span class="text-xs font-bold">সাইবার ক্রাইম</span>
-            <span class="text-[10px] opacity-90">১৯৩০</span>
-          </a>
-          <!-- নারী সুরক্ষা 1091 -->
-          <a href="tel:1091" class="bg-purple-700 text-white rounded-2xl p-2.5 flex flex-col items-center justify-center shadow text-center hover:opacity-95 transition">
-            <i class="fa-solid fa-person-dress text-base mb-1"></i>
-            <span class="text-xs font-bold">নারী সুরক্ষা</span>
-            <span class="text-[10px] opacity-90">১০৯১</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- সাইবার প্রতারণা লিংক ভেরিফায়ার কার্ড -->
-      <div class="border border-blue-200 bg-blue-50/50 rounded-2xl p-3 shadow-sm">
-        <div class="flex items-center justify-between text-xs font-bold text-blue-900 mb-1.5">
-          <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-virus text-blue-600"></i> সন্দেহজনক লিংক যাচাইকরণ</span>
-          <span class="text-[10px] text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full font-semibold">সুরক্ষা সেল</span>
-        </div>
-        <div class="flex gap-2">
-          <input type="url" id="linkInput" placeholder="লিংকটি এখানে পেস্ট করুন..." class="w-full bg-white border border-blue-200 rounded-xl px-2.5 py-1.5 text-xs outline-none focus:border-blue-500">
-          <button onclick="verifyLink()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl whitespace-nowrap shadow transition">
-            যাচাই করুন
-          </button>
-        </div>
-        <div id="linkResult" class="hidden text-xs mt-2 p-2 rounded-xl border"></div>
-      </div>
-
-      <!-- প্রধান ৪টি ক্যাটাগরি মেনু (অটো-সেন্টারিং স্ক্রোল ট্যাব) -->
-      <div class="relative">
-        <div id="tabContainer" class="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth py-1 px-1">
-          <button onclick="selectTab(this, 'citizen')" class="cat-tab flex-shrink-0 bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow transition-all duration-300">
-            🛠️ নাগরিক সেবা
-          </button>
-          <button onclick="selectTab(this, 'health')" class="cat-tab flex-shrink-0 bg-gray-100 text-gray-700 text-xs font-bold px-4 py-2 rounded-full border border-gray-200 shadow-sm transition-all duration-300">
-            🏥 স্বাস্থ্য ও হাসপাতাল
-          </button>
-          <button onclick="selectTab(this, 'police')" class="cat-tab flex-shrink-0 bg-gray-100 text-gray-700 text-xs font-bold px-4 py-2 rounded-full border border-gray-200 shadow-sm transition-all duration-300">
-            🚓 থানা ও পুলিশ
-          </button>
-          <button onclick="selectTab(this, 'admin')" class="cat-tab flex-shrink-0 bg-gray-100 text-gray-700 text-xs font-bold px-4 py-2 rounded-full border border-gray-200 shadow-sm transition-all duration-300">
-            🏛️ প্রশাসনিক দপ্তর
-          </button>
-        </div>
-      </div>
-
-      <!-- ক্যাটাগরি কনটেন্ট ১: নাগরিক সেবা -->
-      <div id="citizen-section" class="tab-content space-y-3">
-        <!-- বিদ্যুৎ কার্ড -->
-        <div class="border border-amber-200 bg-amber-50/20 rounded-2xl p-3 shadow-sm">
-          <h3 class="text-xs font-bold text-amber-900 flex items-center gap-1.5">
-            ⚡ বিদ্যুৎ বিভ্রাট ও লাইনের বিপদ
-          </h3>
-          <p class="text-[11px] text-gray-600 mb-2.5">কারেন্ট না থাকলে বা ছেঁড়া তারের বিপদে কন্ট্রোল ডেস্ক</p>
-          <div class="space-y-1.5 border-t border-amber-100 pt-2 text-xs">
-            <div class="flex items-center justify-between bg-white p-2 rounded-xl border border-amber-100">
-              <span class="font-medium text-gray-700">টোল-ফ্রি নম্বর: <strong>19121</strong></span>
-              <a href="tel:19121" class="w-7 h-7 bg-green-600 text-white rounded-lg flex items-center justify-center shadow"><i class="fa-solid fa-phone text-xs"></i></a>
-            </div>
-            <div class="flex items-center justify-between bg-white p-2 rounded-xl border border-amber-100">
-              <span class="font-medium text-gray-700">লোকাল কন্ট্রোল রুম: <strong>03225255050</strong></span>
-              <a href="tel:03225255050" class="w-7 h-7 bg-green-600 text-white rounded-lg flex items-center justify-center shadow"><i class="fa-solid fa-phone text-xs"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <!-- পানীয় জল কার্ড -->
-        <div class="border border-sky-200 bg-sky-50/20 rounded-2xl p-3 shadow-sm">
-          <h3 class="text-xs font-bold text-sky-900 flex items-center gap-1.5">
-            🚰 পানীয় জল বিভ্রাট ও পাইপলাইন মেরামত
-          </h3>
-          <p class="text-[11px] text-gray-600 mb-2.5">টাইম কল বা পাইপলাইনে জল বন্ধ হলে (PHE / পৌরসভা)</p>
-          <div class="space-y-1.5 border-t border-sky-100 pt-2 text-xs">
-            <div class="flex items-center justify-between bg-white p-2 rounded-xl border border-sky-100">
-              <span class="font-medium text-gray-700">টোল-ফ্রি নম্বর: <strong>18003453245</strong></span>
-              <a href="tel:18003453245" class="w-7 h-7 bg-green-600 text-white rounded-lg flex items-center justify-center shadow"><i class="fa-solid fa-phone text-xs"></i></a>
-            </div>
-            <div class="flex items-center justify-between bg-white p-2 rounded-xl border border-sky-100">
-              <span class="font-medium text-gray-700">লোকাল অফিস: <strong>03225255059</strong></span>
-              <a href="tel:03225255059" class="w-7 h-7 bg-green-600 text-white rounded-lg flex items-center justify-center shadow"><i class="fa-solid fa-phone text-xs"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <!-- সাফাই কার্ড -->
-        <div class="border border-stone-200 bg-stone-50/30 rounded-2xl p-3 shadow-sm">
-          <h3 class="text-xs font-bold text-stone-900 flex items-center gap-1.5">
-            🐕‍🦺 মৃত পশুপাখি ও নোংরা আবর্জনা সাফাই
-          </h3>
-          <p class="text-[11px] text-gray-600 mb-2.5">রাস্তায় মৃত পশু বা আবর্জনা পরিষ্কারে পুরসভা / পঞ্চায়েত</p>
-          <div class="space-y-1.5 border-t border-stone-100 pt-2 text-xs">
-            <div class="flex items-center justify-between bg-white p-2 rounded-xl border border-stone-100">
-              <span class="font-medium text-gray-700">লোকাল পৌরসভা হেল্পডেস্ক: <strong>03225255059</strong></span>
-              <a href="tel:03225255059" class="w-7 h-7 bg-green-600 text-white rounded-lg flex items-center justify-center shadow"><i class="fa-solid fa-phone text-xs"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ক্যাটাগরি কনটেন্ট ২: স্বাস্থ্য ও হাসপাতাল -->
-      <div id="health-section" class="tab-content space-y-3 hidden">
-        <div class="border border-rose-200 bg-rose-50/20 rounded-2xl p-3 shadow-sm">
-          <h3 class="text-xs font-bold text-rose-900 flex items-center gap-1.5">
-            🏥 ঘাটাল মহকুমা হাসপাতাল
-          </h3>
-          <p class="text-[11px] text-gray-600 mb-2.5">২৪ ঘণ্টা জরুরি বিভাগ ও ভর্তি সহায়তা</p>
-          <div class="space-y-1.5 border-t border-rose-100 pt-2 text-xs">
-            <div class="flex items-center justify-between bg-white p-2 rounded-xl border border-rose-100">
-              <span class="font-medium text-gray-700">টোল-ফ্রি স্বাস্থ্য সাথী: <strong>18003455384</strong></span>
-              <a href="tel:18003455384" class="w-7 h-7 bg-green-600 text-white rounded-lg flex items-center justify-center shadow"><i class="fa-solid fa-phone text-xs"></i></a>
-            </div>
-            <div class="flex items-center justify-between bg-white p-2 rounded-xl border border-rose-100">
-              <span class="font-medium text-gray-700">লোকাল হাসপাতাল ইমার্জেন্সি: <strong>03225255022</strong></span>
-              <a href="tel:03225255022" class="w-7 h-7 bg-green-600 text-white rounded-lg flex items-center justify-center shadow"><i class="fa-solid fa-phone text-xs"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ক্যাটাগরি কনটেন্ট ৩: থানা ও পুলিশ -->
-      <div id="police-section" class="tab-content space-y-3 hidden">
-        <div class="border border-blue-200 bg-blue-50/20 rounded-2xl p-3 shadow-sm">
-          <h3 class="text-xs font-bold text-blue-900 flex items-center gap-1.5">
-            🚓 ঘাটাল থানা (ডিউটি অফিসার ল্যান্ডলাইন)
-          </h3>
-          <p class="text-[11px] text-gray-600 mb-2.5">২৪ ঘণ্টা পুলিশ সহায়তা ও এফআইআর সংক্রান্ত তথ্য</p>
-          <div class="space-y-1.5 border-t border-blue-100 pt-2 text-xs">
-            <div class="flex items-center justify-between bg-white p-2 rounded-xl border border-blue-100">
-              <span class="font-medium text-gray-700">জরুরি কন্ট্রোল রুম: <strong>112</strong></span>
-              <a href="tel:112" class="w-7 h-7 bg-green-600 text-white rounded-lg flex items-center justify-center shadow"><i class="fa-solid fa-phone text-xs"></i></a>
-            </div>
-            <div class="flex items-center justify-between bg-white p-2 rounded-xl border border-blue-100">
-              <span class="font-medium text-gray-700">লোকাল থানা নম্বর: <strong>03225255211</strong></span>
-              <a href="tel:03225255211" class="w-7 h-7 bg-green-600 text-white rounded-lg flex items-center justify-center shadow"><i class="fa-solid fa-phone text-xs"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <div class="border border-blue-200 bg-blue-50/20 rounded-2xl p-3 shadow-sm">
-          <h3 class="text-xs font-bold text-blue-900 flex items-center gap-1.5">
-            👮 ঘাটাল থানা ভারপ্রাপ্ত আধিকারিক (IC CUG)
-          </h3>
-          <p class="text-[11px] text-gray-600 mb-2.5">আইসি সরাসরি মোবাইল</p>
-          <div class="space-y-1.5 border-t border-blue-100 pt-2 text-xs">
-            <div class="flex items-center justify-between bg-white p-2 rounded-xl border border-blue-100">
-              <span class="font-medium text-gray-700">অফিসিয়াল সিইউজি: <strong>9800989924</strong></span>
-              <a href="tel:9800989924" class="w-7 h-7 bg-green-600 text-white rounded-lg flex items-center justify-center shadow"><i class="fa-solid fa-phone text-xs"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ক্যাটাগরি কনটেন্ট ৪: প্রশাসনিক দপ্তর -->
-      <div id="admin-section" class="tab-content space-y-3 hidden">
-        <div class="border border-purple-200 bg-purple-50/20 rounded-2xl p-3 shadow-sm">
-          <h3 class="text-xs font-bold text-purple-900 flex items-center gap-1.5">
-            🏛️ মহকুমা শাসক দপ্তর (SDO Office)
-          </h3>
-          <p class="text-[11px] text-gray-600 mb-2.5">ঘাটাল মহকুমা প্রশাসনিক সহায়তা</p>
-          <div class="space-y-1.5 border-t border-purple-100 pt-2 text-xs">
-            <div class="flex items-center justify-between bg-white p-2 rounded-xl border border-purple-100">
-              <span class="font-medium text-gray-700">লোকাল এসডিও অফিস: <strong>03225255001</strong></span>
-              <a href="tel:03225255001" class="w-7 h-7 bg-green-600 text-white rounded-lg flex items-center justify-center shadow"><i class="fa-solid fa-phone text-xs"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- অডিও সতর্কতা ও সচেতনতামূলক পপ-আপ বার -->
-      <div class="border border-amber-300 bg-amber-50 rounded-2xl p-3 shadow-sm flex items-center justify-between mt-4">
-        <div class="flex items-center gap-2">
-          <span class="text-lg">📢</span>
-          <div>
-            <h4 class="text-xs font-bold text-amber-900">জনস্বার্থে জরুরি সতর্কতা</h4>
-            <p class="text-[10px] text-gray-500">প্রতারণা থেকে বাঁচতে অডিও শুনুন</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <!-- প্লে বাটন ও স্পিকার -->
-          <button onclick="openAlertModal(true)" class="flex items-center gap-1 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow transition">
-            <i class="fa-solid fa-play text-[10px]"></i> প্লে
-          </button>
-          <button onclick="openAlertModal(false)" class="text-amber-700 hover:text-amber-900 p-1.5">
-            <i class="fa-solid fa-volume-high text-sm"></i>
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- সতর্কতা মোডাল পপ-আপ (লাইন বাই লাইন প্যারাগ্রাফ ও কারাওকে হাইলাইটিং সহ) -->
-    <div id="alertModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl relative">
-        <div class="flex items-center justify-between border-b pb-3 mb-3">
-          <h3 class="text-sm font-bold text-red-600 flex items-center gap-2">
-            <i class="fa-solid fa-triangle-exclamation"></i> জরুরি সাইবার ও নাগরিক সতর্কতা
-          </h3>
-          <button onclick="closeAlertModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-        </div>
-
-        <!-- টেক্সট কন্টেন্ট -->
-        <div id="modalKaraokeText" class="space-y-3 text-xs leading-relaxed text-gray-700 max-h-60 overflow-y-auto">
-          <p>
-            ১. কোনো অবস্থাতেই আপনার ব্যাংকের ওটিপি (OTP), এটিএম পিন বা ব্যক্তিগত গোপনীয় তথ্য অপরিচিত কারো সাথে শেয়ার করবেন না।
-          </p>
-          <p>
-            ২. বিদ্যুৎ বিল বাকি আছে অথবা সংযোগ বিচ্ছিন্ন হওয়ার ভুয়ো মেসেজে আসা কোনো লিংকে ক্লিক করবেন না।
-          </p>
-          <p>
-            ৩. কোনো আর্থিক প্রতারণার শিকার হলে তৎক্ষণাৎ ১৯৩০ নম্বরে কল করে আপনার অভিযোগ নথিভুক্ত করুন।
-          </p>
-        </div>
-
-        <!-- প্লে/পজ ও কন্ট্রোল বাটন -->
-        <div class="mt-4 pt-3 border-t flex items-center justify-between">
-          <button id="karaokePlayBtn" onclick="toggleKaraokeSpeech()" class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2 rounded-xl shadow transition">
-            <i class="fa-solid fa-play" id="karaokeIcon"></i> <span id="karaokeBtnText">শুনুন</span>
-          </button>
-          <button onclick="closeAlertModal()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2 rounded-xl">
-            বন্ধ করুন
-          </button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- সম্পূর্ণ স্ক্রিপ্ট কোড -->
-  <script>
-    // ১. ক্যাটাগরি মেনু সিলেকশন ও অটো-সেন্টারিং
-    function selectTab(btnElement, tabName) {
-      // সমস্ত বাটন ডিফল্ট রঙে নেওয়া
-      document.querySelectorAll('.cat-tab').forEach(btn => {
-        btn.className = 'cat-tab flex-shrink-0 bg-gray-100 text-gray-700 text-xs font-bold px-4 py-2 rounded-full border border-gray-200 shadow-sm transition-all duration-300';
-      });
-      // সিলেক্টেড বাটন নীল করা
-      btnElement.className = 'cat-tab flex-shrink-0 bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow transition-all duration-300';
-
-      // বাটনটিকে স্ক্রিনের ঠিক মাঝখানে সেন্টারিং করা
-      btnElement.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-
-      // কনটেন্ট প্রদর্শন ও পরিবর্তন
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      const activeSection = document.getElementById(tabName + '-section');
-      if (activeSection) {
-        activeSection.classList.remove('hidden');
-      }
-    }
-
-    // ২. সতর্কতা পপ-আপ মোডাল ও কারাওকে হাইলাইটিং
-    let synth = window.speechSynthesis;
-    let currentUtterance = null;
-    let isSpeaking = false;
-
-    function openAlertModal(autoPlay = false) {
-      document.getElementById('alertModal').classList.remove('hidden');
-      prepareKaraokeSpans();
-      if (autoPlay) {
-        startKaraokeSpeech();
-      }
-    }
-
-    function closeAlertModal() {
-      document.getElementById('alertModal').classList.add('hidden');
-      stopKaraokeSpeech();
-    }
-
-    // টেক্সটকে শব্দে রূপান্তর করে স্প্যান (Span) দিয়ে সাজানো
-    function prepareKaraokeSpans() {
-      const container = document.getElementById('modalKaraokeText');
-      const paragraphs = container.querySelectorAll('p');
-      let wordIndex = 0;
-
-      paragraphs.forEach(p => {
-        const text = p.innerText;
-        const words = text.split(/\s+/);
-        p.innerHTML = words.map(word => {
-          if (!word.trim()) return '';
-          const span = `<span id="word-${wordIndex}" class="transition-colors">${word}</span>`;
-          wordIndex++;
-          return span;
-        }).join(' ');
-      });
-    }
-
-    function toggleKaraokeSpeech() {
-      if (isSpeaking) {
-        stopKaraokeSpeech();
-      } else {
-        startKaraokeSpeech();
-      }
-    }
-
-    function startKaraokeSpeech() {
-      if (!('speechSynthesis' in window)) {
-        alert('আপনার ব্রাউজারে টেক্সট-টু-স্পিচ সমর্থিত নয়।');
+    // ১. ঘাটাল সংক্রান্ত আবহাওয়া বা স্থানীয় তথ্য
+    if (query.includes('আবহাওয়া') || query.includes('weather') || query.includes('বৃষ্টি') || query.includes('তাপমাত্রা')) {
+        showSmartCard(`
+            <strong>ঘাটাল ও সংলগ্ন এলাকার আবহাওয়া তথ্য:</strong><br>
+            বর্তমান স্থানীয় আবহাওয়া পূর্বাভাস ও বৃষ্টির লাইভ স্যাটেলাইট মানচিত্র সরাসরি দেখতে পারেন।<br>
+            <a href="https://www.google.com/search?q=weather+ghatal" target="_blank" style="color: #2563eb; font-weight: 700; text-decoration: underline; margin-top: 4px; display: inline-block;">
+                🌦️ ঘাটালের লাইভ আবহাওয়া আপডেট দেখুন ↗
+            </a>
+        `);
         return;
-      }
-      stopKaraokeSpeech();
+    }
 
-      const container = document.getElementById('modalKaraokeText');
-      const fullText = container.innerText;
-      currentUtterance = new SpeechSynthesisUtterance(fullText);
-      currentUtterance.lang = 'bn-IN';
-      currentUtterance.rate = 0.9;
+    // ২. জাতীয় বা স্থানীয় খবরাখবর
+    if (query.includes('খবর') || query.includes('news') || query.includes('সংবাদ')) {
+        showSmartCard(`
+            <strong>সর্বশেষ খবরাখবর ও হেডলাইন:</strong><br>
+            পশ্চিমবঙ্গ ও জাতীয় স্তরের নির্ভরযোগ্য খবর সরাসরি পড়তে নিচের লিংকে ক্লিক করুন:<br>
+            <a href="https://news.google.com/search?q=${encodeURIComponent(query)}" target="_blank" style="color: #2563eb; font-weight: 700; text-decoration: underline; margin-top: 4px; display: inline-block;">
+                📰 লাইভ সংবাদ ও আপডেট পড়ুন ↗
+            </a>
+        `);
+        return;
+    }
 
-      let wordPointer = 0;
-      currentUtterance.onboundary = function(event) {
-        if (event.name === 'word') {
-          // পূর্ববর্তী হাইলাইট মুছে ফেলা
-          const prev = document.querySelector('.word-highlight');
-          if (prev) prev.classList.remove('word-highlight');
+    // ৩. কোনো কার্ড ম্যাচ না হলে সামাজিক/সরকারি সহায়তার স্মার্ট উত্তর
+    let visibleCards = document.querySelectorAll('.service-card[style*="display: flex"]');
+    if (visibleCards.length === 0) {
+        showSmartCard(`
+            <strong>আপনার অনুসন্ধান: "${query}"</strong><br>
+            অ্যাপের তালিকায় সরাসরি কোনো পোর্টাল লিংক পাওয়া যায়নি। সরকারি সহায়তা বা জরুরি প্রয়োজনের জন্য স্থানীয় প্রশাসন, থানা (১১২) বা সংশ্লিষ্ট বিভাগের সহায়তা নিন।<br>
+            <a href="https://www.google.com/search?q=${encodeURIComponent(query)}" target="_blank" style="color: #2563eb; font-weight: 700; text-decoration: underline; margin-top: 4px; display: inline-block;">
+                🔍 অফিশিয়াল তথ্য অনলাইনে সরাসরি খুঁজুন ↗
+            </a>
+        `);
+    }
+}
 
-          // নতুন শব্দে হাইলাইট যুক্ত করা
-          const targetSpan = document.getElementById(`word-${wordPointer}`);
-          if (targetSpan) {
-            targetSpan.classList.add('word-highlight');
-            targetSpan.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          }
-          wordPointer++;
+function showSmartCard(htmlContent) {
+    const card = document.getElementById('smartInfoCard');
+    const body = document.getElementById('smartInfoBody');
+    if (card && body) {
+        body.innerHTML = htmlContent;
+        card.style.display = 'block';
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+
+function closeSmartCard() {
+    const card = document.getElementById('smartInfoCard');
+    if (card) card.style.display = 'none';
+}
+
+/* বাংলা ভয়েস সার্চ হ্যান্ডলার */
+let voiceRecognizer = null;
+let isListening = false;
+
+function toggleVoiceSearch() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        alert("আপনার ব্রাউজারে ভয়েস টাইপিং সুবিধা নেই। Chrome বা আধুনিক ব্রাউজার ব্যবহার করুন।");
+        return;
+    }
+
+    const micBtn = document.getElementById('voiceSearchBtn');
+    const micIcon = document.getElementById('micIcon');
+    const input = document.getElementById('searchInput');
+
+    if (isListening) {
+        if (voiceRecognizer) voiceRecognizer.stop();
+        return;
+    }
+
+    voiceRecognizer = new SpeechRecognition();
+    voiceRecognizer.lang = 'bn-IN';
+    voiceRecognizer.interimResults = false;
+
+    voiceRecognizer.onstart = function() {
+        isListening = true;
+        if (micBtn) micBtn.classList.add('listening');
+        if (micIcon) micIcon.innerText = 'graphic_eq';
+        if (input) input.placeholder = "বলুন, শুনছি...";
+    };
+
+    voiceRecognizer.onresult = function(event) {
+        const spokenText = event.results[0][0].transcript;
+        if (input) {
+            input.value = spokenText;
+            filterServices();
+            // কথা বলা শেষ হওয়ামাত্রই স্বয়ংক্রিয়ভাবে কোয়েরি রান করবে
+            executeSmartQuery();
         }
-      };
+    };
 
-      currentUtterance.onend = function() {
-        stopKaraokeSpeech();
-      };
+    voiceRecognizer.onerror = function() {
+        resetVoiceUI();
+    };
 
-      synth.speak(currentUtterance);
-      isSpeaking = true;
-      document.getElementById('karaokeIcon').className = 'fa-solid fa-pause';
-      document.getElementById('karaokeBtnText').innerText = 'থামান';
+    voiceRecognizer.onend = function() {
+        resetVoiceUI();
+    };
+
+    voiceRecognizer.start();
+}
+
+function resetVoiceUI() {
+    isListening = false;
+    const micBtn = document.getElementById('voiceSearchBtn');
+    const micIcon = document.getElementById('micIcon');
+    const input = document.getElementById('searchInput');
+    if (micBtn) micBtn.classList.remove('listening');
+    if (micIcon) micIcon.innerText = 'mic';
+    if (input && input.placeholder === "বলুন, শুনছি...") {
+        input.placeholder = "সেবা খুঁজুন, আবহাওয়া বা যেকোনো প্রশ্ন লিখুন/বলুন...";
     }
-
-    function stopKaraokeSpeech() {
-      if (synth && synth.speaking) {
-        synth.cancel();
-      }
-      isSpeaking = false;
-      const prev = document.querySelector('.word-highlight');
-      if (prev) prev.classList.remove('word-highlight');
-      const icon = document.getElementById('karaokeIcon');
-      const text = document.getElementById('karaokeBtnText');
-      if (icon) icon.className = 'fa-solid fa-play';
-      if (text) text.innerText = 'শুনুন';
-    }
-
-    // ৩. ভয়েস সার্চ (Web Speech API)
-    let recognition;
-    function toggleVoiceSearch() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        alert('আপনার ব্রাউজারে ভয়েস রিকগনিশন সুবিধা নেই।');
-        return;
-      }
-
-      if (!recognition) {
-        recognition = new SpeechRecognition();
-        recognition.lang = 'bn-IN';
-        recognition.interimResults = false;
-
-        recognition.onstart = function() {
-          document.getElementById('micIcon').className = 'fa-solid fa-spinner fa-spin text-red-500';
-        };
-
-        recognition.onresult = function(event) {
-          const transcript = event.results[0][0].transcript;
-          document.getElementById('aiSearchInput').value = transcript;
-          askGeminiAI(); // স্বয়ংক্রিয়ভাবে AI-এর কাছে পাঠানো
-        };
-
-        recognition.onerror = function() {
-          document.getElementById('micIcon').className = 'fa-solid fa-microphone text-base';
-        };
-
-        recognition.onend = function() {
-          document.getElementById('micIcon').className = 'fa-solid fa-microphone text-base';
-        };
-      }
-      recognition.start();
-    }
-
-    // ৪. জেমিনি AI অ্যাসিস্ট্যান্ট সংযোগ (Gemini API Call)
-    async function askGeminiAI() {
-      const query = document.getElementById('aiSearchInput').value.trim();
-      if (!query) return;
-
-      const responseBox = document.getElementById('aiResponseBox');
-      const responseText = document.getElementById('aiResponseText');
-      responseBox.classList.remove('hidden');
-      responseText.innerText = 'উত্তর তৈরি হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...';
-
-      // আপনার নিজস্ব Gemini API Key ব্যবহার করুন
-      const apiKey = "YOUR_GEMINI_API_KEY";
-
-      if (apiKey === "YOUR_GEMINI_API_KEY") {
-        // ডেমো রেসপন্স (API কী না থাকলে সাধারণ উত্তর)
-        setTimeout(() => {
-          responseText.innerText = `"${query}" সংক্রান্ত তথ্য: যেকোনো জরুরি প্রয়োজনে থানা (১১২), অ্যাম্বুলেন্স (১০২) অথবা সাইবার প্রতারণায় (১৯৩০) যোগাযোগ করুন। ঘাটাল মহকুমা অফিস ও হাসপাতালে জরুরি বিভাগ সার্বক্ষণিক সক্রিয় রয়েছে।`;
-        }, 800);
-        return;
-      }
-
-      try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{ text: `তুমি পশ্চিমবঙ্গ সরকারের নাগরিক সেবা নির্দেশক এআই। ব্যবহারকারীর প্রশ্নের উত্তর সহজ ও নির্ভুল বাংলায় দিন: ${query}` }]
-            }]
-          })
-        });
-        const data = await response.json();
-        const aiAnswer = data.candidates?.[0]?.content?.parts?.[0]?.text || "তথ্য খুঁজে পাওয়া যায়নি।";
-        responseText.innerText = aiAnswer;
-      } catch (error) {
-        responseText.innerText = "সংযোগ বিচ্ছিন্ন হয়েছে। অনুগ্রহ করে কিছুক্ষণ পর চেষ্টা করুন।";
-      }
-    }
-
-    function closeAiResponse() {
-      document.getElementById('aiResponseBox').classList.add('hidden');
-    }
-
-    // ৫. সাইবার নিরাপত্তা: সন্দেহজনক লিংক ভেরিফায়ার
-    function verifyLink() {
-      const urlInput = document.getElementById('linkInput').value.trim();
-      const resultDiv = document.getElementById('linkResult');
-      resultDiv.classList.remove('hidden');
-
-      if (!urlInput) {
-        resultDiv.className = 'text-xs mt-2 p-2 rounded-xl border bg-yellow-50 text-yellow-800 border-yellow-200';
-        resultDiv.innerText = 'দয়া করে একটি লিংক পেস্ট করুন।';
-        return;
-      }
-
-      const suspiciousPatterns = ['bit.ly', 'tinyurl', 'free-gift', 'lottery', 'apk-download', 'cutt.ly', 'pay-tm', 'wb-reward'];
-      const isSuspicious = suspiciousPatterns.some(pattern => urlInput.toLowerCase().includes(pattern));
-
-      if (isSuspicious) {
-        resultDiv.className = 'text-xs mt-2 p-2 rounded-xl border bg-red-50 text-red-700 border-red-200 font-medium';
-        resultDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-1"></i> <strong>সতর্কতা:</strong> এটি একটি সম্ভাব্য ভুয়ো বা ফিশিং লিংক হতে পারে! ক্লিক করবেন না বা ব্যাংকের তথ্য দেবেন না।';
-      } else {
-        resultDiv.className = 'text-xs mt-2 p-2 rounded-xl border bg-green-50 text-green-700 border-green-200 font-medium';
-        resultDiv.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> লিংকটির কাঠামো আপাতদৃষ্টিতে স্বাভাবিক দেখাচ্ছে। তবুও কোনো ব্যক্তিগত তথ্য শেয়ার করার আগে সতর্ক থাকুন।';
-      }
-    }
-
-    // ৬. ইনস্টল বাটন হ্যান্ডলার
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      const installBtn = document.getElementById('installBtn');
-      if (installBtn) installBtn.style.display = 'flex';
-    });
-
-    document.getElementById('installBtn').addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-      } else {
-        alert('অ্যাপটি ইনস্টল করতে ব্রাউজারের থ্রি-ডট (Menu) মেনু থেকে "Add to Home Screen" বা "Install" নির্বাচন করুন।');
-      }
-    });
-  </script>
-</body>
-</html>
+}
