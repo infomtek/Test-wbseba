@@ -578,21 +578,21 @@
         .btn-sms { background: #ea580c; color: #ffffff; }
         .btn-link { background: #2563eb; color: #ffffff; }
 
-        /* স্পিকার, প্লে বাটন ও কারাওকে হাইলাইটিং */
+        /* সাইবার সতর্কতা পপ-আপ নতুন আধুনিক স্টাইল */
         .disclaimer-card {
             background: var(--modal-bg);
             width: 100%;
-            max-width: 430px;
-            border-radius: 20px;
-            padding: 20px 18px;
-            box-shadow: 0 16px 40px rgba(0,0,0,0.28);
+            max-width: 440px;
+            border-radius: 22px;
+            padding: 22px 18px;
+            box-shadow: 0 16px 45px rgba(0,0,0,0.3);
             position: relative;
         }
         .disclaimer-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
         .disclaimer-title {
             font-size: 16px;
@@ -600,14 +600,14 @@
             color: #dc2626;
             display: flex;
             align-items: center;
-            gap: 7px;
+            gap: 6px;
         }
         .disclaimer-audio-controls {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .speaker-circle-btn {
+        .speaker-circle-btn, .play-circle-btn {
             background: #2563eb;
             color: #ffffff;
             border: none;
@@ -621,23 +621,12 @@
             box-shadow: 0 3px 8px rgba(37, 99, 235, 0.35);
             transition: all 0.2s ease;
         }
-        .play-capsule-btn {
+        .play-circle-btn {
             background: #ea580c;
-            color: #ffffff;
-            border: none;
-            padding: 7px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
             box-shadow: 0 3px 8px rgba(234, 88, 12, 0.35);
-            transition: all 0.2s ease;
         }
-        .speaker-circle-btn.speaking, .play-capsule-btn.speaking {
-            background: #ef4444;
+        .speaker-circle-btn.speaking, .play-circle-btn.speaking {
+            background: #ef4444 !important;
             animation: audioPulse 1.2s infinite ease-in-out;
         }
         @keyframes audioPulse {
@@ -645,31 +634,56 @@
             70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
             100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
+
+        /* সতর্কতা টেক্সট বক্স ও বাক্যভিত্তিক হাইলাইট */
         .disclaimer-body-box {
-            font-size: 13.5px;
-            line-height: 1.8;
-            color: var(--text-main);
-            background: #f8fafc;
-            border: 1.5px solid var(--card-border);
-            border-radius: 13px;
-            padding: 12px 14px;
+            background: #fffbeb;
+            border: 1.5px solid #fde68a;
+            border-radius: 14px;
+            padding: 14px;
             margin-bottom: 14px;
-            max-height: 280px;
+            max-height: 300px;
             overflow-y: auto;
+            color: #1f2937;
+            font-size: 13.5px;
+            line-height: 1.7;
         }
         [data-theme="dark"] .disclaimer-body-box {
-            background: #1e293b;
+            background: #25221b;
+            border-color: #854d0e;
+            color: #f8fafc;
         }
-        .disclaimer-body-box span.active-word {
+        .disclaimer-notice-head {
+            font-size: 13px;
+            font-weight: 800;
+            color: #b45309;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        [data-theme="dark"] .disclaimer-notice-head {
+            color: #fbbf24;
+        }
+        .sentence-item {
+            margin-bottom: 8px;
+            padding: 3px 6px;
+            border-radius: 6px;
+            transition: all 0.25s ease;
+            display: block;
+        }
+        /* হাইলাইট স্টাইল */
+        .sentence-item.speaking-active {
             background-color: #fef08a !important;
-            color: #0f172a !important;
-            padding: 1px 4px;
-            border-radius: 4px;
-            font-weight: bold;
+            color: #854d0e !important;
+            font-weight: 700;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            transform: scale(1.01);
         }
-        [data-theme="dark"] .disclaimer-body-box span.active-word {
-            background-color: #facc15 !important;
+        [data-theme="dark"] .sentence-item.speaking-active {
+            background-color: #eab308 !important;
             color: #000000 !important;
+            font-weight: 800;
         }
 
         /* দ্রুত ডায়াল গ্রিড (৬টি বাটন) */
@@ -755,10 +769,11 @@
         }
         .floating-round-btn:active { transform: scale(0.92); }
         .float-install-btn { background: linear-gradient(135deg, #2563eb, #1d4ed8); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4); }
-        .float-alert-btn { background: linear-gradient(135deg, #ea580c, #c2410c); box-shadow: 0 4px 12px rgba(234, 88, 12, 0.4); }
+        /* সতর্কতা হলুদ ওয়ার্নিং থিম */
+        .float-alert-btn { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); color: #000000 !important; }
         .float-share-btn { background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4); }
         .float-whatsapp-btn { background: #22c55e; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4); }
-        .floating-round-btn span.material-symbols-outlined, .floating-round-btn i { font-size: 18px; }
+        .floating-round-btn span.material-symbols-outlined, .floating-round-btn i { font-size: 19px; }
         .floating-round-btn span.btn-label { font-size: 8.5px; font-weight: 800; margin-top: 2px; line-height: 1; }
 
         footer {
@@ -1346,15 +1361,15 @@
 
     <!-- ফ্লোটিং বাটন গ্রুপ -->
     <div class="floating-action-group">
-        <!-- ১. ইনস্টল বাটন (বাংলা লেবেল) -->
+        <!-- ১. ইনস্টল বাটন -->
         <button onclick="triggerPwaPrompt()" class="floating-round-btn float-install-btn" title="হোম স্ক্রিনে ইনস্টল করুন">
             <span class="material-symbols-outlined">download</span>
             <span class="btn-label">ইনস্টল</span>
         </button>
 
-        <!-- ২. সতর্কতা বাটন -->
-        <button onclick="triggerDisclaimerPrompt()" class="floating-round-btn float-alert-btn" title="জরুরি সাইবার সতর্কতা শুনুন">
-            <span class="material-symbols-outlined">security</span>
+        <!-- ২. সতর্কতা বাটন (হলুদ ওয়ার্নিং থিম) -->
+        <button onclick="triggerDisclaimerPrompt()" class="floating-round-btn float-alert-btn" title="জরুরি সাইবার সতর্কতা">
+            <span class="material-symbols-outlined">warning</span>
             <span class="btn-label">সতর্কতা</span>
         </button>
 
@@ -1379,28 +1394,35 @@
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <span>জরুরি সাইবার সতর্কতা</span>
                 </div>
-                <!-- বাঁদিকে স্পিকার এবং ডানদিকে প্লে বাটন -->
+                <!-- বাঁদিকে স্পিকার এবং ডানদিকে প্লে বাটন (কোনো বাড়তি টেক্সট ছাড়া পরিপাটি আইকন) -->
                 <div class="disclaimer-audio-controls">
                     <button id="ttsSpeakerBtn" class="speaker-circle-btn" onclick="toggleSpeech()" title="পড়ে শুনুন">
                         <i id="speakerIcon" class="fa-solid fa-volume-high"></i>
                     </button>
-                    <button id="ttsPlayBtn" class="play-capsule-btn" onclick="toggleSpeech()" title="অডিও প্লে করুন">
+                    <button id="ttsPlayBtn" class="play-circle-btn" onclick="toggleSpeech()" title="প্লে / পজ করুন">
                         <i id="playIcon" class="fa-solid fa-play"></i>
-                        <span id="playBtnText">প্লে</span>
                     </button>
                 </div>
             </div>
 
-            <!-- সুন্দরভাবে সাজানো সতর্কবার্তা -->
+            <!-- সুন্দর সুবিন্যস্ত সতর্কবার্তা (হলুদ ওয়ার্নিং ব্যাকগ্রাউন্ড ও বাক্যভিত্তিক সাজানো) -->
             <div id="disclaimerTextBox" class="disclaimer-body-box">
-                অনলাইন প্রতারণা থেকে বাঁচতে যেকোনো লিংকে ক্লিক করার আগে সতর্ক থাকুন।
-                ১. আসল সরকারি ওয়েবসাইটের শেষে সাধারণত ডট gov.in বা ডট nic.in থাকে।
-                ২. আসল ব্যাংকিং পোর্টালে ব্যাংকের নামের পর অফিসিয়াল ডোমেইন বা ডট bank.in থাকে এবং ওয়েব ঠিকানায় তালার চিহ্ন দেখে নিন।
-                ৩. কোনো অবস্থাতেই অচেনা লিংকে নিজের ব্যক্তিগত নথি, ব্যাংকের গোপন পিন বা আধার ওটিপি শেয়ার করবেন না।
-                যাচাই করুন, নিরাপদ থাকুন।
+                <div class="disclaimer-notice-head">
+                    <i class="fa-solid fa-shield-halved"></i> ডিজিটাল সুরক্ষা নির্দেশিকা:
+                </div>
+                
+                <span class="sentence-item" id="sent-0">অনলাইন প্রতারণা থেকে সুরক্ষিত থাকতে যেকোনো লিংকে ক্লিক করার আগে সাবধান থাকুন।</span>
+                
+                <span class="sentence-item" id="sent-1">১. ভারতের আসল সরকারি ওয়েবসাইটের শেষে সাধারণত .gov.in অথবা .nic.in থাকে। ভুয়ো সাইট পরিহার করুন।</span>
+                
+                <span class="sentence-item" id="sent-2">২. আসল ব্যাংকিং পোর্টালে ব্যাংকের নামের পর অফিশিয়াল ডোমেইন বা .bank.in থাকে এবং ব্রাউজারের অ্যাড্রেস বারে তালা চিহ্ন দেখে নিন।</span>
+                
+                <span class="sentence-item" id="sent-3">৩. কোনো অবস্থাতেই অচেনা লিংকে নিজের ব্যক্তিগত নথি, ব্যাংকের গোপন পিন বা আধার ওটিপি শেয়ার করবেন না।</span>
+                
+                <span class="sentence-item" id="sent-4">সতর্ক থাকুন, সবসময় নিরাপদ থাকুন।</span>
             </div>
 
-            <button onclick="closeDisclaimerPrompt()" style="width: 100%; background: #1e3a8a; color: #ffffff; border: none; padding: 11px; border-radius: 11px; font-size: 14px; font-weight: 700; cursor: pointer;">
+            <button onclick="closeDisclaimerPrompt()" style="width: 100%; background: #1e3a8a; color: #ffffff; border: none; padding: 12px; border-radius: 12px; font-size: 14.5px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);">
                 বুঝেছি / ঠিক আছে
             </button>
         </div>
@@ -2062,37 +2084,24 @@ if (pwaAddNowBtn) {
 }
 
 /* ==============================================================
-   টেক্সট-টু-স্পিচ (TTS) - bn-IN ফিমেল ভয়েস ও ওয়ার্ড হাইলাইটিং
+   উন্নত বাক্যভিত্তিক কারাওকে হাইলাইটিং ও অডিও সিনক্রোনাইজেশন
+   (মোবাইল ও পিসিতে ১০০% নিখুঁতভাবে চলার জন্য)
    ============================================================== */
 let isSpeaking = false;
-let wordSpansList = [];
+let currentSentenceIndex = 0;
+let sentenceElements = [];
+let speechQueue = [];
 
-function prepareTextSpans() {
-    const box = document.getElementById('disclaimerTextBox');
-    if (!box || box.dataset.prepared === "true") return;
-
-    const raw = box.innerText.trim();
-    const tokens = raw.split(/(\s+)/);
-
-    box.innerHTML = '';
-    wordSpansList = [];
-
-    tokens.forEach(tok => {
-        if (tok.trim().length > 0) {
-            const span = document.createElement('span');
-            span.textContent = tok;
-            box.appendChild(span);
-            wordSpansList.push(span);
-        } else {
-            box.appendChild(document.createTextNode(tok));
-        }
+function initSentences() {
+    sentenceElements = document.querySelectorAll('#disclaimerTextBox .sentence-item');
+    speechQueue = [];
+    sentenceElements.forEach((el) => {
+        speechQueue.push(el.innerText.trim());
     });
-
-    box.dataset.prepared = "true";
 }
 
-function clearSpokenHighlights() {
-    wordSpansList.forEach(s => s.classList.remove('active-word'));
+function clearAllHighlights() {
+    sentenceElements.forEach(el => el.classList.remove('speaking-active'));
 }
 
 function toggleSpeech() {
@@ -2106,16 +2115,32 @@ function toggleSpeech() {
         return;
     }
 
-    prepareTextSpans();
-    clearSpokenHighlights();
+    initSentences();
+    clearAllHighlights();
+    currentSentenceIndex = 0;
+    isSpeaking = true;
+    updateAudioButtonsState(true);
+    speakCurrentSentence();
+}
 
-    const box = document.getElementById('disclaimerTextBox');
-    const textToRead = box.innerText;
+function speakCurrentSentence() {
+    if (!isSpeaking || currentSentenceIndex >= speechQueue.length) {
+        stopSpeaking();
+        return;
+    }
 
-    const utterance = new SpeechSynthesisUtterance(textToRead);
+    clearAllHighlights();
+    const activeEl = sentenceElements[currentSentenceIndex];
+    if (activeEl) {
+        activeEl.classList.add('speaking-active');
+        activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    const text = speechQueue[currentSentenceIndex];
+    const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'bn-IN';
-    utterance.rate = 0.88;
-    utterance.pitch = 1.08;
+    utterance.rate = 0.90; // প্রাঞ্জল ও স্বাভাবিক বাচনভঙ্গি
+    utterance.pitch = 1.05; // মিষ্টি ভারতীয় বাংলা নারী কণ্ঠ
 
     const voices = window.speechSynthesis.getVoices();
     let selectedVoice = voices.find(v => (v.lang === 'bn-IN' || v.lang.startsWith('bn')) && (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('বাংলা') || v.name.toLowerCase().includes('india')));
@@ -2126,30 +2151,18 @@ function toggleSpeech() {
         utterance.voice = selectedVoice;
     }
 
-    let currentIndex = 0;
-
-    utterance.onboundary = function(e) {
-        if (e.name === 'word') {
-            clearSpokenHighlights();
-            if (wordSpansList[currentIndex]) {
-                wordSpansList[currentIndex].classList.add('active-word');
-                wordSpansList[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-            currentIndex++;
+    utterance.onend = function() {
+        if (isSpeaking) {
+            currentSentenceIndex++;
+            speakCurrentSentence();
         }
     };
 
-    utterance.onstart = function() {
-        isSpeaking = true;
-        updateAudioButtonsState(true);
-    };
-
-    utterance.onend = function() {
-        stopSpeaking();
-    };
-
     utterance.onerror = function() {
-        stopSpeaking();
+        if (isSpeaking) {
+            currentSentenceIndex++;
+            speakCurrentSentence();
+        }
     };
 
     window.speechSynthesis.speak(utterance);
@@ -2160,7 +2173,7 @@ function stopSpeaking() {
         window.speechSynthesis.cancel();
     }
     isSpeaking = false;
-    clearSpokenHighlights();
+    clearAllHighlights();
     updateAudioButtonsState(false);
 }
 
@@ -2169,20 +2182,17 @@ function updateAudioButtonsState(speaking) {
     const speakerIcon = document.getElementById('speakerIcon');
     const playBtn = document.getElementById('ttsPlayBtn');
     const playIcon = document.getElementById('playIcon');
-    const playText = document.getElementById('playBtnText');
 
     if (speaking) {
         if (speakerBtn) speakerBtn.classList.add('speaking');
         if (speakerIcon) speakerIcon.className = "fa-solid fa-stop";
         if (playBtn) playBtn.classList.add('speaking');
-        if (playIcon) playIcon.className = "fa-solid fa-pause";
-        if (playText) playText.innerText = "থামান";
+        if (playIcon) playIcon.className = "fa-solid fa-stop";
     } else {
         if (speakerBtn) speakerBtn.classList.remove('speaking');
         if (speakerIcon) speakerIcon.className = "fa-solid fa-volume-high";
         if (playBtn) playBtn.classList.remove('speaking');
         if (playIcon) playIcon.className = "fa-solid fa-play";
-        if (playText) playText.innerText = "প্লে";
     }
 }
 
