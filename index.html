@@ -20,7 +20,6 @@
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(async function(OneSignal) {
         try {
-          // কেবল অনুমোদিত প্রোডাকশন ডোমেইনে OneSignal রান হবে, যাতে প্রিভিউ বা লোকালহোস্টে এরর না আসে
           if (window.location.hostname.includes('wbseba.vercel.app')) {
             await OneSignal.init({
               appId: "8800109f-2e45-4275-a331-4e95d429a516",
@@ -153,7 +152,7 @@
             font-weight: 600;
         }
 
-        /* সার্চ বক্স (ডানপাশে আইকন ও ভয়েস) */
+        /* সার্চ বক্স */
         .search-box {
             margin-top: 13px;
             position: relative;
@@ -356,29 +355,82 @@
             100% { transform: scale(0.9); opacity: 0.8; }
         }
 
-        /* অ্যাকশন আইকন বাটন */
-        .action-icon-btn {
-            width: 36px;
-            height: 36px;
+        /* অ্যাকশন ও কল বাটন */
+        .action-icon-btn, .single-call-btn {
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
             color: #ffffff !important;
-            font-size: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            font-size: 16px;
+            box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);
             transition: transform 0.15s ease;
             border: none;
             cursor: pointer;
             flex-shrink: 0;
         }
-        .action-icon-btn:active { transform: scale(0.9); }
-        .action-btn-call { background-color: #16a34a !important; }
+        .single-call-btn, .action-btn-call { background-color: #16a34a !important; }
         .action-btn-wa { background-color: #22c55e !important; }
         .action-btn-opd { background-color: #ea580c !important; }
+        .action-icon-btn:active, .single-call-btn:active { transform: scale(0.9); }
 
-        /* সিঙ্গেল কন্টাক্ট রো ডিজাইন (সহজে কপি ও স্ক্রিনশট নেওয়ার উপযোগী) */
+        /* ডিরেক্টরির একক দপ্তর কার্ড ও ভেতরের লাইনসমূহ */
+        .dept-group-card {
+            background: #ffffff;
+            border: 1.5px solid var(--card-border);
+            border-radius: 14px;
+            padding: 11px 13px;
+            margin-bottom: 9px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+        }
+        [data-theme="dark"] .dept-group-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+        .dept-group-header {
+            font-size: 14px;
+            font-weight: 800;
+            color: #1e3a8a;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        [data-theme="dark"] .dept-group-header {
+            color: #93c5fd;
+        }
+        .dept-contact-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 7px 10px;
+            border-radius: 10px;
+            background: #f8fafc;
+            margin-bottom: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .dept-contact-line:last-child {
+            margin-bottom: 0;
+        }
+        [data-theme="dark"] .dept-contact-line {
+            background: #0f172a;
+            border-color: #1e293b;
+        }
+        .dept-line-tollfree {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+        }
+        [data-theme="dark"] .dept-line-tollfree {
+            background: #082820;
+            border-color: #059669;
+        }
+
+        /* সিঙ্গেল কন্টাক্ট রো (ব্যাংক ও গ্যাস মোডালের জন্য) */
         .single-contact-row {
             display: flex;
             align-items: center;
@@ -398,17 +450,17 @@
         .contact-details {
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 2px;
             flex: 1;
         }
         .contact-name {
-            font-size: 13.5px;
-            font-weight: 800;
+            font-size: 13px;
+            font-weight: 700;
             color: var(--text-main);
         }
         .selectable-phone-no {
             font-size: 13.5px;
-            font-weight: 700;
+            font-weight: 800;
             color: #1e3a8a;
             font-family: 'Inter', system-ui, sans-serif;
             letter-spacing: 0.5px;
@@ -419,7 +471,7 @@
             width: fit-content;
         }
         [data-theme="dark"] .selectable-phone-no {
-            color: #93c5fd;
+            color: #60a5fa;
         }
 
         /* মূল ক্যাটাগরি ফোল্ডার লেআউট */
@@ -620,11 +672,11 @@
         .btn-sms { background: #ea580c; color: #ffffff; }
         .btn-link { background: #2563eb; color: #ffffff; }
 
-        /* সাইবার সতর্কতা পপ-আপ (হলুদ ওয়ার্নিং ব্যাকগ্রাউন্ড ও অডিও) */
+        /* সাইবার সতর্কতা পপ-আপ (লম্বা ও প্রশস্ত ভিউ যাতে স্ক্রল ছাড়া পুরো মেসেজ পড়া যায়) */
         .disclaimer-card {
             background: var(--modal-bg);
             width: 100%;
-            max-width: 440px;
+            max-width: 460px;
             border-radius: 22px;
             padding: 22px 18px;
             box-shadow: 0 16px 45px rgba(0,0,0,0.3);
@@ -637,7 +689,7 @@
             margin-bottom: 14px;
         }
         .disclaimer-title {
-            font-size: 16px;
+            font-size: 16.5px;
             font-weight: 800;
             color: #dc2626;
             display: flex;
@@ -653,8 +705,8 @@
             background: #2563eb;
             color: #ffffff;
             border: none;
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -681,13 +733,13 @@
             background: #fffbeb;
             border: 1.5px solid #fde68a;
             border-radius: 14px;
-            padding: 14px;
-            margin-bottom: 14px;
-            max-height: 300px;
+            padding: 16px;
+            margin-bottom: 16px;
+            max-height: 68vh;
             overflow-y: auto;
             color: #1f2937;
-            font-size: 13.5px;
-            line-height: 1.7;
+            font-size: 14px;
+            line-height: 1.75;
         }
         [data-theme="dark"] .disclaimer-body-box {
             background: #25221b;
@@ -695,10 +747,10 @@
             color: #f8fafc;
         }
         .disclaimer-notice-head {
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 800;
             color: #b45309;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -706,9 +758,9 @@
         [data-theme="dark"] .disclaimer-notice-head { color: #fbbf24; }
 
         .sentence-item {
-            margin-bottom: 8px;
-            padding: 4px 6px;
-            border-radius: 6px;
+            margin-bottom: 10px;
+            padding: 5px 8px;
+            border-radius: 7px;
             transition: all 0.25s ease;
             display: block;
         }
@@ -1420,7 +1472,7 @@
         </div>
     </div>
 
-    <!-- মোডাল: ইমার্জেন্সি কল ও জেলাভিত্তিক নাগরিক ডিরেক্টরি -->
+    <!-- মোডাল: ইমার্জেন্সি কল ও ৮টি জেলার নাগরিক ডিরেক্টরি -->
     <div id="emergencyModal" class="modal-overlay" onclick="closeModal('emergencyModal')">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -1429,7 +1481,7 @@
             </div>
             <div class="modal-scroll-area">
 
-                <!-- ১. জেলা ও মহকুমা নির্বাচন ফিল্টার -->
+                <!-- ১. জেলা ও মহকুমা নির্বাচন ফিল্টার (৮টি জেলা) -->
                 <div style="background: var(--bg-color); border: 1.5px solid var(--card-border); border-radius: 14px; padding: 11px 12px; margin-bottom: 12px;">
                     <div style="font-size: 12.5px; font-weight: 800; color: var(--text-main); margin-bottom: 8px; display:flex; align-items:center; justify-content:space-between;">
                         <span>📍 আপনার জেলা ও মহকুমা নির্বাচন করুন:</span>
@@ -1479,7 +1531,6 @@
                         <span class="qh-title">রক্তের সন্ধান</span>
                         <span class="qh-num">ব্লাড ব্যাংক</span>
                     </div>
-                    <!-- সাইবার সুরক্ষা বাটন -->
                     <div onclick="openModal('cyberSecurityModal')" class="quick-help-btn" style="background: #4338ca;">
                         <i class="fa-solid fa-shield-halved"></i>
                         <span class="qh-title">সাইবার সুরক্ষা</span>
@@ -1500,8 +1551,8 @@
                     <button class="wb-tab-btn" onclick="switchWbTab('admin', this)">🏛️ প্রশাসন ও দপ্তর</button>
                 </div>
 
-                <!-- ডিরেক্টরি কার্ড কন্টেইনার (Single Row Structure) -->
-                <div id="wbContactsContainer" style="display: flex; flex-direction: column; gap: 8px;">
+                <!-- ডিরেক্টরি কার্ড কন্টেইনার (একটি কার্ডের ভেতর লোকাল ও টোল-ফ্রি দুটি লাইন) -->
+                <div id="wbContactsContainer" style="display: flex; flex-direction: column;">
                     <div style="text-align: center; padding: 20px; color: var(--text-sub); font-size: 13px;">তথ্য লোড হচ্ছে...</div>
                 </div>
 
@@ -1526,7 +1577,7 @@
                     <!-- জাতীয় হেল্পলাইন -->
                     <div class="single-contact-row" style="margin-bottom: 0;">
                         <div class="contact-details">
-                            <span class="contact-name">জাতীয় সাইবার হেল্পলাইন</span>
+                            <span class="contact-name">জাতীয় সাইবার হেল্পলাইন (টোল-ফ্রি)</span>
                             <span class="selectable-phone-no">1930</span>
                         </div>
                         <a href="tel:1930" class="single-call-btn" title="কল করুন">
@@ -1549,7 +1600,7 @@
                     <div class="single-contact-row" style="margin-bottom: 0;">
                         <div class="contact-details">
                             <span class="contact-name">ন্যাশনাল সাইবার ক্রাইম পোর্টাল</span>
-                            <span style="font-size: 11.5px; color: var(--text-sub); font-weight: 600;">সরাসরি অনলাইন এফআইআর বা রিপোর্ট</span>
+                            <span style="font-size: 11.5px; color: var(--text-sub); font-weight: 600;">সরাসরি অনলাইন অভিযোগ (cybercrime.gov.in)</span>
                         </div>
                         <a href="https://cybercrime.gov.in" target="_blank" class="action-icon-btn" style="background:#2563eb;" title="পোর্টাল">
                             <span class="material-symbols-outlined" style="font-size: 17px;">open_in_new</span>
@@ -1570,7 +1621,6 @@
                         <button onclick="verifyModalLink()" style="flex: 1; background: #2563eb; color: #ffffff; border: none; border-radius: 9px; padding: 9px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
                             <span class="material-symbols-outlined" style="font-size: 16px;">search_check</span> যাচাই করুন
                         </button>
-                        <!-- স্ক্রিনশট বাটন (শুধুমাত্র ডিভাইসের র‍্যামে অস্থায়ীভাবে প্রসেস হবে, কোথাও সেভ হবে না) -->
                         <label style="flex: 1; background: #f8fafc; color: #1e293b; border: 1.5px dashed #94a3b8; border-radius: 9px; padding: 8px; font-size: 12px; font-weight: 700; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; gap: 5px;">
                             <i class="fa-solid fa-camera" style="color: #475569;"></i> স্ক্রিনশট দিন
                             <input type="file" id="screenshotInput" accept="image/*" style="display: none;" onchange="handleScreenshotUpload(event)">
@@ -1933,7 +1983,7 @@
 <!-- জাভাস্ক্রিপ্ট কোড -->
 <script>
 /* ==============================================================
-   মডাল ওপেন ও ক্লোজ হ্যান্ডলার (হিস্ট্রি পুশ সহ)
+   মডাল ওপেন ও ক্লোজ হ্যান্ডলার
    ============================================================== */
 function toggleCategory(groupId) {
     const group = document.getElementById(groupId);
@@ -2022,12 +2072,13 @@ if (pwaAddNowBtn) {
 }
 
 /* ==============================================================
-   ন্যাচারাল বাংলা অডিও ও বাক্যভিত্তিক সোনালী-হলুদ কারাওকে হাইলাইটিং
+   ন্যাচারাল বাংলা অডিও, ওয়েক লক (Wake Lock) ও কারাওকে হাইলাইটিং
    ============================================================== */
 let naturalAudioPlayer = null;
 let isSpeaking = false;
 let currentSentenceIndex = 0;
 let sentenceElements = [];
+let wakeLockSentinel = null;
 
 const alertSpeechTexts = [
     "অনলাইন প্রতারণা থেকে সুরক্ষিত থাকতে যেকোনো লিংকে ক্লিক করার আগে সাবধান থাকুন।",
@@ -2036,6 +2087,25 @@ const alertSpeechTexts = [
     "৩. কোনো অবস্থাতেই অচেনা লিংকে নিজের ব্যক্তিগত নথি, ব্যাংকের গোপন পিন বা আধার ওটিপি শেয়ার করবেন না।",
     "সতর্ক থাকুন, সবসময় নিরাপদ থাকুন।"
 ];
+
+// অডিও চলাকালীন ফোনের স্ক্রিন যাতে ১৫ সেকেন্ডে অফ না হয়ে যায়
+async function requestScreenWakeLock() {
+    try {
+        if ('wakeLock' in navigator) {
+            wakeLockSentinel = await navigator.wakeLock.request('screen');
+        }
+    } catch (err) {
+        console.log('Wake Lock skip:', err);
+    }
+}
+
+function releaseScreenWakeLock() {
+    if (wakeLockSentinel !== null) {
+        wakeLockSentinel.release().then(() => {
+            wakeLockSentinel = null;
+        }).catch(() => {});
+    }
+}
 
 function toggleSpeech() {
     if (isSpeaking) {
@@ -2046,6 +2116,7 @@ function toggleSpeech() {
     sentenceElements = document.querySelectorAll('#disclaimerTextBox .sentence-item');
     currentSentenceIndex = 0;
     isSpeaking = true;
+    requestScreenWakeLock();
     updateAudioButtonsState(true);
     playNextSentenceAudio();
 }
@@ -2062,7 +2133,6 @@ function playNextSentenceAudio() {
         sentenceElements[currentSentenceIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
-    // গুগল নিউরাল বাংলা ইঞ্জিন থেকে লাইভ ক্রিস্টাল ক্লিয়ার অডিও
     const encodedText = encodeURIComponent(alertSpeechTexts[currentSentenceIndex]);
     const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=bn&client=tw-ob`;
 
@@ -2098,6 +2168,7 @@ function stopSpeaking() {
         naturalAudioPlayer.currentTime = 0;
     }
     isSpeaking = false;
+    releaseScreenWakeLock();
     if (sentenceElements) {
         sentenceElements.forEach(el => el.classList.remove('speaking-active'));
     }
@@ -2181,7 +2252,6 @@ function handleScreenshotUpload(event) {
         return;
     }
 
-    // ক্লায়েন্ট-সাইড মেমোরি প্রসেসিং (কোথাও স্টোর হবে না)
     const reader = new FileReader();
     reader.onload = function(e) {
         setTimeout(() => {
@@ -2508,42 +2578,167 @@ function filterBankList() {
 }
 
 /* ==============================================================
-   জরুরি ডিরেক্টরি ও একক সারি (Single Row) রেন্ডারিং
+   ৮টি জেলার সম্পূর্ণ পরিকাঠামো এবং একক কার্ডের ভেতরে দুটি লাইনের রেন্ডারিং
    ============================================================== */
 const CONTACT_SHEET_ID = "116flqqFRP8Z1xw6rGG1QKOlGYIydOn1Sn3ffClqtbd0";
 const CROWD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvFwvZ4DkFSR6p_tbYcXsGZmwsIAAOJpmwLmPkx5nnx-qhlkt4dx12slHQ41twEtfl5Q/exec";
 
-// ডিফল্ট ঘাটাল ও রাজ্যভিত্তিক জরুরি ডেটা স্কেলিটন
-let emergencyDirectoryData = {
-    "পশ্চিম মেদিনীপুর": {
-        "ঘাটাল": [
-            // নাগরিক সেবা
-            { name: "ঘাটাল পৌর কার্যালয়", phone: "03225255059", central_phone: "", type: "utility" },
-            { name: "বিদ্যুৎ বিভ্রাট ও লাইনের বিপদ (WBSEDCL)", phone: "03225255050", central_phone: "19121", type: "utility" },
-            { name: "পানীয় জল সরবরাহ ও মেরামত (PHE)", phone: "03225255059", central_phone: "18003453245", type: "utility" },
-            { name: "বনদপ্তর বন্যপ্রাণী রেসকিউ (হাতি/সাপ উদ্ধার)", phone: "", central_phone: "1800119334", type: "utility" },
-            { name: "খাদ্য ও গণবণ্টন (রেশন দুর্নীতি অভিযোগ)", phone: "", central_phone: "1967", type: "utility" },
-            { name: "নারী সুরক্ষা হেল্পলাইন", phone: "", central_phone: "1091", type: "utility" },
-            // স্বাস্থ্য ও হাসপাতাল
-            { name: "ঘাটাল মহকুমা সুপার স্পেশালিটি হাসপাতাল", phone: "03225255022", central_phone: "104", opd_link: "https://onlinehmis.wbhealth.gov.in/MobileOPDTicketBooking.aspx?HC=xskVKHEM7dSleQ3LyFJ2dQ%3d%3d", type: "health" },
-            { name: "সরকারি ফ্রি অ্যাম্বুলেন্স সার্ভিস", phone: "", central_phone: "102", type: "health" },
-            { name: "ঘাটাল স্থানীয় অ্যাম্বুলেন্স সেবা", phone: "9474360552", central_phone: "", type: "health" },
-            { name: "ঘাটাল মহকুমা ব্লাড ব্যাংক", phone: "03225255022", central_phone: "104", type: "health" },
-            // থানা ও পুলিশ
-            { name: "জরুরি পুলিশ কন্ট্রোল রুম", phone: "", central_phone: "112", type: "police" },
-            { name: "ঘাটাল থানা (ডিউটি অফিসার)", phone: "03225255211", central_phone: "", type: "police" },
-            { name: "দাসপুর থানা", phone: "03225254224", central_phone: "", type: "police" },
-            { name: "চন্দ্রকোনা থানা", phone: "03225266224", central_phone: "", type: "police" },
-            // প্রশাসন ও দপ্তর
-            { name: "ঘাটাল দমকল কেন্দ্র (Fire Station)", phone: "03225255101", central_phone: "112", type: "admin" },
-            { name: "ঘাটাল মহকুমা শাসক (SDO Office)", phone: "03225255001", central_phone: "", type: "admin" },
-            { name: "ঘাটাল বিডিও অফিস (BDO Office)", phone: "03225255025", central_phone: "", type: "admin" },
-            { name: "বন্যা ও দুর্যোগ নিয়ন্ত্রণ কক্ষ (নবান্ন)", phone: "03225255059", central_phone: "1070", type: "admin" }
-        ],
-        "মেদিনীপুর সদর": [],
-        "খড়গপুর": []
-    }
+// ৮টি জেলা ও তাদের অন্তর্গত সমস্ত মহকুমার তালিকা
+const districtSubDivMap = {
+    "পশ্চিম মেদিনীপুর": ["ঘাটাল", "মেদিনীপুর সদর", "খড়গপুর"],
+    "পূর্ব মেদিনীপুর": ["তমলুক", "হলদিয়া", "কাঁথি", "এগরা"],
+    "ঝাড়গ্রাম": ["ঝাড়গ্রাম সদর"],
+    "বাঁকুড়া": ["বাঁকুড়া সদর", "বিষ্ণুপুর", "খাতড়া"],
+    "হুগলি": ["আরামবাগ", "চুঁচুড়া সদর", "চন্দননগর", "শ্রীরামপুর"],
+    "হাওড়া": ["হাওড়া সদর", "উলুবেড়িয়া"],
+    "পুরুলিয়া": ["পুরুলিয়া সদর", "রঘুনাথপুর", "ঝালদা", "মানবাজার"],
+    "পূর্ব বর্ধমান": ["বর্ধমান সদর", "কালনা", "কাটোয়া"]
 };
+
+// যেকোনো মহকুমার জন্য আদর্শ দপ্তর তালিকা ও স্থায়ী টোল-ফ্রি পরিকাঠামো জেনারেটর
+function buildSubDivTemplate(subDiv) {
+    const isGhatal = (subDiv === "ঘাটাল");
+    return [
+        // ১. নাগরিক সেবা (utility)
+        {
+            name: "বিদ্যুৎ বিভ্রাট ও লাইনের বিপদ (WBSEDCL)",
+            local_label: `${subDiv} কাস্টমার সার্ভিস / সাব-স্টেশন`,
+            phone: isGhatal ? "03225255050" : "",
+            central_label: "কেন্দ্রীয় কন্ট্রোল রুম (টোল-ফ্রি)",
+            central_phone: "19121",
+            type: "utility"
+        },
+        {
+            name: "পানীয় জল সরবরাহ ও পাইপলাইন মেরামত (PHE)",
+            local_label: `${subDiv} পৌরসভা / জল দপ্তর`,
+            phone: isGhatal ? "03225255059" : "",
+            central_label: "জনস্বাস্থ্য কারিগরি টোল-ফ্রি",
+            central_phone: "18003453245",
+            type: "utility"
+        },
+        {
+            name: "বনদপ্তর ও বন্যপ্রাণী রেসকিউ (হাতি/সাপ উদ্ধার)",
+            local_label: `${subDiv} বনদপ্তর রেঞ্জ অফিস`,
+            phone: "",
+            central_label: "বন্যপ্রাণী রেসকিউ টোল-ফ্রি",
+            central_phone: "1800119334",
+            type: "utility"
+        },
+        {
+            name: "খাদ্য ও গণবণ্টন দপ্তর (রেশন পরিষেবা ও অভিযোগ)",
+            local_label: `${subDiv} মহকুমা খাদ্য নিয়ামক (SCF&S)`,
+            phone: "",
+            central_label: "রাজ্য খাদ্য হেল্পলাইন (টোল-ফ্রি)",
+            central_phone: "1967",
+            type: "utility"
+        },
+        {
+            name: "নারী ও শিশু সুরক্ষা সহায়তা",
+            local_label: `${subDiv} ওমেন্স হেল্পডেস্ক`,
+            phone: "",
+            central_label: "জাতীয় নারী সুরক্ষা টোল-ফ্রি",
+            central_phone: "1091",
+            type: "utility"
+        },
+
+        // ২. স্বাস্থ্য ও হাসপাতাল (health)
+        {
+            name: `${subDiv} মহকুমা / সুপার স্পেশালিটি হাসপাতাল`,
+            local_label: `${subDiv} হাসপাতাল ইমার্জেন্সি ডেস্ক`,
+            phone: isGhatal ? "03225255022" : "",
+            central_label: "রাজ্য স্বাস্থ্য সহায়তা (টোল-ফ্রি)",
+            central_phone: "104",
+            opd_link: isGhatal ? "https://onlinehmis.wbhealth.gov.in/MobileOPDTicketBooking.aspx?HC=xskVKHEM7dSleQ3LyFJ2dQ%3d%3d" : "https://onlinehmis.wbhealth.gov.in/NewLogin.aspx?A=0",
+            type: "health"
+        },
+        {
+            name: "অ্যাম্বুলেন্স ও জরুরি রোগী পরিবহন",
+            local_label: `${subDiv} লোকাল অ্যাম্বুলেন্স ইউনিট`,
+            phone: isGhatal ? "9474360552" : "",
+            central_label: "সরকারি ফ্রি অ্যাম্বুলেন্স (টোল-ফ্রি)",
+            central_phone: "102",
+            type: "health"
+        },
+        {
+            name: `${subDiv} সরকারি ব্লাড ব্যাংক`,
+            local_label: `${subDiv} ব্লাড ব্যাংক কক্ষ`,
+            phone: isGhatal ? "03225255022" : "",
+            central_label: "ব্লাড ব্যাংক তথ্য (টোল-ফ্রি)",
+            central_phone: "104",
+            type: "health"
+        },
+
+        // ৩. থানা ও পুলিশ (police)
+        {
+            name: `${subDiv} থানা (Police Station)`,
+            local_label: `${subDiv} থানা ডিউটি অফিসার`,
+            phone: isGhatal ? "03225255211" : "",
+            central_label: "কেন্দ্রীয় পুলিশ কন্ট্রোল রুম (টোল-ফ্রি)",
+            central_phone: "112",
+            type: "police"
+        },
+        ...(isGhatal ? [
+            {
+                name: "দাসপুর থানা",
+                local_label: "দাসপুর থানা ডিউটি অফিসার",
+                phone: "03225254224",
+                central_label: "জরুরি পুলিশ হেল্পলাইন",
+                central_phone: "112",
+                type: "police"
+            },
+            {
+                name: "চন্দ্রকোনা থানা",
+                local_label: "চন্দ্রকোনা থানা ডিউটি অফিসার",
+                phone: "03225266224",
+                central_label: "জরুরি পুলিশ হেল্পলাইন",
+                central_phone: "112",
+                type: "police"
+            }
+        ] : []),
+
+        // ৪. প্রশাসন ও দপ্তর (admin)
+        {
+            name: `${subDiv} দমকল কেন্দ্র (Fire Station)`,
+            local_label: `${subDiv} ফায়ার স্টেশন অফিস`,
+            phone: isGhatal ? "03225255101" : "",
+            central_label: "কেন্দ্রীয় অগ্নিনির্বাপণ (টোল-ফ্রি)",
+            central_phone: "112",
+            type: "admin"
+        },
+        {
+            name: `${subDiv} মহকুমা শাসক (SDO Office)`,
+            local_label: `${subDiv} এসডিও অফিস কন্ট্রোল রুম`,
+            phone: isGhatal ? "03225255001" : "",
+            central_label: "নবান্ন কন্ট্রোল রুম (টোল-ফ্রি)",
+            central_phone: "1070",
+            type: "admin"
+        },
+        {
+            name: "বন্যা ও প্রাকৃতিক দুর্যোগ ব্যবস্থাপনা দপ্তর",
+            local_label: `${subDiv} ত্রাণ ও বিপর্যয় শাখা`,
+            phone: isGhatal ? "03225255059" : "",
+            central_label: "রাজ্য বিপর্যয় কন্ট্রোল রুম (টোল-ফ্রি)",
+            central_phone: "1070",
+            type: "admin"
+        },
+        {
+            name: "কৃষি দপ্তর ও কিষাণ সহায়তা",
+            local_label: `${subDiv} কৃষি আধিকারিক (ADA Office)`,
+            phone: "",
+            central_label: "কিষাণ কল সেন্টার (টোল-ফ্রি)",
+            central_phone: "18001801551",
+            type: "admin"
+        }
+    ];
+}
+
+let emergencyDirectoryData = {};
+for (let dist in districtSubDivMap) {
+    emergencyDirectoryData[dist] = {};
+    districtSubDivMap[dist].forEach(sd => {
+        emergencyDirectoryData[dist][sd] = buildSubDivTemplate(sd);
+    });
+}
 
 let verifiedContactsDB = {};
 let currentSelectedDistrict = "পশ্চিম মেদিনীপুর";
@@ -2625,6 +2820,9 @@ function switchAndScrollEmergencyTab(cat) {
     if (tabsRow) tabsRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
+/* ==============================================================
+   একটি দপ্তর = একটি কার্ড (ভেতরে ১ম লাইনে লোকাল অফিস, ২য় লাইনে টোল-ফ্রি)
+   ============================================================== */
 function renderDirectoryCards() {
     const container = document.getElementById('wbContactsContainer');
     if (!container) return;
@@ -2637,7 +2835,7 @@ function renderDirectoryCards() {
     if (filteredItems.length === 0) {
         container.innerHTML = `
             <div style="text-align: center; padding: 25px; color: var(--text-sub); font-size: 13px;">
-                এই মহকুমার তথ্য অন্তর্ভুক্তির কাজ চলছে।
+                এই মহকুমার তথ্য শীঘ্রই যুক্ত হচ্ছে।
             </div>`;
         return;
     }
@@ -2647,59 +2845,68 @@ function renderDirectoryCards() {
                                 ? verifiedContactsDB[currentSelectedSubDiv][item.name]
                                 : item.phone;
 
-        // ১. লোকাল নম্বর রো (যদি থাকে বা ক্রাউডসোর্সিংয়ের অপশন)
-        const localRow = document.createElement('div');
-        localRow.className = 'single-contact-row';
-        
-        let opdAction = item.opd_link ? `
-            <a href="${item.opd_link}" target="_blank" class="action-icon-btn action-btn-opd" style="margin-right:6px;" title="OPD টিকিট">
-                <span class="material-symbols-outlined" style="font-size: 17px;">confirmation_number</span>
+        const groupCard = document.createElement('div');
+        groupCard.className = 'dept-group-card';
+
+        let opdBtnHtml = item.opd_link ? `
+            <a href="${item.opd_link}" target="_blank" class="bs-btn" style="background:#ea580c; padding:4px 9px; font-size:11px; border-radius:7px;">
+                <span class="material-symbols-outlined" style="font-size:14px;">confirmation_number</span> OPD টিকিট
             </a>` : '';
 
+        // ১ম লাইন: লোকাল অফিস নম্বর বা "+ নম্বর দিন" বাটন
+        let localLineHtml = '';
         if (liveApprovedNum && liveApprovedNum.trim() !== '') {
-            localRow.innerHTML = `
-                <div class="contact-details">
-                    <span class="contact-name">${item.name}</span>
-                    <span class="selectable-phone-no" title="কপি করতে ক্লিক করুন">${liveApprovedNum}</span>
-                </div>
-                <div style="display: flex; align-items: center;">
-                    ${opdAction}
+            localLineHtml = `
+                <div class="dept-contact-line">
+                    <div class="contact-details">
+                        <span class="contact-name">${item.local_label || (currentSelectedSubDiv + ' কাস্টমার সার্ভিস')}</span>
+                        <span class="selectable-phone-no" title="কপি করতে ক্লিক করুন">${liveApprovedNum}</span>
+                    </div>
                     <a href="tel:${liveApprovedNum}" class="single-call-btn" title="কল করুন">
                         <i class="fa-solid fa-phone"></i>
                     </a>
                 </div>
             `;
         } else {
-            localRow.innerHTML = `
-                <div class="contact-details">
-                    <span class="contact-name">${item.name}</span>
-                    <span style="font-size: 12px; color: #94a3b8; font-weight: 600;">লোকাল নম্বর যুক্ত নেই</span>
+            localLineHtml = `
+                <div class="dept-contact-line">
+                    <div class="contact-details">
+                        <span class="contact-name">${item.local_label || (currentSelectedSubDiv + ' লোকাল অফিস')}</span>
+                        <span style="font-size: 11.5px; color: #94a3b8; font-weight: 600;">লোকাল নম্বর যুক্ত নেই</span>
+                    </div>
+                    <button onclick="openAddNumberModal('${item.name}', '${currentSelectedSubDiv}')" class="bs-btn" style="background:#e0f2fe; color:#0284c7; border:1px dashed #0284c7; cursor:pointer; font-size:11px; padding: 6px 10px;">
+                        + নম্বর দিন
+                    </button>
                 </div>
-                <button onclick="openAddNumberModal('${item.name}', '${currentSelectedSubDiv}')" class="bs-btn" style="background:#e0f2fe; color:#0284c7; border:none; cursor:pointer; font-size:11px; padding: 6px 10px;">
-                    + নম্বর দিন
-                </button>
             `;
         }
-        container.appendChild(localRow);
 
-        // ২. সেন্ট্রাল / টোল-ফ্রি নম্বর রো (যদি থাকে)
+        // ২য় লাইন: টোল-ফ্রি / কন্ট্রোল রুম নম্বর
+        let tollFreeLineHtml = '';
         if (item.central_phone && item.central_phone.trim() !== '') {
-            const centralRow = document.createElement('div');
-            centralRow.className = 'single-contact-row';
-            centralRow.style.borderColor = '#bbf7d0';
-            centralRow.style.background = '#f0fdf4';
-
-            centralRow.innerHTML = `
-                <div class="contact-details">
-                    <span class="contact-name">${item.name} <span style="font-size:11.5px; color:#166534;">(টোল-ফ্রি / কন্ট্রোল রুম)</span></span>
-                    <span class="selectable-phone-no" style="color:#166534;" title="কপি করতে ক্লিক করুন">${item.central_phone}</span>
+            tollFreeLineHtml = `
+                <div class="dept-contact-line dept-line-tollfree">
+                    <div class="contact-details">
+                        <span class="contact-name" style="color:#166534;">${item.central_label || 'টোল-ফ্রি হেল্পলাইন'}</span>
+                        <span class="selectable-phone-no" style="color:#15803d;" title="কপি করতে ক্লিক করুন">${item.central_phone}</span>
+                    </div>
+                    <a href="tel:${item.central_phone}" class="single-call-btn" title="টোল-ফ্রি কল">
+                        <i class="fa-solid fa-phone"></i>
+                    </a>
                 </div>
-                <a href="tel:${item.central_phone}" class="single-call-btn" title="টোল-ফ্রি কল">
-                    <i class="fa-solid fa-phone"></i>
-                </a>
             `;
-            container.appendChild(centralRow);
         }
+
+        groupCard.innerHTML = `
+            <div class="dept-group-header">
+                <span>${item.name}</span>
+                ${opdBtnHtml}
+            </div>
+            ${localLineHtml}
+            ${tollFreeLineHtml}
+        `;
+
+        container.appendChild(groupCard);
     });
 }
 
