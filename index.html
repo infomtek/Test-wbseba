@@ -916,7 +916,7 @@
                                 <div class="card-title">মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা</div>
                                 <div class="card-dept">শীঘ্রই আসছে (ক্লিক করুন)</div>
                             </div>
-                        </div>
+                        </a>
                         <a id="service_ayushman" href="https://beneficiary.nha.gov.in/" target="_blank" class="service-card clr-blue" data-keywords="ayushman bharat pmjay আয়ুষ্মান ভারত কার্ড ৫ লাখ চিকিৎসা">
                             <div class="icon-circle">💉</div>
                             <div class="card-info">
@@ -1625,14 +1625,6 @@ function toggleCategory(groupId) {
     group.classList.toggle('open');
 }
 
-function openModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (!modal) return;
-    modal.style.display = 'flex';
-    history.pushState({ openModalId: modalId }, '');
-}
-
-    
 // রিফ্রেশ বা পেজ রিলোডের পর শেষ খোলা মোডাল বা পেজ রিফ্রেশ করে সচল রাখা
 window.addEventListener('load', () => {
     const lastOpenModal = sessionStorage.getItem('currentOpenModal');
@@ -1650,22 +1642,12 @@ function openModal(modalId) {
     history.pushState({ openModalId: modalId }, '');
 }
 
-// closeModal ফাংশনের ভেতর থেকে মুছে ফেলা
+// closeModal ফাংশনের ভেতর থেকে মুছে ফেলা (দুটি ডুপ্লিকেট ছিল, একটি পরিষ্কার করা হলো)
 function closeModal(modalId, isFromPopstate = false) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
     modal.style.display = 'none';
     sessionStorage.removeItem('currentOpenModal');
-    if (!isFromPopstate && history.state && history.state.openModalId === modalId) {
-        history.back();
-    }
-}
-
-
-function closeModal(modalId, isFromPopstate = false) {
-    const modal = document.getElementById(modalId);
-    if (!modal) return;
-    modal.style.display = 'none';
     if (!isFromPopstate && history.state && history.state.openModalId === modalId) {
         history.back();
     }
@@ -2091,7 +2073,7 @@ function loadLiveGoogleSheetData() {
                 grouped[cat].push(item);
             });
 
-            // শিটের সিরিয়াল অনুযায়ী প্রতিটি ফোল্ডারে কার্ড সাজানো (কোনো ডাবল কার্ড হবে না)
+            // শিটের সিরিয়াল অনুযায়ী প্রতিটি ফোল্ডারে কার্ড সাজানো (কোনো ডাবল কার্ড হবে ওয়েবসাইটে)
             for (let cat in grouped) {
                 const targetContainerId = categoryContainerMap[cat];
                 if (targetContainerId) {
