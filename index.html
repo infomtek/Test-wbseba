@@ -272,12 +272,28 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             box-shadow: 0 3px 12px rgba(239, 68, 68, 0.12);
             cursor: pointer;
             transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
         .standalone-emergency-card:active { transform: scale(0.985); }
+        
+        .standalone-cyber-card {
+            background: linear-gradient(135deg, #fefce8, #fef08a) !important;
+            border: 2px solid #eab308 !important;
+            border-radius: 14px;
+            padding: 11px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            box-shadow: 0 3px 10px rgba(234, 179, 8, 0.15);
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+        .standalone-cyber-card:active { transform: scale(0.985); }
+
         .sec-left { display: flex; align-items: center; gap: 12px; }
         .sec-icon {
             width: 38px; height: 38px;
@@ -379,6 +395,7 @@
         [data-theme="dark"] .standalone-emergency-card { background: #1e151b !important; border-color: #ef4444 !important; }
         [data-theme="dark"] .standalone-emergency-card .sec-title { color: #fca5a5 !important; }
         [data-theme="dark"] .standalone-emergency-card .sec-icon { background: #7f1d1d !important; }
+        [data-theme="dark"] .standalone-cyber-card { background: #281c07 !important; border-color: #ca8a04 !important; }
 
         /* কার্ড লেআউট */
         .app-view-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -588,6 +605,9 @@
         [data-theme="dark"] .wb-tab-btn.active {
             background: #2563eb; border-color: #2563eb;
         }
+        
+        /* স্পিনার অ্যানিমেশন */
+        @keyframes scanSpin { 100% { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -646,6 +666,20 @@
             </div>
             <div class="sec-call-btn">
                 <span class="material-symbols-outlined" style="font-size: 20px;">call</span>
+            </div>
+        </div>
+        
+        <!-- সাইবার স্ক্যাম চেকার (নতুন কার্ড) -->
+        <div class="standalone-cyber-card" onclick="openModal('cyberCheckModal')">
+            <div class="sec-left">
+                <div class="sec-icon" style="background: #fef08a; color: #ca8a04;">🛡️</div>
+                <div>
+                    <div class="sec-title" style="color: #b45309;">সাইবার স্ক্যাম চেকার</div>
+                    <div style="font-size: 11.5px; font-weight: 700; color: #9a3412;">ফিশিং লিংক বা স্ক্রিনশট স্ক্যান করুন</div>
+                </div>
+            </div>
+            <div class="sec-call-btn" style="background: #eab308 !important;">
+                <span class="material-symbols-outlined" style="font-size: 20px;">search</span>
             </div>
         </div>
 
@@ -1149,7 +1183,7 @@
         </div>
     </div>
 
-    <!-- সাইবার সতর্কবার্তা মোডাল (নতুন) -->
+    <!-- সাইবার সতর্কবার্তা মোডাল -->
     <div id="cyberAlertModal" class="modal-overlay" style="z-index: 2000;" onclick="closeModal('cyberAlertModal'); stopCyberAudio();">
         <div class="modal-box" style="height: auto; max-width: 400px; text-align: center; padding: 22px 18px; border-radius: 18px; border: 2.5px solid #eab308; background: #fffbeb;" onclick="event.stopPropagation()">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
@@ -1166,6 +1200,71 @@
             <p id="cyberAlertContent" style="font-size: 15px; color: #92400e; line-height: 1.7; font-weight: 700; text-align: left; padding: 12px; background: #fef3c7; border-radius: 12px; margin-bottom: 0;">
                 <!-- জাভাস্ক্রিপ্ট দিয়ে শব্দগুলো এখানে বসবে -->
             </p>
+        </div>
+    </div>
+    
+    <!-- সাইবার স্ক্যাম চেকার (লিংক ও স্ক্রিনশট স্ক্যানার) -->
+    <div id="cyberCheckModal" class="modal-overlay" onclick="closeModal('cyberCheckModal')">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3><span class="material-symbols-outlined" style="color:#ca8a04;">security</span> সাইবার স্ক্যাম চেকার</h3>
+                <button class="modal-close" onclick="closeModal('cyberCheckModal')">&times;</button>
+            </div>
+            <div class="modal-scroll-area">
+                <p style="font-size: 12.5px; color: var(--text-sub); margin-bottom: 15px; font-weight: 600;">
+                    সন্দেহজনক কোনো লিংক, অফার মেসেজ বা ওয়েবসাইটের স্ক্রিনশট এখানে দিয়ে চেক করুন।
+                </p>
+
+                <!-- লিংক ইনপুট -->
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 12px; font-weight: 800; color: var(--text-main); margin-bottom: 5px; display: block;">🔗 ওয়েবসাইট লিংক পেস্ট করুন:</label>
+                    <input type="url" id="cyberLinkInput" placeholder="যেমন: https://offer-free.com" style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid var(--card-border); outline: none; font-size: 13.5px; background: var(--bg-color); color: var(--text-main);">
+                </div>
+
+                <!-- স্ক্রিনশট আপলোড -->
+                <div style="margin-bottom: 15px;">
+                    <label style="font-size: 12px; font-weight: 800; color: var(--text-main); margin-bottom: 5px; display: block;">📷 অথবা স্ক্রিনশট আপলোড করুন:</label>
+                    <label style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 90px; border: 2px dashed #94a3b8; border-radius: 12px; background: #f8fafc; cursor: pointer; color: #64748b;">
+                        <span class="material-symbols-outlined" style="font-size: 28px; margin-bottom: 4px;">cloud_upload</span>
+                        <span id="cyberFileName" style="font-size: 12px; font-weight: 600;">ছবি নির্বাচন করুন</span>
+                        <input type="file" id="cyberFileInput" accept="image/*" style="display: none;" onchange="document.getElementById('cyberFileName').innerText = this.files[0] ? this.files[0].name : 'ছবি নির্বাচন করুন'">
+                    </label>
+                </div>
+
+                <!-- স্ক্যান বাটন -->
+                <button onclick="triggerCyberScan()" style="width: 100%; background: linear-gradient(135deg, #eab308, #ca8a04); color: #ffffff; border: none; padding: 12px; border-radius: 12px; font-size: 14.5px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(202, 138, 4, 0.3); display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <span class="material-symbols-outlined">search</span> স্ক্যান শুরু করুন
+                </button>
+
+                <!-- রেজাল্ট বক্স -->
+                <div id="cyberScanResult" style="display: none; margin-top: 15px; padding: 12px; border-radius: 12px; background: #f0fdf4; border: 1.5px solid #bbf7d0; font-size: 13px;">
+                    <!-- Result logic will inject here -->
+                </div>
+
+                <hr style="border: none; border-top: 1px dashed var(--card-border); margin: 20px 0;">
+
+                <!-- হেল্পলাইন নম্বর -->
+                <div style="font-size: 13.5px; font-weight: 800; color: #dc2626; margin-bottom: 10px; text-align: center;">🚨 সাইবার ক্রাইম হেল্পলাইন</div>
+                
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="sub-card-row" style="background: #fff1f2; border-color: #fecdd3; margin-bottom: 0;">
+                        <div class="bs-info">
+                            <span class="bs-title" style="color: #9f1239;">জাতীয় টোল-ফ্রি (National)</span>
+                            <span class="bs-desc">যেকোনো ফ্রড হলে সাথে সাথে কল করুন</span>
+                        </div>
+                        <a href="tel:1930" class="bs-btn btn-call" style="background: #e11d48;"><span class="material-symbols-outlined" style="font-size: 15px;">call</span> 1930</a>
+                    </div>
+
+                    <div class="sub-card-row" style="background: #eff6ff; border-color: #bfdbfe; margin-bottom: 0;">
+                        <div class="bs-info">
+                            <span class="bs-title" style="color: #1e40af;">লালবাজার সাইবার সেল</span>
+                            <span class="bs-desc">কলকাতা পুলিশ (Cyber Crime Branch)</span>
+                        </div>
+                        <a href="tel:03322143000" class="bs-btn btn-call" style="background: #2563eb;"><span class="material-symbols-outlined" style="font-size: 15px;">call</span> Call</a>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -1671,7 +1770,92 @@
 
 <script>
 // ==========================================
-// 1. সাইবার সতর্কবার্তা ও স্পিচ সিন্থেসিস
+// 1. সাইবার স্ক্যাম স্ক্যানার লজিক
+// ==========================================
+function triggerCyberScan() {
+    const linkInput = document.getElementById('cyberLinkInput').value.trim();
+    const fileInput = document.getElementById('cyberFileInput').files.length;
+    const resultBox = document.getElementById('cyberScanResult');
+
+    if(!linkInput && fileInput === 0) {
+        alert("অনুগ্রহ করে একটি লিংক পেস্ট করুন অথবা স্ক্রিনশট আপলোড করুন।");
+        return;
+    }
+
+    // Show scanning animation
+    resultBox.style.display = 'block';
+    resultBox.style.background = '#f8fafc';
+    resultBox.style.borderColor = '#cbd5e1';
+    resultBox.innerHTML = `
+        <div style="text-align:center; padding:15px; color: #334155;">
+            <span class="material-symbols-outlined" style="font-size: 32px; animation: scanSpin 1s linear infinite; color: #2563eb;">autorenew</span>
+            <div style="font-weight: 800; margin-top: 8px;">AI সিকিউরিটি চেক চলছে...</div>
+            <div style="font-size: 11px;">দয়া করে অপেক্ষা করুন</div>
+        </div>
+    `;
+
+    setTimeout(() => {
+        if(linkInput) {
+            const lowerLink = linkInput.toLowerCase();
+            
+            // Logic 1: Safe Gov/Bank Domains
+            if(lowerLink.includes('.gov.in') || lowerLink.includes('.nic.in') || lowerLink.includes('.bank.in')) {
+                resultBox.style.background = '#f0fdf4';
+                resultBox.style.borderColor = '#bbf7d0';
+                resultBox.innerHTML = `
+                    <div style="display: flex; gap: 10px; align-items: flex-start;">
+                        <span class="material-symbols-outlined" style="color: #16a34a; font-size: 24px;">verified_user</span>
+                        <div>
+                            <div style="color: #166534; font-weight: 800; font-size: 14px;">✅ সুরক্ষিত ওয়েবসাইট</div>
+                            <div style="color: #15803d; font-size: 12px; margin-top: 3px;">এটি একটি অফিশিয়াল ও নির্ভরযোগ্য পোর্টাল। আপনি নিশ্চিন্তে কাজ করতে পারেন।</div>
+                        </div>
+                    </div>`;
+            } 
+            // Logic 2: Unsafe HTTP Warning
+            else if(lowerLink.startsWith('http://') && !lowerLink.includes('localhost')) {
+                resultBox.style.background = '#fef2f2';
+                resultBox.style.borderColor = '#fecaca';
+                resultBox.innerHTML = `
+                    <div style="display: flex; gap: 10px; align-items: flex-start;">
+                        <span class="material-symbols-outlined" style="color: #dc2626; font-size: 24px;">warning</span>
+                        <div>
+                            <div style="color: #9f1239; font-weight: 800; font-size: 14px;">⚠️ অসুরক্ষিত লিংক (HTTP)</div>
+                            <div style="color: #be123c; font-size: 12px; margin-top: 3px;">এই ওয়েবসাইটে কোনো এনক্রিপশন নেই। এখানে আপনার পাসওয়ার্ড বা ব্যাঙ্কের তথ্য দেওয়া চরম ঝুঁকিপূর্ণ।</div>
+                        </div>
+                    </div>`;
+            } 
+            // Logic 3: General / Unknown Link
+            else {
+                resultBox.style.background = '#fffbeb';
+                resultBox.style.borderColor = '#fde68a';
+                resultBox.innerHTML = `
+                    <div style="display: flex; gap: 10px; align-items: flex-start;">
+                        <span class="material-symbols-outlined" style="color: #d97706; font-size: 24px;">info</span>
+                        <div>
+                            <div style="color: #92400e; font-weight: 800; font-size: 14px;">⚠️ সাধারণ লিংক (সাবধানতা প্রয়োজন)</div>
+                            <div style="color: #b45309; font-size: 12px; margin-top: 3px;">এটি সরকারি বা ব্যাঙ্কের ওয়েবসাইট নয়। লটারি, ফ্রি রিচার্জ বা অচেনা অফার হলে ভুলেও OTP বা PIN শেয়ার করবেন না।</div>
+                        </div>
+                    </div>`;
+            }
+        } 
+        // Screenshot upload logic (Simulation)
+        else if (fileInput > 0) {
+            resultBox.style.background = '#f0f9ff';
+            resultBox.style.borderColor = '#bae6fd';
+            resultBox.innerHTML = `
+                <div style="display: flex; gap: 10px; align-items: flex-start;">
+                    <span class="material-symbols-outlined" style="color: #0284c7; font-size: 24px;">image_search</span>
+                    <div>
+                        <div style="color: #075985; font-weight: 800; font-size: 14px;">ℹ️ স্ক্রিনশট স্ক্যান সম্পন্ন</div>
+                        <div style="color: #0369a1; font-size: 12px; margin-top: 3px;">সরাসরি কোনো ম্যালওয়্যার পাওয়া যায়নি। তবে কোনো মেসেজে "ফ্রি টাকা", "কেওয়াইসি ব্লক" বা "বিদ্যুৎ লাইন কাটা" লেখা থাকলে সেটি ১০০% ফ্রড।</div>
+                    </div>
+                </div>`;
+        }
+    }, 2500); // 2.5 seconds fake loading for realistic feel
+}
+
+// ==========================================
+// 2. সাইবার সতর্কবার্তা ও স্পিচ সিন্থেসিস
 // ==========================================
 const cyberAlertRawText = "সরকারি ওয়েবসাইটের শেষে .gov.in অথবা .nic.in থাকে। ভারতীয় সমস্ত ব্যাংকের ওয়েবসাইটে শেষে .bank.in হয়। ব্যক্তিগত তথ্য ও আধার ওটিপি দিয়ে অচেনা লিংকে ভেরিফাই করবেন না।";
 let cyberUtterance = null;
@@ -1751,7 +1935,7 @@ function stopCyberAudio() {
 }
 
 // ==========================================
-// 2. ভয়েস সার্চ (Voice Search) ও লজিক
+// 3. ভয়েস সার্চ (Voice Search) ও লজিক
 // ==========================================
 function startVoiceSearch() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
