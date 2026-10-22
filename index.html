@@ -632,6 +632,15 @@
         <div class="header-sub">জরুরি সরকারি ও নাগরিক সেবাসমূহ এক প্ল্যাটফর্মে</div>
         
         <div class="search-box">
+            <div id="aiResultBox" style="display: none; background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1.5px solid #0d9488; border-radius: 14px; padding: 14px; margin-top: 12px; margin-bottom: 15px; position: relative;">
+    <button onclick="document.getElementById('aiResultBox').style.display='none'; stopCyberAudio();" style="position: absolute; right: 10px; top: 10px; background: transparent; border: none; font-size: 16px; cursor: pointer; color: #0f766e;">✕</button>
+    <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; color: #0f766e; margin-bottom: 8px;">
+        <span class="material-symbols-outlined" style="animation: scanSpin 2s linear infinite;">smart_toy</span> AI অ্যাসিস্ট্যান্ট
+    </div>
+    <div id="aiResultText" style="font-size: 13.5px; color: #115e59; line-height: 1.6; font-weight: 600;">
+        উত্তর খোঁজা হচ্ছে...
+    </div>
+</div>
             <span class="material-symbols-outlined search-icon">search</span>
             <input type="text" id="searchInput" placeholder="সেবা খুঁজুন (SBI, আধার, রেশন, পর্চা, বিদ্যুৎ)..." onkeyup="filterServices()">
             
