@@ -150,11 +150,13 @@
             margin-top: 13px;
             position: relative;
             max-width: 600px;
+            display: flex;
+            align-items: center;
         }
 
         .search-box input {
             width: 100%;
-            padding: 11px 14px 11px 40px;
+            padding: 11px 45px 11px 40px; /* Adjusted padding for mic */
             border-radius: 12px;
             border: none;
             outline: none;
@@ -164,13 +166,36 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .search-box .material-symbols-outlined {
+        .search-box .search-icon {
             position: absolute;
             left: 11px;
-            top: 50%;
-            transform: translateY(-50%);
             color: #64748b;
             font-size: 20px;
+        }
+        
+        .voice-btn {
+            position: absolute;
+            right: 8px;
+            background: #eff6ff;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #2563eb;
+            box-shadow: 0 2px 5px rgba(37,99,235,0.15);
+            transition: all 0.2s ease;
+        }
+        .voice-btn:active { transform: scale(0.9); }
+        .voice-btn.recording { background: #fee2e2; color: #dc2626; animation: pulseMic 1s infinite; }
+        
+        @keyframes pulseMic {
+            0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
         }
 
         .content {
@@ -491,6 +516,7 @@
             background: linear-gradient(135deg, #eff6ff, #f0fdf4);
             border: 1.5px solid #bfdbfe; border-radius: 16px; padding: 15px;
             margin: 14px 0 10px 0; display: flex; flex-direction: column; gap: 9px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         [data-theme="dark"] .personal-support-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-color: #334155; }
         .psc-badge {
@@ -586,14 +612,19 @@
         <div class="header-sub">জরুরি সরকারি ও নাগরিক সেবাসমূহ এক প্ল্যাটফর্মে</div>
         
         <div class="search-box">
-            <span class="material-symbols-outlined">search</span>
-            <input type="text" id="searchInput" placeholder="সেবা খুঁজুন (SBI, আধার, রেশন, পর্চা, ভোটার, বিদ্যুৎ)..." onkeyup="filterServices()">
+            <span class="material-symbols-outlined search-icon">search</span>
+            <input type="text" id="searchInput" placeholder="সেবা খুঁজুন (SBI, আধার, রেশন, পর্চা, বিদ্যুৎ)..." onkeyup="filterServices()">
+            
+            <!-- ভয়েস সার্চ মাইক্রোফোন বাটন -->
+            <button id="voiceSearchBtn" class="voice-btn" onclick="startVoiceSearch()" title="মুখে বলে খুঁজুন">
+                <span class="material-symbols-outlined" style="font-size: 19px;">mic</span>
+            </button>
         </div>
     </div>
 
     <div class="content">
 
-        <!-- ব্যানার: ডিফল্ট টেক্সট (গুগল শিট থেকে নিজে নিজে আপডেট হবে) -->
+        <!-- ব্যানার -->
         <a id="featuredDynamicBanner" href="javascript:void(0);" class="featured-banner">
             <div class="fb-content">
                 <div class="fb-icon" id="fbIcon">📢</div>
@@ -916,7 +947,7 @@
                                 <div class="card-title">মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা</div>
                                 <div class="card-dept">শীঘ্রই আসছে (ক্লিক করুন)</div>
                             </div>
-                        </a>
+                        </div>
                         <a id="service_ayushman" href="https://beneficiary.nha.gov.in/" target="_blank" class="service-card clr-blue" data-keywords="ayushman bharat pmjay আয়ুষ্মান ভারত কার্ড ৫ লাখ চিকিৎসা">
                             <div class="icon-circle">💉</div>
                             <div class="card-info">
@@ -1067,7 +1098,7 @@
         </div>
 
         <!-- ডিজিটাল সাপোর্ট কার্ড -->
-        <div class="personal-support-card">
+        <div class="personal-support-card" id="digitalSupportCard">
             <div class="psc-badge">🤝 আপনার ডিজিটাল বন্ধু</div>
             <div class="psc-title">"Online পরিষেবা " — আপনার পাশে শুভঙ্কর</div>
             <p class="psc-desc">
@@ -1115,6 +1146,26 @@
             <button id="pwaAddNowBtn" style="width: 100%; background: #1e3a8a; color: #ffffff; border: none; padding: 12px; border-radius: 11px; font-size: 14.5px; font-weight: 700; cursor: pointer;">
                 Add Now
             </button>
+        </div>
+    </div>
+
+    <!-- সাইবার সতর্কবার্তা মোডাল (নতুন) -->
+    <div id="cyberAlertModal" class="modal-overlay" style="z-index: 2000;" onclick="closeModal('cyberAlertModal'); stopCyberAudio();">
+        <div class="modal-box" style="height: auto; max-width: 400px; text-align: center; padding: 22px 18px; border-radius: 18px; border: 2.5px solid #eab308; background: #fffbeb;" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 8px; color: #b45309; font-weight: 900; font-size: 16px;">
+                    <span class="material-symbols-outlined" style="font-size: 24px;">security</span> সাইবার সতর্কতা
+                </div>
+                <button onclick="closeModal('cyberAlertModal'); stopCyberAudio();" style="background: rgba(0,0,0,0.06); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main);">✕</button>
+            </div>
+
+            <button id="playCyberAudioBtn" onclick="playCyberAlert()" style="background: linear-gradient(135deg, #eab308, #ca8a04); color: #ffffff; border: none; padding: 10px 20px; border-radius: 30px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; margin: 0 auto 15px auto; box-shadow: 0 4px 12px rgba(202, 138, 4, 0.3);">
+                <span class="material-symbols-outlined" id="cyberAudioIcon">volume_up</span> <span id="cyberAudioText">শুনতে এখানে ক্লিক করুন</span>
+            </button>
+
+            <p id="cyberAlertContent" style="font-size: 15px; color: #92400e; line-height: 1.7; font-weight: 700; text-align: left; padding: 12px; background: #fef3c7; border-radius: 12px; margin-bottom: 0;">
+                <!-- জাভাস্ক্রিপ্ট দিয়ে শব্দগুলো এখানে বসবে -->
+            </p>
         </div>
     </div>
 
@@ -1174,7 +1225,7 @@
                 <button class="modal-close" onclick="closeModal('emergencyModal')">&times;</button>
             </div>
                 <div class="modal-scroll-area">
-                <!-- ১. জেলা ও মহকুমা নির্বাচন ফিল্টার (এখন একদম উপরে) -->
+                <!-- ১. জেলা ও মহকুমা নির্বাচন ফিল্টার -->
                 <div style="background: var(--bg-color); border: 1.5px solid var(--card-border); border-radius: 14px; padding: 11px 12px; margin-bottom: 12px;">
                     <div style="font-size: 12.5px; font-weight: 800; color: var(--text-main); margin-bottom: 8px; display:flex; align-items:center; justify-content:space-between;">
                         <span>📍 আপনার জেলা ও মহকুমা নির্বাচন করুন:</span>
@@ -1619,21 +1670,183 @@
 </div>
 
 <script>
+// ==========================================
+// 1. সাইবার সতর্কবার্তা ও স্পিচ সিন্থেসিস
+// ==========================================
+const cyberAlertRawText = "সরকারি ওয়েবসাইটের শেষে .gov.in অথবা .nic.in থাকে। ভারতীয় সমস্ত ব্যাংকের ওয়েবসাইটে শেষে .bank.in হয়। ব্যক্তিগত তথ্য ও আধার ওটিপি দিয়ে অচেনা লিংকে ভেরিফাই করবেন না।";
+let cyberUtterance = null;
+
+function initCyberAlert() {
+    const container = document.getElementById('cyberAlertContent');
+    if(!container) return;
+    
+    // শব্দগুলোকে আলাদা করে স্প্যান (span) এর মধ্যে ঢোকানো হচ্ছে হাইলাইটের জন্য
+    const words = cyberAlertRawText.split(' ');
+    container.innerHTML = words.map((word, index) => `<span id="cw-${index}" class="cyber-word">${word}</span>`).join(' ');
+    
+    // অ্যাপ খুললে একবার সতর্কবার্তা দেখাবে (সেশন স্টোরেজ ব্যবহার করে)
+    if(!sessionStorage.getItem('cyberAlertSeen')) {
+        setTimeout(() => {
+            openModal('cyberAlertModal');
+            sessionStorage.setItem('cyberAlertSeen', 'true');
+        }, 800); // পেজ লোড হওয়ার একটু পর আসবে
+    }
+}
+
+function playCyberAlert() {
+    if (!('speechSynthesis' in window)) {
+        alert("আপনার ব্রাউজারে অডিও সাপোর্ট নেই।");
+        return;
+    }
+    
+    window.speechSynthesis.cancel(); // আগের কোনো অডিও চললে বন্ধ হবে
+    
+    cyberUtterance = new SpeechSynthesisUtterance(cyberAlertRawText);
+    cyberUtterance.lang = 'bn-IN'; // বাংলা ভয়েস
+    cyberUtterance.rate = 0.85; // একটু ধীর গতিতে বলবে বোঝার সুবিধার্থে
+    
+    document.querySelectorAll('.cyber-word').forEach(el => el.style.background = 'transparent');
+    
+    let wordIndex = 0;
+    
+    // কথা বলার সাথে সাথে হাইলাইট করার লজিক
+    cyberUtterance.onboundary = function(event) {
+        if(event.name === 'word') {
+            document.querySelectorAll('.cyber-word').forEach(el => {
+                el.style.background = 'transparent';
+                el.style.color = '#92400e';
+            });
+            
+            const currentWordSpan = document.getElementById(`cw-${wordIndex}`);
+            if (currentWordSpan) {
+                currentWordSpan.style.background = '#fde047'; // বাসন্তী রঙ
+                currentWordSpan.style.color = '#1e3a8a'; // গাঢ় নীল টেক্সট
+                currentWordSpan.style.borderRadius = '4px';
+                currentWordSpan.style.padding = '0 3px';
+                currentWordSpan.style.transition = 'background 0.2s ease';
+            }
+            wordIndex++;
+        }
+    };
+
+    cyberUtterance.onend = function() {
+        document.getElementById('cyberAudioIcon').innerText = 'volume_up';
+        document.getElementById('cyberAudioText').innerText = 'আবার শুনুন';
+        document.querySelectorAll('.cyber-word').forEach(el => {
+            el.style.background = 'transparent';
+            el.style.color = '#92400e';
+        });
+    };
+
+    document.getElementById('cyberAudioIcon').innerText = 'graphic_eq';
+    document.getElementById('cyberAudioText').innerText = 'অডিও চলছে...';
+    
+    window.speechSynthesis.speak(cyberUtterance);
+}
+
+function stopCyberAudio() {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+    }
+}
+
+// ==========================================
+// 2. ভয়েস সার্চ (Voice Search) ও লজিক
+// ==========================================
+function startVoiceSearch() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        alert("আপনার ব্রাউজারে ভয়েস সার্চ সাপোর্ট করে না। দয়া করে ক্রোম (Chrome) ব্যবহার করুন।");
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'bn-IN';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    const btn = document.getElementById('voiceSearchBtn');
+    const icon = btn.querySelector('.material-symbols-outlined');
+    
+    recognition.onstart = function() {
+        icon.innerText = 'mic_recording';
+        btn.classList.add('recording');
+        document.getElementById('searchInput').placeholder = "শুনছি, বলুন...";
+    };
+
+    recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('searchInput').value = transcript;
+        filterServices();
+        handleVoiceCommandLogic(transcript);
+    };
+
+    recognition.onerror = function(event) {
+        console.error("Voice search error: ", event.error);
+        alert("কথা বুঝতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+    };
+
+    recognition.onend = function() {
+        icon.innerText = 'mic';
+        btn.classList.remove('recording');
+        document.getElementById('searchInput').placeholder = "সেবা খুঁজুন (SBI, আধার, রেশন, পর্চা, বিদ্যুৎ)...";
+    };
+
+    recognition.start();
+}
+
+function handleVoiceCommandLogic(text) {
+    const lowerText = text.toLowerCase();
+    // যে কাজগুলোতে আপনার সাহায্য প্রয়োজন তার কিছু কি-ওয়ার্ড
+    const requiresProHelp = ['ভুল', 'সংশোধন', 'নতুন', 'পিভিসি', 'pvc', 'কারেকশন', 'ঠিকানা বদল', 'নাম চেঞ্জ'];
+    const needsHelp = requiresProHelp.some(keyword => lowerText.includes(keyword));
+
+    if (needsHelp && ('speechSynthesis' in window)) {
+        window.speechSynthesis.cancel();
+        
+        // আপনার ব্যবসার স্বার্থে সাজানো স্মার্ট অডিও রেসপন্স
+        const msg = "এই কাজটি অত্যন্ত সতর্কতার সাথে করা প্রয়োজন। সামান্য ভুলের জন্য ফর্মটি বাতিল হতে পারে। নির্ভুলভাবে কাজটি করিয়ে নিতে সামান্য পারিশ্রমিকের বিনিময়ে নিচের হোয়াটসঅ্যাপ বাটনে ক্লিক করে আমাদের সাথে যোগাযোগ করুন।";
+        const ut = new SpeechSynthesisUtterance(msg);
+        ut.lang = 'bn-IN';
+        ut.rate = 0.9;
+        window.speechSynthesis.speak(ut);
+        
+        // সাপোর্ট কার্ডটি হাইলাইট করে ইউজারের দৃষ্টি আকর্ষণ করা
+        const supportCard = document.getElementById('digitalSupportCard');
+        if(supportCard) {
+            setTimeout(() => {
+                supportCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                supportCard.style.transform = 'scale(1.03)';
+                supportCard.style.boxShadow = '0 0 25px rgba(37, 99, 235, 0.4)';
+                supportCard.style.border = '2px solid #2563eb';
+                
+                setTimeout(() => {
+                    supportCard.style.transform = 'scale(1)';
+                    supportCard.style.boxShadow = 'none';
+                    supportCard.style.border = '1.5px solid #bfdbfe';
+                }, 3000);
+            }, 500); // একটু দেরি করে স্ক্রল হবে অডিও শুরু হওয়ার পর
+        }
+    }
+}
+
+
+// ==========================================
+// পুরনো রেগুলার জাভাস্ক্রিপ্ট ফাংশন সমূহ
+// ==========================================
 function toggleCategory(groupId) {
     const group = document.getElementById(groupId);
     if (!group) return;
     group.classList.toggle('open');
 }
 
-// রিফ্রেশ বা পেজ রিলোডের পর শেষ খোলা মোডাল বা পেজ রিফ্রেশ করে সচল রাখা
 window.addEventListener('load', () => {
     const lastOpenModal = sessionStorage.getItem('currentOpenModal');
-    if (lastOpenModal) {
+    if (lastOpenModal && lastOpenModal !== 'cyberAlertModal') {
         openModal(lastOpenModal);
     }
 });
 
-// openModal ফাংশনের ভেতর সেশন স্টোরেজ যুক্ত করা
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
@@ -1642,7 +1855,6 @@ function openModal(modalId) {
     history.pushState({ openModalId: modalId }, '');
 }
 
-// closeModal ফাংশনের ভেতর থেকে মুছে ফেলা (দুটি ডুপ্লিকেট ছিল, একটি পরিষ্কার করা হলো)
 function closeModal(modalId, isFromPopstate = false) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
@@ -1755,7 +1967,6 @@ function sendLandRecordWhatsApp() {
     window.open(whatsappUrl, '_blank');
 }
 
-/* লিস্ট / গ্রিড ভিউ টগল */
 function toggleLayoutView() {
     const appContainer = document.getElementById('appMainContainer');
     const isCurrentlyGrid = appContainer.classList.contains('page-view-grid');
@@ -1847,7 +2058,6 @@ function filterServices() {
     });
 }
 
-/* ব্যাংক সার্চিং */
 const bankSearchAliases = {
     'sbi': ['sbi', 'state bank', 'স্টেট ব্যাঙ্ক', 'স্টেট ব্যাংক', 'এসবিআই'],
     'pnb': ['pnb', 'punjab national', 'পাঞ্জাব ন্যাশনাল', 'পিএনবি'],
@@ -2005,7 +2215,6 @@ const bankColorThemes = [
 ];
 
 function loadLiveGoogleSheetData() {
-    /* ১. কন্টাক্ট শিট থেকে ব্যাংক লিস্ট ফেচ ও A-to-Z সাজানো */
     fetch(`https://opensheet.elk.sh/${CONTACT_SHEET_ID}/Sheet1`)
         .then(res => res.json())
         .then(data => {
@@ -2040,7 +2249,6 @@ function loadLiveGoogleSheetData() {
         })
         .catch(err => console.error("কন্টাক্ট শিট সমস্যা:", err));
 
-    /* ২. সার্ভিস শিট থেকে ডেটা ফেচ (Google Sheets ব্যর্থ হলে services.json ফলব্যাক) */
     fetch(`https://opensheet.elk.sh/${SERVICES_SHEET_ID}/Sheet1`)
         .then(res => {
             if (!res.ok) throw new Error("Google Sheets ফেচ ব্যর্থ");
@@ -2053,11 +2261,9 @@ function loadLiveGoogleSheetData() {
         .then(data => {
             if (!Array.isArray(data) || data.length === 0) return;
 
-            // শিটে থাকা রো-অর্ডার অক্ষুণ্ণ রেখে ক্যাটাগরি অনুযায়ী গ্রুপিং
             const grouped = {};
             data.forEach(item => {
                 if (item.category === 'banner') {
-                    // বড় ব্যানার ডাইনামিক আপডেট
                     const bannerElem = document.getElementById('featuredDynamicBanner');
                     const bTitle = document.getElementById('fbTitle');
                     const bDesc = document.getElementById('fbDesc');
@@ -2073,7 +2279,6 @@ function loadLiveGoogleSheetData() {
                 grouped[cat].push(item);
             });
 
-            // শিটের সিরিয়াল অনুযায়ী প্রতিটি ফোল্ডারে কার্ড সাজানো (কোনো ডাবল কার্ড হবে ওয়েবসাইটে)
             for (let cat in grouped) {
                 const targetContainerId = categoryContainerMap[cat];
                 if (targetContainerId) {
@@ -2087,17 +2292,13 @@ function loadLiveGoogleSheetData() {
         .catch(err => console.error("সার্ভিস ডেটা লোড সমস্যা:", err));
 }
 
-
-/* ==============================================
-   জরুরি ডিরেক্টরি (৮টি জেলা), ডুয়াল বাটন ও শিট সিঙ্ক
-   ============================================== */
 const CROWD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvFwvZ4DkFSR6p_tbYcXsGZmwsIAAOJpmwLmPkx5nnx-qhlkt4dx12slHQ41twEtfl5Q/exec";
 
 let emergencyDirectoryData = {};
-let verifiedContactsDB = {}; // Google Sheet থেকে অনুমোদিত নম্বর
+let verifiedContactsDB = {}; 
 let currentSelectedDistrict = "পশ্চিম মেদিনীপুর";
 let currentSelectedSubDiv = "ঘাটাল";
-let currentSelectedWbCategory = "utility"; // ডিফল্ট নাগরিক পরিষেবা (জল/বিদ্যুৎ/সাফাই/রেসকিউ)
+let currentSelectedWbCategory = "utility"; 
 
 function initWbDirectory() {
     const distSelect = document.getElementById('wbDistrictSelect');
@@ -2192,14 +2393,12 @@ function renderDirectoryCards() {
     }
 
     filteredItems.forEach(item => {
-        // গুগল শিটে অনুমোদিত নম্বর চেক (লাইভ ওভাররাইড)
         const liveApprovedNum = (verifiedContactsDB[currentSelectedSubDiv] && verifiedContactsDB[currentSelectedSubDiv][item.name])
                                 ? verifiedContactsDB[currentSelectedSubDiv][item.name]
                                 : item.phone;
 
         const card = document.createElement('div');
 
-        // ক. ইউটিলিটি সার্ভিস (ডুয়াল বাটন: সেন্ট্রাল ফ্রি + লোকাল অফিস)
         if (item.type === 'utility') {
             card.className = 'sub-card-row sub-theme-amber';
             card.style.cssText = 'flex-direction: column; align-items: flex-start; gap: 8px;';
@@ -2226,7 +2425,6 @@ function renderDirectoryCards() {
                 </div>
             `;
         } 
-        // খ. স্বাস্থ্য, পুলিশ ও প্রশাসন ক্যাটাগরি
         else {
             card.className = 'sub-card-row ' + (item.type === 'health' ? 'sub-theme-teal' : (item.type === 'police' ? 'sub-theme-blue' : 'sub-theme-indigo'));
 
@@ -2257,7 +2455,6 @@ function renderDirectoryCards() {
         container.appendChild(card);
     });
 
-    // স্বাস্থ্য বিভাগের নিচে সরাসরি অ্যাম্বুলেন্স কুইক ডায়াল
     if (currentSelectedWbCategory === 'health') {
         const ambBox = document.createElement('div');
         ambBox.style.cssText = 'background: #f0fdf4; border: 1.5px solid #22c55e; border-radius: 12px; padding: 10px; margin-top: 6px;';
@@ -2324,7 +2521,6 @@ function submitCrowdNumber() {
 }
 
 function loadEmergencyDirectoryAndSheets() {
-    // ১. district_skeleton.json থেকে ৮টি জেলার কাঠামো লোড
     fetch('./district_skeleton.json')
         .then(res => {
             if (!res.ok) throw new Error("JSON ফেচ ব্যর্থ");
@@ -2336,14 +2532,12 @@ function loadEmergencyDirectoryAndSheets() {
         })
         .catch(err => {
             console.warn("JSON ফাইল সমস্যা, ব্যাকআপ লোড করা হচ্ছে...", err);
-            // ব্যাকআপ ডেটা হ্যান্ডলার
             if (typeof backupDistrictData !== 'undefined') {
                 emergencyDirectoryData = backupDistrictData;
                 initWbDirectory();
             }
         });
 
-    // ২. কন্টাক্ট শিটের 'Emergency' ট্যাব থেকে অনুমোদিত নম্বর সিঙ্ক
     fetch(`https://opensheet.elk.sh/${CONTACT_SHEET_ID}/Emergency`)
         .then(res => res.json())
         .then(data => {
@@ -2369,6 +2563,7 @@ function loadEmergencyDirectoryAndSheets() {
 document.addEventListener('DOMContentLoaded', () => {
     loadLiveGoogleSheetData();
     loadEmergencyDirectoryAndSheets();
+    initCyberAlert(); // সাইবার অ্যালার্ট ইনিশিয়ালাইজেশন
 });
 
 </script>
