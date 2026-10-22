@@ -1776,7 +1776,156 @@
     </footer>
 
 </div>
+<script>
+function handleVoiceCommandLogic(text) {
+    const lowerText = text.toLowerCase();
+    
+    // ব্যবসার সাথে যুক্ত কি-ওয়ার্ড (যেখানে আপনার প্রফেশনাল সাহায্য লাগবে)
+    const requiresProHelp = ['ভুল', 'সংশোধন', 'নতুন', 'পিভিসি', 'pvc', 'কারেকশন', 'ঠিকানা', 'নাম চেঞ্জ', 'লিংক', 'আপডেট'];
+    const needsHelp = requiresProHelp.some(keyword => lowerText.includes(keyword));
 
+    // সাধারণ সেবার কি-ওয়ার্ড (যেগুলো অ্যাপের কার্ডে সরাসরি আছে)
+    const basicServices = ['ব্যালেন্স', 'স্ট্যাটাস', 'ডাউনলোড', 'গ্যাস', 'বিদ্যুৎ', 'বিল', 'পর্চা', 'খাজনা', 'চেক'];
+    const isBasic = basicServices.some(keyword => lowerText.includes(keyword));
+
+    // প্রশ্নবোধক বা ব্যাখ্যামূলক শব্দ (যেগুলোর জন্য সত্যিই AI দরকার)
+    const needsKnowledge = ['কীভাবে', 'কিভাবে', 'কোথায়', 'নিয়ম', 'ফর্ম', 'উপায়', 'পদ্ধতি', 'ডিটেইলস'];
+    const isQuestion = needsKnowledge.some(keyword => lowerText.includes(keyword));
+
+    const aiBox = document.getElementById('aiResultBox');
+    const aiText = document.getElementById('aiResultText');
+
+    if (needsHelp) {
+        // API কল বাঁচিয়ে অফলাইন স্মার্ট রেসপন্স
+        const displayMsg = "কাজটি অত্যন্ত জটিল। ⚠️ সামান্য ভুল আপনার আবেদন রিজেক্ট হতে পারে। তাই আমাদের সাথে অথবা যেকোনো ডিজিট্যাল সেবা কেন্দ্রে যোগাযোগ করুন।";
+        const audioMsg = "কাজটি অত্যন্ত জটিল। সামান্য ভুল আপনার আবেদন রিজেক্ট হতে পারে। তাই আমাদের সাথে অথবা যেকোনো ডিজিট্যাল সেবা কেন্দ্রে যোগাযোগ করুন।";
+        
+        if(aiBox && aiText) {
+            aiBox.style.display = 'block';
+            aiText.innerHTML = `<span style="color:#b45309; font-weight:700;">${displayMsg}</span>`;
+        }
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            let ut = new SpeechSynthesisUtterance(audioMsg);
+            ut.lang = 'bn-IN';
+            ut.rate = 0.9;
+            window.speechSynthesis.speak(ut);
+        }
+        
+        highlightSupportCard();
+    } 
+    else if (isBasic && !isQuestion) {
+        // সাধারণ সার্চ হলে শুধু কার্ড ফিল্টার হবে, API কল হবে না
+        const msg = "আপনার খোঁজা পরিষেবাটি নিচে দেওয়া হলো। কার্ডে ক্লিক করে সহজেই নিজে কাজটি করতে পারেন।";
+        if(aiBox && aiText) {
+            aiBox.style.display = 'block';
+            aiText.innerHTML = `<span style="color:#0f766e; font-weight:700;">${msg}</span>`;
+        }
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            let ut = new SpeechSynthesisUtterance(msg);
+            ut.lang = 'bn-IN';
+            ut.rate = 0.9;
+            window.speechSynthesis.speak(ut);
+        }
+    } 
+    else {
+        // শুধুমাত্র অজানা বা জটিল প্রশ্ন হলেই জেমিনি এআই-কে কল করা হবে
+        askGeminiAI(text);
+    }
+}
+
+function highlightSupportCard() {
+    const supportCard = document.getElementById('digitalSupportCard');
+    if(supportCard) {
+        setTimeout(() => {
+            supportCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            supportCard.style.transform = 'scale(1.03)';
+            supportCard.style.boxShadow = '0 0 25px rgba(37, 99, 235, 0.4)';
+            supportCard.style.border = '2px solid #2563eb';
+            
+            setTimeout(() => {
+                supportCard.style.transform = 'scale(1)';
+                supportCard.style.boxShadow = 'none';
+                supportCard.style.border = '1.5px solid #bfdbfe';
+            }, 4000); 
+        }, 800); 
+    }
+}
+
+// এআই ডেইলি লিমিট ও জেমিনি কল করার ফাংশন
+async function askGeminiAI(userQuery) {
+    const aiBox = document.getElementById('aiResultBox');
+    const aiText = document.getElementById('aiResultText');
+    
+    if(!aiBox || !aiText) return;
+
+    const MAX_AI_SEARCHES = 3; // দিনে ৩ বারের লিমিট সেট করা হলো
+    const todayDate = new Date().toLocaleDateString('en-GB'); 
+    
+    let aiUsage = JSON.parse(localStorage.getItem('userAiUsage')) || { date: todayDate, count: 0 };
+
+    if (aiUsage.date !== todayDate) {
+        aiUsage = { date: todayDate, count: 0 };
+    }
+
+    if (aiUsage.count >= MAX_AI_SEARCHES) {
+        aiBox.style.display = 'block';
+        aiText.innerHTML = '<span style="color:#d97706; font-weight: 700;">⚠️ আপনার আজকের ফ্রি AI সার্চ লিমিট শেষ হয়েছে। সাধারণ সার্চ ব্যবহার করুন অথবা কাল আবার চেষ্টা করুন।</span>';
+        
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            let ut = new SpeechSynthesisUtterance("আপনার আজকের ফ্রি এআই সার্চ লিমিট শেষ হয়েছে। সাধারণ সার্চ ব্যবহার করুন।");
+            ut.lang = 'bn-IN';
+            ut.rate = 0.9;
+            window.speechSynthesis.speak(ut);
+        }
+        return; 
+    }
+
+    aiBox.style.display = 'block';
+    aiText.innerHTML = '<span style="color:#0d9488;">একটু অপেক্ষা করুন, AI আপনার উত্তর তৈরি করছে... ⏳</span>';
+
+    try {
+        aiUsage.count += 1;
+        localStorage.setItem('userAiUsage', JSON.stringify(aiUsage));
+
+        const response = await fetch('/api/gemini', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: userQuery })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.reply) {
+            let formattedReply = data.reply.replace(/\n/g, '<br>');
+            formattedReply = formattedReply.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>'); 
+            aiText.innerHTML = formattedReply;
+
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                let cleanText = data.reply.replace(/[*#]/g, ''); 
+                let ut = new SpeechSynthesisUtterance(cleanText);
+                ut.lang = 'bn-IN';
+                ut.rate = 0.85;
+                window.speechSynthesis.speak(ut);
+            }
+        } else {
+            aiText.innerHTML = '<span style="color:#dc2626;">দুঃখিত, কোনো উত্তর পাওয়া যায়নি। আবার চেষ্টা করুন।</span>';
+        }
+    } catch (error) {
+        console.error("AI Fetch Error:", error);
+        aiText.innerHTML = '<span style="color:#dc2626;">সার্ভারে কোনো সমস্যা হয়েছে। দয়া করে একটু পর আবার চেষ্টা করুন।</span>';
+        
+        // সার্ভার এরর হলে লিমিট কাউন্ট ফেরত দেওয়া
+        aiUsage.count -= 1;
+        localStorage.setItem('userAiUsage', JSON.stringify(aiUsage));
+    }
+}
+</script>
+    
 <script>
 // ==========================================
 // 1. সাইবার স্ক্যাম স্ক্যানার লজিক
