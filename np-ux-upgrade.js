@@ -1,6 +1,17 @@
 /* =====================================================
-   NAGORIK PORISHEBA 2.1
+   NAGORIK PORISHEBA 2.3
+   Online পরিষেবা — আপনার পাশে, আপনার সাথে
+
    Citizen Experience Upgrade
+   Compatible with Unified Smart Search
+
+   Features:
+   - Microphone Active Indicator
+   - Bengali/English Spelling Support
+   - Green WhatsApp Support
+   - Search Result Presentation
+   - Cyber Floating Button Disabled
+   - Existing Cyber Modal Preserved
    ===================================================== */
 
 (function () {
@@ -96,33 +107,6 @@
         color: white !important;
       }
 
-      /* WARNING FLOATING BUTTON */
-
-      #npWarningFloat {
-        width: 49px;
-        height: 49px;
-        border-radius: 50%;
-        border: none;
-        background: linear-gradient(135deg,#f59e0b,#ea580c);
-        color: white;
-        font-size: 23px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 5px 18px rgba(234,88,12,.3);
-        transition: transform .2s ease;
-      }
-
-      #npWarningFloat:hover {
-        transform: translateY(-3px);
-      }
-
-      #npWarningFloat:focus-visible {
-        outline: 3px solid #2563eb;
-        outline-offset: 3px;
-      }
-
       /* CYBER WARNING POPUP */
 
       #cyberAlertModal .modal-content,
@@ -166,18 +150,24 @@
 
   function setupMicIndicator() {
     const mic = document.getElementById(CONFIG.micId);
+    const search = document.getElementById(CONFIG.searchId);
 
     if (!mic) return;
 
-    const search = document.getElementById(CONFIG.searchId);
+    let status = document.querySelector(".np-mic-status");
 
-    const status = document.createElement("div");
+    if (!status) {
+      status = document.createElement("div");
 
-    status.className = "np-mic-status";
-    status.textContent = "🎙️ আপনার কথা শুনছি…";
+      status.className = "np-mic-status";
+      status.textContent = "🎙️ আপনার কথা শুনছি…";
 
-    if (search && search.parentElement) {
-      search.parentElement.insertAdjacentElement("afterend", status);
+      if (search && search.parentElement) {
+        search.parentElement.insertAdjacentElement(
+          "afterend",
+          status
+        );
+      }
     }
 
     let listening = false;
@@ -185,25 +175,28 @@
     function setListening(active) {
       listening = active;
 
-      const currentMic = document.getElementById(CONFIG.micId);
+      const currentMic = document.getElementById(
+        CONFIG.micId
+      );
 
       if (currentMic) {
-        currentMic.classList.toggle("np-mic-active", active);
+        currentMic.classList.toggle(
+          "np-mic-active",
+          active
+        );
 
         currentMic.setAttribute(
           "aria-label",
-          active ? "মাইক্রোফোন চালু আছে" : "ভয়েস সার্চ"
+          active
+            ? "মাইক্রোফোন চালু আছে"
+            : "ভয়েস সার্চ"
         );
       }
 
-      status.classList.toggle("active", active);
+      if (status) {
+        status.classList.toggle("active", active);
+      }
     }
-
-    /*
-      Existing unified-search.js creates the SpeechRecognition
-      instance internally. We wrap the browser constructor to
-      receive the real start/end events.
-    */
 
     const NativeRecognition =
       window.SpeechRecognition ||
@@ -211,24 +204,33 @@
 
     if (!NativeRecognition) return;
 
+    if (window.NPMicRecognitionWrapped) return;
+
+    window.NPMicRecognitionWrapped = true;
+
     function WrappedRecognition() {
       const recognition = new NativeRecognition();
 
-      recognition.addEventListener("start", function () {
-        setListening(true);
-      });
+      recognition.addEventListener(
+        "start",
+        function () {
+          setListening(true);
+        }
+      );
 
-      recognition.addEventListener("end", function () {
-        setListening(false);
-      });
+      recognition.addEventListener(
+        "end",
+        function () {
+          setListening(false);
+        }
+      );
 
-      recognition.addEventListener("error", function () {
-        setListening(false);
-      });
-
-      recognition.addEventListener("result", function () {
-        setListening(false);
-      });
+      recognition.addEventListener(
+        "error",
+        function () {
+          setListening(false);
+        }
+      );
 
       return recognition;
     }
@@ -236,13 +238,18 @@
     window.SpeechRecognition = WrappedRecognition;
     window.webkitSpeechRecognition = WrappedRecognition;
 
-    window.addEventListener("pagehide", function () {
-      if (listening) setListening(false);
-    });
+    window.addEventListener(
+      "pagehide",
+      function () {
+        if (listening) {
+          setListening(false);
+        }
+      }
+    );
   }
 
   /* ==========================================
-     3. COMMON SPELLING CORRECTIONS
+     3. SPELLING CORRECTIONS
      ========================================== */
 
   const SPELLING_MAP = {
@@ -253,6 +260,7 @@
     "ডিবিটি": "DBT",
     "ডিবিটি স্টেটাস": "DBT স্ট্যাটাস",
     "ডিবিটি স্ট্যাটাস": "DBT স্ট্যাটাস",
+
     "হাস্পাতাল": "হাসপাতাল",
     "হাসপাতল": "হাসপাতাল",
     "হসপিটাল": "হাসপাতাল",
@@ -291,11 +299,15 @@
   function correctSpelling(text) {
     let result = String(text || "");
 
-    const entries = Object.entries(SPELLING_MAP)
-      .sort((a, b) => b[0].length - a[0].length);
+    const entries = Object.entries(
+      SPELLING_MAP
+    ).sort((a, b) => b[0].length - a[0].length);
 
     for (const [wrong, right] of entries) {
-      const escaped = wrong.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const escaped = wrong.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&"
+      );
 
       result = result.replace(
         new RegExp(escaped, "gi"),
@@ -306,43 +318,49 @@
     return result;
   }
 
-  function setupSpellingSupport() {
-    const input = document.getElementById(CONFIG.searchId);
+  /*
+    Smart Search-এর Enter Listener-এর সঙ্গে
+    সংঘাত এড়াতে সরাসরি keydown পরিবর্তন নয়।
 
-    if (!input) return;
+    অন্য Script চাইলে ব্যবহার করতে পারবে:
+    window.NPCorrectSpelling("ডিবিটি")
+  */
 
-    input.addEventListener("keydown", function (event) {
-      if (event.key !== "Enter") return;
-
-      const corrected = correctSpelling(input.value);
-
-      if (corrected !== input.value) {
-        input.value = corrected;
-      }
-    }, true);
-  }
+  window.NPCorrectSpelling = correctSpelling;
 
   /* ==========================================
      4. WHATSAPP SUPPORT CARD
      ========================================== */
 
   function updateSupportCards() {
-    const panel = document.getElementById(CONFIG.panelId);
+    const panel = document.getElementById(
+      CONFIG.panelId
+    );
 
     if (!panel) return;
 
-    const cards = panel.querySelectorAll(".np-u-card");
+    const cards = panel.querySelectorAll(
+      ".np-u-card"
+    );
 
     cards.forEach(card => {
-      const title = card.querySelector(".np-u-title");
+      const title = card.querySelector(
+        ".np-u-title"
+      );
 
       if (!title) return;
 
-      if (!title.textContent.includes("ব্যক্তিগত সহায়তা")) {
+      if (
+        !title.textContent.includes(
+          "ব্যক্তিগত সহায়তা"
+        )
+      ) {
         return;
       }
 
-      const paragraph = card.querySelector(".np-u-text");
+      const paragraph = card.querySelector(
+        ".np-u-text"
+      );
 
       if (paragraph) {
         paragraph.textContent =
@@ -353,9 +371,12 @@
 
       links.forEach(link => {
         if (link.href.includes("wa.me")) {
-          link.classList.add("np-upgrade-whatsapp");
+          link.classList.add(
+            "np-upgrade-whatsapp"
+          );
 
-          link.textContent = "💬 WhatsApp-এ সহায়তা নিন";
+          link.textContent =
+            "💬 WhatsApp-এ সহায়তা নিন";
 
           link.href = CONFIG.whatsapp;
         }
@@ -368,32 +389,52 @@
      ========================================== */
 
   function updateGeneralResults() {
-    const panel = document.getElementById(CONFIG.panelId);
+    const panel = document.getElementById(
+      CONFIG.panelId
+    );
 
     if (!panel) return;
 
-    const cards = panel.querySelectorAll(".np-u-card");
+    const cards = panel.querySelectorAll(
+      ".np-u-card"
+    );
 
     cards.forEach(card => {
-      const title = card.querySelector(".np-u-title");
+      const title = card.querySelector(
+        ".np-u-title"
+      );
 
       if (!title) return;
 
-      if (title.textContent.includes("আপনার প্রশ্ন")) {
-        title.textContent = "🔎 নাগরিক পরিষেবা অনুসন্ধান";
+      if (
+        title.textContent.includes(
+          "আপনার প্রশ্ন"
+        )
+      ) {
+        title.textContent =
+          "🔎 নাগরিক পরিষেবা অনুসন্ধান";
 
-        const paragraph = card.querySelector(".np-u-text");
+        const paragraph = card.querySelector(
+          ".np-u-text"
+        );
 
         if (paragraph) {
           paragraph.textContent =
             "সরকারি প্রকল্প, নাগরিক পরিষেবা এবং জরুরি সহায়তার বিষয়ে আরও তথ্য জানতে নিচের বোতামটি ব্যবহার করুন।";
         }
 
-        const buttons = card.querySelectorAll("button");
+        const buttons = card.querySelectorAll(
+          "button"
+        );
 
         buttons.forEach(button => {
-          if (button.textContent.includes("বিস্তারিত উত্তর")) {
-            button.textContent = "🔎 বিশদে জানতে ক্লিক করুন";
+          if (
+            button.textContent.includes(
+              "বিস্তারিত উত্তর"
+            )
+          ) {
+            button.textContent =
+              "🔎 বিশদে জানতে ক্লিক করুন";
           }
         });
       }
@@ -401,86 +442,85 @@
   }
 
   /* ==========================================
-     6. FLOATING WARNING BUTTON
+     6. CYBER MODAL SUPPORT
      ========================================== */
 
-  function openWarning() {
+  /*
+    Cyber Floating Button বন্ধ।
+
+    ভবিষ্যতের Cyber Safety Service Card থেকে
+    নিচের Function ব্যবহার করা যাবে:
+
+    window.NPOpenCyberSafety()
+  */
+
+  function openCyberSafety() {
     const modal = document.getElementById(
       CONFIG.warningModalId
     );
 
-    if (typeof window.openModal === "function") {
-      window.openModal(CONFIG.warningModalId);
+    if (!modal) {
+      console.warn(
+        "Cyber Safety Modal not found"
+      );
+
       return;
     }
 
-    if (modal) {
-      modal.style.display = "flex";
+    if (
+      typeof window.openModal === "function"
+    ) {
+      window.openModal(
+        CONFIG.warningModalId
+      );
+
+      return;
     }
+
+    modal.style.display = "flex";
+
+    modal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
   }
 
-  function addWarningButton() {
-    if (document.getElementById("npWarningFloat")) return;
-
-    const button = document.createElement("button");
-
-    button.id = "npWarningFloat";
-    button.type = "button";
-    button.textContent = "⚠️";
-
-    button.title = "সাইবার নিরাপত্তা সতর্কবার্তা";
-
-    button.setAttribute(
-      "aria-label",
-      "সাইবার নিরাপত্তা সতর্কবার্তা আবার দেখুন"
-    );
-
-    button.addEventListener("click", openWarning);
-
-    const group = document.querySelector(
-      ".floating-action-group"
-    );
-
-    if (group) {
-      group.appendChild(button);
-    } else {
-      button.style.position = "fixed";
-      button.style.right = "16px";
-      button.style.bottom = "225px";
-      button.style.zIndex = "999";
-
-      document.body.appendChild(button);
-    }
-  }
+  window.NPOpenCyberSafety = openCyberSafety;
 
   /* ==========================================
-     7. OBSERVE SEARCH RESULT UPDATES
+     7. SEARCH RESULT OBSERVER
      ========================================== */
 
   function observeSearchPanel() {
-    const panel = document.getElementById(CONFIG.panelId);
+    const panel = document.getElementById(
+      CONFIG.panelId
+    );
 
     if (!panel) return;
 
     let updating = false;
 
-    const observer = new MutationObserver(function () {
-      if (updating) return;
+    const observer = new MutationObserver(
+      function () {
+        if (updating) return;
 
-      updating = true;
+        updating = true;
 
-      observer.disconnect();
+        observer.disconnect();
 
-      updateSupportCards();
-      updateGeneralResults();
+        try {
+          updateSupportCards();
+          updateGeneralResults();
+        } finally {
+          observer.observe(panel, {
+            childList: true,
+            subtree: true
+          });
 
-      observer.observe(panel, {
-        childList: true,
-        subtree: true
-      });
-
-      updating = false;
-    });
+          updating = false;
+        }
+      }
+    );
 
     observer.observe(panel, {
       childList: true,
@@ -492,7 +532,7 @@
   }
 
   /* ==========================================
-     INITIALIZATION
+     8. INITIALIZATION
      ========================================== */
 
   function init() {
@@ -500,19 +540,26 @@
 
     setupMicIndicator();
 
-    setupSpellingSupport();
+    // Spelling correction available globally
+    // through window.NPCorrectSpelling
 
-    addWarningButton();
+    // Cyber Floating Button disabled
+    // addWarningButton();
 
     observeSearchPanel();
 
     console.info(
-      "Nagorik Porisheba 2.1 UX Upgrade loaded"
+      "Nagorik Porisheba 2.3 UX Upgrade loaded"
     );
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
+  if (
+    document.readyState === "loading"
+  ) {
+    document.addEventListener(
+      "DOMContentLoaded",
+      init
+    );
   } else {
     init();
   }
