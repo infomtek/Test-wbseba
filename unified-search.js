@@ -171,6 +171,30 @@
       title: "PM-Kisan",
       url: "https://pmkisan.gov.in/BeneficiaryStatus_New.aspx"
     },
+         {
+      words: [
+        "dbt",
+        "dbt link",
+        "dbt status",
+        "ডিবিটি",
+        "ডি বি টি",
+        "ডিবিটি লিংক",
+        "ডিভিডি লিংক",
+        "ডিভিডি লিং",
+        "আধার ডিবিটি",
+        "aadhaar dbt",
+        "aadhar dbt",
+        "npcI mapping",
+        "npcI link",
+        "এনপিসিআই",
+        "ব্যাংক আধার লিংক",
+        "ব্যাঙ্ক আধার লিংক",
+        "আধার সিডিং"
+      ],
+      ids: ["service_dbt_change"],
+      title: "আধার DBT / ব্যাংক লিংক",
+      url: "https://myaadhaar.uidai.gov.in/"
+    },
     {
       words: ["কৃষক বন্ধু", "krishak bandhu"],
       ids: ["service_krishak_old", "service_krishak_new"],
