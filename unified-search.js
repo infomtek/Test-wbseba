@@ -2336,7 +2336,16 @@ if (governmentResults.length > 0) {
     suppressUnrelatedCards();
 
     switch (intent.kind) {
+      switch (intent.kind) {
+
+      case "governmentIndex":
+        npRenderGovernmentResults(intent.results);
+        break;
+
       case "emergency":
+        renderEmergency(intent.emergency);
+        break;
+       case "emergency":
         renderEmergency(intent.emergency);
         break;
 
