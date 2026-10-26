@@ -536,6 +536,97 @@
      ========================================== */
 
   function init() {
+     /* ==========================================
+   FLOATING CYBER WARNING BUTTON
+   Nagorik Porisheba 2.3
+   ========================================== */
+
+function addWarningButton() {
+
+  // একই বোতাম দ্বিতীয়বার তৈরি হবে না
+  if (document.getElementById("npWarningFloat")) {
+    return;
+  }
+
+  const button = document.createElement("button");
+
+  button.id = "npWarningFloat";
+  button.type = "button";
+
+  button.textContent = "⚠️";
+
+  button.title = "সাইবার নিরাপত্তা সতর্কবার্তা";
+
+  button.setAttribute(
+    "aria-label",
+    "সাইবার নিরাপত্তা সতর্কবার্তা দেখুন"
+  );
+
+  button.style.cssText = `
+    width:49px;
+    height:49px;
+    min-width:49px;
+    border-radius:50%;
+    border:none;
+    background:linear-gradient(135deg,#f59e0b,#ea580c);
+    color:#ffffff;
+    font-size:23px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 5px 18px rgba(234,88,12,.3);
+    transition:transform .2s ease;
+  `;
+
+  button.addEventListener("mouseenter", function () {
+    button.style.transform = "translateY(-3px)";
+  });
+
+  button.addEventListener("mouseleave", function () {
+    button.style.transform = "translateY(0)";
+  });
+
+  button.addEventListener("click", function () {
+
+    const modal = document.getElementById(
+      "cyberAlertModal"
+    );
+
+    if (!modal) {
+      console.warn(
+        "Cyber Alert Modal পাওয়া যায়নি"
+      );
+      return;
+    }
+
+    // বিদ্যমান Modal System ব্যবহার
+    if (typeof window.openModal === "function") {
+      window.openModal("cyberAlertModal");
+    } else {
+      modal.style.display = "flex";
+    }
+
+  });
+
+  // পুরোনো Floating Buttons-এর সঙ্গে যুক্ত করা
+  const group = document.querySelector(
+    ".floating-action-group"
+  );
+
+  if (group) {
+    group.appendChild(button);
+  } else {
+
+    button.style.position = "fixed";
+    button.style.right = "16px";
+    button.style.bottom = "225px";
+    button.style.zIndex = "999";
+
+    document.body.appendChild(button);
+  }
+
+}
     addStyles();
 
     setupMicIndicator();
@@ -545,6 +636,22 @@
 
     // Cyber Floating Button disabled
     // addWarningButton();
+     function init() {
+
+  addStyles();
+
+  setupMicIndicator();
+
+  // Floating Warning Button চালু
+  addWarningButton();
+
+  observeSearchPanel();
+
+  console.info(
+    "Nagorik Porisheba 2.3 UX Upgrade loaded"
+  );
+
+}
 
     observeSearchPanel();
 
