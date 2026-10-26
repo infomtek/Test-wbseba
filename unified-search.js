@@ -947,7 +947,281 @@
    SMART SERVICE NAME RECOGNITION
    Bengali spelling + common pronunciation
    ============================================== */
+/* ===================================================
+   NAGORIK PORISHEBA — SMART SERVICE INDEX 2.2
+   Broad search + specific intent + existing cards
+   =================================================== */
 
+const NP_GOVERNMENT_INDEX = [
+  {
+    title: "বিধবা ভাতা ও সামাজিক সুরক্ষা",
+    id: "service_pension",
+    keywords: [
+      "বিধবা", "বিধবা ভাতা", "বিধবা পেনশন",
+      "widow pension", "widow allowance",
+      "ভাতা", "পেনশন", "pension",
+      "সামাজিক সুরক্ষা", "বার্ধক্য ভাতা",
+      "বয়স্ক ভাতা", "বয়স্ক ভাতা"
+    ]
+  },
+  {
+    title: "PM-Kisan",
+    id: "service_pm_kisan",
+    keywords: [
+      "pm", "প্রধানমন্ত্রী", "প্রধান মন্ত্রী",
+      "কিষান", "কিসান", "কৃষক",
+      "pm kisan", "pmkisan",
+      "কৃষক সম্মান নিধি"
+    ]
+  },
+  {
+    title: "PM Vishwakarma",
+    id: "service_vishwakarma",
+    keywords: [
+      "pm", "প্রধানমন্ত্রী",
+      "বিশ্বকর্মা", "বিশ্বকর্মা যোজনা",
+      "pm vishwakarma", "vishwakarma"
+    ]
+  },
+  {
+    title: "প্রধানমন্ত্রী ফসল বিমা যোজনা",
+    id: "service_crop_insurance",
+    keywords: [
+      "pm", "প্রধানমন্ত্রী",
+      "ফসল বিমা", "ফসল বীমা",
+      "crop insurance", "pmfby",
+      "কৃষি বিমা", "কৃষি বীমা"
+    ]
+  },
+  {
+    title: "কৃষক বন্ধু — স্ট্যাটাস",
+    id: "service_krishak_old",
+    keywords: [
+      "কৃষক", "কৃষক বন্ধু",
+      "কৃষক বন্দু", "krishak bandhu",
+      "কৃষক বন্ধু স্ট্যাটাস"
+    ]
+  },
+  {
+    title: "কৃষক বন্ধু — আবেদন",
+    id: "service_krishak_new",
+    keywords: [
+      "কৃষক", "কৃষক বন্ধু",
+      "কৃষক বন্দু", "krishak bandhu",
+      "কৃষক বন্ধু আবেদন"
+    ]
+  },
+  {
+    title: "আধার DBT / NPCI",
+    id: "service_dbt_change",
+    keywords: [
+      "dbt", "ডিবিটি", "ডিভিডি",
+      "npcI", "এনপিসিআই",
+      "আধার সিডিং", "ব্যাংক লিংক"
+    ]
+  },
+  {
+    title: "রেশন কার্ড",
+    id: "service_ration",
+    keywords: [
+      "রেশন", "রেসন",
+      "ration", "রেশন কার্ড"
+    ]
+  },
+  {
+    title: "আধার কার্ড",
+    id: "service_aadhaar_card",
+    keywords: [
+      "আধার", "aadhaar", "aadhar"
+    ]
+  },
+  {
+    title: "জন্ম শংসাপত্র যাচাই",
+    id: "service_birth_verify",
+    keywords: [
+      "জন্ম", "বার্থ সার্টিফিকেট",
+      "birth certificate",
+      "জন্ম সার্টিফিকেট",
+      "জন্ম সার্টিফকেট"
+    ]
+  },
+  {
+    title: "ভোটার কার্ড",
+    id: "service_voter_search",
+    keywords: [
+      "ভোটার", "ভটার",
+      "voter", "epic"
+    ]
+  },
+  {
+    title: "স্বাস্থ্যসাথী",
+    id: "service_swasthya_sathi",
+    keywords: [
+      "স্বাস্থ্যসাথী", "স্বাস্থ্য সাথী",
+      "সাস্থ্য সাথী", "swasthya sathi"
+    ]
+  },
+  {
+    title: "বিদ্যুৎ বিল",
+    id: "service_bill_pay",
+    keywords: [
+      "বিদ্যুৎ বিল", "কারেন্ট বিল",
+      "কারেন্টের বিল", "electric bill",
+      "electricity bill"
+    ]
+  }
+];
+
+/* Search ranking */
+
+function npGovernmentSearch(query) {
+
+  const q = normalize(query);
+
+  if (!q || q.length < 2) return [];
+
+  const words = q.split(/\s+/).filter(Boolean);
+
+  const specificWords = [
+    "কিষান", "কিসান", "kisan",
+    "বিশ্বকর্মা", "vishwakarma",
+    "বিধবা", "widow",
+    "ডিবিটি", "ডিভিডি", "dbt",
+    "এনপিসিআই", "npci",
+    "রেশন", "রেসন", "ration"
+  ];
+
+  const specificMatches = specificWords.filter(word =>
+    q.includes(normalize(word))
+  );
+
+  const results = [];
+
+  NP_GOVERNMENT_INDEX.forEach(item => {
+
+    let score = 0;
+
+    item.keywords.forEach(keyword => {
+
+      const key = normalize(keyword);
+
+      if (!key) return;
+
+      if (q === key) {
+        score += 100;
+      } else if (q.includes(key)) {
+        score += key.length <= 3 ? 15 : 35;
+      } else if (
+        key.length >= 4 &&
+        words.some(word => word === key)
+      ) {
+        score += 20;
+      }
+
+    });
+
+    if (
+      specificMatches.length &&
+      !specificMatches.some(word =>
+        item.keywords.some(keyword =>
+          normalize(keyword).includes(normalize(word))
+        )
+      )
+    ) {
+      score = 0;
+    }
+
+    if (score > 0) {
+      results.push({
+        ...item,
+        score
+      });
+    }
+
+  });
+
+  return results
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 8);
+}
+
+/* Render matching existing service cards */
+
+function npRenderGovernmentResults(results) {
+
+  const card = createCard(
+    "🏛️ নাগরিক পরিষেবা — প্রাসঙ্গিক সরকারি পরিষেবা",
+    results.length > 1
+      ? "আপনার অনুসন্ধানের সঙ্গে সম্পর্কিত পরিষেবাগুলো নিচে দেওয়া হলো।"
+      : "আপনার অনুসন্ধানের সঙ্গে সম্পর্কিত পরিষেবাটি পাওয়া গেছে।"
+  );
+
+  results.forEach(item => {
+
+    const row = element("div", "np-u-result");
+
+    row.appendChild(
+      element("strong", "", item.title)
+    );
+
+    const actions = [];
+
+    const existing = document.getElementById(item.id);
+
+    if (existing) {
+
+      const button = element(
+        "button",
+        "np-u-btn np-u-primary",
+        "🔗 পরিষেবা খুলুন"
+      );
+
+      button.type = "button";
+
+      button.addEventListener("click", () => {
+        openExistingCard(item.id);
+      });
+
+      actions.push(button);
+
+    } else {
+
+      const fallbackRule = SERVICE_RULES.find(rule =>
+        rule.ids.includes(item.id)
+      );
+
+      if (fallbackRule && fallbackRule.url) {
+
+        actions.push(
+          makeLink(
+            "🔗 পরিষেবার পোর্টাল",
+            fallbackRule.url,
+            true
+          )
+        );
+
+      } else {
+
+        row.appendChild(
+          element(
+            "p",
+            "np-u-note",
+            "এই পরিষেবার সরাসরি লিংক বর্তমানে দেখানো যাচ্ছে না। মূল পরিষেবা তালিকা থেকে খুঁজুন।"
+          )
+        );
+
+      }
+
+    }
+
+    addActions(row, actions);
+
+    card.appendChild(row);
+
+  });
+
+  showCards([card]);
+}
 const NP_SERVICE_ALIASES = [
   {
     id: "service_dbt_change",
@@ -1119,7 +1393,15 @@ function detectSmartService(query) {
       };
     }
 
-    const service = detectService(query) || detectSmartService(query);
+    const governmentResults = npGovernmentSearch(query);
+
+if (governmentResults.length > 0) {
+  return {
+    kind: "governmentIndex",
+    results: governmentResults
+  };
+}
+     const service = detectService(query) || detectSmartService(query);
 
     if (service) {
       return { kind: "service", service };
