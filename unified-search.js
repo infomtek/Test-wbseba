@@ -261,7 +261,17 @@
       url: "https://banglarbhumi.gov.in/BanglarBhumi/Home.action"
     },
     {
-      words: ["বিদ্যুৎ বিল", "electricity bill", "wbsedcl bill"],
+      words: [
+  "বিদ্যুৎ বিল",
+  "কারেন্ট বিল",
+  "কারেন্টের বিল",
+  "ইলেকট্রিক বিল",
+  "বিজলি বিল",
+  "electric bill",
+  "electricity bill",
+  "wbsedcl bill",
+  "current bill"
+],
       ids: [
         "service_bill_pay",
         "service_bill_receipt",
