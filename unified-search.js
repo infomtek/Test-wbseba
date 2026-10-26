@@ -759,7 +759,25 @@
   function detectEmergency(query) {
     const q = normalize(query);
 
-    const snakeBite =
+        // Animal bites, scratches and insect stings
+    if (
+      contains(q, [
+        "বিড়ালের কামড়", "বিড়াল কামড়", "বিড়ালে কামড়েছে",
+        "বিড়ালের কামড়", "বিড়ালের আঁচড়", "বিড়াল আঁচড়",
+        "বিড়ালের আচড়", "cat bite", "cat scratch",
+        "কুকুরের কামড়", "কুকুর কামড়", "কুকুরে কামড়েছে",
+        "কুকুরের আঁচড়", "dog bite", "dog scratch",
+        "হনুমানের কামড়", "বানরের কামড়", "monkey bite",
+        "বিচ্ছুর কামড়", "বিছের কামড়", "scorpion sting",
+        "মৌমাছির কামড়", "মৌমাছির হুল", "bee sting",
+        "বোলতার কামড়", "বোলতার হুল", "wasp sting",
+        "মাকড়সার কামড়", "spider bite",
+        "পোকা কামড়", "পোকায় কামড়েছে", "insect bite"
+      ])
+    ) {
+      return "animalbite";
+    }
+     const snakeBite =
       contains(q, [
         "সাপে কামড়", "সাপে কামড়", "সাপ কামড়",
         "সাপ কামড়", "snake bite", "snakebite",
