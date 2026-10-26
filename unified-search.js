@@ -915,7 +915,138 @@
   }
 
   function detectService(query) {
-    const q = normalize(query);
+    /* ==============================================
+   SMART SERVICE NAME RECOGNITION
+   Bengali spelling + common pronunciation
+   ============================================== */
+
+const NP_SERVICE_ALIASES = [
+  {
+    id: "service_dbt_change",
+    words: [
+      "ডিভিডি", "ডিবিটি", "ডি বি টি",
+      "dbt", "npcI", "এনপিসিআই",
+      "আধার সিডিং"
+    ]
+  },
+  {
+    id: "service_ration",
+    words: [
+      "রেশন", "রেসন", "রেশন কাড",
+      "রেসন কার্ড", "ration", "reshon"
+    ]
+  },
+  {
+    id: "service_pm_kisan",
+    words: [
+      "পিএম কিসান", "পিএম কিষান",
+      "কিষান স্টেটাস", "কিসান স্ট্যাটাস",
+      "pm kisan", "pmkisan"
+    ]
+  },
+  {
+    id: "service_krishak_old",
+    words: [
+      "কৃষক বন্ধু স্ট্যাটাস",
+      "কৃষক বন্দু স্ট্যাটাস",
+      "krishak bandhu status"
+    ]
+  },
+  {
+    id: "service_birth_verify",
+    words: [
+      "জন্ম সার্টিফিকেট যাচাই",
+      "জন্ম সার্টিফকেট",
+      "বার্থ সার্টিফিকেট",
+      "birth certificate verify"
+    ]
+  },
+  {
+    id: "service_voter_search",
+    words: [
+      "ভোটার কার্ড", "ভটার কার্ড",
+      "ভোটার কাড", "voter card",
+      "ভোটার লিস্ট"
+    ]
+  },
+  {
+    id: "service_aadhaar_card",
+    words: [
+      "আধার কার্ড", "আধার কাড",
+      "আধার কাট", "aadhar card",
+      "aadhaar card"
+    ]
+  },
+  {
+    id: "service_land_record",
+    words: [
+      "জমির রেকর্ড", "জমির খতিয়ান",
+      "জমির খতিয়ান", "বাংলার ভূমি",
+      "banglarbhumi"
+    ]
+  },
+  {
+    id: "service_swasthya_sathi",
+    words: [
+      "স্বাস্থ্য সাথী", "স্বাস্থ্যসাথী",
+      "সাস্থ্য সাথী", "sasthya sathi",
+      "swasthya sathi"
+    ]
+  },
+  {
+    id: "service_bill_pay",
+    words: [
+      "বিদ্যুৎ বিল", "কারেন্ট বিল",
+      "ইলেকট্রিক বিল", "electric bill",
+      "electricity bill"
+    ]
+  }
+];
+
+function detectSmartService(query) {
+  const q = normalize(query);
+
+  if (!q || q.length < 3) return null;
+
+  for (const item of NP_SERVICE_ALIASES) {
+    const matched = item.words.some(word =>
+      q.includes(normalize(word))
+    );
+
+    if (!matched) continue;
+
+    const originalRule = SERVICE_RULES.find(rule =>
+      rule.ids.includes(item.id)
+    );
+
+    if (originalRule) {
+      return originalRule;
+    }
+
+    const card = document.getElementById(item.id);
+
+    let url = "";
+
+    if (card) {
+      const link = card.matches("a[href]")
+        ? card
+        : card.querySelector("a[href]");
+
+      if (link) url = safeUrl(link.href);
+    }
+
+    return {
+      words: item.words,
+      ids: [item.id],
+      title: card?.querySelector(".card-title")
+        ?.textContent?.trim() || "সরকারি পরিষেবা",
+      url: url
+    };
+  }
+
+  return null;
+}
+     const q = normalize(query);
 
     const matches = SERVICE_RULES.filter(rule =>
       contains(q, rule.words)
