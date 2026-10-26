@@ -566,6 +566,7 @@
         .float-install-btn { background: linear-gradient(135deg, #2563eb, #1d4ed8); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4); }
         .float-share-btn { background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4); }
         .float-whatsapp-btn { background: #22c55e; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4); }
+        .float-warning-btn {  background: linear-gradient(135deg, #f59e0b, #ea580c); box-shadow: 0 4px 12px rgba(234, 88, 12, 0.4); }
         .floating-round-btn span.material-symbols-outlined, .floating-round-btn i { font-size: 18px; }
         .floating-round-btn span.btn-label { font-size: 8px; font-weight: 800; margin-top: 2px; line-height: 1; }
 
@@ -1175,23 +1176,54 @@
     </div>
 
     <!-- ফ্লোটিং বাটন -->
-    <div class="floating-action-group">
-        <button onclick="triggerPwaPrompt()" class="floating-round-btn float-install-btn" title="হোম স্ক্রিনে যুক্ত করুন">
-            <span class="material-symbols-outlined">download</span>
-            <span class="btn-label">Add</span>
-        </button>
+<div class="floating-action-group">
 
-        <button onclick="shareCitizenApp()" class="floating-round-btn float-share-btn" title="বন্ধুদের সাথে শেয়ার করুন">
-            <span class="material-symbols-outlined">share</span>
-            <span class="btn-label">শেয়ার</span>
-        </button>
+    <!-- Cyber Warning -->
+    <button
+        id="npWarningFloat"
+        type="button"
+        onclick="openModal('cyberAlertModal')"
+        class="floating-round-btn float-warning-btn"
+        title="সাইবার নিরাপত্তা সতর্কবার্তা"
+        aria-label="সাইবার নিরাপত্তা সতর্কবার্তা"
+    >
+        <span class="material-symbols-outlined">warning</span>
+        <span class="btn-label">সতর্কতা</span>
+    </button>
 
-        <a href="https://wa.me/919332434992?text=নমস্কার,%20নাগরিক%20পরিসেবা%20অ্যাপ%20সম্পর্কে%20মতামত%20জানাতে%20চাই।" target="_blank" class="floating-round-btn float-whatsapp-btn" title="মতামত দিন">
-            <i class="fa-brands fa-whatsapp"></i>
-            <span class="btn-label">মতামত</span>
-        </a>
-    </div>
+    <!-- Add to Home Screen -->
+    <button
+        onclick="triggerPwaPrompt()"
+        class="floating-round-btn float-install-btn"
+        title="হোম স্ক্রিনে যুক্ত করুন"
+    >
+        <span class="material-symbols-outlined">download</span>
+        <span class="btn-label">Add</span>
+    </button>
 
+    <!-- Share -->
+    <button
+        onclick="shareCitizenApp()"
+        class="floating-round-btn float-share-btn"
+        title="বন্ধুদের সাথে শেয়ার করুন"
+    >
+        <span class="material-symbols-outlined">share</span>
+        <span class="btn-label">শেয়ার</span>
+    </button>
+
+    <!-- WhatsApp Feedback -->
+    <a
+        href="https://wa.me/919332434992?text=নমস্কার,%20নাগরিক%20পরিসেবা%20অ্যাপ%20সম্পর্কে%20মতামত%20জানাতে%20চাই।"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="floating-round-btn float-whatsapp-btn"
+        title="মতামত দিন"
+    >
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="btn-label">মতামত</span>
+    </a>
+
+</div>
     <!-- বাংলা অ্যাড টু হোম স্ক্রিন পপআপ -->
     <div id="pwaCardOverlay" class="modal-overlay" onclick="closePwaPrompt()">
         <div style="background: var(--modal-bg); width: 100%; max-width: 340px; border-radius: 20px; padding: 22px 18px; text-align: center; position: relative; box-shadow: 0 16px 40px rgba(0,0,0,0.25);" onclick="event.stopPropagation()">
