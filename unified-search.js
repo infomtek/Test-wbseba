@@ -1,8 +1,7 @@
 /* ==========================================================
-   নাগরিক পরিষেবা 2.2 — Unified Smart Search
-   Online পরিষেবা — আপনার পাশে, আপনার সাথে
+   নাগরিক পরিষেবা 2.2 — Unified Smart Search (stable build)
    Bengali + English + Mixed Language
-   Emergency | Location | Nearby GPS | Services | AI
+   Emergency | Location | Nearby GPS | Services | Voice
    ========================================================== */
 
 (function () {
@@ -11,16 +10,31 @@
   if (window.NPUnifiedSearchLoaded) return;
   window.NPUnifiedSearchLoaded = true;
 
+  /* ---------------- CONFIG ---------------- */
+
   const CONFIG = {
     searchInput: "searchInput",
+    voiceButtonId: "voiceSearchBtn",
     panelId: "npUnifiedSearchPanel",
     districtFile: "/district_skeleton.json",
     contactSheet:
       "https://opensheet.elk.sh/116flqqFRP8Z1xw6rGG1QKOlGYIydOn1Sn3ffClqtbd0/Emergency",
+    aiEnabled: false, // AI API সংশোধন স্থগিত — সাধারণ প্রশ্নে AI উত্তর দেখানো হবে না
     aiEndpoint: "/api/gemini",
     maxAiPerDay: 3,
     maxNearbyResults: 8,
-    overpassEndpoint: "https://overpass-api.de/api/interpreter"
+    overpassEndpoint: "https://overpass-api.de/api/interpreter",
+    whatsappUrl: "https://wa.me/919332434992",
+    debounceMs: 180,
+    // সার্চের সময় লুকানো হবে এমন অংশ। প্রয়োজনে এখানে ব্যানারের ক্লাস যোগ/বদল করুন।
+    hideDuringSearch: [
+      ".category-group",
+      ".promo-banner",
+      ".hero-banner",
+      ".ad-banner",
+      ".notice-banner",
+      "[data-np-banner]"
+    ]
   };
 
   const PHONE = {
@@ -41,10 +55,11 @@
     currentIntent: null,
     nearbyCache: new Map(),
     searchTimer: null,
-    requestId: 0
+    requestId: 0,
+    recognition: null
   };
 
-  /* ---------------- PLACE ALIASES ---------------- */
+  /* ---------------- PLACES ---------------- */
 
   const PLACE_ALIASES = {
     "shalboni": "শালবনী",
@@ -165,7 +180,7 @@
     }
   };
 
-  /* ---------------- SERVICE RULES ---------------- */
+  /* ---------------- EXISTING SERVICE RULES (অক্ষত) ---------------- */
 
   const SERVICE_RULES = [
     {
@@ -303,32 +318,215 @@
     }
   ];
 
-  /* ---------------- UTILITIES ---------------- */
+  // SERVICE_RULES-এ না থাকা পরিষেবার সরকারি পোর্টাল (শুধু নিশ্চিত লিংক)
+  const OFFICIAL_PORTALS = {
+    service_vishwakarma: "https://pmvishwakarma.gov.in/",
+    service_crop_insurance: "https://pmfby.gov.in/"
+  };
+
+  function getPortalUrl(id) {
+    const rule = SERVICE_RULES.find(item => item.ids.includes(id));
+    return rule?.url || OFFICIAL_PORTALS[id] || "";
+  }
+
+  /* ---------------- GOVERNMENT SEARCH INDEX ---------------- */
+
+  // weak: সাধারণ শব্দ — স্কোর কম হবে, যাতে "কৃষক" লিখলে সব প্রকল্প জোরালোভাবে না আসে
+  const NP_GOVERNMENT_INDEX = [
+    {
+      title: "বিধবা ভাতা ও সামাজিক সুরক্ষা",
+      id: "service_pension",
+      keywords: [
+        "বিধবা", "বিধবা ভাতা", "বিধবা পেনশন",
+        "widow pension", "widow allowance",
+        "ভাতা", "পেনশন", "pension",
+        "সামাজিক সুরক্ষা", "বার্ধক্য ভাতা",
+        "বয়স্ক ভাতা"
+      ],
+      weak: ["ভাতা"]
+    },
+    {
+      title: "PM-Kisan",
+      id: "service_pm_kisan",
+      keywords: [
+        "pm", "প্রধানমন্ত্রী", "প্রধান মন্ত্রী",
+        "কিষান", "কিসান", "কৃষক",
+        "pm kisan", "pmkisan",
+        "কৃষক সম্মান নিধি"
+      ],
+      weak: ["pm", "প্রধানমন্ত্রী", "প্রধান মন্ত্রী", "কৃষক"]
+    },
+    {
+      title: "PM Vishwakarma",
+      id: "service_vishwakarma",
+      keywords: [
+        "pm", "প্রধানমন্ত্রী", "প্রধান মন্ত্রী",
+        "বিশ্বকর্মা", "বিশ্বকর্মা যোজনা",
+        "pm vishwakarma", "vishwakarma"
+      ],
+      weak: ["pm", "প্রধানমন্ত্রী", "প্রধান মন্ত্রী"]
+    },
+    {
+      title: "প্রধানমন্ত্রী ফসল বিমা যোজনা",
+      id: "service_crop_insurance",
+      keywords: [
+        "pm", "প্রধানমন্ত্রী", "প্রধান মন্ত্রী",
+        "ফসল বিমা", "ফসল বীমা",
+        "crop insurance", "pmfby",
+        "কৃষি বিমা", "কৃষি বীমা"
+      ],
+      weak: ["pm", "প্রধানমন্ত্রী", "প্রধান মন্ত্রী"]
+    },
+    {
+      title: "কৃষক বন্ধু — স্ট্যাটাস",
+      id: "service_krishak_old",
+      keywords: [
+        "কৃষক", "কৃষক বন্ধু",
+        "কৃষক বন্ধু", "krishak bandhu",
+        "কৃষক বন্ধু স্ট্যাটাস"
+      ],
+      weak: ["কৃষক"]
+    },
+    {
+      title: "কৃষক বন্ধু — আবেদন",
+      id: "service_krishak_new",
+      keywords: [
+        "কৃষক", "কৃষক বন্ধু",
+        "krishak bandhu",
+        "কৃষক বন্ধু আবেদন"
+      ],
+      weak: ["কৃষক"]
+    },
+    {
+      title: "আধার DBT / NPCI",
+      id: "service_dbt_change",
+      keywords: [
+        "dbt", "ডিবিটি", "ডিভিডি",
+        "npci", "এনপিসিআই",
+        "আধার সিডিং", "ব্যাংক লিংক"
+      ]
+    },
+    {
+      title: "রেশন কার্ড",
+      id: "service_ration",
+      keywords: [
+        "রেশন", "রেসন",
+        "ration", "রেশন কার্ড"
+      ]
+    },
+    {
+      title: "আধার কার্ড",
+      id: "service_aadhaar_card",
+      keywords: ["আধার", "aadhaar", "aadhar"]
+    },
+    {
+      title: "জন্ম শংসাপত্র যাচাই",
+      id: "service_birth_verify",
+      keywords: [
+        "জন্ম", "বার্থ সার্টিফিকেট",
+        "birth certificate",
+        "জন্ম সার্টিফিকেট",
+        "জন্ম সার্টিফকেট"
+      ],
+      weak: ["জন্ম"]
+    },
+    {
+      title: "ভোটার কার্ড",
+      id: "service_voter_search",
+      keywords: ["ভোটার", "ভটার", "voter", "epic"]
+    },
+    {
+      title: "স্বাস্থ্যসাথী",
+      id: "service_swasthya_sathi",
+      keywords: [
+        "স্বাস্থ্যসাথী", "স্বাস্থ্য সাথী",
+        "স্বাস্থ্য সাথী", "swasthya sathi"
+      ]
+    },
+    {
+      title: "বিদ্যুৎ বিল",
+      id: "service_bill_pay",
+      keywords: [
+        "বিদ্যুৎ বিল", "কারেন্ট বিল",
+        "কারেন্টের বিল", "electric bill",
+        "electricity bill"
+      ]
+    }
+  ];
+
+  // কোনো নির্দিষ্ট শব্দ থাকলে শুধু সেই বিষয়ের পরিষেবা আসবে
+  const SPECIFIC_WORDS = [
+    "কিষান", "কিসান", "kisan",
+    "বিশ্বকর্মা", "vishwakarma",
+    "বিধবা", "widow",
+    "ডিবিটি", "ডিভিডি", "dbt",
+    "এনপিসিআই", "npci",
+    "রেশন", "রেসন", "ration"
+  ];
+
+  /* ---------------- BASIC HELPERS ---------------- */
 
   function normalize(value) {
     return String(value || "")
+      .normalize("NFC")
+      .replace(/[\u200B-\u200D\uFEFF]/g, "")
       .toLocaleLowerCase()
-      .replace(/[.,!?;:()[\]{}।'"]/g, " ")
+      .replace(/[.,!?;:()[\]{}।'"‘’“”]/g, " ")
       .replace(/\s+/g, " ")
       .trim();
   }
 
   function contains(text, words) {
-    if (!Array.isArray(words)) return false;
     return words.some(word => text.includes(normalize(word)));
+  }
+
+  // সহজ Levenshtein দূরত্ব — বানান ভুল ধরতে ব্যবহৃত
+  function editDistance(a, b, limit) {
+    if (Math.abs(a.length - b.length) > limit) return limit + 1;
+
+    let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+
+    for (let i = 1; i <= a.length; i++) {
+      const cur = [i];
+      let min = i;
+
+      for (let j = 1; j <= b.length; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
+        if (cur[j] < min) min = cur[j];
+      }
+
+      if (min > limit) return limit + 1;
+
+      prev = cur;
+    }
+
+    return prev[b.length];
+  }
+
+  function fuzzyWordMatch(word, keyword) {
+    if (word.length < 4 || keyword.length < 4) return false;
+    if (keyword.includes(" ")) return false;
+
+    const limit = keyword.length <= 6 ? 1 : 2;
+    return editDistance(word, keyword, limit) <= limit;
   }
 
   function element(tag, className, text) {
     const node = document.createElement(tag);
+
     if (className) node.className = className;
     if (text !== undefined) node.textContent = String(text);
+
     return node;
   }
 
   function safeUrl(value) {
     try {
       const url = new URL(String(value || ""), location.origin);
+
       if (!["https:", "http:"].includes(url.protocol)) return "";
+
       return url.href;
     } catch {
       return "";
@@ -337,8 +535,11 @@
 
   function cleanPhone(value) {
     const raw = String(value || "").trim();
+
     if (!/^[+\d\s\-()]{3,22}$/.test(raw)) return "";
+
     const digits = raw.replace(/[^\d+]/g, "");
+
     return /^\+?\d{3,15}$/.test(digits) ? digits : "";
   }
 
@@ -356,16 +557,22 @@
     );
   }
 
-  function makeLink(label, url, primary = false) {
-    const a = element(
-      "a",
-      primary ? "np-u-btn np-u-primary" : "np-u-btn",
-      label
-    );
+  // variant: "primary" | "whatsapp" | "" (boolean true = primary)
+  function makeLink(label, url, variant = "") {
+    const isPrimary = variant === true || variant === "primary";
+
+    const className =
+      variant === "whatsapp"
+        ? "np-u-btn np-u-whatsapp"
+        : isPrimary
+          ? "np-u-btn np-u-primary"
+          : "np-u-btn";
 
     const valid = safeUrl(url);
 
     if (!valid) return element("span", "np-u-note", label);
+
+    const a = element("a", className, label);
 
     a.href = valid;
     a.target = "_blank";
@@ -374,26 +581,46 @@
     return a;
   }
 
+  function makeWhatsAppLink(label) {
+    return makeLink(label, CONFIG.whatsappUrl, "whatsapp");
+  }
+
   function makeCall(label, phone) {
     const number = cleanPhone(phone);
+
     if (!number) return null;
 
     const a = element("a", "np-u-btn np-u-call", `📞 ${label}: ${number}`);
+
     a.href = `tel:${number}`;
 
     return a;
   }
 
+  function makeButton(label, onClick, primary = false) {
+    const button = element(
+      "button",
+      primary ? "np-u-btn np-u-primary" : "np-u-btn",
+      label
+    );
+
+    button.type = "button";
+    button.addEventListener("click", onClick);
+
+    return button;
+  }
+
   function addActions(parent, actions) {
     const row = element("div", "np-u-actions");
 
-    (actions || []).filter(Boolean).forEach(action => row.appendChild(action));
+    actions.filter(Boolean).forEach(action => row.appendChild(action));
 
     if (row.children.length) parent.appendChild(row);
   }
 
   function addText(parent, text) {
     if (!text) return;
+
     parent.appendChild(element("p", "np-u-text", text));
   }
 
@@ -409,6 +636,16 @@
     return card;
   }
 
+  function setSearchText(text) {
+    const input = document.getElementById(CONFIG.searchInput);
+
+    if (input) input.value = text;
+
+    performSearch(text);
+  }
+
+  /* ---------------- PANEL ---------------- */
+
   function clearPanel() {
     const panel = document.getElementById(CONFIG.panelId);
 
@@ -420,22 +657,35 @@
 
   function showCards(cards) {
     const panel = document.getElementById(CONFIG.panelId);
+
     if (!panel) return;
 
     panel.replaceChildren();
 
-    (cards || []).filter(Boolean).forEach(card => panel.appendChild(card));
+    cards.filter(Boolean).forEach(card => panel.appendChild(card));
 
     panel.hidden = !panel.children.length;
+  }
+
+  function showFallbackCard() {
+    showCards([
+      createCard(
+        "⚠️ সার্চে সমস্যা হয়েছে",
+        "সাময়িক সমস্যা হয়েছে। পেজ রিফ্রেশ করে আবার চেষ্টা করুন। জরুরি হলে সরাসরি ১১২ নম্বরে ফোন করুন।",
+        true
+      )
+    ]);
   }
 
   function setupPanel() {
     if (document.getElementById(CONFIG.panelId)) return;
 
     const input = document.getElementById(CONFIG.searchInput);
+
     if (!input) return;
 
     const panel = element("div", "np-unified-panel");
+
     panel.id = CONFIG.panelId;
     panel.hidden = true;
     panel.setAttribute("aria-live", "polite");
@@ -550,7 +800,7 @@
 
       .np-u-whatsapp {
         background: #25d366;
-        border-color: #1da851;
+        border-color: #25d366;
         color: #ffffff !important;
       }
 
@@ -576,6 +826,16 @@
       .np-u-btn:focus-visible {
         outline: 3px solid #f59e0b;
         outline-offset: 2px;
+      }
+
+      .np-listening {
+        box-shadow: 0 0 0 4px rgba(239, 68, 68, .35);
+        animation: npMicBlink 1s ease-in-out infinite;
+      }
+
+      @keyframes npMicBlink {
+        0%, 100% { background-color: #ef4444; }
+        50% { background-color: #fca5a5; }
       }
 
       @media (max-width: 480px) {
@@ -606,6 +866,7 @@
   async function loadDistrictData() {
     try {
       const response = await fetch(CONFIG.districtFile);
+
       if (!response.ok) return;
 
       const data = await response.json();
@@ -614,21 +875,23 @@
         state.districtData = data;
       }
     } catch {
-      // Directory can be unavailable; Maps remains usable.
+      // Directory unavailable; Maps search remains usable.
     }
   }
 
   async function loadApprovedContacts() {
     try {
       const response = await fetch(CONFIG.contactSheet);
+
       if (!response.ok) return;
 
       const rows = await response.json();
+
       if (!Array.isArray(rows)) return;
 
-      state.approvedContacts = rows.filter(row => {
-        return normalize(row.Status || row.status) === "approved";
-      });
+      state.approvedContacts = rows.filter(row =>
+        normalize(row.Status || row.status) === "approved"
+      );
     } catch {
       // Optional supplementary contacts.
     }
@@ -691,9 +954,11 @@
 
   function facilityMatches(text, facility) {
     const value = normalize(text);
+
     if (!value) return false;
 
     const words = FACILITIES[facility]?.aliases || [];
+
     if (contains(value, words)) return true;
 
     const fallback = {
@@ -727,6 +992,7 @@
         normalize(district).includes(normalize(area));
 
       if (!matchesArea) return;
+
       if (!facilityMatches(role, facility)) return;
 
       results.push({
@@ -758,19 +1024,39 @@
       .slice(0, 8);
   }
 
-  /* ---------------- EMERGENCY DETECTION ---------------- */
+  /* ---------------- INTENT DETECTION ---------------- */
 
   function detectEmergency(query) {
     const q = normalize(query);
 
-    const snakeBite = contains(q, [
-      "সাপে কামড়", "সাপ কামড়",
-      "snake bite", "snakebite",
-      "সাপের ছোবল", "সাপে কেটেছে",
-      "সাপে কামড়েছে"
-    ]);
+    // প্রাণীর কামড়, আঁচড় ও কীটপতঙ্গের হুল
+    if (
+      contains(q, [
+        "বিড়ালের কামড়", "বিড়াল কামড়", "বিড়ালে কামড়েছে",
+        "বিড়ালের আঁচড়", "বিড়াল আঁচড়",
+        "বিড়ালের আচড়", "cat bite", "cat scratch",
+        "কুকুরের কামড়", "কুকুর কামড়", "কুকুরে কামড়েছে",
+        "কুকুরের আঁচড়", "dog bite", "dog scratch",
+        "হনুমানের কামড়", "বানরের কামড়", "monkey bite",
+        "বিচ্ছুর কামড়", "বিছের কামড়", "scorpion sting",
+        "মৌমাছির কামড়", "মৌমাছির হুল", "bee sting",
+        "বোলতার কামড়", "বোলতার হুল", "wasp sting",
+        "মাকড়সার কামড়", "spider bite",
+        "পোকা কামড়", "পোকায় কামড়েছে", "insect bite"
+      ])
+    ) {
+      return "animalbite";
+    }
 
-    if (snakeBite) return "snakebite";
+    if (
+      contains(q, [
+        "সাপে কামড়", "সাপ কামড়",
+        "snake bite", "snakebite",
+        "সাপের ছোবল", "সাপে কেটেছে"
+      ])
+    ) {
+      return "snakebite";
+    }
 
     if (
       contains(q, [
@@ -785,9 +1071,7 @@
 
     if (
       contains(q, [
-        "হনুমানের কামড়", "হনুমান কামড়",
-        "বানরের কামড়", "বানর কামড়",
-        "monkey bite", "monkey scratch"
+        "হনুমান কামড়", "বানর কামড়", "monkey bite"
       ])
     ) {
       return "monkeybite";
@@ -801,24 +1085,6 @@
       ])
     ) {
       return "monkey";
-    }
-
-    // Animal bites, scratches and insect stings
-    if (
-      contains(q, [
-        "বিড়ালের কামড়", "বিড়াল কামড়", "বিড়ালে কামড়েছে",
-        "বিড়ালের আঁচড়", "বিড়াল আঁচড়", "বিড়ালের আচড়",
-        "cat bite", "cat scratch",
-        "কুকুরের কামড়", "কুকুর কামড়", "কুকুরে কামড়েছে",
-        "কুকুরের আঁচড়", "dog bite", "dog scratch",
-        "বিচ্ছুর কামড়", "বিছের কামড়", "scorpion sting",
-        "মৌমাছির কামড়", "মৌমাছির হুল", "bee sting",
-        "বোলতার কামড়", "বোলতার হুল", "wasp sting",
-        "মাকড়সার কামড়", "spider bite",
-        "পোকা কামড়", "পোকায় কামড়েছে", "insect bite"
-      ])
-    ) {
-      return "animalbite";
     }
 
     if (
@@ -847,7 +1113,8 @@
       contains(q, [
         "হার্ট অ্যাটাক", "heart attack",
         "বুকে তীব্র ব্যথা", "chest pain",
-        "স্ট্রোক", "stroke", "অজ্ঞান", "unconscious"
+        "স্ট্রোক", "stroke", "অজ্ঞান",
+        "unconscious"
       ])
     ) {
       return "medical";
@@ -856,7 +1123,8 @@
     if (
       contains(q, [
         "কারেন্ট লেগেছে", "বিদ্যুৎস্পৃষ্ট",
-        "electric shock", "electrocution", "তড়িৎ স্পৃষ্ট"
+        "electric shock", "electrocution",
+        "তড়িৎ স্পৃষ্ট"
       ])
     ) {
       return "electric";
@@ -864,8 +1132,10 @@
 
     if (
       contains(q, [
-        "আগুন লেগেছে", "আগুন ধরেছে", "বাড়িতে আগুন",
-        "fire broke out", "house fire", "fire accident"
+        "আগুন লেগেছে", "আগুন ধরেছে",
+        "বাড়িতে আগুন",
+        "fire broke out", "house fire",
+        "fire accident"
       ])
     ) {
       return "fire";
@@ -875,8 +1145,8 @@
       contains(q, [
         "সাইবার প্রতারণা", "অনলাইন প্রতারণা",
         "cyber fraud", "online fraud",
-        "টাকা কেটে নিয়েছে", "upi fraud",
-        "otp scam", "ব্যাংক প্রতারণা"
+        "টাকা কেটে নিয়েছে",
+        "upi fraud", "otp scam", "ব্যাংক প্রতারণা"
       ])
     ) {
       return "cyber";
@@ -894,10 +1164,22 @@
     return null;
   }
 
+  // অ্যাম্বুলেন্স ও সাধারণ জরুরি শব্দ — facility-র পরে পরীক্ষা হয়
+  function detectQuickCall(query) {
+    const q = normalize(query);
+
+    if (contains(q, ["অ্যাম্বুলেন্স", "ambulance"])) return "ambulance";
+
+    if (contains(q, ["জরুরি", "emergency", "sos"])) return "sos";
+
+    return null;
+  }
+
   function detectFacility(query) {
     for (const [key, data] of Object.entries(FACILITIES)) {
       if (contains(query, data.aliases)) return key;
     }
+
     return null;
   }
 
@@ -905,7 +1187,8 @@
     return contains(query, [
       "কাছাকাছি", "আমার কাছে", "আমার আশেপাশে",
       "আশেপাশে", "নিকটবর্তী", "near me",
-      "nearby", "nearest", "around me", "close to me"
+      "nearby", "nearest", "around me",
+      "close to me"
     ]);
   }
 
@@ -930,162 +1213,57 @@
       }
     });
 
-    knownPlaces.sort((a, b) => b.length - a.length);
+    knownPlaces
+      .filter(place => normalize(place).length >= 3)
+      .sort((a, b) => b.length - a.length);
 
-    return knownPlaces.find(place => q.includes(normalize(place))) || "";
+    return knownPlaces.find(place =>
+      normalize(place).length >= 3 && q.includes(normalize(place))
+    ) || "";
   }
 
-  /* ===================================================
-     NAGORIK PORISHEBA — SMART SERVICE INDEX 2.2
-     Broad search + specific intent + existing cards
-     =================================================== */
-
-  const NP_GOVERNMENT_INDEX = [
-    {
-      title: "বিধবা ভাতা ও সামাজিক সুরক্ষা",
-      id: "service_pension",
-      keywords: [
-        "বিধবা", "বিধবা ভাতা", "বিধবা পেনশন",
-        "widow pension", "widow allowance",
-        "ভাতা", "পেনশন", "pension",
-        "সামাজিক সুরক্ষা", "বার্ধক্য ভাতা", "বয়স্ক ভাতা"
-      ]
-    },
-    {
-      title: "PM-Kisan",
-      id: "service_pm_kisan",
-      keywords: [
-        "pm", "প্রধানমন্ত্রী", "প্রধান মন্ত্রী",
-        "কিষান", "কিসান", "কৃষক",
-        "pm kisan", "pmkisan", "কৃষক সম্মান নিধি"
-      ]
-    },
-    {
-      title: "PM Vishwakarma",
-      id: "service_vishwakarma",
-      keywords: [
-        "pm", "প্রধানমন্ত্রী",
-        "বিশ্বকর্মা", "বিশ্বকর্মা যোজনা",
-        "pm vishwakarma", "vishwakarma"
-      ]
-    },
-    {
-      title: "প্রধানমন্ত্রী ফসল বিমা যোজনা",
-      id: "service_crop_insurance",
-      keywords: [
-        "pm", "প্রধানমন্ত্রী",
-        "ফসল বিমা", "ফসল বীমা",
-        "crop insurance", "pmfby",
-        "কৃষি বিমা", "কৃষি বীমা"
-      ]
-    },
-    {
-      title: "কৃষক বন্ধু — স্ট্যাটাস",
-      id: "service_krishak_old",
-      keywords: [
-        "কৃষক", "কৃষক বন্ধু", "কৃষক বন্দু",
-        "krishak bandhu", "কৃষক বন্ধু স্ট্যাটাস"
-      ]
-    },
-    {
-      title: "কৃষক বন্ধু — আবেদন",
-      id: "service_krishak_new",
-      keywords: [
-        "কৃষক", "কৃষক বন্ধু", "কৃষক বন্দু",
-        "krishak bandhu", "কৃষক বন্ধু আবেদন"
-      ]
-    },
-    {
-      title: "আধার DBT / NPCI",
-      id: "service_dbt_change",
-      keywords: [
-        "dbt", "ডিবিটি", "ডিভিডি",
-        "npci", "এনপিসিআই",
-        "আধার সিডিং", "ব্যাংক লিংক"
-      ]
-    },
-    {
-      title: "রেশন কার্ড",
-      id: "service_ration",
-      keywords: ["রেশন", "রেসন", "ration", "রেশন কার্ড"]
-    },
-    {
-      title: "আধার কার্ড",
-      id: "service_aadhaar_card",
-      keywords: ["আধার", "aadhaar", "aadhar"]
-    },
-    {
-      title: "জন্ম শংসাপত্র যাচাই",
-      id: "service_birth_verify",
-      keywords: [
-        "জন্ম", "বার্থ সার্টিফিকেট",
-        "birth certificate",
-        "জন্ম সার্টিফিকেট", "জন্ম সার্টিফকেট"
-      ]
-    },
-    {
-      title: "ভোটার কার্ড",
-      id: "service_voter_search",
-      keywords: ["ভোটার", "ভটার", "voter", "epic"]
-    },
-    {
-      title: "স্বাস্থ্যসাথী",
-      id: "service_swasthya_sathi",
-      keywords: [
-        "স্বাস্থ্যসাথী", "স্বাস্থ্য সাথী",
-        "সাস্থ্য সাথী", "swasthya sathi"
-      ]
-    },
-    {
-      title: "বিদ্যুৎ বিল",
-      id: "service_bill_pay",
-      keywords: [
-        "বিদ্যুৎ বিল", "কারেন্ট বিল",
-        "কারেন্টের বিল", "electric bill", "electricity bill"
-      ]
-    }
-  ];
-
-  /* Search ranking */
+  /* ---------------- GOVERNMENT SEARCH (ranking) ---------------- */
 
   function npGovernmentSearch(query) {
     const q = normalize(query);
 
     if (!q || q.length < 2) return [];
 
-    const words = q.split(/\s+/).filter(Boolean);
+    const words = q.split(" ").filter(Boolean);
 
-    const specificWords = [
-      "কিষান", "কিসান", "kisan",
-      "বিশ্বকর্মা", "vishwakarma",
-      "বিধবা", "widow",
-      "ডিবিটি", "ডিভিডি", "dbt",
-      "এনপিসিআই", "npci",
-      "রেশন", "রেসন", "ration"
-    ];
-
-    const specificMatches = specificWords.filter(word =>
+    const specificMatches = SPECIFIC_WORDS.filter(word =>
       q.includes(normalize(word))
     );
 
     const results = [];
 
     NP_GOVERNMENT_INDEX.forEach(item => {
+      const weakSet = new Set((item.weak || []).map(normalize));
       let score = 0;
 
       item.keywords.forEach(keyword => {
         const key = normalize(keyword);
+
         if (!key) return;
 
+        let points = 0;
+
         if (q === key) {
-          score += 100;
+          points = 100;
         } else if (q.includes(key)) {
-          score += key.length <= 3 ? 15 : 35;
+          points = key.length <= 3 ? 15 : 35;
         } else if (key.length >= 4 && words.some(word => word === key)) {
-          score += 20;
+          points = 20;
+        } else if (words.some(word => fuzzyWordMatch(word, key))) {
+          points = 22; // বানান ভুল হলেও প্রাসঙ্গিক ফল
         }
+
+        const weight = weakSet.has(key) ? 0.4 : 1;
+
+        score += points * weight;
       });
 
+      // নির্দিষ্ট শব্দ থাকলে সেই বিষয় ছাড়া অন্য প্রকল্প বাদ
       if (
         specificMatches.length &&
         !specificMatches.some(word =>
@@ -1107,14 +1285,12 @@
       .slice(0, 8);
   }
 
-  /* Render matching existing service cards */
-
   function npRenderGovernmentResults(results) {
     const card = createCard(
       "🏛️ নাগরিক পরিষেবা — প্রাসঙ্গিক সরকারি পরিষেবা",
       results.length > 1
-        ? "আপনার অনুসন্ধানের সঙ্গে সম্পর্কিত পরিষেবাগুলো নিচে দেওয়া হলো।"
-        : "আপনার অনুসন্ধানের সঙ্গে সম্পর্কিত পরিষেবাটি পাওয়া গেছে।"
+        ? "আপনার অনুসন্ধানের সঙ্গে সম্পর্কিত পরিষেবাগুলো নিচে দেওয়া হলো। আবেদন বা সংশোধনের জন্য সরকারি পোর্টাল আগে দেখুন।"
+        : "আপনার অনুসন্ধানের সঙ্গে সম্পর্কিত পরিষেবাটি পাওয়া গেছে। আবেদন বা সংশোধনের জন্য সরকারি পোর্টাল আগে দেখুন।"
     );
 
     results.forEach(item => {
@@ -1124,64 +1300,50 @@
 
       const actions = [];
 
-      const existing = getLiveServiceCard(item.id);
+      const portalUrl = getPortalUrl(item.id);
 
-      if (existing && document.contains(existing)) {
-        const button = element(
-          "button",
-          "np-u-btn np-u-primary",
-          "🔗 পরিষেবা খুলুন"
+      // সরকারি পোর্টাল সবসময় আগে
+      if (portalUrl) {
+        actions.push(makeLink("🌐 সরকারি পোর্টাল", portalUrl, "primary"));
+      }
+
+      if (getLiveServiceCard(item.id)) {
+        actions.push(
+          makeButton("🔗 নাগরিক পাতায় খুলুন", () => {
+            openExistingCard(item.id);
+          })
         );
+      }
 
-        button.type = "button";
-
-        button.addEventListener("click", () => {
-          openExistingCard(item.id);
-        });
-
-        actions.push(button);
-      } else {
-        const fallbackRule = SERVICE_RULES.find(rule =>
-          rule.ids.includes(item.id)
+      if (!actions.length) {
+        addText(
+          row,
+          "এই পরিষেবার সরাসরি লিংক বর্তমানে দেখানো যাচ্ছে না। মূল পরিষেবা তালিকা থেকে খুঁজুন।"
         );
-
-        if (fallbackRule && fallbackRule.url) {
-          actions.push(
-            makeLink("🔗 পরিষেবার পোর্টাল", fallbackRule.url, true)
-          );
-        } else {
-          row.appendChild(
-            element(
-              "p",
-              "np-u-note",
-              "এই পরিষেবার সরাসরি লিংক বর্তমানে দেখানো যাচ্ছে না। মূল পরিষেবা তালিকা থেকে খুঁজুন।"
-            )
-          );
-        }
       }
 
       addActions(row, actions);
-
       card.appendChild(row);
     });
 
     showCards([card]);
   }
 
-  /* ---------------- SERVICE ALIASES ---------------- */
+  /* ---------------- SMART SERVICE (rules) ---------------- */
 
   const NP_SERVICE_ALIASES = [
     {
       id: "service_dbt_change",
       words: [
         "ডিভিডি", "ডিবিটি", "ডি বি টি",
-        "dbt", "npci", "এনপিসিআই", "আধার সিডিং"
+        "dbt", "npci", "এনপিসিআই",
+        "আধার সিডিং"
       ]
     },
     {
       id: "service_ration",
       words: [
-        "রেশন", "রেসন", "রেশন কাড",
+        "রেশন", "রেসন", "রেশন কার্ড",
         "রেসন কার্ড", "ration", "reshon"
       ]
     },
@@ -1197,7 +1359,6 @@
       id: "service_krishak_old",
       words: [
         "কৃষক বন্ধু স্ট্যাটাস",
-        "কৃষক বন্দু স্ট্যাটাস",
         "krishak bandhu status"
       ]
     },
@@ -1214,14 +1375,13 @@
       id: "service_voter_search",
       words: [
         "ভোটার কার্ড", "ভটার কার্ড",
-        "ভোটার কাড", "voter card", "ভোটার লিস্ট"
+        "voter card", "ভোটার লিস্ট"
       ]
     },
     {
       id: "service_aadhaar_card",
       words: [
-        "আধার কার্ড", "আধার কাড",
-        "আধার কাট", "aadhar card", "aadhaar card"
+        "আধার কার্ড", "aadhar card", "aadhaar card"
       ]
     },
     {
@@ -1235,14 +1395,15 @@
       id: "service_swasthya_sathi",
       words: [
         "স্বাস্থ্য সাথী", "স্বাস্থ্যসাথী",
-        "সাস্থ্য সাথী", "sasthya sathi", "swasthya sathi"
+        "swasthya sathi"
       ]
     },
     {
       id: "service_bill_pay",
       words: [
         "বিদ্যুৎ বিল", "কারেন্ট বিল",
-        "ইলেকট্রিক বিল", "electric bill", "electricity bill"
+        "ইলেকট্রিক বিল", "electric bill",
+        "electricity bill"
       ]
     }
   ];
@@ -1253,7 +1414,9 @@
     if (!q || q.length < 3) return null;
 
     for (const item of NP_SERVICE_ALIASES) {
-      const matched = item.words.some(word => q.includes(normalize(word)));
+      const matched = item.words.some(word =>
+        q.includes(normalize(word))
+      );
 
       if (!matched) continue;
 
@@ -1278,46 +1441,37 @@
       return {
         words: item.words,
         ids: [item.id],
-        title:
-          card?.querySelector(".card-title")?.textContent?.trim() ||
-          "সরকারি পরিষেবা",
-        url: url
+        title: card?.querySelector(".card-title")?.textContent?.trim() || "সরকারি পরিষেবা",
+        url
       };
     }
 
     return null;
   }
 
-  /* ---------------- SERVICE RULE MATCHING ---------------- */
-
   function detectService(query) {
     const q = normalize(query);
 
-    const matches = SERVICE_RULES.filter(rule => contains(q, rule.words));
+    const matches = SERVICE_RULES.filter(rule =>
+      contains(q, rule.words)
+    );
 
     if (!matches.length) return null;
 
-    // Specific keywords get preference over generic matches.
-    matches.sort((a, b) => {
-      const aLength = Math.max(
-        ...a.words
-          .filter(w => q.includes(normalize(w)))
-          .map(w => w.length)
-      );
+    // নির্দিষ্ট (দীর্ঘ) শব্দ থাকলে সেটিকে আগে দেওয়া হয়
+    const longestMatch = rule => Math.max(
+      0,
+      ...rule.words
+        .filter(w => q.includes(normalize(w)))
+        .map(w => normalize(w).length)
+    );
 
-      const bLength = Math.max(
-        ...b.words
-          .filter(w => q.includes(normalize(w)))
-          .map(w => w.length)
-      );
-
-      return bLength - aLength;
-    });
+    matches.sort((a, b) => longestMatch(b) - longestMatch(a));
 
     return matches[0];
   }
 
-  /* ---------------- INTENT ROUTER ---------------- */
+  /* ---------------- MAIN DETECTOR ---------------- */
 
   function detectIntent(rawQuery) {
     const query = normalize(rawQuery);
@@ -1338,6 +1492,12 @@
         facility,
         place: detectPlace(query)
       };
+    }
+
+    const quick = detectQuickCall(query);
+
+    if (quick) {
+      return { kind: "emergency", emergency: quick };
     }
 
     const governmentResults = npGovernmentSearch(query);
@@ -1386,7 +1546,7 @@
     animalbite: {
       title: "🚨 প্রাণীর কামড়, আঁচড় বা কীটপতঙ্গের হুল",
       text:
-        "কুকুর বা বিড়ালের কামড় এবং চামড়া কেটে যাওয়া আঁচড় হলে ক্ষতস্থান সাবান ও প্রবাহমান জল দিয়ে অন্তত ১৫ মিনিট ধুয়ে দ্রুত হাসপাতালে যান। র‍্যাবিস ও টিটেনাসের প্রতিরোধমূলক চিকিৎসা দরকার হতে পারে; দেরি করবেন না। ক্ষতে মাটি, তেল বা ঘরোয়া প্রলেপ দেবেন না। মৌমাছি, বোলতা বা অন্য কীটপতঙ্গের হুলের পর শ্বাসকষ্ট, মুখ-গলা ফুলে যাওয়া, মাথা ঘোরা বা অজ্ঞান হলে সঙ্গে সঙ্গে ১১২-তে ফোন করুন।",
+        "কুকুর, বিড়াল বা বানরের কামড় এবং চামড়া কেটে যাওয়া আঁচড় হলে ক্ষতস্থান সাবান ও প্রবাহমান জল দিয়ে অন্তত ১৫ মিনিট ধুয়ে দ্রুত হাসপাতালে যান। র‍্যাবিস ও টিটেনাসের প্রতিরোধমূলক চিকিৎসা দরকার হতে পারে। সাপের কামড় সন্দেহ হলে রোগীকে স্থির রেখে অবিলম্বে হাসপাতালে নিন; ক্ষত কাটবেন না, বিষ চুষবেন না বা শক্ত করে বাঁধবেন না। মৌমাছি, বোলতা বা অন্য কীটপতঙ্গের হুলের পর শ্বাসকষ্ট, মুখ-গলা ফুলে যাওয়া বা অজ্ঞান হলে 112-তে ফোন করুন।",
       numbers: [
         ["জরুরি সাহায্য", PHONE.emergency],
         ["অ্যাম্বুলেন্স", PHONE.ambulance]
@@ -1397,7 +1557,7 @@
     snakebite: {
       title: "🐍 সাপে কামড়েছে — জরুরি চিকিৎসা নিন",
       text:
-        "রোগীকে শান্ত ও যতটা সম্ভব স্থির রাখুন। কামড়ানো অঙ্গ হৃদপিণ্ডের নিচে রাখুন এবং নড়াচড়া কমান। ক্ষত কাটবেন না, বিষ চুষবেন না, শক্ত করে বাঁধবেন না এবং ঝাড়ফুঁকে সময় নষ্ট করবেন না। দ্রুত নিকটবর্তী হাসপাতালে নিয়ে যান, কারণ অ্যান্টিভেনম কেবল হাসপাতালেই পাওয়া যায়। সাপ ধরার বা মারার চেষ্টা করবেন না।",
+        "রোগীকে শান্ত ও যতটা সম্ভব স্থির রাখুন। কামড়ানো অঙ্গের নড়াচড়া কমান। ক্ষত কাটবেন না, বিষ চুষবেন না, শক্ত করে বাঁধবেন না এবং ঝাড়ফুঁকে সময় নষ্ট করবেন না। দ্রুত হাসপাতালে যান। সাপ ধরার চেষ্টা করবেন না।",
       numbers: [
         ["জরুরি সাহায্য", PHONE.emergency],
         ["অ্যাম্বুলেন্স", PHONE.ambulance]
@@ -1408,7 +1568,7 @@
     snake: {
       title: "🐍 সাপ দেখা গেছে — নিরাপদ দূরত্ব বজায় রাখুন",
       text:
-        "সাপের কাছে যাবেন না, ধরবেন বা মারবেন না। শিশু ও পোষ্যদের দূরে রাখুন। সম্ভব হলে ওই ঘর বা জায়গায় প্রবেশ বন্ধ করুন এবং সাপের গতিবিধি দূর থেকে লক্ষ্য রাখুন। স্থানীয় বনদপ্তর বা প্রশিক্ষিত উদ্ধারকারীর সাহায্য নিন। কাউকে কামড়ালে অবিলম্বে হাসপাতালে যান।",
+        "সাপের কাছে যাবেন না, ধরবেন বা মারবেন না। শিশু ও পোষ্যদের দূরে রাখুন। সম্ভব হলে ওই জায়গায় প্রবেশ বন্ধ করুন এবং স্থানীয় বনদপ্তর বা প্রশিক্ষিত উদ্ধারকারীর সাহায্য নিন। কাউকে কামড়ালে অবিলম্বে হাসপাতালে যান।",
       numbers: [],
       facility: "forest"
     },
@@ -1416,7 +1576,7 @@
     monkey: {
       title: "🐒 আক্রমণাত্মক হনুমান — নিরাপদ থাকুন",
       text:
-        "হনুমানকে খাবার দেবেন না, উত্ত্যক্ত করবেন না বা চোখে চোখ রেখে চ্যালেঞ্জ করবেন না। হাতে খাবারের প্যাকেট থাকলে আড়াল করুন। শিশুদের নিরাপদ ঘরে রাখুন এবং দরজা-জানালা বন্ধ রাখুন। স্থানীয় বনদপ্তরকে খবর দিন। কামড় বা আঁচড় লাগলে সঙ্গে সঙ্গে চিকিৎসা নিন।",
+        "হনুমানকে খাবার দেবেন না, উত্ত্যক্ত করবেন না বা চোখে চোখ রেখে চ্যালেঞ্জ করবেন না। শিশুদের নিরাপদ ঘরে রাখুন। স্থানীয় বনদপ্তরকে খবর দিন। কামড় বা আঁচড় লাগলে চিকিৎসা নিন।",
       numbers: [],
       facility: "forest"
     },
@@ -1424,7 +1584,7 @@
     monkeybite: {
       title: "🐒 হনুমান/বানরের কামড় — চিকিৎসা নিন",
       text:
-        "ক্ষতস্থান সাবান ও প্রবাহমান জলে অন্তত ১৫ মিনিট ধুয়ে নিন। দ্রুত চিকিৎসকের কাছে যান; র‍্যাবিস ও টিটেনাস প্রতিরোধের প্রয়োজন হতে পারে। ক্ষত ঢেকে রাখুন, ঘরোয়া প্রলেপ দেবেন না। প্রাণীটি ধরতে বা তাড়া করতে যাবেন না।",
+        "ক্ষতস্থান সাবান ও প্রবাহমান জলে প্রায় ১৫ মিনিট ধুয়ে নিন। দ্রুত চিকিৎসকের কাছে যান; র‍্যাবিস ও টিটেনাস প্রতিরোধের প্রয়োজন হতে পারে। প্রাণীটি ধরতে যাবেন না।",
       numbers: [
         ["জরুরি সাহায্য", PHONE.emergency],
         ["অ্যাম্বুলেন্স", PHONE.ambulance]
@@ -1443,7 +1603,7 @@
     electric: {
       title: "⚡ বিদ্যুৎস্পৃষ্ট — সাবধান",
       text:
-        "বিদ্যুৎ সংযোগ বন্ধ না করে আক্রান্ত ব্যক্তিকে স্পর্শ করবেন না। নিরাপদ দূরত্ব থেকে মেইন সুইচ বন্ধ করুন বা বিদ্যুৎ বিচ্ছিন্ন করার ব্যবস্থা করুন। জরুরি পরিষেবায় ফোন করুন।",
+        "বিদ্যুৎ সংযোগ বন্ধ না করে আক্রান্ত ব্যক্তিকে স্পর্শ করবেন না। নিরাপদ দূরত্ব থেকে বিদ্যুৎ বিচ্ছিন্ন করার ব্যবস্থা করুন। জরুরি পরিষেবায় ফোন করুন।",
       numbers: [
         ["জরুরি সাহায্য", PHONE.emergency],
         ["অ্যাম্বুলেন্স", PHONE.ambulance],
@@ -1466,8 +1626,10 @@
     cyber: {
       title: "🔐 সাইবার প্রতারণা — দ্রুত রিপোর্ট করুন",
       text:
-        "টাকা প্রতারণার শিকার হলে অবিলম্বে ১৯৩০ নম্বরে ফোন করুন। প্রথম কয়েক ঘণ্টায় অভিযোগ করলে টাকা ফেরত পাওয়ার সম্ভাবনা বেশি থাকে। ব্যাংক বা পেমেন্ট পরিষেবাকে জানিয়ে অ্যাকাউন্ট সুরক্ষিত করুন। OTP, PIN বা পাসওয়ার্ড কাউকে দেবেন না। স্ক্রিনশট, মেসেজ ও লেনদেনের তথ্য সংরক্ষণ করুন।",
-      numbers: [["সাইবার হেল্পলাইন", PHONE.cyber]],
+        "টাকা প্রতারণার শিকার হলে অবিলম্বে ১৯৩০ নম্বরে ফোন করুন। ব্যাংক বা পেমেন্ট পরিষেবাকে জানান। OTP, PIN বা পাসওয়ার্ড কাউকে দেবেন না। প্রমাণ ও লেনদেনের তথ্য সংরক্ষণ করুন।",
+      numbers: [
+        ["সাইবার হেল্পলাইন", PHONE.cyber]
+      ],
       url: "https://cybercrime.gov.in/"
     },
 
@@ -1478,6 +1640,28 @@
       numbers: [
         ["জরুরি সাহায্য", PHONE.emergency],
         ["মহিলা হেল্পলাইন", PHONE.women]
+      ]
+    },
+
+    ambulance: {
+      title: "🚑 অ্যাম্বুলেন্স",
+      text:
+        "জরুরি অবস্থায় সরাসরি অ্যাম্বুলেন্সের জন্য ১০২ বা সাধারণ জরুরি সাহায্যের জন্য ১১২ নম্বরে ফোন করুন। রোগীর অবস্থান ও অবস্থা স্পষ্ট করে বলুন।",
+      numbers: [
+        ["অ্যাম্বুলেন্স", PHONE.ambulance],
+        ["জরুরি সাহায্য", PHONE.emergency]
+      ],
+      facility: "hospital"
+    },
+
+    sos: {
+      title: "🚨 জরুরি সাহায্য",
+      text:
+        "বিপদে সরাসরি ১১২ নম্বরে ফোন করুন। অ্যাম্বুলেন্সের জন্য ১০২, আগুনের জন্য ১০১ নম্বরে ফোন করুন।",
+      numbers: [
+        ["জরুরি সাহায্য", PHONE.emergency],
+        ["অ্যাম্বুলেন্স", PHONE.ambulance],
+        ["দমকল", PHONE.fire]
       ]
     }
   };
@@ -1495,34 +1679,25 @@
     );
 
     if (guide.url) {
-      addActions(card, [makeLink("🌐 অভিযোগ জানান", guide.url, true)]);
+      addActions(card, [
+        makeLink("🌐 অভিযোগ জানান", guide.url, "primary")
+      ]);
     }
 
     if (guide.facility) {
       const area = getSelectedArea();
-
       const where = area.subdivision || area.district || "West Bengal";
+      const facilityLabel = FACILITIES[guide.facility].label;
 
       addActions(card, [
         makeLink(
-          `🗺️ ${FACILITIES[guide.facility].label} খুঁজুন`,
-          mapsSearch(`${FACILITIES[guide.facility].label} ${where}`)
-        )
+          `🗺️ ${facilityLabel} খুঁজুন`,
+          mapsSearch(`${facilityLabel} ${where}`)
+        ),
+        makeButton(`📍 কাছাকাছি ${facilityLabel}`, () => {
+          findNearby(guide.facility);
+        })
       ]);
-
-      const nearbyButton = element(
-        "button",
-        "np-u-btn",
-        `📍 কাছাকাছি ${FACILITIES[guide.facility].label}`
-      );
-
-      nearbyButton.type = "button";
-
-      nearbyButton.addEventListener("click", () => {
-        findNearby(guide.facility);
-      });
-
-      addActions(card, [nearbyButton]);
 
       const localContacts = findDirectoryMatches(
         area.subdivision || area.district,
@@ -1579,9 +1754,7 @@
     const label = FACILITIES[facility].label;
     const selected = getSelectedArea();
 
-    const area =
-      intent.place || selected.subdivision || selected.district || "";
-
+    const area = intent.place || selected.subdivision || selected.district || "";
     const searchLocation = area || "West Bengal";
 
     const card = createCard(
@@ -1618,21 +1791,11 @@
       ? `${intent.place} ${label} West Bengal`
       : `${originalQuery} West Bengal`;
 
-    const nearby = element(
-      "button",
-      "np-u-btn",
-      `📍 আমার কাছাকাছি ${label}`
-    );
-
-    nearby.type = "button";
-
-    nearby.addEventListener("click", () => {
-      findNearby(facility);
-    });
-
     addActions(card, [
-      makeLink("🗺️ Google Maps-এ খুঁজুন", mapsSearch(mapQuery), true),
-      nearby
+      makeLink("🗺️ Google Maps-এ খুঁজুন", mapsSearch(mapQuery), "primary"),
+      makeButton(`📍 আমার কাছাকাছি ${label}`, () => {
+        findNearby(facility);
+      })
     ]);
 
     if (facility === "hospital") {
@@ -1654,6 +1817,35 @@
       addActions(card, [
         makeLink("🩸 রক্তের স্টক দেখুন", "https://eraktkosh.mohfw.gov.in/")
       ]);
+    }
+
+    showCards([card]);
+  }
+
+  function renderNearbyPrompt(facility) {
+    const label = FACILITIES[facility].label;
+
+    const card = createCard(
+      `📍 কাছাকাছি ${label}`,
+      "কাছাকাছি প্রতিষ্ঠান দেখতে নিচের বোতাম চাপুন। আপনার অনুমতি ছাড়া অবস্থান নেওয়া হবে না।"
+    );
+
+    addActions(card, [
+      makeButton("📍 আমার অবস্থান ব্যবহার করুন", () => {
+        findNearby(facility);
+      }, true),
+      makeLink("🗺️ Google Maps", mapsSearch(`${label} near me`))
+    ]);
+
+    if (facility === "hospital") {
+      addActions(card, [
+        makeCall("অ্যাম্বুলেন্স", PHONE.ambulance),
+        makeCall("জরুরি সাহায্য", PHONE.emergency)
+      ]);
+    }
+
+    if (facility === "police") {
+      addActions(card, [makeCall("জরুরি সাহায্য", PHONE.emergency)]);
     }
 
     showCards([card]);
@@ -1682,7 +1874,6 @@
 
   function overpassQuery(lat, lon, facility) {
     const selectors = FACILITIES[facility]?.osm || [];
-
     const radius = 8000;
 
     const lines = selectors.map(selector => {
@@ -1705,14 +1896,14 @@
   function distanceKm(aLat, aLon, bLat, bLon) {
     const R = 6371;
 
-    const dLat = ((bLat - aLat) * Math.PI) / 180;
-    const dLon = ((bLon - aLon) * Math.PI) / 180;
+    const dLat = (bLat - aLat) * Math.PI / 180;
+    const dLon = (bLon - aLon) * Math.PI / 180;
 
     const x =
       Math.sin(dLat / 2) ** 2 +
-      Math.cos((aLat * Math.PI) / 180) *
-        Math.cos((bLat * Math.PI) / 180) *
-        Math.sin(dLon / 2) ** 2;
+      Math.cos(aLat * Math.PI / 180) *
+      Math.cos(bLat * Math.PI / 180) *
+      Math.sin(dLon / 2) ** 2;
 
     return 2 * R * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
   }
@@ -1727,7 +1918,6 @@
     }
 
     const controller = new AbortController();
-
     const timer = setTimeout(() => controller.abort(), 18000);
 
     try {
@@ -1767,17 +1957,13 @@
             tags["name:en"] ||
             FACILITIES[facility].label;
 
-          const phone = cleanPhone(
-            tags.phone || tags["contact:phone"] || ""
-          );
+          const phone = cleanPhone(tags.phone || tags["contact:phone"] || "");
 
           const address = [
             tags["addr:street"],
             tags["addr:city"],
             tags["addr:district"]
-          ]
-            .filter(Boolean)
-            .join(", ");
+          ].filter(Boolean).join(", ");
 
           return {
             id: `${item.type}:${item.id}`,
@@ -1792,10 +1978,8 @@
         .filter(Boolean)
         .filter(item => {
           const key =
-            normalize(item.name) +
-            ":" +
-            item.lat.toFixed(3) +
-            ":" +
+            normalize(item.name) + ":" +
+            item.lat.toFixed(3) + ":" +
             item.lon.toFixed(3);
 
           if (seen.has(key)) return false;
@@ -1817,6 +2001,12 @@
     }
   }
 
+  function setLoadingCardTitle(card, label) {
+    card.classList.remove("np-u-loading");
+    card.replaceChildren();
+    card.appendChild(element("h3", "np-u-title", `📍 কাছাকাছি ${label}`));
+  }
+
   async function findNearby(facility) {
     const label = FACILITIES[facility]?.label || "পরিষেবা";
 
@@ -1836,13 +2026,9 @@
     try {
       coords = await getPosition();
     } catch {
-      card.classList.remove("np-u-loading");
+      if (requestId !== state.requestId) return;
 
-      card.replaceChildren();
-
-      card.appendChild(
-        element("h3", "np-u-title", `📍 কাছাকাছি ${label}`)
-      );
+      setLoadingCardTitle(card, label);
 
       addText(
         card,
@@ -1850,11 +2036,7 @@
       );
 
       addActions(card, [
-        makeLink(
-          "🗺️ Google Maps-এ খুঁজুন",
-          mapsSearch(`${label} near me`),
-          true
-        )
+        makeLink("🗺️ Google Maps-এ খুঁজুন", mapsSearch(`${label} near me`), "primary")
       ]);
 
       return;
@@ -1871,12 +2053,7 @@
 
       if (requestId !== state.requestId) return;
 
-      card.classList.remove("np-u-loading");
-      card.replaceChildren();
-
-      card.appendChild(
-        element("h3", "np-u-title", `📍 কাছাকাছি ${label}`)
-      );
+      setLoadingCardTitle(card, label);
 
       if (!results.length) {
         addText(
@@ -1897,15 +2074,11 @@
           addText(
             row,
             `${item.distance.toFixed(1)} কিমি দূরে` +
-              (item.address ? ` • ${item.address}` : "")
+            (item.address ? ` • ${item.address}` : "")
           );
 
           const actions = [
-            makeLink(
-              "🧭 যাওয়ার রাস্তা",
-              mapsDirections(item.lat, item.lon),
-              true
-            )
+            makeLink("🧭 যাওয়ার রাস্তা", mapsDirections(item.lat, item.lon), "primary")
           ];
 
           if (item.phone) {
@@ -1921,20 +2094,13 @@
       addActions(card, [
         makeLink(
           "🗺️ Google Maps-এ আরও খুঁজুন",
-          mapsSearch(
-            `${label} near ${coords.latitude},${coords.longitude}`
-          )
+          mapsSearch(`${label} near ${coords.latitude},${coords.longitude}`)
         )
       ]);
     } catch {
       if (requestId !== state.requestId) return;
 
-      card.classList.remove("np-u-loading");
-      card.replaceChildren();
-
-      card.appendChild(
-        element("h3", "np-u-title", `📍 কাছাকাছি ${label}`)
-      );
+      setLoadingCardTitle(card, label);
 
       addText(
         card,
@@ -1944,10 +2110,8 @@
       addActions(card, [
         makeLink(
           "🗺️ Google Maps-এ দেখুন",
-          mapsSearch(
-            `${label} near ${coords.latitude},${coords.longitude}`
-          ),
-          true
+          mapsSearch(`${label} near ${coords.latitude},${coords.longitude}`),
+          "primary"
         )
       ]);
     }
@@ -1983,21 +2147,15 @@
   }
 
   function getLiveServiceCard(id) {
-    if (!id) return null;
-
-    return (
-      document.getElementById(id) ||
+    return document.getElementById(id) ||
       state.indexedCards.find(item => item.id === id)?.node ||
-      null
-    );
+      null;
   }
 
   function openExistingCard(id) {
     const card = getLiveServiceCard(id);
 
-    if (!card) return false;
-
-    if (!document.contains(card)) return false;
+    if (!card || !document.contains(card)) return false;
 
     restoreOriginalVisibility();
 
@@ -2043,11 +2201,20 @@
     const card = createCard(
       `✅ ${rule.title}`,
       isStatus
-        ? "আবেদনের অবস্থা বা যাচাইয়ের তথ্য সরকারি পোর্টালে নিজেই দেখতে পারেন। নাগরিক পরিষেবায় এই লিংক ব্যবহার করতে কোনো ফি নেই।"
-        : "নিচে সংশ্লিষ্ট পরিষেবা ও মূল পোর্টালের বিকল্প রয়েছে। সরকারি পোর্টাল ব্যবহার করে নিজেও কাজ করতে পারেন।"
+        ? "আবেদনের অবস্থা বা যাচাইয়ের তথ্য সরকারি পোর্টালে নিজেই দেখতে পারেন। নাগরিক পরিষেবায় এই তথ্য দেখতে কোনো ফি নেই।"
+        : "আবেদন বা সংশোধনের জন্য প্রথমে সরকারি পোর্টাল ব্যবহার করুন। নিচে সংশ্লিষ্ট নাগরিক পরিষেবার বিকল্পও রয়েছে।"
     );
 
     const actions = [];
+
+    // সরকারি পোর্টাল সবার আগে
+    actions.push(
+      makeLink(
+        isStatus ? "🌐 সরকারি পোর্টালে স্ট্যাটাস দেখুন" : "🌐 মূল পোর্টাল খুলুন",
+        rule.url,
+        "primary"
+      )
+    );
 
     rule.ids.forEach(id => {
       const existing = getLiveServiceCard(id);
@@ -2059,47 +2226,22 @@
         existing.textContent.trim().slice(0, 55) ||
         rule.title;
 
-      const button = element(
-        "button",
-        "np-u-btn",
-        `📄 ${label.slice(0, 55)}`
+      actions.push(
+        makeButton(`📄 ${label.slice(0, 55)}`, () => {
+          openExistingCard(id);
+        })
       );
-
-      button.type = "button";
-
-      button.addEventListener("click", () => {
-        openExistingCard(id);
-      });
-
-      actions.push(button);
     });
-
-    actions.push(
-      makeLink(
-        isStatus
-          ? "🌐 সরকারি পোর্টালে স্ট্যাটাস দেখুন"
-          : "🌐 মূল পোর্টাল খুলুন",
-        rule.url,
-        true
-      )
-    );
 
     addActions(card, actions);
 
     if (!isStatus) {
       const support = createCard(
         "💬 আবেদন বা সংশোধনে ব্যক্তিগত সহায়তা",
-        "চাইলে Online পরিষেবা থেকে শুভঙ্করের সহায়তা নিতে পারেন (ফোন: 9332434992)। এটি বেসরকারি ও ঐচ্ছিক পরিষেবা; কাজ অনুযায়ী ফি থাকতে পারে। সরকারি পোর্টাল নিজে ব্যবহার করার বিকল্পও খোলা রয়েছে।"
+        "চাইলে Online পরিষেবা থেকে সহায়তা নিতে পারেন (ফোন: 9332434992)। এটি বেসরকারি ও ঐচ্ছিক পরিষেবা; কাজ অনুযায়ী ফি থাকতে পারে। সরকারি পোর্টাল নিজে ব্যবহার করার বিকল্পও খোলা রয়েছে।"
       );
 
-      const whatsapp = makeLink(
-        "WhatsApp-এ যোগাযোগ",
-        "https://wa.me/919332434992"
-      );
-
-      whatsapp.classList.add("np-u-whatsapp");
-
-      addActions(support, [whatsapp]);
+      addActions(support, [makeWhatsAppLink("WhatsApp-এ যোগাযোগ")]);
 
       showCards([card, support]);
       return;
@@ -2108,24 +2250,31 @@
     showCards([card]);
   }
 
-  /* ---------------- GENERAL QUERY + AI ---------------- */
+  /* ---------------- GENERAL QUERY (AI বন্ধ) ---------------- */
+
+  const SUGGESTIONS = [
+    "বিধবা ভাতা",
+    "রেশন কার্ড",
+    "বিদ্যুৎ বিল",
+    "PM Kisan",
+    "DBT",
+    "ভোটার কার্ড",
+    "থানা",
+    "হাসপাতাল",
+    "সাপে কামড়েছে"
+  ];
 
   function aiUsage() {
     const today = new Date().toLocaleDateString("en-CA");
 
     try {
-      const stored = JSON.parse(
-        localStorage.getItem("npUnifiedAiUsage") || "{}"
-      );
+      const stored = JSON.parse(localStorage.getItem("npUnifiedAiUsage") || "{}");
 
       if (stored.date === today) {
-        return {
-          date: today,
-          count: Number(stored.count) || 0
-        };
+        return { date: today, count: Number(stored.count) || 0 };
       }
     } catch {
-      // Continue with fresh local quota.
+      // Fresh quota.
     }
 
     return { date: today, count: 0 };
@@ -2139,6 +2288,7 @@
     }
   }
 
+  // AI সংশোধন না হওয়া পর্যন্ত CONFIG.aiEnabled = false থাকবে
   async function requestAi(query, button, answerBox) {
     const usage = aiUsage();
 
@@ -2157,9 +2307,7 @@
     try {
       const response = await fetch(CONFIG.aiEndpoint, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query }),
         signal: controller.signal
       });
@@ -2167,7 +2315,6 @@
       if (!response.ok) throw new Error("Answer unavailable");
 
       const data = await response.json();
-
       const reply = String(data.reply || data.answer || "").trim();
 
       if (!reply) throw new Error("Empty answer");
@@ -2187,50 +2334,57 @@
 
   function renderGeneral(query) {
     const card = createCard(
-      "🔎 আপনার প্রশ্ন",
-      `“${query}” — এই প্রশ্নের সঙ্গে মিল থাকা সরকারি পরিষেবা পাওয়া যায়নি। বানান একটু বদলে বা অন্য শব্দে আবার চেষ্টা করতে পারেন।`
+      "🔎 আপনার অনুসন্ধান",
+      `“${query}” — এই শব্দে সরাসরি কোনো পরিষেবা মেলেনি। বানান ঠিক করে আবার লিখুন, অথবা নিচের একটি শব্দ চাপুন।`
     );
 
-    const answer = element("p", "np-u-text");
-
-    const button = element(
-      "button",
-      "np-u-btn np-u-primary",
-      "✨ বিস্তারিত উত্তর দেখুন"
+    addActions(
+      card,
+      SUGGESTIONS.map(text => makeButton(text, () => setSearchText(text)))
     );
 
-    button.type = "button";
+    addActions(card, [
+      makeLink(
+        "🔎 ইন্টারনেটে খুঁজুন",
+        "https://www.google.com/search?q=" +
+          encodeURIComponent(`${query} West Bengal government`)
+      )
+    ]);
 
-    button.addEventListener("click", () => {
-      requestAi(query, button, answer);
-    });
+    if (CONFIG.aiEnabled) {
+      const answer = element("p", "np-u-text");
 
-    addActions(card, [button]);
+      addActions(card, [
+        makeButton("✨ বিস্তারিত উত্তর দেখুন", () => {
+          requestAi(query, button, answer);
+        })
+      ]);
 
-    card.appendChild(answer);
+      const button = card.querySelector(".np-u-actions button:last-child");
+      card.appendChild(answer);
+    }
 
     showCards([card]);
   }
 
-  /* ---------------- ORIGINAL SEARCH COMPATIBILITY ---------------- */
+  /* ---------------- SEARCH MODE (অপ্রাসঙ্গিক অংশ লুকানো) ---------------- */
 
-  function restoreOriginalVisibility() {
-    document
-      .querySelectorAll(".category-group, .service-card")
-      .forEach(node => {
-        if (node.dataset.npUnifiedHidden === "1") {
-          node.style.removeProperty("display");
-          delete node.dataset.npUnifiedHidden;
-        }
-      });
-  }
+  function hideNonSearchContent() {
+    const selector = CONFIG.hideDuringSearch.join(",");
 
-  function suppressUnrelatedCards() {
-    document.querySelectorAll(".category-group").forEach(node => {
+    document.querySelectorAll(selector).forEach(node => {
+      if (node.closest("#" + CONFIG.panelId)) return;
       if (node.style.display === "none") return;
 
       node.dataset.npUnifiedHidden = "1";
       node.style.display = "none";
+    });
+  }
+
+  function restoreOriginalVisibility() {
+    document.querySelectorAll('[data-np-unified-hidden="1"]').forEach(node => {
+      node.style.removeProperty("display");
+      delete node.dataset.npUnifiedHidden;
     });
   }
 
@@ -2244,49 +2398,6 @@
 
   /* ---------------- MAIN SEARCH ROUTER ---------------- */
 
-  function renderNearbyPrompt(intent) {
-    const label = FACILITIES[intent.facility].label;
-
-    const card = createCard(
-      `📍 কাছাকাছি ${label}`,
-      "কাছাকাছি প্রতিষ্ঠান দেখতে নিচের বোতাম চাপুন। আপনার অনুমতি ছাড়া অবস্থান নেওয়া হবে না।"
-    );
-
-    const button = element(
-      "button",
-      "np-u-btn np-u-primary",
-      "📍 আমার অবস্থান ব্যবহার করুন"
-    );
-
-    button.type = "button";
-
-    button.addEventListener("click", () => {
-      findNearby(intent.facility);
-    });
-
-    addActions(card, [
-      button,
-      makeLink("🗺️ Google Maps", mapsSearch(`${label} near me`))
-    ]);
-
-    if (intent.facility === "hospital") {
-      addActions(card, [
-        makeCall("অ্যাম্বুলেন্স", PHONE.ambulance),
-        makeCall("জরুরি সাহায্য", PHONE.emergency)
-      ]);
-    }
-
-    if (intent.facility === "police") {
-      addActions(card, [makeCall("জরুরি সাহায্য", PHONE.emergency)]);
-    }
-
-    if (intent.facility === "fire") {
-      addActions(card, [makeCall("দমকল", PHONE.fire)]);
-    }
-
-    showCards([card]);
-  }
-
   function performSearch(rawQuery) {
     const query = String(rawQuery || "").trim();
 
@@ -2299,21 +2410,13 @@
       return;
     }
 
-    let intent;
+    hideNonSearchContent();
 
     try {
-      intent = detectIntent(query);
-    } catch (error) {
-      console.error("Unified Search intent error:", error);
-      intent = { kind: "general" };
-    }
+      const intent = detectIntent(query);
 
-    state.currentIntent = intent;
+      state.currentIntent = intent;
 
-    // Avoid generic original category results for intent-first searches.
-    suppressUnrelatedCards();
-
-    try {
       switch (intent.kind) {
         case "governmentIndex":
           npRenderGovernmentResults(intent.results);
@@ -2324,7 +2427,7 @@
           break;
 
         case "nearby":
-          renderNearbyPrompt(intent);
+          renderNearbyPrompt(intent.facility);
           break;
 
         case "facility":
@@ -2339,28 +2442,46 @@
           renderGeneral(query);
       }
     } catch (error) {
-      console.error("Unified Search render error:", error);
-      renderGeneral(query);
+      console.error("Nagorik Porisheba search error:", error);
+      showFallbackCard();
     }
   }
 
   /* ---------------- VOICE SEARCH ---------------- */
 
+  function setMicState(active) {
+    const button = document.getElementById(CONFIG.voiceButtonId);
+
+    if (!button) return;
+
+    button.classList.toggle("np-listening", active);
+    button.classList.toggle("listening", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+  }
+
   function unifiedVoiceSearch() {
+    // চলমান থাকলে আবার চাপলে বন্ধ হবে
+    if (state.recognition) {
+      try {
+        state.recognition.stop();
+      } catch {
+        // ignore
+      }
+      return;
+    }
+
     const Recognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!Recognition) {
-      const card = createCard(
-        "🎙️ ভয়েস সার্চ",
-        "এই ব্রাউজারে ভয়েস সার্চের সুবিধা নেই। সার্চ বক্সে প্রশ্নটি লিখুন।"
-      );
-
-      showCards([card]);
+      showCards([
+        createCard(
+          "🎙️ ভয়েস সার্চ",
+          "এই ব্রাউজারে ভয়েস সার্চের সুবিধা নেই। সার্চ বক্সে প্রশ্নটি লিখুন।"
+        )
+      ]);
       return;
     }
-
-    const button = document.getElementById("voiceSearchBtn");
 
     const recognition = new Recognition();
 
@@ -2368,59 +2489,49 @@
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
-    recognition.onstart = () => {
-      if (button) button.classList.add("listening", "np-mic-active");
-    };
-
-    recognition.onend = () => {
-      if (button) button.classList.remove("listening", "np-mic-active");
-    };
+    recognition.onstart = () => setMicState(true);
 
     recognition.onresult = event => {
       const transcript = event.results?.[0]?.[0]?.transcript || "";
 
-      const input = document.getElementById(CONFIG.searchInput);
-
-      if (input) {
-        input.value = transcript;
-        performSearch(transcript);
-      }
+      if (transcript) setSearchText(transcript);
     };
 
     recognition.onerror = () => {
-      if (button) button.classList.remove("listening", "np-mic-active");
-
-      const card = createCard(
-        "🎙️ ভয়েস সার্চ",
-        "কথা শনাক্ত করা যায়নি। আবার চেষ্টা করুন অথবা লিখে সার্চ করুন।"
-      );
-
-      showCards([card]);
+      showCards([
+        createCard(
+          "🎙️ ভয়েস সার্চ",
+          "কথা শনাক্ত করা যায়নি। আবার চেষ্টা করুন অথবা লিখে সার্চ করুন।"
+        )
+      ]);
     };
+
+    recognition.onend = () => {
+      state.recognition = null;
+      setMicState(false);
+    };
+
+    state.recognition = recognition;
 
     try {
       recognition.start();
     } catch {
-      if (button) button.classList.remove("listening", "np-mic-active");
+      state.recognition = null;
+      setMicState(false);
     }
   }
 
   function setupVoice() {
-    const button = document.getElementById("voiceSearchBtn");
+    const button = document.getElementById(CONFIG.voiceButtonId);
 
-    if (!button) {
-      window.startVoiceSearch = unifiedVoiceSearch;
-      return;
-    }
+    if (!button || button.dataset.npVoiceBound === "1") return;
 
-    // Replace the button node to remove previously attached listeners.
-    const replacement = button.cloneNode(true);
+    // বাটন একই রেখে শুধু আমাদের Listener যোগ করা হচ্ছে,
+    // যাতে আগের লাল ব্লিঙ্কিং বা অন্য Listener নষ্ট না হয়।
+    button.removeAttribute("onclick");
+    button.dataset.npVoiceBound = "1";
 
-    replacement.removeAttribute("onclick");
-
-    button.replaceWith(replacement);
-
-    replacement.addEventListener("click", event => {
+    button.addEventListener("click", event => {
       event.preventDefault();
       unifiedVoiceSearch();
     });
@@ -2428,21 +2539,22 @@
     window.startVoiceSearch = unifiedVoiceSearch;
   }
 
-  /* ---------------- INITIALIZATION ---------------- */
+  /* ---------------- INPUT ---------------- */
 
   function setupInput() {
     const input = document.getElementById(CONFIG.searchInput);
 
-    if (!input) return;
+    if (!input || input.dataset.npInputBound === "1") return;
 
     input.removeAttribute("onkeyup");
+    input.dataset.npInputBound = "1";
 
     input.addEventListener("input", () => {
       clearTimeout(state.searchTimer);
 
       state.searchTimer = setTimeout(() => {
         performSearch(input.value);
-      }, 180);
+      }, CONFIG.debounceMs);
     });
 
     input.addEventListener("keydown", event => {
@@ -2456,6 +2568,8 @@
     });
   }
 
+  /* ---------------- INITIALIZATION ---------------- */
+
   async function initialize() {
     if (!document.getElementById(CONFIG.searchInput)) return;
 
@@ -2466,10 +2580,13 @@
     setupInput();
     setupVoice();
 
-    // Load both optional sources without blocking search.
-    Promise.allSettled([loadDistrictData(), loadApprovedContacts()]);
+    // Optional data — সার্চ এগুলোর জন্য অপেক্ষা করবে না
+    Promise.allSettled([
+      loadDistrictData(),
+      loadApprovedContacts()
+    ]);
 
-    console.info("Nagorik Porisheba Unified Search 2.2 initialized");
+    console.info("Nagorik Porisheba Unified Search initialized");
   }
 
   if (document.readyState === "loading") {
