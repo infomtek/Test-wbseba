@@ -1182,7 +1182,7 @@
     <button
         id="npWarningFloat"
         type="button"
-        onclick="openModal('cyberAlertModal')"
+        onclick="openModal('cyberAlertModal'); playCyberAlert();"
         class="floating-round-btn float-warning-btn"
         title="সাইবার নিরাপত্তা সতর্কবার্তা"
         aria-label="সাইবার নিরাপত্তা সতর্কবার্তা"
@@ -2064,7 +2064,34 @@ function triggerCyberScan() {
 // ==========================================
 const cyberAlertRawText = "সরকারি ওয়েবসাইটের শেষে .gov.in অথবা .nic.in থাকে। ভারতীয় সমস্ত ব্যাংকের ওয়েবসাইটে শেষে .bank.in হয়। ব্যক্তিগত তথ্য ও আধার ওটিপি দিয়ে অচেনা লিংকে ভেরিফাই করবেন না।";
 let cyberUtterance = null;
+// Bengali Voice আগে থেকে প্রস্তুত রাখার চেষ্টা
+let cyberBengaliVoice = null;
 
+function prepareCyberVoice() {
+
+    if (!('speechSynthesis' in window)) return;
+
+    const voices = window.speechSynthesis.getVoices();
+
+    cyberBengaliVoice =
+        voices.find(voice =>
+            voice.lang.toLowerCase() === 'bn-in'
+        ) ||
+        voices.find(voice =>
+            voice.lang.toLowerCase().startsWith('bn')
+        ) ||
+        null;
+}
+
+if ('speechSynthesis' in window) {
+
+    prepareCyberVoice();
+
+    window.speechSynthesis.addEventListener(
+        'voiceschanged',
+        prepareCyberVoice
+    );
+}
 function initCyberAlert() {
     const container = document.getElementById('cyberAlertContent');
     if(!container) return;
@@ -2092,6 +2119,9 @@ function playCyberAlert() {
     
     cyberUtterance = new SpeechSynthesisUtterance(cyberAlertRawText);
     cyberUtterance.lang = 'bn-IN'; // বাংলা ভয়েস
+    if (cyberBengaliVoice) {
+    cyberUtterance.voice = cyberBengaliVoice;
+}
     cyberUtterance.rate = 0.85; // একটু ধীর গতিতে বলবে বোঝার সুবিধার্থে
     
     document.querySelectorAll('.cyber-word').forEach(el => el.style.background = 'transparent');
