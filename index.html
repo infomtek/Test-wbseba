@@ -2117,7 +2117,9 @@ function playCyberAlert() {
     
     window.speechSynthesis.cancel(); // আগের কোনো অডিও চললে বন্ধ হবে
     
-    cyberUtterance = new SpeechSynthesisUtterance(cyberAlertRawText);
+    cyberUtterance = new SpeechSynthesisUtterance(
+    "সাইবার সতর্কতা বার্তা। " + cyberAlertRawText
+);
     cyberUtterance.lang = 'bn-IN'; // বাংলা ভয়েস
     if (cyberBengaliVoice) {
     cyberUtterance.voice = cyberBengaliVoice;
