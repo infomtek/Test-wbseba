@@ -1091,7 +1091,7 @@ function detectSmartService(query) {
       };
     }
 
-    const service = detectService(query);
+    const service = detectService(query) || detectSmartService(query);
 
     if (service) {
       return { kind: "service", service };
