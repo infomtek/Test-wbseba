@@ -292,7 +292,7 @@
             cursor: pointer;
             transition: transform 0.15s ease;
         }
-        onclick="openModal('cyberCheckModal')"
+        .standalone-cyber-card:active { transform: scale(0.985); }
 
         .sec-left { display: flex; align-items: center; gap: 12px; }
         .sec-icon {
@@ -680,6 +680,19 @@
             </div>
         </div>
         
+        <!-- সাইবার স্ক্যাম চেকার (নতুন কার্ড) -->
+        <div class="standalone-cyber-card" onclick="openModal('cyberCheckModal')">
+            <div class="sec-left">
+                <div class="sec-icon" style="background: #fef08a; color: #ca8a04;">🛡️</div>
+                <div>
+                    <div class="sec-title" style="color: #b45309;">সাইবার স্ক্যাম চেকার</div>
+                    <div style="font-size: 11.5px; font-weight: 700; color: #9a3412;">ফিশিং লিংক বা স্ক্রিনশট স্ক্যান করুন</div>
+                </div>
+            </div>
+            <div class="sec-call-btn" style="background: #eab308 !important;">
+                <span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+            </div>
+        </div>
 
         <!-- মূল ক্যাটাগরি ফোল্ডারসমূহ -->
         <div id="mainCategoriesContainer">
@@ -834,65 +847,6 @@
                 </div>
             </div>
 
-            <!-- ==========================================
-     CYBER SAFETY SERVICE CATEGORY
-     নাগরিক পরিষেবা 2.3
-     ========================================== -->
-
-<div class="category-group soft-cat-amber"
-     id="groupCyberSafety">
-
-  <div class="category-header"
-       onclick="toggleCategory('groupCyberSafety')">
-
-    <div class="category-header-title">
-
-      <div class="category-icon-badge">🛡️</div>
-
-      <span>সাইবার সুরক্ষা ও অনলাইন প্রতারণা</span>
-
-    </div>
-
-    <span class="material-symbols-outlined category-arrow">
-      expand_more
-    </span>
-
-  </div>
-
-  <div class="category-body">
-
-    <div id="serviceGridCyber" class="app-view-grid">
-
-      <div id="service_cyber_safety"
-           class="service-card clr-yellow"
-           onclick="openModal('cyberCheckModal')"
-           data-keywords="সাইবার cyber cyber crime cyber fraud
-           online fraud online scam phishing link
-           otp scam upi fraud bank fraud
-           অনলাইন প্রতারণা ব্যাংক জালিয়াতি
-           ফিশিং লিংক সন্দেহজনক ওয়েবসাইট">
-
-        <div class="icon-circle">🛡️</div>
-
-        <div class="card-info">
-
-          <div class="card-title">
-            সাইবার স্ক্যাম চেকার
-          </div>
-
-          <div class="card-dept">
-            সন্দেহজনক লিংক ও স্ক্রিনশট পরীক্ষা করুন
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>        
             <!-- ৪. খাদ্য ও রান্নার গ্যাস -->
             <div class="category-group soft-cat-orange" id="groupFood">
                 <div class="category-header" onclick="toggleCategory('groupFood')">
