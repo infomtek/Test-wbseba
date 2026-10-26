@@ -2601,3 +2601,127 @@
     refreshDirectory: loadDistrictData
   };
 })();
+ (function() {
+    "use strict";
+
+    // ১. অ্যাডভান্সড সাজেশন ডাটাবেস (Animal, Insect, and Services)
+    const SMART_INDEX = [
+        // --- কীটপতঙ্গ (Insect Bites) ---
+        { text: "🐝 মৌমাছি কামড়েছে — প্রাথমিক চিকিৎসা", category: "emergency", keyword: "মৌমাছি bee honeybee" },
+        { text: "🐝 ভিমরুল কামড়েছে — প্রাথমিক চিকিৎসা", category: "emergency", keyword: "ভিমরুল wasp" },
+        { text: "🐝 বোলতা কামড়েছে — প্রাথমিক চিকিৎসা", category: "emergency", keyword: "বোলতা" },
+        { text: "🦂 বিছে কামড়েছে — জরুরি চিকিৎসা", category: "emergency", keyword: "বিছে scorpion" },
+        { text: "🦟 কীটপতঙ্গের কামড় (Insect Bite) চিকিৎসা", category: "emergency", keyword: "insect bite কীটপতঙ্গ" },
+
+        // --- প্রাণী আক্রমণ (Animal Attacks - Medical) ---
+        { text: "🐍 সাপে কামড়েছে — দ্রুত হাসপাতালে যান", category: "emergency", keyword: "সাপে কামড়েছে snake bite" },
+        { text: "🐕 কুকুর কামড়েছে — জলাতঙ্ক চিকিৎসা", category: "emergency", keyword: "কুকুর কামড়েছে dog bite" },
+        { text: "🐈 বিড়াল কামড়েছে বা আঁচড় দিয়েছে", category: "emergency", keyword: "বিড়াল cat scratch bite" },
+        { text: "🐒 বানর/হনুমান কামড়েছে — চিকিৎসা", category: "emergency", keyword: "বানর হনুমান monkey bite" },
+        { text: "🦊 শেয়াল কামড়েছে — জরুরি চিকিৎসা", category: "emergency", keyword: "শেয়াল jackal bite" },
+
+        // --- প্রাণী দেখা/উদ্ধার (Animal Sight - Rescue) ---
+        { text: "🐍 বাড়িতে সাপ ঢুকেছে — বনদপ্তরের সহায়তা", category: "rescue", keyword: "সাপ ঢুকেছে সাপ দেখা গেছে snake rescue" },
+        { text: "🐒 বানর/হনুমান উপদ্রব — বনদপ্তর খবর দিন", category: "rescue", keyword: "বানর উপদ্রব monkey rescue" },
+        { text: "🦊 বন্যপ্রাণী দেখা গেছে — সতর্কতা", category: "rescue", keyword: "শেয়াল বন্যপ্রাণী wildlife" },
+
+        // --- সাধারণ সরকারি পরিষেবা (Core Services) ---
+        { text: "🌾 কৃষক বন্ধু স্ট্যাটাস যাচাই", category: "service", keyword: "কৃষক বন্ধু krishak bandhu" },
+        { text: "💰 PM-Kisan কিস্তি চেক", category: "service", keyword: "pm kisan" },
+        { text: "🆔 আধার কার্ড সংশোধন", category: "service", keyword: "আধার adhaar card" },
+        { text: "📑 রেশনের কার্ড স্ট্যাটাস", category: "service", keyword: "রেশন ration card" },
+        { text: "🗳️ ভোটার কার্ড সংশোধন", category: "service", keyword: "ভোটার voter id" },
+        { text: "🏥 স্বাস্থ্যে সাথী কার্ড যাচাই", category: "service", keyword: "স্বাস্থ্য সাথী swasthya sathi" },
+        { text: "🩸 কাছাকাছি ব্লাড ব্যাংক খুঁজুন", category: "service", keyword: "ব্লাড ব্যাংক blood bank" },
+    ];
+
+    window.initSmartSearch = function() {
+        const searchInput = document.getElementById("searchInput");
+        const voiceBtn = document.getElementById("voiceSearchBtn");
+
+        if (!searchInput || !voiceBtn) return;
+
+        // ২. অ্যারো বোতাম (Arrow Button) ইনজেক্ট করা
+        const arrowBtn = document.createElement("button");
+        arrowBtn.innerHTML = "➤";
+        arrowBtn.className = "np-search-arrow";
+        arrowBtn.title = "সার্চ করুন";
+        voiceBtn.parentNode.insertBefore(arrowBtn, voiceBtn);
+
+        // ৩. সাজেশন ড্রপডাউন তৈরি করা
+        const sugBox = document.createElement("div");
+        sugBox.className = "np-suggestion-box";
+        searchInput.parentNode.appendChild(sugBox);
+
+        // ৪. আগের 'input' ইভেন্ট ব্লক করা (যাতে টাইপ করলেই সার্চ না হয়)
+        // আমরা মূল performSearch ফাংশনটি ব্যবহার করব যা unified-search.js-এ আছে।
+        const originalPerformSearch = window.performSearch;
+
+        // ৫. সাজেশন ফিল্টারিং লজিক
+        searchInput.addEventListener("input", function() {
+            const query = this.value.toLowerCase().trim();
+            sugBox.innerHTML = "";
+
+            if (query.length < 2) {
+                sugBox.style.display = "none";
+                return;
+            }
+
+            const matches = SMART_INDEX.filter(item => 
+                item.keyword.toLowerCase().includes(query) || 
+                item.text.toLowerCase().includes(query)
+            );
+
+            if (matches.length > 0) {
+                matches.forEach(match => {
+                    const div = document.createElement("div");
+                    div.className = `np-suggestion-item ${match.category}`;
+                    div.innerHTML = match.text;
+                    div.onclick = () => {
+                        searchInput.value = match.text;
+                        sugBox.style.display = "none";
+                        triggerFullSearch();
+                    };
+                    sugBox.appendChild(div);
+                });
+                sugBox.style.display = "block";
+            } else {
+                sugBox.style.display = "none";
+            }
+        });
+
+        // ৬. সার্চ ট্রিগার ফাংশন
+        function triggerFullSearch() {
+            const query = searchInput.value;
+            if (query) {
+                sugBox.style.display = "none";
+                if (typeof window.performSearch === "function") {
+                    window.performSearch(query);
+                } else {
+                    console.error("performSearch function not found in unified-search.js");
+                }
+            }
+        }
+
+        // অ্যারো বোতামে ক্লিক করলে সার্চ হবে
+        arrowBtn.onclick = triggerFullSearch;
+
+        // Enter চাপলে সার্চ হবে
+        searchInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") triggerFullSearch();
+        });
+
+        // বাইরে ক্লিক করলে সাজেশন বক্স বন্ধ হবে
+        document.addEventListener("click", (e) => {
+            if (!searchInput.contains(e.target) && !sugBox.contains(e.target)) {
+                sugBox.style.display = "none";
+            }
+        });
+    };
+
+    // পেজ লোড হওয়ার পর এবং মূল সার্চ ফাইল লোড হওয়ার পর এটি চালু হবে
+    window.addEventListener("load", () => {
+        setTimeout(window.initSmartSearch, 1000); 
+    });
+
+})();
