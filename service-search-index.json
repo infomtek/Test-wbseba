@@ -153,7 +153,7 @@
     "id": "service_land_record",
     "name": "জমির পর্চা / রেকর্ড (ROR)",
     "category": "groupFarmer",
-    "aliases": ["জমি", "জমির রেকর্ড", "জমি রেকর্ড", "জমির পর্চা", "জমির খতিয়ান", "জমির দাগ নম্বর", "জমির তথ্য", "জমি পর্চা", "বাংলার ভূমি", "বাংলারভূমি", "ভূমি রেকর্ড", "জোমির রেকর্ড", "জমির রেকট", "land", "land record", "land records", "land recod", "land rekord", "land porcha", "land khatian", "banglarbhumi", "banglar bhumi", "jomi", "jomir record", "jomi record", "jomi porcha", "khatian", "porcha", "plot number", "ror"]
+    "aliases": ["জমি", "জমির রেকর্ড", "জমি রেকর্ড", "জমির পর্চা", "জমির খতিয়ান", "জমির দাগ নম্বর", "জমির তথ্য", "জমি পর্চা", "বাংলার ভূমি", "বাংলারভূমি", "ভূমি রেকর্ড", "জোমির রেকর্ড", "জমির রেকট", "ল্যান্ড রেকর্ড", "landrecord","land", "land record", "land records", "land recod", "land rekord", "land porcha", "land khatian", "banglarbhumi", "banglar bhumi", "jomi", "jomir record", "jomi record", "jomi porcha", "khatian", "porcha", "plot number", "ror"]
   },
   {
     "id": "service_tax_holding",
@@ -213,7 +213,16 @@
     "id": "service_swasthya_bima",
     "name": "মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা",
     "category": "groupHealth",
-    "aliases": ["স্বাস্থ্য বীমা", "স্বাস্থ্য বিমা", "মুখ্যমন্ত্রী স্বাস্থ্য বীমা", "হেলথ ইন্সুরেন্স", "মুখ্যমন্ত্রী স্বাস্থ্য যোজনা", "health insurance", "health scheme", "mukhyamantri swasthya bima", "swasthya bima"]
+    "aliases": ["স্বাস্থ্য বীমা", "স্বাস্থ্য বিমা", "মুখ্যমন্ত্রী স্বাস্থ্য বীমা", "হেলথ ইন্সুরেন্স", "মুখ্যমন্ত্রী স্বাস্থ্য যোজনা", "মুখ্যমন্ত্রী",
+"মুখ্যমন্ত্রী স্বাস্থ্য",
+"মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা",
+"মুখ্যমন্ত্রী স্বাস্থ্য বিমা",
+"মুখ্যমন্ত্রি",
+"মুখ্য মন্ত্রী",
+"mukhyamantri",
+"mukhya mantri",
+"mukhyamantri swasthya bima",
+"chief minister health insurance" ,"health insurance", "health scheme", "mukhyamantri swasthya bima", "swasthya bima"]
   },
   {
     "id": "service_ayushman",
