@@ -2670,13 +2670,78 @@
         // ৩. সাজেশন ড্রপডাউন তৈরি করা
         const sugBox = document.createElement("div");
         sugBox.className = "np-suggestion-box";
-        searchInput.parentNode.appendChild(sugBox);
+        document.body.appendChild(sugBox);
+
+function positionSmartSuggestionBox() {
+  const anchor =
+    searchInput.closest(".search-box") || searchInput;
+
+  const rect = anchor.getBoundingClientRect();
+  const margin = 8;
+  const gap = 6;
+
+  const left = Math.max(margin, rect.left);
+  const width = Math.min(
+    rect.width,
+    window.innerWidth - left - margin
+  );
+
+  const top = rect.bottom + gap;
+  const maxHeight = Math.max(
+    120,
+    Math.min(350, window.innerHeight - top - margin)
+  );
+
+  const styles = {
+    position: "fixed",
+    top: `${Math.round(top)}px`,
+    left: `${Math.round(left)}px`,
+    right: "auto",
+    bottom: "auto",
+    width: `${Math.round(width)}px`,
+    maxHeight: `${Math.round(maxHeight)}px`,
+    margin: "0",
+    transform: "none",
+    overflowX: "hidden",
+    overflowY: "auto",
+    zIndex: "2147483647"
+  };
+
+  Object.entries(styles).forEach(([name, value]) => {
+    const cssName = name.replace(
+      /[A-Z]/g,
+      letter => `-${letter.toLowerCase()}`
+    );
+
+    sugBox.style.setProperty(
+      cssName,
+      value,
+      "important"
+    );
+  });
+}
+
+positionSmartSuggestionBox();
+
+window.addEventListener(
+  "resize",
+  positionSmartSuggestionBox,
+  { passive: true }
+);
+
+window.addEventListener(
+  "scroll",
+  positionSmartSuggestionBox,
+  { capture: true, passive: true }
+);;
 
         
 
         // ৫. সাজেশন ফিল্টারিং লজিক
         searchInput.addEventListener("input", function() {
-            const query = this.value.toLowerCase().trim();
+           positionSmartSuggestionBox(); 
+           
+           const query = this.value.toLowerCase().trim();
             sugBox.innerHTML = "";
 
             if (query.length < 2) {
