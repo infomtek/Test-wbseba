@@ -669,6 +669,33 @@ body[data-theme="dark"] .service-card {
     background: #2563eb;
     transform: scale(1.1);
 }
+
+/* Smart Search: নীল তীর, কোনো গোল ব্যাকগ্রাউন্ড নয় */
+.search-box {
+  position: relative;
+}
+
+.np-search-arrow {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: absolute !important;
+  right: 48px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 34px !important;
+  height: 34px !important;
+  background: transparent !important;
+  color: #2563eb !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  font-size: 26px !important;
+  font-weight: bold !important;
+  padding: 0 !important;
+  z-index: 9999 !important;
+  cursor: pointer !important;
+}
 /* ==================================================
    END — NAGORIK PORISHEBA PREMIUM CSS
    ================================================== */
