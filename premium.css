@@ -795,3 +795,84 @@ body[data-theme="dark"] .service-card {
   z-index: 10 !important;
   cursor: pointer !important;
 }
+/* =====================================
+   Nagorik Porisheba 2.4
+   Responsive List / Grid View
+===================================== */
+
+/* Mobile Grid: 2 Cards per Row */
+@media (max-width: 767px) {
+
+  .page-view-grid .app-view-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+  }
+
+  .page-view-grid .app-view-grid .service-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    text-align: center !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 100% !important;
+
+    padding: 12px 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-view-grid .app-view-grid .icon-circle {
+    margin: 0 auto 8px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .page-view-grid .app-view-grid .card-info {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .page-view-grid .app-view-grid .card-title {
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 3;
+
+    overflow: hidden !important;
+    overflow-wrap: anywhere !important;
+    line-height: 1.35 !important;
+    font-size: 13px !important;
+  }
+
+  .page-view-grid .app-view-grid .card-dept {
+    display: none !important;
+  }
+
+  /* List View: 1 Card per Row */
+  .app-view-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .app-view-list .service-card {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    text-align: left !important;
+    height: auto !important;
+    width: 100% !important;
+  }
+
+  .app-view-list .card-dept {
+    display: block !important;
+  }
+
+  .app-view-list .card-title {
+    display: block !important;
+    overflow: visible !important;
+  }
+}
