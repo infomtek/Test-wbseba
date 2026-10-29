@@ -3022,6 +3022,41 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
     <script src="/unified-search.js" defer></script>
+    <script>
+function npGoHome() {
+    const input = document.getElementById("searchInput");
+
+    // Search Input Clear
+    if (input) {
+        input.value = "";
+        input.dispatchEvent(
+            new Event("input", { bubbles: true })
+        );
+    }
+
+    // Unified Search Reset
+    if (
+        window.NPUnifiedSearch &&
+        typeof window.NPUnifiedSearch.search === "function"
+    ) {
+        window.NPUnifiedSearch.search("");
+    }
+
+    // Suggestions বন্ধ
+    const suggestionBox =
+        document.querySelector(".np-suggestion-box");
+
+    if (suggestionBox) {
+        suggestionBox.style.display = "none";
+    }
+
+    // Homepage-এর উপরে ফিরে আসা
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+</script>
 <script src="/np-ux-upgrade.js" defer></script>
 <script src="/np-bank-search.js" defer></script>    
 <script src="/np-universal-search.js" defer></script>
