@@ -147,16 +147,9 @@ async function loadServiceDatabase() {
       box.appendChild(item);
     });
 
-    box.style.display = "block";
+        box.style.display = "block";
   }, 0);
 });
-      const matches = findMatches(input.value);
-
-      console.log(
-        "Universal Search Matches:",
-        matches.map(item => item.name)
-      );
-    });
 
     console.info("NP Universal Search Prototype Ready");
   }
