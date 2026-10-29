@@ -96,6 +96,60 @@ async function loadServiceDatabase() {
      await loadServiceDatabase();
 
     input.addEventListener("input", () => {
+  const query = input.value.trim();
+
+  // পুরোনো Universal Suggestions সরিয়ে দেওয়া
+  document
+    .querySelectorAll(".np-universal-suggestion")
+    .forEach(el => el.remove());
+
+  if (query.length < 2) return;
+
+  setTimeout(() => {
+    const box =
+      document.querySelector(".np-suggestion-box");
+
+    if (!box) return;
+
+    const matches = findMatches(query);
+
+    box.querySelectorAll(".np-universal-suggestion")
+      .forEach(el => el.remove());
+
+    if (!matches.length) return;
+
+    matches.forEach(service => {
+      const item = document.createElement("div");
+
+      item.className =
+        "np-suggestion-item np-universal-suggestion";
+
+      item.textContent = service.name;
+
+      item.style.cssText = `
+        display: block;
+        padding: 12px 14px;
+        background: #ffffff;
+        color: #1e293b;
+        border-bottom: 1px solid #e5e7eb;
+        cursor: pointer;
+      `;
+
+      item.addEventListener("click", event => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        box.style.display = "none";
+
+        openService(service);
+      });
+
+      box.appendChild(item);
+    });
+
+    box.style.display = "block";
+  }, 0);
+});
       const matches = findMatches(input.value);
 
       console.log(
