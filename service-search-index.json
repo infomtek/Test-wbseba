@@ -1,0 +1,302 @@
+[
+  {
+    "id": "service_bank_balance",
+    "name": "ব্যাংক ব্যালেন্স চেক",
+    "category": "groupBanking",
+    "aliases": ["ব্যাংক ব্যালেন্স", "ব্যাঙ্ক ব্যালেন্স", "ব্যালেন্স চেক", "ব্যাংক ব্যালান্স", "ব্যাংক ব্যালেন্স চেক", "ব্যাংক একাউন্ট", "bank balance", "bank balance check", "balance enquiry", "balance inquiry", "bank account balance", "missed call banking"]
+  },
+  {
+    "id": "service_dbt_change",
+    "name": "DBT লিংক ব্যাংক পরিবর্তন",
+    "category": "groupBanking",
+    "aliases": ["ডিবিটি", "ডি বি টি", "ডিবিটি লিংক", "ডিবিটি ব্যাংক পরিবর্তন", "আধার ব্যাংক লিংক", "ব্যাংক সিডিং", "এনপিসিআই", "dbt", "dbt bank change", "dbt linking", "aadhaar bank seeding", "npci mapping", "npci mapper"]
+  },
+  {
+    "id": "service_pan_aadhaar",
+    "name": "প্যান-আধার লিংক স্ট্যাটাস",
+    "category": "groupBanking",
+    "aliases": ["প্যান আধার", "প্যান আধার লিংক", "প্যান কার্ড আধার", "প্যান লিংক স্ট্যাটাস", "প্যান আধার স্ট্যাটাস", "pan aadhaar", "pan aadhar link", "pan aadhaar status", "pan aadhar linking", "pan card link status"]
+  },
+  {
+    "id": "service_aadhaar_card",
+    "name": "আধার কার্ড",
+    "category": "groupBanking",
+    "aliases": ["আধার", "আধার কার্ড", "আধার সংশোধন", "আধার ডাউনলোড", "আধার স্ট্যাটাস", "আধার আপডেট", "আধার নাম্বার", "আধার নম্বর", "আধার কাড", "aadhaar", "aadhar", "adhar", "aad", "aadhaar card", "aadhaar update", "aadhaar download", "uidai"]
+  },
+  {
+    "id": "service_birth_verify",
+    "name": "জন্ম শংসাপত্র Verify (QR Code)",
+    "category": "groupCert",
+    "aliases": ["জন্ম শংসাপত্র", "জন্ম সার্টিফিকেট", "জন্ম নিবন্ধন", "জন্ম শংসাপত্র যাচাই", "জন্ম সার্টিফিকেট কিউআর", "বার্থ সার্টিফিকেট", "birth certificate", "birth certificate verify", "birth verification", "birth qr verification", "birth registration"]
+  },
+  {
+    "id": "service_birth_download",
+    "name": "জন্ম ও মৃত্যু শংসাপত্র Download",
+    "category": "groupCert",
+    "aliases": ["জন্ম সার্টিফিকেট ডাউনলোড", "মৃত্যু সার্টিফিকেট", "মৃত্যু শংসাপত্র", "জন্ম মৃত্যু", "জন্ম মৃত্যু সার্টিফিকেট", "ডেথ সার্টিফিকেট", "birth certificate download", "death certificate", "death certificate download", "birth death certificate"]
+  },
+  {
+    "id": "service_caste_verify",
+    "name": "কাস্ট সার্টিফিকেট Application Status",
+    "category": "groupCert",
+    "aliases": ["কাস্ট সার্টিফিকেট", "জাতিগত শংসাপত্র", "জাতি সার্টিফিকেট", "কাস্ট সার্টিফিকেট স্ট্যাটাস", "এসসি এসটি ওবিসি স্ট্যাটাস", "caste certificate", "caste status", "caste application status", "sc st obc certificate status"]
+  },
+  {
+    "id": "service_obc_verify",
+    "name": "কাস্ট সার্টিফিকেট View Certificate",
+    "category": "groupCert",
+    "aliases": ["কাস্ট সার্টিফিকেট দেখুন", "কাস্ট সার্টিফিকেট ভিউ", "ওবিসি সার্টিফিকেট", "জাতিগত শংসাপত্র দেখুন", "caste certificate view", "view caste certificate", "obc certificate", "sc st certificate view"]
+  },
+  {
+    "id": "service_panchayat_income",
+    "name": "ইনকাম সার্টিফিকেট (পঞ্চায়েত)",
+    "category": "groupCert",
+    "aliases": ["ইনকাম সার্টিফিকেট", "আয় সার্টিফিকেট", "আয়ের শংসাপত্র", "পঞ্চায়েত ইনকাম", "পঞ্চায়েত আয় সার্টিফিকেট", "income certificate", "income certificate panchayat", "panchayat income certificate", "income application"]
+  },
+  {
+    "id": "service_panchayat_income",
+    "name": "ইনকাম সার্টিফিকেট Application Status",
+    "category": "groupCert",
+    "aliases": ["ইনকাম সার্টিফিকেট স্ট্যাটাস", "আয় সার্টিফিকেট স্ট্যাটাস", "ইনকাম আবেদন স্ট্যাটাস", "income certificate status", "income application status", "panchayat income status"]
+  },
+  {
+    "id": "service_ghatal_camp",
+    "name": "জনকল্যাণ শিবির (সেবা সেতু অভিযান)",
+    "category": "groupSocial",
+    "aliases": ["জনকল্যাণ শিবির", "সেবা সেতু", "সেবা সেতু অভিযান", "সরকারি শিবির", "দুয়ারে সরকার শিবির", "জন কল্যাণ শিবির", "seba setu", "seva setu", "janakalyan camp", "government service camp"]
+  },
+  {
+    "id": "service_pension",
+    "name": "WB বার্ধক্য বিধবা দিব্যাঙ্গ ভাতা",
+    "category": "groupSocial",
+    "aliases": ["বার্ধক্য ভাতা", "বৃদ্ধ ভাতা", "বিধবা ভাতা", "দিব্যাঙ্গ ভাতা", "প্রতিবন্ধী ভাতা", "পেনশন", "পশ্চিমবঙ্গ পেনশন", "old age pension", "widow pension", "disability pension", "wb pension", "social pension"]
+  },
+  {
+    "id": "service_pension_nsap",
+    "name": "NSAP বার্ধক্য বিধবা দিব্যাঙ্গ ভাতা",
+    "category": "groupSocial",
+    "aliases": ["এনএসএপি", "এন এস এ পি", "ন্যাশনাল পেনশন", "জাতীয় সামাজিক সহায়তা", "nsap", "national social assistance programme", "nsap pension", "central pension", "old age nsap"]
+  },
+  {
+    "id": "service_vishwakarma",
+    "name": "PM বিশ্বকর্মা যোজনা",
+    "category": "groupSocial",
+    "aliases": ["বিশ্বকর্মা", "বিশ্বকর্মা যোজনা", "পিএম বিশ্বকর্মা", "প্রধানমন্ত্রী বিশ্বকর্মা", "বিশ্ব কর্মা", "vishwakarma", "pm vishwakarma", "viswakarma", "bishwakarma", "vishwakarma yojana"]
+  },
+  {
+    "id": "service_eshram",
+    "name": "ই-শ্রম কার্ড",
+    "category": "groupSocial",
+    "aliases": ["ই শ্রম", "ইশ্রম", "ই শ্রম কার্ড", "শ্রমিক কার্ড", "ই শ্রম স্ট্যাটাস", "e shram", "eshram", "e shram card", "shramik card", "e shram registration"]
+  },
+  {
+    "id": "service_annapurna",
+    "name": "অন্নপূর্ণা যোজনা Status",
+    "category": "groupSocial",
+    "aliases": ["অন্নপূর্ণা", "অন্নপূর্ণা যোজনা", "অন্নপূর্ণা স্ট্যাটাস", "অন্নপুর্না", "annapurna", "annapurna yojana", "annapurna status", "annapoorna"]
+  },
+  {
+    "id": "service_yuba_shakti",
+    "name": "যুব শক্তি Status",
+    "category": "groupSocial",
+    "aliases": ["যুব শক্তি", "যুবশক্তি", "যুব শক্তি স্ট্যাটাস", "যুব শক্তি প্রকল্প", "যুবসক্তি", "yuba shakti", "yuva shakti", "yubashakti", "youth scheme status"]
+  },
+  {
+    "id": "service_awaas",
+    "name": "PM আবাস যোজনা গ্রামীণ",
+    "category": "groupSocial",
+    "aliases": ["আবাস যোজনা", "প্রধানমন্ত্রী আবাস", "পিএম আবাস", "গ্রামীণ আবাস", "আবাস প্লাস", "বাড়ি প্রকল্প", "pm awas", "pm aawas", "pmay g", "pmay gramin", "awas plus", "pradhan mantri awas yojana"]
+  },
+  {
+    "id": "service_awaas_U",
+    "name": "PM আবাস যোজনা শহর",
+    "category": "groupSocial",
+    "aliases": ["শহরের আবাস", "শহুরে আবাস যোজনা", "আবাস আরবান", "পিএম আবাস শহর", "urban awas", "pmay urban", "pmay u", "urban housing scheme"]
+  },
+  {
+    "id": "service_awaas_U",
+    "name": "PMAY-U 2.0",
+    "category": "groupSocial",
+    "aliases": ["আবাস ২", "আবাস ২.০", "আবাস যোজনা ২", "পিএমএওয়াই ইউ ২", "pmay u 2.0", "pmay urban 2.0", "urban awas 2", "pmay 2.0"]
+  },
+  {
+    "id": "service_cyber_safety",
+    "name": "সাইবার সুরক্ষা",
+    "category": "groupCyberSafety",
+    "aliases": ["সাইবার", "সাইবার সুরক্ষা", "সাইবার স্ক্যাম", "সাইবার প্রতারণা", "অনলাইন প্রতারণা", "ফিশিং", "জাল লিংক", "সাইবার ক্রাইম", "cyber", "cyber safety", "cyber scam", "scam checker", "phishing", "fraud link", "cybercrime"]
+  },
+  {
+    "id": "service_ration",
+    "name": "রেশন কার্ড পরিষেবা",
+    "category": "groupFood",
+    "aliases": ["রেশন", "রেসন", "রেশন কার্ড", "রেশন স্ট্যাটাস", "খাদ্য সাথী", "রেশন সংশোধন", "রেশন নাম", "ration", "ration card", "ration status", "rashan card", "food ration", "khadya sathi"]
+  },
+  {
+    "id": "service_ration_pvc",
+    "name": "রেশন PVC কার্ড অর্ডার",
+    "category": "groupFood",
+    "aliases": ["রেশন পিভিসি", "রেশন পিভিসি কার্ড", "রেশন প্লাস্টিক কার্ড", "পিভিসি রেশন", "ration pvc", "ration pvc card", "ration plastic card", "pvc ration order"]
+  },
+  {
+    "id": "service_lpg",
+    "name": "LPG গ্যাস বুকিং ও e-KYC",
+    "category": "groupFood",
+    "aliases": ["এলপিজি", "এল পি জি", "গ্যাস বুকিং", "রান্নার গ্যাস", "গ্যাস ইকেওয়াইসি", "গ্যাস কেওয়াইসি", "ইন্ডেন", "ভারত গ্যাস", "এইচপি গ্যাস", "lpg", "lpg gas", "gas booking", "gas ekyc", "indane", "bharat gas", "hp gas"]
+  },
+  {
+    "id": "service_crop_insurance",
+    "name": "প্রধানমন্ত্রী ফসল বীমা যোজনা",
+    "category": "groupFarmer",
+    "aliases": ["ফসল বীমা", "ফসল বিমা", "কৃষি বীমা", "প্রধানমন্ত্রী ফসল বীমা", "পিএমএফবিওয়াই", "crop insurance", "pmfby", "fasal bima", "fasal beema", "pradhan mantri fasal bima yojana"]
+  },
+  {
+    "id": "service_land_record",
+    "name": "জমির পর্চা / রেকর্ড (ROR)",
+    "category": "groupFarmer",
+    "aliases": ["জমি", "জমির রেকর্ড", "জমি রেকর্ড", "জমির পর্চা", "জমির খতিয়ান", "জমির দাগ নম্বর", "জমির তথ্য", "জমি পর্চা", "বাংলার ভূমি", "বাংলারভূমি", "ভূমি রেকর্ড", "জোমির রেকর্ড", "জমির রেকট", "land", "land record", "land records", "land recod", "land rekord", "land porcha", "land khatian", "banglarbhumi", "banglar bhumi", "jomi", "jomir record", "jomi record", "jomi porcha", "khatian", "porcha", "plot number", "ror"]
+  },
+  {
+    "id": "service_tax_holding",
+    "name": "খাজনা ও বাড়ির হোল্ডিং ট্যাক্স",
+    "category": "groupFarmer",
+    "aliases": ["খাজনা", "জমির খাজনা", "ভূমি কর", "হোল্ডিং ট্যাক্স", "বাড়ির ট্যাক্স", "বাড়ি কর", "holding tax", "land tax", "land revenue", "khajna", "property tax", "house tax"]
+  },
+  {
+    "id": "service_krishak_old",
+    "name": "কৃষক বন্ধু আইডি চেক পুরনো পোর্টাল",
+    "category": "groupFarmer",
+    "aliases": ["কৃষক বন্ধু", "কৃষক আইডি", "কৃষক বন্ধু পুরনো", "কৃষক বন্ধু আইডি চেক", "কৃষক বনধু", "krishak bandhu", "krishok bondhu", "krishak id", "krishak bandhu old portal"]
+  },
+  {
+    "id": "service_krishak_new",
+    "name": "নতুন কৃষক বন্ধু পোর্টাল",
+    "category": "groupFarmer",
+    "aliases": ["কৃষক বন্ধু", "নতুন কৃষক বন্ধু", "কৃষক বন্ধু নতুন পোর্টাল", "কৃষক বন্ধু স্ট্যাটাস", "কৃষক বান্ধব", "krishak bandhu", "krishak bandhu new", "new krishak bandhu portal", "krishok bondhu status"]
+  },
+  {
+    "id": "service_pm_kisan",
+    "name": "PM Kisan স্ট্যাটাস ও e-KYC",
+    "category": "groupFarmer",
+    "aliases": ["পিএম কিষান", "পি এম কিষান", "প্রধানমন্ত্রী কিষান", "কিষান সম্মান নিধি", "কিষান স্ট্যাটাস", "কিষান ইকেওয়াইসি", "pm kisan", "pmkisan", "pm kisan status", "pm kisan ekyc", "kisan samman nidhi"]
+  },
+  {
+    "id": "service_agristack",
+    "name": "AgriStack কৃষক ID",
+    "category": "groupFarmer",
+    "aliases": ["এগ্রিস্ট্যাক", "এগ্রি স্ট্যাক", "কৃষক আইডি", "ফার্মার আইডি", "কৃষক নিবন্ধন", "agristack", "agri stack", "farmer id", "farmer registration", "agristack farmer id"]
+  },
+  {
+    "id": "service_ghatal_opd",
+    "name": "ঘাটাল সুপার স্পেশালিটি OPD টিকিট",
+    "category": "groupHealth",
+    "aliases": ["ঘাটাল হাসপাতাল", "ঘাটাল ওপিডি", "ঘাটাল টিকিট", "ঘাটাল সুপার স্পেশালিটি", "ghatal hospital", "ghatal opd", "ghatal opd ticket", "ghatal super speciality"]
+  },
+  {
+    "id": "service_kolkata_opd",
+    "name": "মেডিকেল কলেজ OPD ও ল্যাব রিপোর্ট",
+    "category": "groupHealth",
+    "aliases": ["মেডিকেল কলেজ", "কলকাতা মেডিকেল", "হাসপাতাল ওপিডি", "ল্যাব রিপোর্ট", "মেডিকেল রিপোর্ট", "medical college opd", "kolkata medical college", "opd booking", "lab report", "hospital report"]
+  },
+  {
+    "id": "service_blood_bank",
+    "name": "রক্তের সন্ধান ও ব্লাড ব্যাংক",
+    "category": "groupHealth",
+    "aliases": ["রক্ত", "রক্তের সন্ধান", "রক্ত দরকার", "ব্লাড ব্যাংক", "রক্তের স্টক", "রক্ত কোথায় পাব", "blood", "blood bank", "blood stock", "blood availability", "blood donor", "e raktkosh", "eraktkosh"]
+  },
+  {
+    "id": "service_swasthya_sathi",
+    "name": "স্বাস্থ্যসাথী কার্ড ভেরিফিকেশন",
+    "category": "groupHealth",
+    "aliases": ["স্বাস্থ্য সাথী", "স্বাস্থ্যসাথী", "স্বাস্হ্য সাথী", "স্বাস্থ্য সাথী কার্ড", "স্বাস্থ্য সাথী স্ট্যাটাস", "স্বাস্থ্য সাথী যাচাই", "swasthya sathi", "swasthya", "swas", "swasthya sathi card", "swasthya sathi verification"]
+  },
+  {
+    "id": "service_swasthya_bima",
+    "name": "মুখ্যমন্ত্রী স্বাস্থ্য বীমা যোজনা",
+    "category": "groupHealth",
+    "aliases": ["স্বাস্থ্য বীমা", "স্বাস্থ্য বিমা", "মুখ্যমন্ত্রী স্বাস্থ্য বীমা", "হেলথ ইন্সুরেন্স", "মুখ্যমন্ত্রী স্বাস্থ্য যোজনা", "health insurance", "health scheme", "mukhyamantri swasthya bima", "swasthya bima"]
+  },
+  {
+    "id": "service_ayushman",
+    "name": "আয়ুষ্মান ভারত কার্ড (PMJAY)",
+    "category": "groupHealth",
+    "aliases": ["আয়ুষ্মান", "আয়ুষ্মান ভারত", "আয়ুষমান ভারত", "আয়ুস্মান", "আয়ুশমান", "আয়ুষ্মান কার্ড", "আয়ুষ্মান স্ট্যাটাস", "ayushman", "ayushman bharat", "ayusman", "ayush", "ayu", "pmjay", "pm jay", "ayushman card", "ayushman bharat card"]
+  },
+  {
+    "id": "service_abha",
+    "name": "আভা (ABHA) কার্ড ডাউনলোড",
+    "category": "groupHealth",
+    "aliases": ["আভা", "আভা কার্ড", "আভা হেলথ আইডি", "এবিএইচএ", "abha", "abha card", "abha health id", "abha download", "health id", "ayushman bharat health account"]
+  },
+  {
+    "id": "service_vahan_rc",
+    "name": "গাড়ির বিবরণ ও মালিক (RC)",
+    "category": "groupVehicle",
+    "aliases": ["গাড়ির মালিক", "গাড়ির বিবরণ", "গাড়ির নম্বর", "আরসি", "আর সি", "গাড়ির রেজিস্ট্রেশন", "vehicle rc", "rc details", "vehicle owner", "vehicle registration", "vahan", "parivahan", "registration certificate"]
+  },
+  {
+    "id": "service_dl_status",
+    "name": "ড্রাইভিং লাইসেন্স Status",
+    "category": "groupVehicle",
+    "aliases": ["ড্রাইভিং লাইসেন্স", "ড্রাইভিং লাইসেন্স স্ট্যাটাস", "ডিএল", "ডি এল", "লাইসেন্স চেক", "driving licence", "driving license", "dl status", "driving licence status", "sarathi"]
+  },
+  {
+    "id": "service_traffic_challan",
+    "name": "ট্রাফিক ই-চালান ও ফাইন",
+    "category": "groupVehicle",
+    "aliases": ["ট্রাফিক চালান", "ই চালান", "ইচালান", "গাড়ির ফাইন", "ট্রাফিক ফাইন", "চালান স্ট্যাটাস", "traffic challan", "e challan", "echallan", "traffic fine", "vehicle challan", "challan status"]
+  },
+  {
+    "id": "service_pink_card",
+    "name": "পিঙ্ক কার্ড",
+    "category": "groupVehicle",
+    "aliases": ["পিঙ্ক কার্ড", "পিংক কার্ড", "পিংক কাড", "pink card", "pinkcard"]
+  },
+  {
+    "id": "service_voter_search",
+    "name": "ভোটার লিস্টে নাম অনুসন্ধান",
+    "category": "groupVoter",
+    "aliases": ["ভোটার লিস্ট", "ভোটার তালিকা", "ভোটার নাম", "ভোটার লিস্টে নাম", "ভোটার অনুসন্ধান", "voter list", "electoral roll", "voter search", "voter name search", "electoral search"]
+  },
+  {
+    "id": "service_voter_update",
+    "name": "নতুন ভোটার কার্ড ও সংশোধন",
+    "category": "groupVoter",
+    "aliases": ["ভোটার কার্ড", "নতুন ভোটার", "ভোটার সংশোধন", "ভোটার আইডি", "এপিক কার্ড", "voter card", "voter id", "new voter registration", "voter correction", "epic card", "form 6", "form 8"]
+  },
+  {
+    "id": "service_sir_2002",
+    "name": "SIR লিস্ট 2002",
+    "category": "groupVoter",
+    "aliases": ["এসআইআর ২০০২", "এস আই আর ২০০২", "২০০২ ভোটার লিস্ট", "পুরনো ভোটার লিস্ট", "sir 2002", "sir list 2002", "2002 voter list", "old electoral roll 2002"]
+  },
+  {
+    "id": "service_sir_2026",
+    "name": "SIR লিস্ট 2026",
+    "category": "groupVoter",
+    "aliases": ["এসআইআর ২০২৬", "এস আই আর ২০২৬", "২০২৬ ভোটার লিস্ট", "নতুন এসআইআর", "sir 2026", "sir list 2026", "2026 voter list", "sir electoral roll 2026"]
+  },
+  {
+    "id": "service_bill_pay",
+    "name": "বিদ্যুৎ বিল পেমেন্ট (Quick Pay)",
+    "category": "groupElectric",
+    "aliases": ["বিদ্যুৎ বিল", "কারেন্ট বিল", "ইলেকট্রিক বিল", "বিদ্যুৎ বিল পেমেন্ট", "বিদ্যুৎ বিল জমা", "কুইক পে", "electricity bill", "electric bill payment", "wbsedcl", "quick pay", "current bill", "pay electricity bill"]
+  },
+  {
+    "id": "service_bill_receipt",
+    "name": "বিল পেমেন্ট রসিদ ডাউনলোড",
+    "category": "groupElectric",
+    "aliases": ["বিদ্যুৎ রসিদ", "বিলের রসিদ", "পেমেন্ট রসিদ", "বিদ্যুৎ বিল রিসিপ্ট", "electricity receipt", "bill receipt", "payment receipt", "electricity payment receipt", "download bill receipt"]
+  },
+  {
+    "id": "service_bill_view",
+    "name": "বিদ্যুৎ বিল View ও Download",
+    "category": "groupElectric",
+    "aliases": ["বিদ্যুৎ বিল দেখুন", "বিদ্যুৎ বিল ডাউনলোড", "কারেন্ট বিল দেখুন", "ইলেকট্রিক বিল ভিউ", "electricity bill view", "view electricity bill", "download electricity bill", "bill download", "wbsedcl bill view"]
+  },
+  {
+    "id": "service_current_complaint",
+    "name": "বিদ্যুৎ বিভ্রাট ও অভিযোগ",
+    "category": "groupElectric",
+    "aliases": ["বিদ্যুৎ নেই", "কারেন্ট নেই", "লোডশেডিং", "বিদ্যুৎ অভিযোগ", "বিদ্যুৎ বিভ্রাট", "কারেন্ট চলে গেছে", "পাওয়ার কাট", "power cut", "power outage", "electricity complaint", "load shedding", "wbsedcl complaint", "electricity fault"]
+  }
+]
