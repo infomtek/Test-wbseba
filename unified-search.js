@@ -2653,9 +2653,7 @@
         sugBox.className = "np-suggestion-box";
         searchInput.parentNode.appendChild(sugBox);
 
-        // ৪. আগের 'input' ইভেন্ট ব্লক করা (যাতে টাইপ করলেই সার্চ না হয়)
-        // আমরা মূল performSearch ফাংশনটি ব্যবহার করব যা unified-search.js-এ আছে।
-        const originalPerformSearch = window.performSearch;
+        
 
         // ৫. সাজেশন ফিল্টারিং লজিক
         searchInput.addEventListener("input", function() {
@@ -2695,10 +2693,14 @@
             const query = searchInput.value;
             if (query) {
                 sugBox.style.display = "none";
-                if (typeof window.performSearch === "function") {
-                    window.performSearch(query);
-                } else {
-                    console.error("performSearch function not found in unified-search.js");
+                if (
+    window.NPUnifiedSearch &&
+    typeof window.NPUnifiedSearch.search === "function"
+) {
+    window.NPUnifiedSearch.search(query);
+} else {
+    console.error(
+        "Unified Search Engine এখনও প্রস্তুত নয়"");
                 }
             }
         }
