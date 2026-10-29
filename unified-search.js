@@ -2660,12 +2660,8 @@
 
         if (!searchInput || !voiceBtn) return;
 
-        // ২. অ্যারো বোতাম (Arrow Button) ইনজেক্ট করা
-        const arrowBtn = document.createElement("button");
-        arrowBtn.innerHTML = "➤";
-        arrowBtn.className = "np-search-arrow";
-        arrowBtn.title = "সার্চ করুন";
-        voiceBtn.parentNode.insertBefore(arrowBtn, voiceBtn);
+        // index.html-এর বিদ্যমান Search Button ব্যবহার
+const arrowBtn = document.getElementById("npSearchArrow");
 
         // ৩. সাজেশন ড্রপডাউন তৈরি করা
         const sugBox = document.createElement("div");
