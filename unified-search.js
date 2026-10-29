@@ -2810,3 +2810,21 @@ window.addEventListener(
     });
 
 })();
+/* Final search dropdown and modal layer correction */
+.search-box {
+  position: relative !important;
+  z-index: auto !important;
+  overflow: visible !important;
+}
+
+body > .np-suggestion-box {
+  position: fixed !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(148, 163, 184, 0.28) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.24) !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  z-index: 2147483647 !important;
+}
