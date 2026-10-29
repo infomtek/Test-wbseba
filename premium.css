@@ -760,3 +760,38 @@ body[data-theme="dark"] .service-card {
 /* ==================================================
    END — NAGORIK PORISHEBA PREMIUM CSS
    ================================================== */
+/* Nagorik Porisheba 2.4 — Search Layer Fix */
+
+.search-box {
+  position: relative !important;
+  z-index: auto !important;
+}
+
+/* Blue Search Arrow */
+.np-search-arrow {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  position: absolute !important;
+  right: 48px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+
+  width: 34px !important;
+  height: 34px !important;
+
+  background: transparent !important;
+  color: #2563eb !important;
+
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+
+  font-size: 26px !important;
+  font-weight: bold !important;
+  padding: 0 !important;
+
+  z-index: 10 !important;
+  cursor: pointer !important;
+}
