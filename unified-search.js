@@ -2550,12 +2550,31 @@
     input.dataset.npInputBound = "1";
 
     input.addEventListener("input", () => {
-      clearTimeout(state.searchTimer);
 
-      state.searchTimer = setTimeout(() => {
-        performSearch(input.value);
-      }, CONFIG.debounceMs);
-    });
+    clearTimeout(state.searchTimer);
+
+    const query = input.value.trim();
+
+    // Search সম্পূর্ণ Clear হলে Homepage ফিরবে
+    if (query === "") {
+
+        performSearch("");
+
+        const suggestionBox =
+            document.querySelector(".np-suggestion-box");
+
+        if (suggestionBox) {
+            suggestionBox.innerHTML = "";
+            suggestionBox.style.display = "none";
+        }
+
+        return;
+    }
+
+    // Typing চলাকালে পুরোনো Full Search বন্ধ
+    // Suggestions নতুন Search Module পরিচালনা করবে
+
+});
 
     input.addEventListener("keydown", event => {
       if (event.key !== "Enter") return;
