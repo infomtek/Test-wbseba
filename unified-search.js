@@ -2718,8 +2718,7 @@
 ) {
     window.NPUnifiedSearch.search(query);
 } else {
-    console.error(
-        "Unified Search Engine এখনও প্রস্তুত নয়"");
+    console.error("Unified Search Engine এখনও প্রস্তুত নয়");
                 }
             }
         }
