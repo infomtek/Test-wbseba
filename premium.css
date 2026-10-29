@@ -1283,3 +1283,30 @@ body[data-theme="dark"] .service-card {
     display: block !important;
   }
 }
+/* =====================================
+   Nagorik Porisheba 2.4
+   Mobile List View Spacing
+===================================== */
+
+@media (max-width: 767px) {
+
+  /* Category Folder-এর মধ্যে Gap */
+  #appMainContainer:not(.page-view-grid)
+  #mainCategoriesContainer {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  /* Emergency Card-এর নিচে Gap */
+  #appMainContainer:not(.page-view-grid)
+  .standalone-emergency-card {
+    margin-bottom: 12px !important;
+  }
+
+  /* Category Card-এর ভিতরের Service List */
+  #appMainContainer:not(.page-view-grid)
+  .app-view-list {
+    gap: 10px !important;
+  }
+}
