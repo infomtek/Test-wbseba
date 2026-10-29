@@ -55,17 +55,79 @@ async function loadServiceDatabase() {
   }
 
   function findMatches(query) {
-    const q = normalize(query);
+  const q = normalize(query);
 
-    if (q.length < 2) return [];
+  if (q.length < 2) return [];
 
-    return SERVICE_ALIASES.filter(service =>
-      service.aliases.some(alias =>
-        normalize(alias).includes(q) ||
-        q.includes(normalize(alias))
-      )
-    );
+  function compact(text) {
+    return normalize(text).replace(/\s+/g, "");
   }
+
+  function editDistance(a, b) {
+    const dp = Array.from(
+      { length: a.length + 1 },
+      () => new Array(b.length + 1).fill(0)
+    );
+
+    for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+    for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+
+    for (let i = 1; i <= a.length; i++) {
+      for (let j = 1; j <= b.length; j++) {
+        dp[i][j] = Math.min(
+          dp[i - 1][j] + 1,
+          dp[i][j - 1] + 1,
+          dp[i - 1][j - 1] +
+            (a[i - 1] === b[j - 1] ? 0 : 1)
+        );
+      }
+    }
+
+    return dp[a.length][b.length];
+  }
+
+  function scoreAlias(alias) {
+    const a = normalize(alias);
+    const aq = compact(alias);
+    const cq = compact(query);
+
+    if (a === q || aq === cq) return 100;
+    if (a.startsWith(q) || aq.startsWith(cq)) return 85;
+    if (a.includes(q) || aq.includes(cq)) return 65;
+    if (q.includes(a) && a.length >= 3) return 55;
+
+    // খুব ছোট শব্দে Fuzzy Matching নয়
+    if (cq.length < 4) return 0;
+
+    // অতিরিক্ত দীর্ঘ শব্দের সঙ্গে তুলনা নয়
+    if (Math.abs(cq.length - aq.length) > 2) return 0;
+
+    const distance = editDistance(cq, aq);
+
+    if (distance === 1) return 45;
+    if (cq.length >= 6 && distance === 2) return 30;
+
+    return 0;
+  }
+
+  return SERVICE_ALIASES
+    .map(service => {
+      const aliases = [
+        service.name,
+        ...(service.aliases || [])
+      ];
+
+      const score = Math.max(
+        0,
+        ...aliases.map(scoreAlias)
+      );
+
+      return { ...service, score };
+    })
+    .filter(service => service.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 10);
+}
 
   function openService(service) {
     const cards = Array.from(
