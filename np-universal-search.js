@@ -9,38 +9,42 @@
 
   if (window.NPUniversalSearch) return;
 
-  const SERVICE_ALIASES = [
-    {
-      id: "service_land_record",
-      name: "🌍 জমির পর্চা / রেকর্ড (ROR)",
-      category: "groupFarmer",
-      aliases: [
-        "জমির রেকর্ড",
-        "জমি রেকর্ড",
-        "জমির পর্চা",
-        "জমির খতিয়ান",
-        "জমির তথ্য",
-        "বাংলারভূমি",
-        "বাংলার ভূমি",
-        "ভূমি রেকর্ড",
-        "জোমির রেকর্ড",
-        "জমির রেকট",
-        "land record",
-        "land records",
-        "land recod",
-        "land rekord",
-        "banglarbhumi",
-        "banglar bhumi",
-        "jomi record",
-        "jomir record",
-        "jomi porcha",
-        "khatian",
-        "porcha",
-        "ror"
-      ]
-    }
-  ];
+let SERVICE_ALIASES = [];
 
+async function loadServiceDatabase() {
+  try {
+    const response = await fetch(
+      "/service-search-index.json",
+      { cache: "no-store" }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Service Database HTTP ${response.status}`
+      );
+    }
+
+    const data = await response.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error("Invalid Service Database");
+    }
+
+    SERVICE_ALIASES = data;
+
+    console.info(
+      "NP Universal Search Database loaded:",
+      SERVICE_ALIASES.length,
+      "services"
+    );
+
+  } catch (error) {
+    console.error(
+      "Universal Search Database Load Error:",
+      error
+    );
+  }
+}
   function normalize(text) {
     return String(text || "")
       .toLowerCase()
@@ -81,7 +85,7 @@
     card.click();
   }
 
-  function initialize() {
+  async function initialize() {
     const input = document.getElementById("searchInput");
 
     if (!input || input.dataset.npUniversalBound === "1") {
@@ -89,6 +93,7 @@
     }
 
     input.dataset.npUniversalBound = "1";
+     await loadServiceDatabase();
 
     input.addEventListener("input", () => {
       const matches = findMatches(input.value);
