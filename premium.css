@@ -1310,3 +1310,11 @@ body[data-theme="dark"] .service-card {
     gap: 10px !important;
   }
 }
+/* Emergency Text Size — Mobile Grid Only */
+@media (max-width: 767px) {
+  .page-view-grid .standalone-emergency-card .sec-title {
+    font-size: 16px !important;
+    line-height: 1.25 !important;
+    font-weight: 800 !important;
+  }
+}
