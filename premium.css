@@ -876,3 +876,69 @@ body[data-theme="dark"] .service-card {
     overflow: visible !important;
   }
 }
+/* ======================================
+   Nagorik Porisheba 2.4
+   Homepage Responsive Grid / List
+====================================== */
+
+/* Grid View */
+@media (max-width: 767px) {
+
+  .page-view-grid .content:has(> #mainCategoriesContainer) {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    align-items: start !important;
+  }
+
+  /* Banner ও অন্যান্য Section Full Width */
+  .page-view-grid .content:has(> #mainCategoriesContainer) > * {
+    grid-column: 1 / -1;
+  }
+
+  /* Category Container-এর Folder সরাসরি Grid Item */
+  .page-view-grid #mainCategoriesContainer {
+    display: contents !important;
+  }
+
+  .page-view-grid #mainCategoriesContainer > .category-group {
+    grid-column: auto !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* খোলা Folder পুরো Width */
+  .page-view-grid #mainCategoriesContainer > .category-group.open {
+    grid-column: 1 / -1 !important;
+  }
+
+  /* Emergency Card Grid-এর একটি Item */
+  .page-view-grid .standalone-emergency-card {
+    grid-column: auto !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Emergency Call Button */
+  .page-view-grid .sec-call-btn {
+    min-width: 42px !important;
+    min-height: 42px !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+/* List View — আগের Layout */
+@media (max-width: 767px) {
+
+  #appMainContainer:not(.page-view-grid)
+  .content:has(> #mainCategoriesContainer) {
+    display: block !important;
+  }
+
+  #appMainContainer:not(.page-view-grid)
+  #mainCategoriesContainer {
+    display: block !important;
+  }
+}
