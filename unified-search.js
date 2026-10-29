@@ -2787,10 +2787,6 @@ window.addEventListener(
         // অ্যারো বোতামে ক্লিক করলে সার্চ হবে
         arrowBtn.onclick = triggerFullSearch;
 
-        // Enter চাপলে সার্চ হবে
-        searchInput.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") triggerFullSearch();
-        });
 
         // বাইরে ক্লিক করলে সাজেশন বক্স বন্ধ হবে
         document.addEventListener("click", (e) => {
