@@ -3004,7 +3004,24 @@ document.addEventListener('DOMContentLoaded', () => {
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
-<script src="/unified-search.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const arrow = document.getElementById("npSearchArrow");
+  const input = document.getElementById("searchInput");
+
+  if (!arrow || !input) return;
+
+  arrow.addEventListener("click", function () {
+    if (
+      window.NPUnifiedSearch &&
+      typeof window.NPUnifiedSearch.search === "function"
+    ) {
+      window.NPUnifiedSearch.search(input.value);
+    }
+  });
+});
+</script>
+    <script src="/unified-search.js" defer></script>
 <script src="/np-ux-upgrade.js" defer></script>
 <script src="/np-bank-search.js" defer></script>    
 </body>
