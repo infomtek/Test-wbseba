@@ -1663,11 +1663,21 @@ function npRenderAdminSearch(type) {
 
     const emergency = detectEmergency(query);
 
-    if (emergency) {
-      return { kind: "emergency", emergency };
-    }
+if (emergency) {
+  return { kind: "emergency", emergency };
+}
 
-    const facility = detectFacility(query);
+// SDO / BDO / SDPO Administrative Search
+const admin = npDetectAdmin(query);
+
+if (admin) {
+  return {
+    kind: "administrative",
+    admin
+  };
+}
+
+const facility = detectFacility(query);
 
     if (facility) {
       return {
@@ -2601,9 +2611,13 @@ function npRenderAdminSearch(type) {
       state.currentIntent = intent;
 
       switch (intent.kind) {
-        case "governmentIndex":
-          npRenderGovernmentResults(intent.results);
-          break;
+  case "administrative":
+    npRenderAdminSearch(intent.admin);
+    break;
+
+  case "governmentIndex":
+    npRenderGovernmentResults(intent.results);
+    break;
 
         case "emergency":
           renderEmergency(intent.emergency);
