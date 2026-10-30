@@ -3026,5 +3026,75 @@ document.addEventListener("DOMContentLoaded", function () {
 <script src="/np-ux-upgrade.js" defer></script>
 <script src="/np-bank-search.js" defer></script>    
 <script src="/np-universal-search.js" defer></script>
+<!-- ===== NP 2.5 SMART QR & BARCODE SCANNER ===== -->
+
+<div id="npQrScannerModal"
+     class="modal-overlay"
+     onclick="closeModal('npQrScannerModal')">
+
+  <div class="modal-box"
+       onclick="event.stopPropagation()">
+
+    <div class="modal-header">
+      <h3>📷 স্মার্ট QR ও Barcode স্ক্যানার</h3>
+
+      <button class="modal-close"
+              onclick="closeModal('npQrScannerModal')">
+        &times;
+      </button>
+    </div>
+
+    <div class="modal-scroll-area">
+
+      <p>
+        QR Code, IMEI, Speed Post, Courier ও Product Barcode
+        স্ক্যান করে তথ্য Copy করুন।
+      </p>
+
+      <!-- Camera Preview -->
+      <div id="npScannerCamera"></div>
+
+      <!-- Scanner Controls -->
+      <div class="np-scanner-actions">
+
+        <button type="button" id="npScannerStart">
+          📷 Camera চালু করুন
+        </button>
+
+        <button type="button" id="npScannerStop">
+          ⏹ Camera বন্ধ করুন
+        </button>
+
+        <label for="npScannerUpload">
+          🖼️ ছবি থেকে স্ক্যান
+        </label>
+
+        <input type="file"
+               id="npScannerUpload"
+               accept="image/*">
+      </div>
+
+      <!-- Result -->
+      <h4>স্ক্যানের ফলাফল</h4>
+
+      <textarea id="npScannerResult"
+                readonly
+                rows="4"
+                placeholder="স্ক্যান করা তথ্য এখানে দেখা যাবে"></textarea>
+
+      <button type="button" id="npScannerCopy">
+        📋 Copy করুন
+      </button>
+
+      <div id="npScannerSecurity"></div>
+
+      <p>
+        🔐 স্ক্যান করা তথ্য Website-এর Server বা
+        Google Sheets-এ সংরক্ষণ করা হবে না।
+      </p>
+
+    </div>
+  </div>
+</div>
 </body>
 </html>
