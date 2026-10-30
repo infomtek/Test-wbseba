@@ -1741,7 +1741,16 @@ function npFindDirectoryEntries(rawQuery) {
     })
     .slice(0, 30);
 }
+/* -------- SAFE HTML TEXT -------- */
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 function npRenderDirectoryEntries(entries) {
   if (!entries.length) return;
 
