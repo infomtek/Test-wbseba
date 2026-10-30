@@ -186,40 +186,8 @@
 
 /* ===== SCANNER CARD BESIDE EMERGENCY ===== */
 
-function addHomepageScannerButton() {
-  if (document.getElementById("npScannerHomeButton")) return;
 
-  const emergencyCard =
-    document.querySelector(".standalone-emergency-card");
-
-  if (!emergencyCard) return;
-
-  const button = document.createElement("button");
-
-  button.type = "button";
-  button.id = "npScannerHomeButton";
-  button.className = "np-scanner-grid-card";
-
-  button.innerHTML = `
-    <span class="np-scanner-card-icon">📷</span>
-    <span class="np-scanner-card-title">
-      স্মার্ট QR ও Barcode স্ক্যানার
-    </span>
-  `;
-
-  button.addEventListener("click", () => {
-    if (typeof window.openModal === "function") {
-      window.openModal("npQrScannerModal");
-    }
-  });
-
-  emergencyCard.insertAdjacentElement(
-    "afterend",
-    button
-  );
-}
   function initialize() {
-  addHomepageScannerButton();
     document.getElementById("npScannerStart")
       ?.addEventListener(
         "click",
