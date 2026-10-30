@@ -123,17 +123,26 @@
       ]
     },
 
-    police: {
-      label: "থানা",
-      aliases: [
-        "police", "police station", "thana",
-        "থানা", "পুলিশ", "পুলিশ স্টেশন"
-      ],
-      osm: [
-        'node["amenity"="police"]',
-        'way["amenity"="police"]'
-      ]
-    },
+   fire: {
+  label: "দমকল কেন্দ্র",
+  aliases: [
+    "fire",
+    "fire station",
+    "fire brigade",
+    "দমকল",
+    "দমকল কেন্দ্র",
+    "ফায়ার",
+    "ফায়ার",
+    "ফায়ার ব্রিগেড",
+    "ফায়ার ব্রিগেড",
+    "ফায়ার স্টেশন",
+    "অগ্নিনির্বাপণ কেন্দ্র"
+  ],
+  osm: [
+    'node["amenity"="fire_station"]',
+    'way["amenity"="fire_station"]'
+  ]
+},
 
     fire: {
       label: "দমকল কেন্দ্র",
