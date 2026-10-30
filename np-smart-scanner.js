@@ -184,6 +184,8 @@
   /* ---------- INITIALIZE ---------- */
 /* ---------- HOMEPAGE SCANNER BUTTON ---------- */
 
+/* ===== SCANNER CARD BESIDE EMERGENCY ===== */
+
 function addHomepageScannerButton() {
   if (document.getElementById("npScannerHomeButton")) return;
 
@@ -196,11 +198,14 @@ function addHomepageScannerButton() {
 
   button.type = "button";
   button.id = "npScannerHomeButton";
+  button.className = "np-scanner-grid-card";
 
-  button.textContent =
-    "📷 স্মার্ট QR ও Barcode স্ক্যানার";
-
-  button.className = "np-scanner-home-card";
+  button.innerHTML = `
+    <span class="np-scanner-card-icon">📷</span>
+    <span class="np-scanner-card-title">
+      স্মার্ট QR ও Barcode স্ক্যানার
+    </span>
+  `;
 
   button.addEventListener("click", () => {
     if (typeof window.openModal === "function") {
