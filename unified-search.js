@@ -2689,10 +2689,25 @@ const facility = detectFacility(query);
     recognition.onstart = () => setMicState(true);
 
     recognition.onresult = event => {
-      const transcript = event.results?.[0]?.[0]?.transcript || "";
+  const transcript = event.results?.[0]?.[0]?.transcript?.trim() || "";
 
-      if (transcript) setSearchText(transcript);
-    };
+  if (!transcript) return;
+
+  // Voice-এর কথা Search Box-এ বসবে
+  setSearchText(transcript);
+
+  // Voice Recognition শেষ হলে Automatic Full Search
+  setTimeout(() => {
+    const input = document.getElementById(CONFIG.searchInput);
+
+    if (!input) return;
+
+    // ব্যবহারকারী এর মধ্যে Text পরিবর্তন করলে পুরোনো Voice Search চলবে না
+    if (input.value.trim() !== transcript) return;
+
+    performSearch(transcript);
+  }, 300);
+};
 
     recognition.onerror = () => {
       showCards([
