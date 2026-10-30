@@ -1724,6 +1724,18 @@ function npOpenDirectoryPlace(place) {
 
     if (!query) return { kind: "empty" };
 
+// জেলা ও মহকুমার নাম শনাক্ত
+const directoryPlace = npDetectDirectoryPlace(query);
+
+if (directoryPlace) {
+  return {
+    kind: "directoryPlace",
+    place: directoryPlace
+  };
+}
+
+const emergency = detectEmergency(query);
+
     const emergency = detectEmergency(query);
 
 if (emergency) {
@@ -2674,6 +2686,10 @@ const facility = detectFacility(query);
       state.currentIntent = intent;
 
       switch (intent.kind) {
+ case "directoryPlace":
+  npOpenDirectoryPlace(intent.place);
+  break;
+            
   case "administrative":
     npRenderAdminSearch(intent.admin);
     break;
