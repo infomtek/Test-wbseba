@@ -194,7 +194,48 @@ async function startCamera() {
       } catch {}
     }
   }
+/* ===== HOMEPAGE QR SCANNER CARD ===== */
 
+function addQrScannerHomeCard() {
+  if (document.getElementById("npQrHomeCard")) return;
+
+  const emergency = document.querySelector(
+    ".standalone-emergency-card"
+  );
+
+  if (!emergency) return;
+
+  const row = document.createElement("div");
+  row.id = "npQrHomeRow";
+  row.className = "np-qr-home-row";
+
+  const card = document.createElement("div");
+  card.id = "npQrHomeCard";
+  card.className = "category-group soft-cat-blue np-qr-home-card";
+
+  card.innerHTML = `
+    <div class="category-header">
+      <div class="category-header-title">
+        <div class="category-icon-badge">📷</div>
+        <span>QR & Barcode Scanner</span>
+      </div>
+      <span class="material-symbols-outlined category-arrow">
+        qr_code_scanner
+      </span>
+    </div>
+  `;
+
+  card.addEventListener("click", () => {
+    if (typeof window.openModal === "function") {
+      window.openModal("npQrScannerModal");
+    }
+  });
+
+  emergency.before(row);
+
+  row.appendChild(emergency);
+  row.appendChild(card);
+}
   /* ---------- INITIALIZE ---------- */
 /* ---------- HOMEPAGE SCANNER BUTTON ---------- */
 
@@ -202,7 +243,8 @@ async function startCamera() {
 
 
   function initialize() {
-    document.getElementById("npScannerStart")
+    addQrScannerHomeCard();
+     document.getElementById("npScannerStart")
       ?.addEventListener(
         "click",
         startCamera
