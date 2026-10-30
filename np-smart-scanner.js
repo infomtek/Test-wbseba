@@ -95,52 +95,66 @@
 
   /* ---------- CAMERA SCAN ---------- */
 
-  async function startCamera() {
-    if (state.scanning) return;
+  /* ---------- SMART LIVE CAMERA SCAN ---------- */
 
-    if (typeof Html5Qrcode === "undefined") {
-      alert("Scanner Library Load হয়নি।");
-      return;
-    }
+async function startCamera() {
+  if (state.scanning) return;
 
-    await stopCamera();
-
-    try {
-      state.scanner = new Html5Qrcode(
-        "npScannerCamera"
-      );
-
-      await state.scanner.start(
-        { facingMode: "environment" },
-        {
-          fps: 10,
-          qrbox: {
-            width: 250,
-            height: 250
-          }
-        },
-        decodedText => {
-          setResult(decodedText);
-          stopCamera();
-        },
-        () => {}
-      );
-
-      state.scanning = true;
-
-    } catch (error) {
-      state.scanning = false;
-
-      console.error(
-        "Camera scanner error:",
-        error
-      );
-
-      alert(
-        "Camera চালু করা যায়নি। Camera Permission পরীক্ষা করুন।"
-      );
-    }
+  if (typeof Html5Qrcode === "undefined") {
+    alert("Scanner Library Load হয়নি।");
+    return;
   }
+
+  await stopCamera();
+
+  try {
+    state.scanner = new Html5Qrcode(
+      "npScannerCamera"
+    );
+
+    state.scanning = true;
+
+    await state.scanner.start(
+      { facingMode: "environment" },
+      {
+        fps: 12,
+        qrbox: {
+          width: 250,
+          height: 250
+        }
+      },
+      decodedText => {
+        if (!state.scanning) return;
+
+        state.scanning = false;
+
+        setResult(decodedText);
+
+        const activeScanner = state.scanner;
+
+        if (activeScanner) {
+          activeScanner.stop()
+            .then(() => activeScanner.clear())
+            .catch(error => {
+              console.warn("Scanner stop:", error);
+            });
+        }
+
+        state.scanner = null;
+      },
+      () => {}
+    );
+
+  } catch (error) {
+    state.scanning = false;
+
+    console.error("Camera error:", error);
+
+    alert(
+      "Camera চালু করা যায়নি। Camera Permission পরীক্ষা করুন।"
+    );
+  }
+}
 
   /* ---------- IMAGE UPLOAD SCAN ---------- */
 
@@ -180,11 +194,57 @@
       } catch {}
     }
   }
+/* ===== HOMEPAGE QR SCANNER CARD ===== */
 
+function addQrScannerHomeCard() {
+  if (document.getElementById("npQrHomeCard")) return;
+
+  const emergency = document.querySelector(
+    ".standalone-emergency-card"
+  );
+
+  if (!emergency) return;
+
+  const row = document.createElement("div");
+  row.id = "npQrHomeRow";
+  row.className = "np-qr-home-row";
+
+  const card = document.createElement("div");
+  card.id = "npQrHomeCard";
+  card.className = "category-group soft-cat-blue np-qr-home-card";
+
+  card.innerHTML = `
+    <div class="category-header">
+      <div class="category-header-title">
+        <div class="category-icon-badge">📷</div>
+        <span>QR & Barcode Scanner</span>
+      </div>
+      <span class="material-symbols-outlined category-arrow">
+        qr_code_scanner
+      </span>
+    </div>
+  `;
+
+  card.addEventListener("click", () => {
+    if (typeof window.openModal === "function") {
+      window.openModal("npQrScannerModal");
+    }
+  });
+
+  emergency.before(row);
+
+  row.appendChild(emergency);
+  row.appendChild(card);
+}
   /* ---------- INITIALIZE ---------- */
+/* ---------- HOMEPAGE SCANNER BUTTON ---------- */
+
+/* ===== SCANNER CARD BESIDE EMERGENCY ===== */
+
 
   function initialize() {
-    document.getElementById("npScannerStart")
+    addQrScannerHomeCard();
+     document.getElementById("npScannerStart")
       ?.addEventListener(
         "click",
         startCamera
