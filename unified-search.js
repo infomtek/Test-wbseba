@@ -2252,7 +2252,31 @@ if (directoryEntries.length > 0) {
   }
 
   /* ---------------- GPS + OPENSTREETMAP ---------------- */
+/* ===== NP 2.5 SHARED LOCATION STATE ===== */
 
+const npLocationState = {
+  latitude: null,
+  longitude: null,
+  accuracy: null,
+  district: "",
+  subdivision: "",
+  block: "",
+  source: "none",
+  updatedAt: null
+};
+
+function npSaveGpsPosition(position) {
+  if (!position?.coords) return false;
+
+  npLocationState.latitude = position.coords.latitude;
+  npLocationState.longitude = position.coords.longitude;
+  npLocationState.accuracy = position.coords.accuracy;
+
+  npLocationState.source = "gps";
+  npLocationState.updatedAt = Date.now();
+
+  return true;
+}
   function getPosition() {
     return new Promise((resolve, reject) => {
       if (!navigator.geolocation) {
