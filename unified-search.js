@@ -1207,7 +1207,70 @@ function npRenderAdminSearch(type) {
 
   showCards([card]);
 }
-  /* ---------------- INTENT DETECTION ---------------- */
+  /* ==========================================
+   NP 2.5 — SMART DISTRICT DIRECTORY
+========================================== */
+
+function npDetectDirectoryPlace(rawQuery) {
+  const query = normalize(rawQuery);
+  const data = getDirectoryData();
+
+  if (!query || !data) return null;
+
+  for (const [district, subdivisions] of Object.entries(data)) {
+
+    if (normalize(district) === query) {
+      return {
+        district,
+        subdivision: ""
+      };
+    }
+
+    for (const subdivision of Object.keys(subdivisions || {})) {
+      if (normalize(subdivision) === query) {
+        return {
+          district,
+          subdivision
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
+function npOpenDirectoryPlace(place) {
+  if (!place) return;
+
+  const districtSelect =
+    document.getElementById("wbDistrictSelect");
+
+  const subSelect =
+    document.getElementById("wbSubDivSelect");
+
+  if (!districtSelect || !subSelect) return;
+
+  // প্রথমে Directory Modal খুলবে
+  window.openModal("emergencyModal");
+
+  // জেলা Select
+  districtSelect.value = place.district;
+
+  // বিদ্যমান District Change Function
+  if (typeof window.onDistrictChange === "function") {
+    window.onDistrictChange();
+  }
+
+  // মহকুমা নির্দিষ্ট থাকলে সেটি Select
+  if (place.subdivision) {
+    subSelect.value = place.subdivision;
+
+    if (typeof window.onSubDivChange === "function") {
+      window.onSubDivChange();
+    }
+  }
+}
+   /* ---------------- INTENT DETECTION ---------------- */
 
   function detectEmergency(query) {
     const q = normalize(query);
