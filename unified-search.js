@@ -1782,10 +1782,18 @@ function npRenderDirectoryEntries(entries) {
     `;
   }).join("");
 
-  showResult(`
-    <h3>📂 ডিরেক্টরি অনুসন্ধান</h3>
-    ${cards}
-  `);
+  const resultHtml = `
+  <h3>📂 ডিরেক্টরি অনুসন্ধান</h3>
+  ${cards}
+`;
+
+const panel = document.getElementById("npSearchResults");
+
+if (panel) {
+  panel.innerHTML = resultHtml;
+  panel.style.display = "block";
+} else {
+  console.error("Directory Search: Result panel not found");
 }
 function detectIntent(rawQuery) {
   const query = normalize(rawQuery);
