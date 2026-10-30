@@ -636,13 +636,21 @@
     return card;
   }
 
-  function setSearchText(text) {
-    const input = document.getElementById(CONFIG.searchInput);
+function setSearchText(text) {
+  const input = document.getElementById(CONFIG.searchInput);
 
-    if (input) input.value = text;
+  if (!input) return;
 
-    performSearch(text);
-  }
+  // Voice-এর মাধ্যমে বলা কথা Search Box-এ বসবে
+  input.value = text;
+
+  // সাধারণ Typing-এর মতো Suggestions চালু হবে
+  input.dispatchEvent(
+    new Event("input", { bubbles: true })
+  );
+
+  input.focus();
+}
 
   /* ---------------- PANEL ---------------- */
 
