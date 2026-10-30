@@ -1719,73 +1719,90 @@ function npOpenDirectoryPlace(place) {
 
   /* ---------------- MAIN DETECTOR ---------------- */
 
-  function detectIntent(rawQuery) {
-    const query = normalize(rawQuery);
+function detectIntent(rawQuery) {
+  const query = normalize(rawQuery);
 
-    if (!query) return { kind: "empty" };
-
-// জেলা ও মহকুমার নাম শনাক্ত
-const directoryPlace = npDetectDirectoryPlace(query);
-
-if (directoryPlace) {
-  return {
-    kind: "directoryPlace",
-    place: directoryPlace
-  };
-}
-
-const emergency = detectEmergency(query);
-
-    const emergency = detectEmergency(query);
-
-if (emergency) {
-  return { kind: "emergency", emergency };
-}
-
-// SDO / BDO / SDPO Administrative Search
-const admin = npDetectAdmin(query);
-
-if (admin) {
-  return {
-    kind: "administrative",
-    admin
-  };
-}
-
-const facility = detectFacility(query);
-
-    if (facility) {
-      return {
-        kind: detectNearby(query) ? "nearby" : "facility",
-        facility,
-        place: detectPlace(query)
-      };
-    }
-
-    const quick = detectQuickCall(query);
-
-    if (quick) {
-      return { kind: "emergency", emergency: quick };
-    }
-
-    const governmentResults = npGovernmentSearch(query);
-
-    if (governmentResults.length > 0) {
-      return {
-        kind: "governmentIndex",
-        results: governmentResults
-      };
-    }
-
-    const service = detectService(query) || detectSmartService(query);
-
-    if (service) {
-      return { kind: "service", service };
-    }
-
-    return { kind: "general" };
+  if (!query) {
+    return { kind: "empty" };
   }
 
+  // 1. Emergency সর্বোচ্চ Priority
+  const emergency = detectEmergency(query);
+
+  if (emergency) {
+    return {
+      kind: "emergency",
+      emergency
+    };
+  }
+
+  // 2. District / Subdivision Directory
+  const directoryPlace = npDetectDirectoryPlace(query);
+
+  if (directoryPlace) {
+    return {
+      kind: "directoryPlace",
+      place: directoryPlace
+    };
+  }
+
+  // 3. SDO / BDO / SDPO
+  const admin = npDetectAdmin(query);
+
+  if (admin) {
+    return {
+      kind: "administrative",
+      admin
+    };
+  }
+
+  // 4. Hospital / Police / Fire / Forest / Blood
+  const facility = detectFacility(query);
+
+  if (facility) {
+    return {
+      kind: detectNearby(query) ? "nearby" : "facility",
+      facility,
+      place: detectPlace(query)
+    };
+  }
+
+  // 5. Emergency Quick Call
+  const quick = detectQuickCall(query);
+
+  if (quick) {
+    return {
+      kind: "emergency",
+      emergency: quick
+    };
+  }
+
+  // 6. Government Search Index
+  const governmentResults = npGovernmentSearch(query);
+
+  if (governmentResults.length > 0) {
+    return {
+      kind: "governmentIndex",
+      results: governmentResults
+    };
+  }
+
+  // 7. Existing Services
+  const service =
+    detectService(query) ||
+    detectSmartService(query);
+
+  if (service) {
+    return {
+      kind: "service",
+      service
+    };
+  }
+
+  return {
+    kind: "general"
+  };
+}
   /* ---------------- EMERGENCY GUIDANCE ---------------- */
 
   const EMERGENCY_GUIDES = {
