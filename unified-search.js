@@ -1751,41 +1751,72 @@ function escapeHtml(value) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
 }
+/* -------- DIRECTORY ENTRY RESULT RENDERER -------- */
+
 function npRenderDirectoryEntries(entries) {
-  if (!entries.length) return;
+  if (!Array.isArray(entries) || !entries.length) {
+    renderGeneral(state.currentQuery || "");
+    return;
+  }
 
   const cards = entries.map(entry => {
-    const hasPhone = Boolean(entry.phone);
 
-    return `
-      <div class="np-result-card">
-        <h3>${escapeHtml(entry.name)}</h3>
+    const card = createCard(
+      `📂 ${entry.name}`,
+      `📍 জেলা: ${entry.district} | মহকুমা: ${entry.subdivision}`
+    );
 
-        <p>
-          📍 ${escapeHtml(entry.district)}
-          — ${escapeHtml(entry.subdivision)}
-        </p>
+    const actions = [];
 
-        ${
-          hasPhone
-            ? `<a href="tel:${escapeHtml(entry.phone)}">
-                 📞 ${escapeHtml(entry.phone)}
-               </a>`
-            : `<p>📞 ফোন নম্বর এখনও যুক্ত হয়নি</p>`
+    // Phone Number থাকলে Call Button
+    if (entry.phone && entry.phone.trim()) {
+      actions.push(
+        makeLink(
+          `📞 ${entry.phone}`,
+          `tel:${entry.phone.replace(/[^\d+]/g, "")}`
+        )
+      );
+    } else {
+      const message = element("p", "np-u-text");
+      message.textContent = "📞 ফোন নম্বর এখনও যুক্ত হয়নি";
+      card.appendChild(message);
+    }
+
+    // Existing Directory Modal
+    actions.push(
+      makeButton("📂 ডিরেক্টরি খুলুন", () => {
+
+        const districtSelect =
+          document.getElementById("wbDistrictSelect");
+
+        const subSelect =
+          document.getElementById("wbSubDivSelect");
+
+        if (!districtSelect || !subSelect) return;
+
+        window.openModal("emergencyModal");
+
+        districtSelect.value = entry.district;
+
+        if (typeof window.onDistrictChange === "function") {
+          window.onDistrictChange();
         }
 
-        <button type="button"
-          onclick="window.openModal('emergencyModal')">
-          📂 ডিরেক্টরি খুলুন
-        </button>
-      </div>
-    `;
-  }).join("");
+        subSelect.value = entry.subdivision;
 
-  const resultHtml = `
-  <h3>📂 ডিরেক্টরি অনুসন্ধান</h3>
-  ${cards}
-`;
+        if (typeof window.onSubDivChange === "function") {
+          window.onSubDivChange();
+        }
+      })
+    );
+
+    addActions(card, actions);
+
+    return card;
+  });
+
+  showCards(cards);
+}
 
 const panel = document.getElementById("npSearchResults");
 
