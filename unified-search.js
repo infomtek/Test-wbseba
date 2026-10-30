@@ -1048,7 +1048,165 @@ function setSearchText(text) {
       })
       .slice(0, 8);
   }
+/* ==========================================
+   NP 2.5 — ADMINISTRATIVE SMART SEARCH
+   SDO / BDO / SDPO
+========================================== */
 
+const NP_ADMIN_KEYWORDS = {
+  sdo: {
+    label: "SDO — মহকুমা শাসক কার্যালয়",
+    aliases: [
+      "sdo",
+      "s d o",
+      "এসডিও",
+      "এস ডি ও",
+      "মহকুমা শাসক",
+      "sub divisional officer",
+      "sub divisional magistrate"
+    ],
+    directoryWords: [
+      "sdo",
+      "মহকুমা শাসক"
+    ]
+  },
+
+  bdo: {
+    label: "BDO — ব্লক উন্নয়ন আধিকারিক",
+    aliases: [
+      "bdo",
+      "b d o",
+      "বিডিও",
+      "বি ডি ও",
+      "ভিডিও",
+      "ব্লক অফিস",
+      "ব্লক উন্নয়ন আধিকারিক",
+      "block development officer"
+    ],
+    directoryWords: [
+      "bdo",
+      "ব্লক উন্নয়ন"
+    ]
+  },
+
+  sdpo: {
+    label: "SDPO — মহকুমা পুলিশ আধিকারিক",
+    aliases: [
+      "sdpo",
+      "s d p o",
+      "এসডিপিও",
+      "এস ডি পি ও",
+      "sub divisional police officer"
+    ],
+    directoryWords: [
+      "sdpo",
+      "মহকুমা পুলিশ আধিকারিক"
+    ]
+  }
+};
+
+function npDetectAdmin(query) {
+  const q = normalize(query);
+
+  for (const [key, config] of Object.entries(NP_ADMIN_KEYWORDS)) {
+    if (contains(q, config.aliases)) {
+      return key;
+    }
+  }
+
+  return null;
+}
+
+function npRenderAdminSearch(type) {
+  const config = NP_ADMIN_KEYWORDS[type];
+
+  if (!config) return;
+
+  const selected = getSelectedArea();
+
+  const results = flattenDirectory()
+    .filter(item => {
+      const text = normalize(
+        `${item.name} ${item.sub}`
+      );
+
+      return contains(text, config.directoryWords);
+    })
+    .map(item => {
+      let priority = 0;
+
+      if (
+        selected.subdivision &&
+        normalize(item.subdivision) === normalize(selected.subdivision)
+      ) {
+        priority += 100;
+      }
+
+      if (
+        selected.district &&
+        normalize(item.district) === normalize(selected.district)
+      ) {
+        priority += 50;
+      }
+
+      return { ...item, priority };
+    })
+    .sort((a, b) => b.priority - a.priority)
+    .slice(0, 15);
+
+  const card = createCard(
+    `🏛️ ${config.label}`,
+    "নিচে Directory-তে তালিকাভুক্ত অফিসগুলো দেখানো হচ্ছে। আপনার নির্বাচিত এলাকার অফিস আগে দেখানো হয়েছে। যোগাযোগের আগে তথ্য যাচাই করুন।"
+  );
+
+  if (!results.length) {
+    addText(
+      card,
+      "এই বিভাগের কোনো অফিস বর্তমানে Directory-তে পাওয়া যায়নি।"
+    );
+  }
+
+  results.forEach(item => {
+    const row = element("div", "np-u-result");
+
+    row.appendChild(
+      element("strong", "", item.name)
+    );
+
+    addText(
+      row,
+      `${item.subdivision}, ${item.district}`
+    );
+
+    const actions = [];
+
+    if (item.phone) {
+      actions.push(
+        makeCall("📞 যোগাযোগ", item.phone)
+      );
+    } else {
+      addText(
+        row,
+        "ফোন নম্বর বর্তমানে তালিকাভুক্ত নেই।"
+      );
+    }
+
+    actions.push(
+      makeLink(
+        "🗺️ মানচিত্রে খুঁজুন",
+        mapsSearch(
+          `${item.name} ${item.subdivision} ${item.district} West Bengal`
+        )
+      )
+    );
+
+    addActions(row, actions);
+
+    card.appendChild(row);
+  });
+
+  showCards([card]);
+}
   /* ---------------- INTENT DETECTION ---------------- */
 
   function detectEmergency(query) {
