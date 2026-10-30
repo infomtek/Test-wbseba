@@ -182,8 +182,54 @@
   }
 
   /* ---------- INITIALIZE ---------- */
+/* ---------- HOMEPAGE SCANNER BUTTON ---------- */
 
+function addHomepageScannerButton() {
+  if (document.getElementById("npScannerHomeButton")) return;
+
+  const emergencyCard =
+    document.querySelector(".standalone-emergency-card");
+
+  if (!emergencyCard) return;
+
+  const button = document.createElement("button");
+
+  button.type = "button";
+  button.id = "npScannerHomeButton";
+
+  button.textContent =
+    "📷 স্মার্ট QR ও Barcode স্ক্যানার";
+
+  button.style.cssText = `
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    box-sizing:border-box;
+    padding:14px;
+    margin:12px 0;
+    border:0;
+    border-radius:16px;
+    background:#2563eb;
+    color:#ffffff;
+    font-size:16px;
+    font-weight:800;
+    cursor:pointer;
+  `;
+
+  button.addEventListener("click", () => {
+    if (typeof window.openModal === "function") {
+      window.openModal("npQrScannerModal");
+    }
+  });
+
+  emergencyCard.insertAdjacentElement(
+    "afterend",
+    button
+  );
+}
   function initialize() {
+  addHomepageScannerButton();
     document.getElementById("npScannerStart")
       ?.addEventListener(
         "click",
