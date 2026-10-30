@@ -863,6 +863,38 @@ body[data-theme="dark"] .service-card {
 .np-scanner-home-card:hover {
   box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
 }
+/* ===== NP 2.5 SCANNER GRID CARD ===== */
+
+.np-scanner-grid-card {
+  width: 100%;
+  min-height: 96px;
+  padding: 12px;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+
+  border: 2px solid #2563eb;
+  border-radius: 17px;
+
+  background: #eff6ff;
+  color: #1d4ed8;
+
+  font-size: 15px;
+  font-weight: 800;
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.np-scanner-card-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.np-scanner-card-title {
+  line-height: 1.4;
+}
 /* ==================================================
    END — NAGORIK PORISHEBA 2.4 CLEAN PREMIUM CSS
    ================================================== */
