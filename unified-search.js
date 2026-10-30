@@ -1718,7 +1718,66 @@ function npOpenDirectoryPlace(place) {
   }
 
   /* ---------------- MAIN DETECTOR ---------------- */
+/* -------- DIRECTORY ENTRY NAME SEARCH -------- */
 
+function npFindDirectoryEntries(rawQuery) {
+  const query = normalize(rawQuery);
+
+  if (!query || query.length < 3) return [];
+
+  const entries = flattenDirectory();
+
+  const words = query.split(/\s+/).filter(Boolean);
+
+  return entries
+    .filter(entry => {
+      const name = normalize(entry.name);
+      const district = normalize(entry.district);
+      const subdivision = normalize(entry.subdivision);
+
+      const searchable = `${name} ${district} ${subdivision}`;
+
+      return words.every(word => searchable.includes(word));
+    })
+    .slice(0, 30);
+}
+
+function npRenderDirectoryEntries(entries) {
+  if (!entries.length) return;
+
+  const cards = entries.map(entry => {
+    const hasPhone = Boolean(entry.phone);
+
+    return `
+      <div class="np-result-card">
+        <h3>${escapeHtml(entry.name)}</h3>
+
+        <p>
+          📍 ${escapeHtml(entry.district)}
+          — ${escapeHtml(entry.subdivision)}
+        </p>
+
+        ${
+          hasPhone
+            ? `<a href="tel:${escapeHtml(entry.phone)}">
+                 📞 ${escapeHtml(entry.phone)}
+               </a>`
+            : `<p>📞 ফোন নম্বর এখনও যুক্ত হয়নি</p>`
+        }
+
+        <button type="button"
+          onclick="window.openModal('emergencyModal')">
+          📂 ডিরেক্টরি খুলুন
+        </button>
+      </div>
+    `;
+  }).join("");
+
+  showResult(`
+    <h3>📂 ডিরেক্টরি অনুসন্ধান</h3>
+    ${cards}
+  `);
+}
 function detectIntent(rawQuery) {
   const query = normalize(rawQuery);
 
@@ -1745,7 +1804,15 @@ function detectIntent(rawQuery) {
       place: directoryPlace
     };
   }
+// Directory Entry Name Search
+const directoryEntries = npFindDirectoryEntries(query);
 
+if (directoryEntries.length > 0) {
+  return {
+    kind: "directoryEntries",
+    entries: directoryEntries
+  };
+}
   // 3. SDO / BDO / SDPO
   const admin = npDetectAdmin(query);
 
@@ -2703,6 +2770,9 @@ function detectIntent(rawQuery) {
       state.currentIntent = intent;
 
       switch (intent.kind) {
+            case "directoryEntries":
+  npRenderDirectoryEntries(intent.entries);
+  break;
  case "directoryPlace":
   npOpenDirectoryPlace(intent.place);
   break;
