@@ -51,7 +51,6 @@ backup-before-search-2.4-cleanup
 - unified-search.js
 - np-ux-upgrade.js
 - np-bank-search.js
-- np-smart-scanner.js
 
 Other project files:
 
@@ -60,19 +59,12 @@ Other project files:
 - emergency-location.js
 - district_skeleton.json
 
-## Smart Document & Contact Scanner
+## Scanner Feature Status
 
-- Work branch: `feature/smart-document-contact-assistant`
-- User-requested scope on 2026-11-02: keep only Camera and Gallery for general text/contact OCR; remove QR/Barcode decoding, payment QR handling, and ID-card classification/number extraction.
-- The existing scanner entry point and modal remain. The modal presents only Camera and Gallery. Camera requests the rear camera first, shows a scan frame, and has automatic stable-frame capture plus manual Capture. Gallery selects one image and processes it with OCR only.
-- Contact-like images can show explicitly labelled name/company/email where found and deduplicated phone numbers. No ID-card type or ID number is recognised or presented.
-- OCR is lazy-loaded and runs in a browser worker using English data; Tesseract cache is disabled.
-- Scan images/results are temporary in-memory values; clear, close, Back, and page exit trigger cleanup.
-- Contact export uses a user-edited vCard/share flow; saving in Contacts requires the user's confirmation.
-- Previous local checks on 2026-11-01 confirmed contact-card OCR and phone parsing; ID and QR/Barcode checks from that version no longer apply after the requested removal.
-- Static checks on 2026-11-02: JavaScript syntax passed; scanner modal has exactly two options; HTML IDs are unique; QR/Barcode decoder, UPI handling, and ID-card classification code/dependencies are absent. Gallery OCR and camera capture were not browser-tested again after this scope change.
-- Camera selection was attempted with user approval, but that browser session could not access a camera device. Live camera preview, automatic/manual capture, physical Android compatibility, contact share/download, and deployment behavior remain unverified.
-- The Vercel Test deployment commit SHA was not available from the public page during audit.
+- Removed from the WBSEBA web app on 2026-11-02 at the user's request. Camera/Gallery scanning, QR/Barcode decoding, ID-card recognition, the scanner modal/home entry point, and the scanner JavaScript/CSS integration are not included.
+- The user plans to build a separate small application for scanning codes and ID cards. That separate application is outside this WBSEBA website change.
+- Static checks on 2026-11-02: scanner modal, launcher, library dependency, JavaScript file, styles, and modal close hooks are absent; 129 HTML IDs are unique; relevant JavaScript syntax and diff checks passed. Existing unrelated cyber-safety scan service and government QR verification link remain. No browser UI test was run for this removal.
+- No browser deployment or production change was performed.
 
 ## Known Search Problems
 

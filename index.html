@@ -2290,9 +2290,6 @@ function closeModal(modalId, isFromPopstate = false) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
     modal.style.display = 'none';
-    if (modalId === 'npSmartScannerModal' && window.NPSmartScanner && typeof window.NPSmartScanner.onModalClose === 'function') {
-        window.NPSmartScanner.onModalClose();
-    }
     sessionStorage.removeItem('currentOpenModal');
     if (!isFromPopstate && history.state && history.state.openModalId === modalId) {
         history.back();
@@ -2310,12 +2307,7 @@ function openComingSoon(serviceName) {
 window.addEventListener('popstate', () => {
     const openModals = document.querySelectorAll('.modal-overlay');
     openModals.forEach(m => {
-        if (m.style.display === 'flex') {
-            m.style.display = 'none';
-            if (m.id === 'npSmartScannerModal' && window.NPSmartScanner && typeof window.NPSmartScanner.onModalClose === 'function') {
-                window.NPSmartScanner.onModalClose();
-            }
-        }
+        if (m.style.display === 'flex') m.style.display = 'none';
     });
 });
 
@@ -3034,63 +3026,5 @@ document.addEventListener("DOMContentLoaded", function () {
 <script src="/np-ux-upgrade.js" defer></script>
 <script src="/np-bank-search.js" defer></script>    
 <script src="/np-universal-search.js" defer></script>
-<!-- ===== Smart Document & Contact Assistant (uses the existing scanner modal) ===== -->
-<div id="npSmartScannerModal" class="modal-overlay" onclick="closeModal('npSmartScannerModal')">
-  <div class="modal-box np-scanner-modal" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <h3>📷 স্মার্ট ডকুমেন্ট ও যোগাযোগ স্ক্যানার</h3>
-      <button class="modal-close" type="button" aria-label="স্ক্যানার বন্ধ করুন" onclick="closeModal('npSmartScannerModal')">&times;</button>
-    </div>
-    <div class="modal-scroll-area np-scanner-scroll">
-      <p class="np-scanner-intro">ছবি ও লেখা আপনার ডিভাইসেই প্রক্রিয়াকরণ হয়। Camera-তে নথি, ভিজিটিং কার্ড, পোস্টার বা সাধারণ লেখা দেখুন; অথবা Gallery থেকে একটি ছবি নিন।</p>
-
-      <input type="file" id="npScannerUpload" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp">
-      <div id="npScannerChoices" class="np-scanner-modes" role="group" aria-label="স্ক্যান পদ্ধতি বেছে নিন">
-        <button type="button" class="np-scanner-mode" data-scan-mode="camera">
-          <span class="np-scanner-mode-icon" aria-hidden="true">📷</span>
-          <span>Camera</span>
-          <small>ডকুমেন্ট, ভিজিটিং কার্ড, পোস্টার ও সাধারণ লেখা</small>
-        </button>
-        <label for="npScannerUpload" class="np-scanner-mode np-scanner-gallery">
-          <span class="np-scanner-mode-icon" aria-hidden="true">🖼️</span>
-          <span>Gallery</span>
-          <small>একটি ছবি বেছে নিন</small>
-        </label>
-      </div>
-
-      <section id="npScannerWorkspace" class="np-scanner-workspace" hidden>
-        <div class="np-scanner-toolbar">
-          <button type="button" id="npScannerBack" class="np-scanner-button np-scanner-muted">‹ পদ্ধতি বেছে নিন</button>
-          <button type="button" id="npScannerStart" class="np-scanner-button np-scanner-secondary" hidden>আবার চালু করুন</button>
-          <button type="button" id="npScannerStop" class="np-scanner-button np-scanner-muted" hidden>⏹ Camera বন্ধ</button>
-        </div>
-
-        <div id="npScannerStage" class="np-scanner-stage" hidden>
-          <video id="npScannerVideo" class="np-scanner-video" playsinline muted hidden></video>
-          <div id="npScannerFrame" class="np-scanner-frame" aria-hidden="true" hidden></div>
-        </div>
-        <button type="button" id="npScannerCapture" class="np-scanner-button np-scanner-capture" hidden>ছবি তুলুন</button>
-
-        <div id="npScannerPreviewWrap" class="np-scanner-preview-wrap" hidden>
-          <img id="npScannerPreview" class="np-scanner-preview" alt="স্ক্যানের জন্য নির্বাচিত ছবির প্রিভিউ">
-          <div class="np-scanner-preview-actions">
-            <button type="button" id="npScannerRetake" class="np-scanner-button np-scanner-secondary">আবার ছবি / স্ক্যান</button>
-            <button type="button" id="npScannerRun" class="np-scanner-button np-scanner-primary">আবার পড়ুন</button>
-          </div>
-        </div>
-
-        <p id="npScannerStatus" class="np-scanner-status" aria-live="polite"></p>
-        <div class="np-scanner-result-heading">
-          <h4>স্ক্যানের ফলাফল</h4>
-          <button type="button" id="npScannerClear" class="np-scanner-clear">Clear</button>
-        </div>
-        <div id="npScannerResults" class="np-scanner-results" aria-live="polite"></div>
-        <p class="np-scanner-privacy">🔐 স্ক্যানের ছবি, OCR লেখা, ফোন নম্বর, Contact বা ব্যক্তিগত তথ্য এই ওয়েবসাইটের সার্ভার, অ্যানালিটিক্স বা ব্রাউজার স্টোরেজে পাঠানো/রাখা হয় না। OCR লাইব্রেরি ও ইংরেজি ভাষার মডেল CDN থেকে আসে; ছবি ও ফলাফল ডিভাইসেই থাকে। Contact export বেছে নিলে, প্রয়োজনীয় তথ্য আপনার ক্লিকের পর নির্বাচিত শেয়ার ব্যবস্থা বা Contacts অ্যাপে যাবে।</p>
-      </section>
-    </div>
-  </div>
-</div>
-<!-- Nagorik Porisheba Smart Scanner -->
-<script src="np-smart-scanner.js"></script>
 </body>
 </html>
