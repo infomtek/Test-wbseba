@@ -1278,7 +1278,7 @@
             </div>
             <div class="modal-scroll-area">
                 <p style="font-size: 12.5px; color: var(--text-sub); margin-bottom: 15px; font-weight: 600;">
-                    সন্দেহজনক কোনো লিংক, অফার মেসেজ বা ওয়েবসাইটের স্ক্রিনশট এখানে দিয়ে চেক করুন।
+                    পরিচিত ঠিকানা ও URL-এর ঝুঁকি পরীক্ষা করুন। যাচাই চাপলে লিংকটি Google Web Risk-এ পাঠানো হবে। ব্যক্তিগত token-সহ লিংক দেবেন না। ফল ভুলও হতে পারে; কোনো ফলই নিরাপত্তার নিশ্চয়তা নয়।
                 </p>
 
                 <!-- লিংক ইনপুট -->
@@ -1292,14 +1292,14 @@
                     <label style="font-size: 12px; font-weight: 800; color: var(--text-main); margin-bottom: 5px; display: block;">📷 অথবা স্ক্রিনশট আপলোড করুন:</label>
                     <label style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 90px; border: 2px dashed #94a3b8; border-radius: 12px; background: #f8fafc; cursor: pointer; color: #64748b;">
                         <span class="material-symbols-outlined" style="font-size: 28px; margin-bottom: 4px;">cloud_upload</span>
-                        <span id="cyberFileName" style="font-size: 12px; font-weight: 600;">ছবি নির্বাচন করুন</span>
+                        <span id="cyberFileName" style="font-size: 12px; font-weight: 600;">ছবি নির্বাচন করুন (স্বয়ংক্রিয় বিশ্লেষণ নেই)</span>
                         <input type="file" id="cyberFileInput" accept="image/*" style="display: none;" onchange="document.getElementById('cyberFileName').innerText = this.files[0] ? this.files[0].name : 'ছবি নির্বাচন করুন'">
                     </label>
                 </div>
 
                 <!-- স্ক্যান বাটন -->
                 <button onclick="triggerCyberScan()" style="width: 100%; background: linear-gradient(135deg, #eab308, #ca8a04); color: #ffffff; border: none; padding: 12px; border-radius: 12px; font-size: 14.5px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(202, 138, 4, 0.3); display: flex; align-items: center; justify-content: center; gap: 8px;">
-                    <span class="material-symbols-outlined">search</span> স্ক্যান শুরু করুন
+                    <span class="material-symbols-outlined">search</span> লিংক যাচাই করুন
                 </button>
 
                 <!-- রেজাল্ট বক্স -->
@@ -1987,86 +1987,186 @@ async function askGeminiAI(userQuery) {
 // ==========================================
 // 1. সাইবার স্ক্যাম স্ক্যানার লজিক
 // ==========================================
-function triggerCyberScan() {
+const cyberVerifiedHosts = new Set([
+    'wbseba.vercel.app',
+    'test-wbseba.vercel.app'
+]);
+const cyberOfficialSuffixes = ['gov.in', 'nic.in', 'bank.in'];
+const cyberShortenerHosts = new Set([
+    'bit.ly', 'tinyurl.com', 't.co', 'cutt.ly', 'rb.gy', 'shorturl.at'
+]);
+
+function classifyCyberLink(rawValue) {
+    const raw = rawValue.trim();
+    if (!raw) return { level: 'unknown', reason: 'কোনো ওয়েবসাইটের ঠিকানা দেওয়া হয়নি।' };
+
+    const hasScheme = /^[a-z][a-z\d+.-]*:/i.test(raw);
+    const candidate = hasScheme ? raw : `https://${raw}`;
+    let parsed;
+    try {
+        parsed = new URL(candidate);
+    } catch (_) {
+        return { level: 'unknown', reason: 'ঠিকানাটি পড়া যাচ্ছে না। বানান ও সম্পূর্ণ URL যাচাই করুন।' };
+    }
+
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+        return { level: 'unknown', reason: 'এটি সাধারণ HTTP/HTTPS ওয়েব ঠিকানা নয়, তাই যাচাই করা যাচ্ছে না।' };
+    }
+
+    const host = parsed.hostname.toLowerCase().replace(/\.$/, '');
+    if (!host) return { level: 'unknown', reason: 'লিংকে ওয়েবসাইটের হোস্টনেম নেই।' };
+
+    if (parsed.username || parsed.password) {
+        return { level: 'risk', reason: 'ঠিকানার মধ্যে username/password ঢোকানো আছে—এটি পরিচয় আড়াল করার কৌশল হতে পারে।' };
+    }
+    if (parsed.protocol === 'http:' && host !== 'localhost') {
+        return { level: 'risk', reason: 'HTTP সংযোগ এনক্রিপ্টেড নয়। এতে লগইন, OTP, PIN বা পেমেন্টের তথ্য দেবেন না। এটি নিজে থেকে স্ক্যাম প্রমাণ করে না।' };
+    }
+    if (/^(\d{1,3}\.){3}\d{1,3}$/.test(host) || host.startsWith('[')) {
+        return { level: 'risk', reason: 'ওয়েবসাইটটি পরিচিত ডোমেইনের বদলে সরাসরি IP address ব্যবহার করছে। সংবেদনশীল তথ্য দেবেন না।' };
+    }
+
+    if (cyberVerifiedHosts.has(host)) {
+        return {
+            level: 'known',
+            normalizedUrl: parsed.href,
+            reason: 'এই হোস্টটি WBSEBA-র পরিচিত ঠিকানার তালিকায় আছে।'
+        };
+    }
+
+    const matchesOfficialEnding = cyberOfficialSuffixes.some(suffix => host === suffix || host.endsWith(`.${suffix}`));
+    if (parsed.protocol === 'https:' && matchesOfficialEnding) {
+        return {
+            level: 'known',
+            normalizedUrl: parsed.href,
+            reason: 'হোস্টনেমটি সরকারি/ব্যাংক ডোমেইনের পরিচিত ending-এর সাথে মেলে। তবু পুরো address মিলিয়ে নিন; এই পরীক্ষা পেজটি compromised কি না যাচাই করে না।'
+        };
+    }
+
+    if (cyberShortenerHosts.has(host) || host.split('.').some(label => label.startsWith('xn--'))) {
+        return {
+            level: 'caution',
+            normalizedUrl: parsed.href,
+            reason: 'লিংকটি shortener বা বিশেষভাবে লেখা domain ব্যবহার করছে, তাই আসল গন্তব্য এখানে নিশ্চিত করা যাচ্ছে না। খোলার আগে প্রেরকের কাছে যাচাই করুন।'
+        };
+    }
+
+    const trustedWords = ['gov.in', 'nic.in', 'bank.in', 'wbseba'];
+    if (trustedWords.some(word => host.includes(word))) {
+        return {
+            level: 'risk',
+            reason: 'ডোমেইনে পরিচিত সরকারি/ব্যাংক/WBSEBA নাম অনুকরণ করা হয়েছে, কিন্তু আসল যাচাইকৃত হোস্টের সাথে মেলে না। এটি নকল হওয়ার জোরালো সংকেত—লিংক খুলবেন না বা তথ্য দেবেন না। এই নিয়ম ভুল ইতিবাচক ফলও দিতে পারে।'
+        };
+    }
+
+    return {
+        level: 'unknown',
+        normalizedUrl: parsed.href,
+        reason: 'এই local পরীক্ষায় পরিচিত ঠিকানা বা স্পষ্ট ঝুঁকির সংকেত মেলেনি। এর মানে লিংকটি নিরাপদ প্রমাণিত নয়; OTP/PIN দেবেন না এবং প্রেরককে যাচাই করুন।'
+    };
+}
+
+function showCyberScanResult(resultBox, result) {
+    const styles = {
+        known: { background: '#f0fdf4', border: '#bbf7d0', icon: 'verified_user', iconColor: '#16a34a', title: 'পরিচিত ডোমেইন (সবুজ)' , titleColor: '#166534', textColor: '#15803d' },
+        caution: { background: '#fffbeb', border: '#fde68a', icon: 'info', iconColor: '#d97706', title: 'সতর্কতা—ঠিকানা যাচাই করুন', titleColor: '#92400e', textColor: '#b45309' },
+        unknown: { background: '#fffbeb', border: '#fde68a', icon: 'help', iconColor: '#d97706', title: 'অজানা ডোমেইন—নিরাপদ প্রমাণিত নয়', titleColor: '#92400e', textColor: '#b45309' },
+        risk: { background: '#fef2f2', border: '#fecaca', icon: 'warning', iconColor: '#dc2626', title: 'লাল সতর্কতা—উচ্চ ঝুঁকির সংকেত', titleColor: '#9f1239', textColor: '#be123c' }
+    };
+    const style = styles[result.level] || styles.unknown;
+    resultBox.style.display = 'block';
+    resultBox.style.background = style.background;
+    resultBox.style.borderColor = style.border;
+    const googleAttribution = result.googleAdvisory
+        ? '<div style="font-size:11px; margin-top:6px;"><a href="https://docs.cloud.google.com/web-risk/docs/advisory" target="_blank" rel="noopener noreferrer">Advisory provided by Google</a></div>'
+        : '';
+    resultBox.innerHTML = `
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+            <span class="material-symbols-outlined" style="color:${style.iconColor}; font-size:24px;">${style.icon}</span>
+            <div>
+                <div style="color:${style.titleColor}; font-weight:800; font-size:14px;">${style.title}</div>
+                <div style="color:${style.textColor}; font-size:12px; margin-top:3px;">${result.reason}</div>
+                ${googleAttribution}
+            </div>
+        </div>`;
+}
+
+async function triggerCyberScan() {
     const linkInput = document.getElementById('cyberLinkInput').value.trim();
-    const fileInput = document.getElementById('cyberFileInput').files.length;
+    const hasScreenshot = document.getElementById('cyberFileInput').files.length > 0;
     const resultBox = document.getElementById('cyberScanResult');
 
-    if(!linkInput && fileInput === 0) {
-        alert("অনুগ্রহ করে একটি লিংক পেস্ট করুন অথবা স্ক্রিনশট আপলোড করুন।");
+    if (!linkInput && !hasScreenshot) {
+        alert('অনুগ্রহ করে একটি ওয়েবসাইটের লিংক দিন।');
         return;
     }
 
-    // Show scanning animation
-    resultBox.style.display = 'block';
-    resultBox.style.background = '#f8fafc';
-    resultBox.style.borderColor = '#cbd5e1';
-    resultBox.innerHTML = `
-        <div style="text-align:center; padding:15px; color: #334155;">
-            <span class="material-symbols-outlined" style="font-size: 32px; animation: scanSpin 1s linear infinite; color: #2563eb;">autorenew</span>
-            <div style="font-weight: 800; margin-top: 8px;">AI সিকিউরিটি চেক চলছে...</div>
-            <div style="font-size: 11px;">দয়া করে অপেক্ষা করুন</div>
-        </div>
-    `;
-
-    setTimeout(() => {
-        if(linkInput) {
-            const lowerLink = linkInput.toLowerCase();
-            
-            // Logic 1: Safe Gov/Bank Domains
-            if(lowerLink.includes('.gov.in') || lowerLink.includes('.nic.in') || lowerLink.includes('.bank.in')) {
-                resultBox.style.background = '#f0fdf4';
-                resultBox.style.borderColor = '#bbf7d0';
-                resultBox.innerHTML = `
-                    <div style="display: flex; gap: 10px; align-items: flex-start;">
-                        <span class="material-symbols-outlined" style="color: #16a34a; font-size: 24px;">verified_user</span>
-                        <div>
-                            <div style="color: #166534; font-weight: 800; font-size: 14px;">✅ সুরক্ষিত ওয়েবসাইট</div>
-                            <div style="color: #15803d; font-size: 12px; margin-top: 3px;">এটি একটি অফিশিয়াল ও নির্ভরযোগ্য পোর্টাল। আপনি নিশ্চিন্তে কাজ করতে পারেন।</div>
-                        </div>
-                    </div>`;
-            } 
-            // Logic 2: Unsafe HTTP Warning
-            else if(lowerLink.startsWith('http://') && !lowerLink.includes('localhost')) {
-                resultBox.style.background = '#fef2f2';
-                resultBox.style.borderColor = '#fecaca';
-                resultBox.innerHTML = `
-                    <div style="display: flex; gap: 10px; align-items: flex-start;">
-                        <span class="material-symbols-outlined" style="color: #dc2626; font-size: 24px;">warning</span>
-                        <div>
-                            <div style="color: #9f1239; font-weight: 800; font-size: 14px;">⚠️ অসুরক্ষিত লিংক (HTTP)</div>
-                            <div style="color: #be123c; font-size: 12px; margin-top: 3px;">এই ওয়েবসাইটে কোনো এনক্রিপশন নেই। এখানে আপনার পাসওয়ার্ড বা ব্যাঙ্কের তথ্য দেওয়া চরম ঝুঁকিপূর্ণ।</div>
-                        </div>
-                    </div>`;
-            } 
-            // Logic 3: General / Unknown Link
-            else {
-                resultBox.style.background = '#fffbeb';
-                resultBox.style.borderColor = '#fde68a';
-                resultBox.innerHTML = `
-                    <div style="display: flex; gap: 10px; align-items: flex-start;">
-                        <span class="material-symbols-outlined" style="color: #d97706; font-size: 24px;">info</span>
-                        <div>
-                            <div style="color: #92400e; font-weight: 800; font-size: 14px;">⚠️ সাধারণ লিংক (সাবধানতা প্রয়োজন)</div>
-                            <div style="color: #b45309; font-size: 12px; margin-top: 3px;">এটি সরকারি বা ব্যাঙ্কের ওয়েবসাইট নয়। লটারি, ফ্রি রিচার্জ বা অচেনা অফার হলে ভুলেও OTP বা PIN শেয়ার করবেন না।</div>
-                        </div>
-                    </div>`;
-            }
-        } 
-        // Screenshot upload logic (Simulation)
-        else if (fileInput > 0) {
-            resultBox.style.background = '#f0f9ff';
-            resultBox.style.borderColor = '#bae6fd';
-            resultBox.innerHTML = `
-                <div style="display: flex; gap: 10px; align-items: flex-start;">
-                    <span class="material-symbols-outlined" style="color: #0284c7; font-size: 24px;">image_search</span>
-                    <div>
-                        <div style="color: #075985; font-weight: 800; font-size: 14px;">ℹ️ স্ক্রিনশট স্ক্যান সম্পন্ন</div>
-                        <div style="color: #0369a1; font-size: 12px; margin-top: 3px;">সরাসরি কোনো ম্যালওয়্যার পাওয়া যায়নি। তবে কোনো মেসেজে "ফ্রি টাকা", "কেওয়াইসি ব্লক" বা "বিদ্যুৎ লাইন কাটা" লেখা থাকলে সেটি ১০০% ফ্রড।</div>
-                    </div>
-                </div>`;
+    if (linkInput) {
+        const localResult = classifyCyberLink(linkInput);
+        if (localResult.level === 'risk' || !localResult.normalizedUrl) {
+            showCyberScanResult(resultBox, localResult);
+            return;
         }
-    }, 2500); // 2.5 seconds fake loading for realistic feel
+
+        resultBox.style.display = 'block';
+        resultBox.style.background = '#f8fafc';
+        resultBox.style.borderColor = '#cbd5e1';
+        resultBox.textContent = 'Google Web Risk-এর তালিকার সাথে লিংকটি মিলিয়ে দেখা হচ্ছে…';
+
+        try {
+            const response = await fetch('/api/check-url', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: localResult.normalizedUrl })
+            });
+            const data = await response.json().catch(() => ({}));
+
+            if (!response.ok || data.checked !== true) throw new Error(data.code || 'lookup_unavailable');
+
+            if (data.threatDetected === true) {
+                const threatLabels = {
+                    SOCIAL_ENGINEERING: 'phishing বা প্রতারণামূলক পেজ',
+                    MALWARE: 'malware ছড়ানোর পেজ',
+                    UNWANTED_SOFTWARE: 'অনাকাঙ্ক্ষিত software ছড়ানোর পেজ'
+                };
+                const labels = Array.isArray(data.threatTypes)
+                    ? data.threatTypes.map(type => threatLabels[type]).filter(Boolean)
+                    : [];
+                showCyberScanResult(resultBox, {
+                    level: 'risk',
+                    googleAdvisory: true,
+                    reason: `Google Web Risk এই লিংকটিকে সম্ভাব্য ঝুঁকিপূর্ণ হিসেবে চিহ্নিত করেছে${labels.length ? `: ${labels.join(', ')}` : ''}। লিংকটি খুলবেন না বা ব্যক্তিগত/আর্থিক তথ্য দেবেন না।`
+                });
+            } else if (localResult.level === 'known') {
+                showCyberScanResult(resultBox, {
+                    level: 'known',
+                    reason: `${localResult.reason} Google Web Risk-এর তালিকায় এই URL-এর কোনো মিল পাওয়া যায়নি। এটি নিরাপত্তার নিশ্চয়তা নয়।`
+                });
+            } else if (localResult.level === 'caution') {
+                showCyberScanResult(resultBox, {
+                    level: 'caution',
+                    reason: `${localResult.reason} Google Web Risk-এর তালিকায় কোনো মিল পাওয়া যায়নি, তবু গন্তব্য যাচাই করুন।`
+                });
+            } else {
+                showCyberScanResult(resultBox, {
+                    level: 'unknown',
+                    reason: 'Google Web Risk-এর তালিকায় এই URL-এর কোনো মিল পাওয়া যায়নি। এটি নিরাপদ প্রমাণ করে না; অজানা সাইটে OTP/PIN দেবেন না।'
+                });
+            }
+        } catch (_) {
+            const fallbackLevel = localResult.level === 'known' ? 'known' : 'unknown';
+            showCyberScanResult(resultBox, {
+                level: fallbackLevel,
+                reason: `Google-এর live check এখন পাওয়া যাচ্ছে না। ${localResult.reason} live check ছাড়া লিংকটি নিরাপদ বলে নিশ্চিত করা যাচ্ছে না।`
+            });
+        }
+        return;
+    }
+
+    showCyberScanResult(resultBox, {
+        level: 'caution',
+        reason: 'এই সংস্করণে স্ক্রিনশটের লেখা বা লিংক পড়া হয় না। ছবির লিংকটি উপরের ঘরে কপি করে যাচাই করুন; ছবিটি স্ক্যান হয়েছে বা নিরাপদ—এমন দাবি করা হচ্ছে না।'
+    });
 }
 
 // ==========================================

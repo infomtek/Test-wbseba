@@ -66,6 +66,19 @@ Other project files:
 - Static checks on 2026-11-02: scanner modal, launcher, library dependency, JavaScript file, styles, and modal close hooks are absent; 129 HTML IDs are unique; relevant JavaScript syntax and diff checks passed. Existing unrelated cyber-safety scan service and government QR verification link remain. No browser UI test was run for this removal.
 - No browser deployment or production change was performed.
 
+## Cyber Scam Link Checker
+
+- The link checker now returns three cautious outcomes: known/recognized (green), caution or unknown (amber), and high-risk signals (red).
+- The exact WBSEBA hosts `wbseba.vercel.app` and `test-wbseba.vercel.app` are on the known-host list. Government/bank suffix checks use the parsed hostname boundary rather than matching text anywhere in the URL.
+- Red warnings cover non-encrypted HTTP, embedded credentials, direct IP hosts, and trusted-name lookalikes that do not match a recognized host. A red warning is a risk signal, not proof of fraud; lookalike matching may produce false positives.
+- Shortened and punycode hosts receive an amber caution. Other unrecognized links remain unknown/amber and are not described as safe.
+- A server-side Google Web Risk Lookup endpoint checks malware, social engineering, and unwanted-software lists. ChatGPT/Gemini is not used to guess whether a URL is safe.
+- When a user presses the check button, the normalized URL is sent to this site's `/api/check-url` endpoint and then to Google Web Risk. The API key remains server-side; this code does not log or persist submitted URLs. The checker explains this before the user submits a link.
+- Deployment requires the Google Cloud Web Risk API to be enabled and `WEBRISK_API_KEY` configured in the Vercel Test environment. Until configured, the live check returns unavailable and the page falls back to local risk signals; it does not claim a clean Web Risk result.
+- Google threat matches produce a qualified red warning with Google attribution. A no-match response is not presented as proof that the website is safe. Screenshot upload still is not analyzed and the UI says so.
+- Local checks on 2026-11-02: 13 URL-classification cases and 6 mocked API-handler cases passed; the changed inline JavaScript syntax passed; all 129 HTML IDs remain unique; whitespace checks passed. A live Google lookup and full browser/deployed-site test remain pending because no Web Risk key is configured in this workspace.
+- Changes are on the existing Test feature branch in local commit `3754db9`. Push and preview deployment were attempted but not completed because GitHub credentials are unavailable to this session and the Vercel CLI/project link is absent from this checkout. Production was not touched.
+
 ## Known Search Problems
 
 1. Typed and Voice Search sometimes give different results.
