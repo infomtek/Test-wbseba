@@ -895,9 +895,9 @@ body[data-theme="dark"] .service-card {
 .np-scanner-card-title {
   line-height: 1.4;
 }
-/* ===== NP 2.5 EMERGENCY + QR SCANNER ROW ===== */
+/* ===== EMERGENCY + SMART SCANNER ROW ===== */
 
-.np-qr-home-row {
+.np-smart-scanner-home-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
@@ -905,14 +905,14 @@ body[data-theme="dark"] .service-card {
   margin: 12px 0;
 }
 
-.np-qr-home-row .standalone-emergency-card {
+.np-smart-scanner-home-row .standalone-emergency-card {
   width: 100%;
   min-height: 96px;
   box-sizing: border-box;
   margin: 0;
 }
 
-.np-qr-home-card {
+.np-smart-scanner-home-card {
   width: 100%;
   height: 96px;
   box-sizing: border-box;
@@ -942,7 +942,6 @@ body[data-theme="dark"] .service-card {
 .np-scanner-modes[hidden] { display: none !important; }
 .np-scanner-workspace[hidden],
 .np-scanner-stage[hidden],
-.np-scanner-camera[hidden],
 .np-scanner-video[hidden],
 .np-scanner-preview-wrap[hidden],
 #npScannerStart[hidden],
@@ -964,10 +963,6 @@ body[data-theme="dark"] .service-card {
 }
 #npScannerUpload:focus-visible + .np-scanner-modes .np-scanner-gallery { outline: 3px solid #60a5fa; outline-offset: 3px; }
 .np-scanner-stage { position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 4 / 3; max-height: 58vh; overflow: hidden; border-radius: 14px; background: #0b1220; }
-.np-scanner-camera { width: 100%; height: 100%; overflow: hidden; border-radius: 14px; background: #0b1220; }
-.np-scanner-camera:empty { display: none; }
-.np-scanner-camera > div { width: 100% !important; height: 100% !important; }
-.np-scanner-camera video { width: 100% !important; height: 100% !important; object-fit: contain; }
 .np-scanner-video { width: 100%; height: 100%; object-fit: contain; border-radius: 14px; background: #0b1220; }
 .np-scanner-frame {
   position: absolute; z-index: 2; left: 10%; top: 25%; width: 80%; height: 50%; pointer-events: none;
@@ -998,10 +993,7 @@ body[data-theme="dark"] .service-card {
 .np-scanner-icon-button.is-copied { color: #fff; background: #059669; border-color: #059669; }
 .np-phone-actions { margin-top: 6px; }
 .np-scanner-pill { min-height: 34px; padding: 5px 11px; color: #1d4ed8; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 999px; font-size: 12px; font-weight: 800; }
-.np-id-type { padding: 8px 10px; margin: 0 0 8px; color: #1e40af; background: #eff6ff; border-radius: 10px; font-weight: 800; }
-.np-id-field { display: grid; grid-template-columns: 76px minmax(0,1fr) 40px; align-items: center; gap: 7px; margin: 8px 0; }
-.np-id-field label { font-size: 12px; font-weight: 700; }
-.np-id-field input, .np-contact-field input {
+.np-contact-field input {
   min-width: 0; width: 100%; min-height: 40px; padding: 7px 9px; color: var(--text-main); background: var(--container-bg);
   border: 1px solid var(--card-border); border-radius: 9px; font-size: 13px;
 }
@@ -1010,27 +1002,23 @@ body[data-theme="dark"] .service-card {
 .np-contact-field { display: block; margin: 8px 0; color: var(--text-sub); font-size: 11px; font-weight: 700; }
 .np-contact-field input { display: block; margin-top: 4px; }
 .np-contact-save { margin-top: 4px; }
-.np-qr-payload { display: block; width: 100%; min-height: 84px; padding: 9px; margin: 8px 0; color: var(--text-main); background: var(--container-bg); border: 1px solid var(--card-border); border-radius: 10px; font-size: 12px; overflow-wrap: anywhere; }
 .np-scanner-privacy { padding: 9px 10px; margin: 10px 0 0; color: var(--text-sub); background: var(--footer-bg); border-radius: 10px; font-size: 11px; line-height: 1.55; }
-.np-upi-safety-note { padding: 9px 10px; color: var(--text-sub); background: var(--footer-bg); border-radius: 10px; font-size: 12px; line-height: 1.55; }
-.np-upi-app-link { margin: 3px 5px 3px 0; text-decoration: none; }
-.np-qr-home-card {
+.np-smart-scanner-home-card {
   min-height: 96px; width: 100%; padding: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;
   color: #1d4ed8; font-size: 14px; font-weight: 800; text-align: center; cursor: pointer;
 }
-.np-qr-home-card:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
+.np-smart-scanner-home-card:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
 [data-theme="dark"] .np-scanner-mode { color: #bfdbfe; background: #132238; border-color: #334155; }
 [data-theme="dark"] .np-scanner-icon-button { color: #bfdbfe; }
 [data-theme="dark"] .np-scanner-icon-button.is-copied { color: #fff; }
-[data-theme="dark"] .np-scanner-pill, [data-theme="dark"] .np-id-type { color: #bfdbfe; background: #132238; border-color: #334155; }
+[data-theme="dark"] .np-scanner-pill { color: #bfdbfe; background: #132238; border-color: #334155; }
 @media (max-width: 420px) {
   .np-scanner-modal { height: 94dvh; padding: 12px; }
   .np-scanner-mode { min-height: 68px; padding: 9px; font-size: 13px; }
   .np-scanner-toolbar .np-scanner-button { flex: 1 1 145px; }
-  .np-id-field { grid-template-columns: 58px minmax(0,1fr) 40px; }
 }
 @media (min-width: 560px) {
-  .np-scanner-modes { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .np-scanner-modes { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .np-scanner-mode { min-height: 100px; grid-template-columns: 1fr; grid-template-rows: auto auto auto; justify-items: center; text-align: center; }
   .np-scanner-mode > span:first-child { grid-row: auto; grid-column: auto; }
   .np-scanner-mode small { grid-column: auto; }

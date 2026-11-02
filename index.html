@@ -2290,7 +2290,7 @@ function closeModal(modalId, isFromPopstate = false) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
     modal.style.display = 'none';
-    if (modalId === 'npQrScannerModal' && window.NPSmartScanner && typeof window.NPSmartScanner.onModalClose === 'function') {
+    if (modalId === 'npSmartScannerModal' && window.NPSmartScanner && typeof window.NPSmartScanner.onModalClose === 'function') {
         window.NPSmartScanner.onModalClose();
     }
     sessionStorage.removeItem('currentOpenModal');
@@ -2312,7 +2312,7 @@ window.addEventListener('popstate', () => {
     openModals.forEach(m => {
         if (m.style.display === 'flex') {
             m.style.display = 'none';
-            if (m.id === 'npQrScannerModal' && window.NPSmartScanner && typeof window.NPSmartScanner.onModalClose === 'function') {
+            if (m.id === 'npSmartScannerModal' && window.NPSmartScanner && typeof window.NPSmartScanner.onModalClose === 'function') {
                 window.NPSmartScanner.onModalClose();
             }
         }
@@ -3035,26 +3035,21 @@ document.addEventListener("DOMContentLoaded", function () {
 <script src="/np-bank-search.js" defer></script>    
 <script src="/np-universal-search.js" defer></script>
 <!-- ===== Smart Document & Contact Assistant (uses the existing scanner modal) ===== -->
-<div id="npQrScannerModal" class="modal-overlay" onclick="closeModal('npQrScannerModal')">
+<div id="npSmartScannerModal" class="modal-overlay" onclick="closeModal('npSmartScannerModal')">
   <div class="modal-box np-scanner-modal" onclick="event.stopPropagation()">
     <div class="modal-header">
-      <h3>📷 স্মার্ট ডকুমেন্ট ও কন্টাক্ট সহায়ক</h3>
-      <button class="modal-close" type="button" aria-label="স্ক্যানার বন্ধ করুন" onclick="closeModal('npQrScannerModal')">&times;</button>
+      <h3>📷 স্মার্ট ডকুমেন্ট ও যোগাযোগ স্ক্যানার</h3>
+      <button class="modal-close" type="button" aria-label="স্ক্যানার বন্ধ করুন" onclick="closeModal('npSmartScannerModal')">&times;</button>
     </div>
     <div class="modal-scroll-area np-scanner-scroll">
-      <p class="np-scanner-intro">ছবি ও স্ক্যান আপনার ডিভাইসেই প্রক্রিয়াকরণ হয়। Camera-তে লেখা ও নম্বর, QR/Barcode বা Gallery-র একটি ছবি বেছে নিন।</p>
+      <p class="np-scanner-intro">ছবি ও লেখা আপনার ডিভাইসেই প্রক্রিয়াকরণ হয়। Camera-তে নথি, ভিজিটিং কার্ড, পোস্টার বা সাধারণ লেখা দেখুন; অথবা Gallery থেকে একটি ছবি নিন।</p>
 
       <input type="file" id="npScannerUpload" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp">
       <div id="npScannerChoices" class="np-scanner-modes" role="group" aria-label="স্ক্যান পদ্ধতি বেছে নিন">
         <button type="button" class="np-scanner-mode" data-scan-mode="camera">
           <span class="np-scanner-mode-icon" aria-hidden="true">📷</span>
           <span>Camera</span>
-          <small>ডকুমেন্ট, ভিজিটিং কার্ড, পোস্টার ও ID</small>
-        </button>
-        <button type="button" class="np-scanner-mode" data-scan-mode="qr">
-          <span class="np-scanner-mode-icon" aria-hidden="true">▦</span>
-          <span>QR / Barcode</span>
-          <small>QR কোড ও সমর্থিত বারকোড</small>
+          <small>ডকুমেন্ট, ভিজিটিং কার্ড, পোস্টার ও সাধারণ লেখা</small>
         </button>
         <label for="npScannerUpload" class="np-scanner-mode np-scanner-gallery">
           <span class="np-scanner-mode-icon" aria-hidden="true">🖼️</span>
@@ -3071,7 +3066,6 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
 
         <div id="npScannerStage" class="np-scanner-stage" hidden>
-          <div id="npScannerCamera" class="np-scanner-camera" aria-label="QR/Barcode ক্যামেরা প্রিভিউ" hidden></div>
           <video id="npScannerVideo" class="np-scanner-video" playsinline muted hidden></video>
           <div id="npScannerFrame" class="np-scanner-frame" aria-hidden="true" hidden></div>
         </div>
@@ -3091,14 +3085,11 @@ document.addEventListener("DOMContentLoaded", function () {
           <button type="button" id="npScannerClear" class="np-scanner-clear">Clear</button>
         </div>
         <div id="npScannerResults" class="np-scanner-results" aria-live="polite"></div>
-        <p class="np-scanner-privacy">🔐 স্ক্যানের ছবি, OCR লেখা, ID, ফোন নম্বর বা QR তথ্য এই ওয়েবসাইটের সার্ভার, অ্যানালিটিক্স বা ব্রাউজার স্টোরেজে পাঠানো/রাখা হয় না। OCR লাইব্রেরি ও ইংরেজি ভাষার মডেল CDN থেকে আসে; ছবি ও ফলাফল ডিভাইসেই থাকে। আপনি UPI অ্যাপ বা Contact export বেছে নিলে, সেই কাজে প্রয়োজনীয় তথ্য আপনার ক্লিকের পর নির্বাচিত অ্যাপ/শেয়ার ব্যবস্থায় যাবে।</p>
+        <p class="np-scanner-privacy">🔐 স্ক্যানের ছবি, OCR লেখা, ফোন নম্বর, Contact বা ব্যক্তিগত তথ্য এই ওয়েবসাইটের সার্ভার, অ্যানালিটিক্স বা ব্রাউজার স্টোরেজে পাঠানো/রাখা হয় না। OCR লাইব্রেরি ও ইংরেজি ভাষার মডেল CDN থেকে আসে; ছবি ও ফলাফল ডিভাইসেই থাকে। Contact export বেছে নিলে, প্রয়োজনীয় তথ্য আপনার ক্লিকের পর নির্বাচিত শেয়ার ব্যবস্থা বা Contacts অ্যাপে যাবে।</p>
       </section>
     </div>
   </div>
 </div>
-<!-- QR & Barcode Scanner Library -->
-<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-
 <!-- Nagorik Porisheba Smart Scanner -->
 <script src="np-smart-scanner.js"></script>
 </body>

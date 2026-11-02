@@ -6,9 +6,6 @@
   const $ = id => document.getElementById(id);
   const state = {
     mode: "",
-    qrScanner: null,
-    qrScanning: false,
-    fileScanner: null,
     stream: null,
     autoCaptureTimer: null,
     capturePending: false,
@@ -20,9 +17,7 @@
     canvas: null,
     job: 0,
     phones: [],
-    contactMeta: { name: "", org: "", email: "", website: "" },
-    identity: null,
-    qrPayload: ""
+    contactMeta: { name: "", org: "", email: "", website: "" }
   };
 
   const modeButtons = [...document.querySelectorAll("[data-scan-mode]")];
@@ -49,28 +44,6 @@
     state.image = null;
   }
 
-  async function stopQrCamera() {
-    const scanner = state.qrScanner;
-    const wasScanning = state.qrScanning;
-    state.qrScanner = null;
-    state.qrScanning = false;
-    if (!scanner) return;
-    try {
-      if (wasScanning) await scanner.stop();
-    } catch (_) {
-      // The scanner may already have stopped after decoding or a browser error.
-    }
-    try {
-      await scanner.clear();
-    } catch (_) {}
-    if ($("npScannerFrame")) $("npScannerFrame").hidden = true;
-    if (cameraStage) cameraStage.hidden = true;
-    if ($("npScannerStart")) {
-      $("npScannerStart").hidden = !["qr", "camera", "gallery"].includes(state.mode);
-      $("npScannerStart").textContent = state.mode === "qr" ? "QR আবার স্ক্যান করুন" : state.mode === "gallery" ? "নতুন ছবি বাছুন" : "Camera আবার চালু করুন";
-    }
-  }
-
   function stopDocumentCamera() {
     if (state.autoCaptureTimer) window.clearInterval(state.autoCaptureTimer);
     state.autoCaptureTimer = null;
@@ -90,8 +63,8 @@
     if ($("npScannerFrame")) $("npScannerFrame").hidden = true;
     if (cameraStage) cameraStage.hidden = true;
     if ($("npScannerStart")) {
-      $("npScannerStart").hidden = !["camera", "qr", "gallery"].includes(state.mode);
-      $("npScannerStart").textContent = state.mode === "qr" ? "QR আবার স্ক্যান করুন" : state.mode === "gallery" ? "নতুন ছবি বাছুন" : "Camera আবার চালু করুন";
+      $("npScannerStart").hidden = !["camera", "gallery"].includes(state.mode);
+      $("npScannerStart").textContent = state.mode === "gallery" ? "নতুন ছবি বাছুন" : "Camera আবার চালু করুন";
     }
   }
 
@@ -141,10 +114,6 @@
 
   async function clearTemporary({ keepMode = true, message = "" } = {}) {
     state.job += 1;
-    const qrCleanup = stopQrCamera();
-    const fileScanner = state.fileScanner;
-    state.fileScanner = null;
-    if (fileScanner) { try { void fileScanner.clear(); } catch (_) {} }
     stopDocumentCamera();
     if (state.canvas) {
       state.canvas.width = 0;
@@ -154,8 +123,6 @@
     safeRevokePreview();
     state.phones = [];
     state.contactMeta = { name: "", org: "", email: "", website: "" };
-    state.identity = null;
-    state.qrPayload = "";
     if (results) results.replaceChildren();
     const upload = $("npScannerUpload");
     if (upload) upload.value = "";
@@ -167,7 +134,7 @@
       modeButtons.forEach(button => button.setAttribute("aria-pressed", "false"));
     }
     setStatus(message);
-    await Promise.allSettled([qrCleanup, workerCleanup]);
+    await workerCleanup;
   }
 
   async function chooseMode(mode) {
@@ -180,15 +147,11 @@
     $("npScannerCapture").hidden = true;
     $("npScannerRun").textContent = "আবার পড়ুন";
     $("npScannerVideo").hidden = true;
-    $("npScannerCamera").hidden = true;
     $("npScannerFrame").hidden = false;
     cameraStage.hidden = false;
     if (mode === "camera") {
       setStatus("Camera চালু হচ্ছে… নথিটি ফ্রেমের মধ্যে স্থির রাখুন।");
       void startDocumentCamera();
-    } else if (mode === "qr") {
-      setStatus("QR/Barcode-টি ফ্রেমের মধ্যে ধরুন।");
-      void startQrCamera();
     }
   }
 
@@ -203,7 +166,6 @@
     workspace.hidden = false;
     $("npScannerStart").hidden = true;
     $("npScannerCapture").hidden = true;
-    $("npScannerCamera").hidden = true;
     $("npScannerVideo").hidden = true;
     $("npScannerFrame").hidden = true;
     cameraStage.hidden = true;
@@ -235,14 +197,11 @@
     if (results) results.replaceChildren();
     state.phones = [];
     state.contactMeta = { name: "", org: "", email: "", website: "" };
-    state.identity = null;
-    state.qrPayload = "";
     state.image = file;
     state.previewUrl = URL.createObjectURL(file);
     preview.src = state.previewUrl;
     previewWrap.hidden = false;
     if (cameraStage) cameraStage.hidden = true;
-    $("npScannerCamera").hidden = true;
     setStatus("ছবি প্রস্তুত। ডিভাইসে স্ক্যান হচ্ছে…");
     return true;
   }
@@ -321,48 +280,6 @@
     }, "image/jpeg", 0.92);
   }
 
-  async function startQrCamera() {
-    if (typeof Html5Qrcode === "undefined") {
-      setStatus("QR/Barcode লাইব্রেরি লোড হয়নি। কিছুক্ষণ পর আবার চেষ্টা করুন।");
-      return;
-    }
-    await clearTemporary({ keepMode: true });
-    $("npScannerStart").hidden = true;
-    const cameraJob = state.job;
-    $("npScannerCamera").hidden = false;
-    $("npScannerFrame").hidden = false;
-    cameraStage.hidden = false;
-    $("npScannerStop").hidden = false;
-    setStatus("কোডটি Camera-র সামনে ধরুন।");
-    try {
-      const scanner = new Html5Qrcode("npScannerCamera");
-      state.qrScanner = scanner;
-      state.qrScanning = true;
-      await scanner.start(
-        { facingMode: "environment" },
-        { fps: 10, qrbox: { width: 250, height: 180 } },
-        async payload => {
-          if (state.qrScanner !== scanner || cameraJob !== state.job) return;
-          state.qrPayload = String(payload || "");
-          await stopQrCamera();
-          if (cameraJob !== state.job) return;
-          renderQrPayload(state.qrPayload);
-          setStatus(upiDetails(state.qrPayload) ? "UPI QR চেনা হয়েছে। পেমেন্ট অ্যাপে তথ্য যাচাই করে নিজে নিশ্চিত করুন।" : "কোড পড়া হয়েছে। ফলাফল ডিভাইসেই রয়েছে।");
-        },
-        () => {}
-      );
-      if (state.qrScanner !== scanner || cameraJob !== state.job) {
-        try { await scanner.stop(); } catch (_) {}
-        try { await scanner.clear(); } catch (_) {}
-        return;
-      }
-    } catch (_) {
-      await stopQrCamera();
-      $("npScannerStop").hidden = true;
-      setStatus("Camera চালু হয়নি। Permission পরীক্ষা করুন, অথবা Gallery থেকে ছবি নিন।");
-    }
-  }
-
   function numberCandidates(text) {
     const matches = String(text || "").match(/(?<!\d)(?:\+?\s*91[\s().-]*)?(?:0[\s().-]*)?(?:\d[\s().-]?){8,12}\d(?!\d)/g) || [];
     const found = [];
@@ -412,40 +329,6 @@
     const website = source.match(/(?:https?:\/\/)?(?:www\.)?[A-Z0-9-]+(?:\.[A-Z0-9-]+)*\.(?:com|in|org|net|co\.in|gov\.in|edu\.in)\b/i)?.[0] || "";
     const org = source.match(/^(?:company|organization|organisation|org)\s*[:\-]?\s*(.+)$/im)?.[1]?.trim() || "";
     return { name, org, email, website };
-  }
-
-  function identityFields(text) {
-    const source = String(text || "");
-    const upper = source.toUpperCase();
-    const name = explicitName(source);
-    const pan = upper.match(/\b[A-Z]{5}\d{4}[A-Z]\b/);
-    const epic = upper.match(/\b[A-Z]{3}\s?\d{7}\b/);
-    const rawAadhaarUid = source.match(/\buid\s*=\s*["']?(\d{12})["']?\b/i)?.[1] || "";
-    const aadhaarUid = rawAadhaarUid && !/^(\d)\1{11}$/.test(rawAadhaarUid) ? rawAadhaarUid : "";
-    const groupedDigits = source.match(/(?:\d[\s-]?){11}\d/g) || [];
-    const twelve = groupedDigits.map(value => value.replace(/\D/g, "")).find(value => value.length === 12 && !/^(\d)\1{11}$/.test(value));
-    const fourteen = (source.match(/(?:\d[\s-]?){13}\d/g) || []).map(value => value.replace(/\D/g, "")).find(value => value.length === 14);
-    const dl = upper.match(/\b[A-Z]{2}\s?\d{2}\s?\d{4}\s?\d{7,8}\b/);
-    const has = pattern => pattern.test(source);
-    let type = "অজানা পরিচয়পত্র";
-    let idNumber = "";
-    if (pan || has(/\bpan(?:\s+card)?\b/i)) { type = "PAN Card (সম্ভাব্য)"; idNumber = pan?.[0] || ""; }
-    else if (epic || has(/\b(?:voter\s+id|epic)\b/i)) { type = "Voter ID / EPIC (সম্ভাব্য)"; idNumber = epic?.[0].replace(/\s/g, "") || ""; }
-    else if (aadhaarUid || has(/\b(?:aadhaar|aadhar|uidai|unique identification)\b/i)) { type = "Aadhaar (সম্ভাব্য)"; idNumber = aadhaarUid || twelve || ""; }
-    else if (has(/\b(?:abha|health account)\b/i) && fourteen) { type = "ABHA Health Card (সম্ভাব্য)"; idNumber = fourteen; }
-    else if (has(/\b(?:driving licence|driving license|dl no|licence no|license no)\b/i)) {
-      type = "Driving Licence (সম্ভাব্য)";
-      idNumber = dl?.[0].replace(/\s/g, "") || source.match(/\b[A-Z]{2}\d{2}[A-Z0-9-]{8,16}\b/i)?.[0] || "";
-    } else if (has(/\b(?:ration|pds|food security)\b/i)) {
-      type = "Ration Card (সম্ভাব্য)";
-      idNumber = source.match(/\b(?:ration\s+card|pds|food\s+security)(?:\s+(?:id|no\.?|number))?\s*[:#-]\s*([A-Z0-9-]{8,20})/i)?.[1] || twelve || "";
-    } else if (has(/\b(?:ayushman|pmjay|beneficiary id|beneficiary no)\b/i)) {
-      type = "Ayushman Bharat / PMJAY (সম্ভাব্য)";
-      idNumber = source.match(/\b(?:ayushman(?:\s+bharat)?|pmjay|beneficiary)\s*(?:(?:id|no\.?|number)\s*)?[:#-]\s*([A-Z0-9-]{8,20})/i)?.[1] || twelve || "";
-    }
-    const email = source.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)?.[0] || "";
-    const phones = numberCandidates(source);
-    return { type, name, idNumber, email, phones };
   }
 
   function copyButton(value, label) {
@@ -546,38 +429,6 @@
     });
   }
 
-  function renderIdentity(fields) {
-    state.identity = { ...fields };
-    results.replaceChildren();
-    const type = document.createElement("p");
-    type.className = "np-id-type";
-    type.textContent = `সম্ভাব্য কার্ডের ধরন: ${fields.type}`;
-    results.append(type);
-    if (!fields.name && !fields.idNumber) {
-      const note = document.createElement("p");
-      note.textContent = "নাম বা ID নম্বর নিশ্চিতভাবে পড়া যায়নি। নিজে যাচাই করে লিখুন।";
-      results.append(note);
-    }
-    addEditableCopyRow("নাম", fields.name, value => { state.identity.name = value; });
-    addEditableCopyRow("ID নম্বর", fields.idNumber, value => { state.identity.idNumber = value; });
-  }
-
-  function addEditableCopyRow(label, value, onChange) {
-    const row = document.createElement("div");
-    row.className = "np-id-field";
-    const fieldLabel = document.createElement("label");
-    fieldLabel.textContent = label;
-    const input = document.createElement("input");
-    input.type = "text";
-    input.value = value || "";
-    input.autocomplete = "off";
-    input.setAttribute("aria-label", label);
-    input.addEventListener("input", () => onChange(input.value));
-    const copy = copyButton(() => input.value, label);
-    row.append(fieldLabel, input, copy);
-    results.append(row);
-  }
-
   function renderContactEditor(index) {
     const phone = state.phones[index];
     if (!phone) return;
@@ -655,102 +506,6 @@
     link.remove();
     window.setTimeout(() => URL.revokeObjectURL(url), 30000);
     setStatus(".vcf Contact file তৈরি হয়েছে। Contacts app-এ খুলে তথ্য দেখে Save নিশ্চিত করুন।");
-  }
-
-  function upiDetails(payload) {
-    try {
-      const url = new URL(String(payload || ""));
-      const payeeAddress = url.searchParams.get("pa") || "";
-      if (url.protocol.toLowerCase() !== "upi:" || url.hostname.toLowerCase() !== "pay" ||
-          !/^[A-Z0-9._-]{2,256}@[A-Z0-9.-]{2,64}$/i.test(payeeAddress)) return null;
-      const amount = url.searchParams.get("am") || "";
-      const safeParams = new URLSearchParams();
-      ["pa", "pn", "am", "cu", "tn", "mc"].forEach(key => {
-        const value = url.searchParams.get(key);
-        if (value) safeParams.set(key, value);
-      });
-      return {
-        payeeAddress,
-        payeeName: url.searchParams.get("pn") || "",
-        amount: /^\d+(?:\.\d{1,2})?$/.test(amount) ? amount : "",
-        currency: url.searchParams.get("cu") || "INR",
-        query: safeParams.toString()
-      };
-    } catch (_) {
-      return null;
-    }
-  }
-
-  function renderQrPayload(payload) {
-    state.qrPayload = String(payload || "");
-    results.replaceChildren();
-    const payment = upiDetails(state.qrPayload);
-    if (payment) {
-      const heading = document.createElement("p");
-      heading.className = "np-id-type";
-      heading.textContent = "UPI Payment QR";
-      results.append(heading);
-      const merchant = document.createElement("p");
-      merchant.textContent = payment.payeeName ? "প্রাপক: " + payment.payeeName : "UPI ID: " + payment.payeeAddress;
-      results.append(merchant);
-      if (payment.payeeName) {
-        const vpa = document.createElement("p");
-        vpa.textContent = "UPI ID: " + payment.payeeAddress;
-        results.append(vpa);
-      }
-      if (payment.amount) {
-        const amount = document.createElement("p");
-        amount.textContent = "পরিমাণ: " + payment.amount + " " + payment.currency;
-        results.append(amount);
-      }
-      const note = document.createElement("p");
-      note.className = "np-upi-safety-note";
-      note.textContent = "Android-এর ইনস্টল করা পেমেন্ট অ্যাপ খুলবে মাত্র। প্রাপক ও পরিমাণ যাচাই করে অ্যাপের ভেতরে নিজে নিশ্চিত করুন; এখানে কোনো পেমেন্ট শুরু হয় না।";
-      results.append(note);
-      [
-        ["BHIM", "in.org.npci.upiapp"],
-        ["Google Pay", "com.google.android.apps.nbu.paisa.user"],
-        ["PhonePe", "com.phonepe.app"],
-        ["Paytm", "net.one97.paytm"]
-      ].forEach(([name, packageId]) => {
-        const link = document.createElement("a");
-        link.className = "np-scanner-button np-scanner-secondary np-upi-app-link";
-        link.href = "intent://pay?" + payment.query + "#Intent;scheme=upi;package=" + packageId + ";end";
-        link.textContent = name + " খুলুন";
-        link.setAttribute("aria-label", name + " দিয়ে পেমেন্ট অ্যাপ খুলুন; পেমেন্ট নিজে যাচাই করে নিশ্চিত করুন");
-        link.rel = "noopener noreferrer";
-        results.append(link);
-      });
-      return;
-    }
-    const fields = identityFields(state.qrPayload);
-    if (fields.type !== "অজানা পরিচয়পত্র" && fields.idNumber) {
-      renderIdentity(fields);
-    } else {
-      const heading = document.createElement("p");
-      heading.className = "np-id-type";
-      heading.textContent = "অজানা বা অসমর্থিত QR / Barcode";
-      const text = document.createElement("textarea");
-      text.className = "np-qr-payload";
-      text.readOnly = true;
-      text.value = state.qrPayload;
-      text.setAttribute("aria-label", "সম্পূর্ণ decoded payload");
-      results.append(heading, text, copyButton(state.qrPayload, "সম্পূর্ণ কোডের তথ্য"));
-    }
-  }
-
-  async function tryDecodeImage(file, job) {
-    if (typeof Html5Qrcode === "undefined") return "";
-    const scanner = new Html5Qrcode("npScannerCamera");
-    state.fileScanner = scanner;
-    try {
-      return await scanner.scanFile(file, false);
-    } catch (_) {
-      return "";
-    } finally {
-      if (state.fileScanner === scanner) state.fileScanner = null;
-      try { await scanner.clear(); } catch (_) {}
-    }
   }
 
   function loadTesseract() {
@@ -842,28 +597,9 @@
     await terminateWorker();
     state.phones = [];
     state.contactMeta = { name: "", org: "", email: "", website: "" };
-    state.identity = null;
-    state.qrPayload = "";
     results.replaceChildren();
-    setStatus("ছবির QR/Barcode খোঁজা হচ্ছে…");
+    setStatus("ছবির লেখা ডিভাইসেই পড়া হচ্ছে…");
     try {
-      const payload = await tryDecodeImage(state.image, job);
-      if (job !== state.job) return;
-      if (state.mode === "qr") {
-        if (payload) {
-          renderQrPayload(payload);
-          setStatus(upiDetails(payload) ? "UPI QR চেনা হয়েছে। পেমেন্ট অ্যাপে তথ্য যাচাই করে নিজে নিশ্চিত করুন।" : "কোড পড়া হয়েছে। ফলাফল ডিভাইসেই রয়েছে।");
-        } else {
-          setStatus("এই ছবিতে সমর্থিত QR/Barcode পাওয়া যায়নি।");
-        }
-        return;
-      }
-      if (state.mode === "gallery" && payload) {
-        renderQrPayload(payload);
-        setStatus(upiDetails(payload) ? "UPI QR চেনা হয়েছে। পেমেন্ট অ্যাপে তথ্য যাচাই করে নিজে নিশ্চিত করুন।" : "QR/Barcode পড়া হয়েছে। ফলাফল ডিভাইসেই রয়েছে।");
-        return;
-      }
-
       setStatus("ইংরেজি লেখা ডিভাইসেই পড়া হচ্ছে…");
       const canvas = await preprocessImage(state.image, job);
       if (job !== state.job) return;
@@ -875,34 +611,12 @@
       await terminateWorker();
       if (job !== state.job) return;
       const text = recognized?.data?.text || "";
-      const fields = identityFields(text);
-      if (state.mode !== "qr" && fields.type !== "অজানা পরিচয়পত্র") {
-        renderIdentity(fields);
-        setStatus("সম্ভাব্য পরিচয়পত্রের তথ্য পাওয়া গেছে। মূল কার্ড দেখে নিজে যাচাই করুন।");
-        return;
-      }
-      if (state.mode !== "qr") {
-        const phones = numberCandidates(text);
-        state.contactMeta = contactDetails(text);
-        if (!phones.length && payload) {
-          renderQrPayload(payload);
-          setStatus("ছবির কোড পড়া হয়েছে; ফোন নম্বর OCR-এ পাওয়া যায়নি।");
-        } else {
-          const name = explicitName(text);
-          if (phones.length === 1) phones[0].name = name;
-          renderPhoneResults(phones);
-          setStatus(phones.length ? `${phones.length}টি পৃথক নম্বর পাওয়া গেছে। প্রতিটি নম্বর যাচাই করুন।` : "কোনো নিশ্চিত ফোন নম্বর পাওয়া যায়নি। ছবি পরিষ্কার করে আবার চেষ্টা করুন।");
-        }
-      } else {
-        const fields = identityFields(text);
-        renderIdentity(fields);
-        if (payload && !fields.idNumber && !fields.name) {
-          renderQrPayload(payload);
-          setStatus("ছবির কোড পড়া হয়েছে; OCR-এ পরিচয় তথ্য পাওয়া যায়নি।");
-        } else {
-          setStatus(fields.idNumber || fields.name ? "সম্ভাব্য তথ্য পাওয়া গেছে। মূল কার্ড দেখে নিজে যাচাই ও সংশোধন করুন।" : "পরিচয়পত্রের তথ্য নিশ্চিতভাবে পড়া যায়নি। নিজে যাচাই করুন।");
-        }
-      }
+      const phones = numberCandidates(text);
+      state.contactMeta = contactDetails(text);
+      const name = explicitName(text);
+      if (phones.length === 1) phones[0].name = name;
+      renderPhoneResults(phones);
+      setStatus(phones.length ? `${phones.length}টি পৃথক নম্বর পাওয়া গেছে। প্রতিটি নম্বর যাচাই করুন।` : "নিশ্চিত ফোন নম্বর পাওয়া যায়নি। নাম, Email বা Organization থাকলে দেখে নিন; ছবি পরিষ্কার করে আবার চেষ্টা করুন।");
     } catch (_) {
       await terminateWorker();
       if (job === state.job) setStatus("ছবি পড়া যায়নি। অন্য/পরিষ্কার ছবি নিন; স্ক্যান ব্যর্থ হয়েছে বলে কোনো তথ্য সংরক্ষণ করা হয়নি।");
@@ -914,14 +628,11 @@
     modeButtons.forEach(button => button.addEventListener("click", () => chooseMode(button.dataset.scanMode)));
     $("npScannerBack")?.addEventListener("click", () => returnToChoices("স্ক্যানার পদ্ধতি বেছে নিন।"));
     $("npScannerStart")?.addEventListener("click", () => {
-      if (state.mode === "qr") void startQrCamera();
-      else if (state.mode === "gallery") $("npScannerUpload").click();
+      if (state.mode === "gallery") $("npScannerUpload").click();
       else void startDocumentCamera();
     });
-    $("npScannerStop")?.addEventListener("click", async () => {
-      await stopQrCamera();
+    $("npScannerStop")?.addEventListener("click", () => {
       stopDocumentCamera();
-      $("npScannerCamera").replaceChildren();
       setStatus("Camera বন্ধ হয়েছে।");
     });
     $("npScannerCapture")?.addEventListener("click", captureFrame);
@@ -932,49 +643,35 @@
     });
     $("npScannerRetake")?.addEventListener("click", () => {
       if (state.mode === "camera") void startDocumentCamera();
-      else if (state.mode === "qr") void startQrCamera();
       else $("npScannerUpload").click();
     });
     $("npScannerRun")?.addEventListener("click", () => void runScan());
     $("npScannerClear")?.addEventListener("click", () => void clearTemporary({ keepMode: true, message: "ছবি ও ফলাফল মুছে ফেলা হয়েছে। আবার স্ক্যান করতে নিচের নিয়ন্ত্রণ ব্যবহার করুন।" }));
 
-    const card = $("npQrHomeCard");
-    if (card) {
-      card.setAttribute("role", "button");
-      card.setAttribute("tabindex", "0");
-      card.setAttribute("aria-label", "স্মার্ট ডকুমেন্ট ও কন্টাক্ট সহায়ক খুলুন");
-      card.addEventListener("keydown", event => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          window.openModal?.("npQrScannerModal");
-        }
-      });
-      const title = card.querySelector(".category-header-title > span");
-      if (title) title.textContent = "ডকুমেন্ট ও QR স্ক্যানার";
-    }
     console.info("NP Smart Scanner Ready");
   }
 
   function openScannerHomeCard() {
-    if ($("npQrHomeCard")) return;
+    if ($("npSmartScannerHomeCard")) return;
     const emergency = document.querySelector(".standalone-emergency-card");
     if (!emergency) return;
     const row = document.createElement("div");
-    row.id = "npQrHomeRow";
-    row.className = "np-qr-home-row";
+    row.id = "npSmartScannerHomeRow";
+    row.className = "np-smart-scanner-home-row";
     const card = document.createElement("button");
-    card.id = "npQrHomeCard";
+    card.id = "npSmartScannerHomeCard";
     card.type = "button";
-    card.className = "category-group soft-cat-blue np-qr-home-card";
-    card.innerHTML = '<span aria-hidden="true">📷</span><span>ডকুমেন্ট ও QR স্ক্যানার</span><span class="material-symbols-outlined" aria-hidden="true">qr_code_scanner</span>';
-    card.addEventListener("click", () => window.openModal?.("npQrScannerModal"));
+    card.className = "category-group soft-cat-blue np-smart-scanner-home-card";
+    card.setAttribute("aria-label", "ডকুমেন্ট ও যোগাযোগ স্ক্যানার খুলুন");
+    card.innerHTML = '<span aria-hidden="true">📷</span><span>ডকুমেন্ট ও যোগাযোগ স্ক্যানার</span><span class="material-symbols-outlined" aria-hidden="true">document_scanner</span>';
+    card.addEventListener("click", () => window.openModal?.("npSmartScannerModal"));
     emergency.before(row);
     row.append(emergency, card);
   }
 
   window.NPSmartScanner = {
-    startCamera: () => state.mode === "qr" ? startQrCamera() : startDocumentCamera(),
-    stopCamera: async () => { await stopQrCamera(); stopDocumentCamera(); },
+    startCamera: () => startDocumentCamera(),
+    stopCamera: () => stopDocumentCamera(),
     clear: () => clearTemporary({ keepMode: true }),
     onModalClose: () => clearTemporary({ keepMode: false })
   };
