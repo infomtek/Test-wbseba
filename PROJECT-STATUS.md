@@ -66,6 +66,22 @@ Other project files:
 - Static checks on 2026-11-02: scanner modal, launcher, library dependency, JavaScript file, styles, and modal close hooks are absent; 129 HTML IDs are unique; relevant JavaScript syntax and diff checks passed. Existing unrelated cyber-safety scan service and government QR verification link remain. No browser UI test was run for this removal.
 - No browser deployment or production change was performed.
 
+## Cyber Scam Link Checker
+
+- The link checker now returns three cautious outcomes: known/recognized (green), caution or unknown (amber), and high-risk signals (red).
+- The exact WBSEBA hosts `wbseba.vercel.app` and `test-wbseba.vercel.app` are on the known-host list. Government/bank suffix checks use the parsed hostname boundary rather than matching text anywhere in the URL.
+- Red warnings cover non-encrypted HTTP, embedded credentials, direct IP hosts, and trusted-name lookalikes that do not match a recognized host. A red warning is a risk signal, not proof of fraud; lookalike matching may produce false positives.
+- Shortened and punycode hosts receive an amber caution. Other unrecognized links remain unknown/amber and are not described as safe.
+- A server-side Google Web Risk Lookup endpoint checks malware, social engineering, and unwanted-software lists. ChatGPT/Gemini is not used to guess whether a URL is safe.
+- When a user presses the check button, the normalized URL is sent to this site's `/api/check-url` endpoint and then to Google Web Risk. The API key remains server-side; this code does not log or persist submitted URLs. The checker explains this before the user submits a link.
+- Deployment requires the Google Cloud Web Risk API to be enabled and `WEBRISK_API_KEY` configured in the Vercel Test environment. Until configured, the live check returns unavailable and the page falls back to local risk signals; it does not claim a clean Web Risk result.
+- Google threat matches produce a qualified red warning with Google attribution. A no-match response is not presented as proof that the website is safe. Screenshot upload still is not analyzed and the UI says so.
+- Local checks on 2026-11-02: 13 URL-classification cases and 6 mocked API-handler cases passed; the changed inline JavaScript syntax passed; all 129 HTML IDs remain unique; whitespace checks passed.
+- Deployed feature-preview smoke check on 2026-11-02: the refreshed preview showed the Web Risk disclosure, the "লিংক যাচাই করুন" action, and the notice that screenshot uploads are not analyzed. Submitting the public test URL `https://example.com/` returned the expected cautious unknown/amber local result, but explicitly reported that Google live check was unavailable. This does not verify a live Web Risk lookup or threat-match behavior.
+- Google Cloud project `wbseba`: Web Risk API was enabled on 2026-11-02 and the adjustable project-wide `SearchUris per minute` quota was reduced from 6,000 to 1. This limits Lookup API calls to about 44,640 per 31-day calendar month (plus a small boundary allowance), below the 100,000-call monthly free tier. This quota does not limit other paid Web Risk methods or unrelated Google Cloud services. Google documents quota-enforcement latency, so this is a large safety buffer rather than a mathematical zero-charge guarantee.
+- Vercel Test project environment-variable page was checked by name only: `WEBRISK_API_KEY` is absent. The latest Test preview request therefore used the local fallback; no live Google lookup or threat-match behavior was verified. The key must be added as a Vercel Preview secret before another live test. Do not paste it into chat.
+- Browser console also showed existing OneSignal origin restriction and unified-search "Result panel not found" errors on the Test preview; these are outside the checker flow and need separate investigation. Production website code was not changed. The Google Cloud project quota/API settings above were changed as part of the requested cost cap.
+
 ## Known Search Problems
 
 1. Typed and Voice Search sometimes give different results.
@@ -107,7 +123,15 @@ Unified Smart Search 2.4
 
 ## Next Task
 
-Create a dynamic multilingual service search index
-using existing website service cards and Google Sheets.
+Verify Gemini project billing is not enabled for paid usage, confirm its active free-tier quotas, and determine whether a free quota alert can be configured for the account owner. Then test the smart search on the Test deployment before considering this feature complete.
 
-Do not delete existing search files yet.
+## Gemini Smart Search Upgrade — In Progress (2026-11-02)
+
+- The main unified search used deterministic local matching; `CONFIG.aiEnabled` was `false`, so its Gemini fallback was not available.
+- The existing `/api/gemini` function had no server-side request counter. A separate legacy voice helper had a 3-per-day Local Storage counter, which is user-editable and is not a global safeguard.
+- On the feature branch, the optional no-match AI action is enabled with a limit of 5 attempts per browser per India calendar day. The count is saved before the request, so failed attempts also use the allowance. This browser limit can be reset by clearing browser storage and must not be represented as a secure global cap.
+- If browser storage is unavailable, the AI request fails closed rather than running without the browser-level counter.
+- The Gemini request is designed to include only the search question and up to 80 existing service-card IDs/titles. The server rejects detected Indian mobile numbers, PAN-like values, Aadhaar-like 12-digit values, and email addresses; API keys remain server-side. The UI discloses that the question and service names go to Google when the user chooses AI help.
+- Gemini is constrained to return a short structured answer and up to 3 IDs from the submitted service list. The UI validates those IDs against the existing cards before offering actions; no AI-generated URL is used.
+- The user selected ₹0 paid usage and 5 questions per browser per day. The application code cannot guarantee ₹0 if the Google project has paid billing enabled. The Google project's Gemini billing state and provider free-tier quota have not been verified in this work. Provider free-tier limits are project-level and may return a 429 when reached; no durable application-wide usage counter or owner warning has been configured.
+- Implementation status: code edits are prepared on `feature/smart-document-contact-assistant` for a Test preview. No functional test or browser verification has been performed for this upgrade. The Google billing state, project-level quota, and owner alert are unverified. The 5-per-day browser counter is bypassable and is not an application-wide spending cap. Do not describe this feature as complete until these limits are addressed and the preview is tested.

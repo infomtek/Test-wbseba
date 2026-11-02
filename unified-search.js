@@ -19,9 +19,9 @@
     districtFile: "/district_skeleton.json",
     contactSheet:
       "https://opensheet.elk.sh/116flqqFRP8Z1xw6rGG1QKOlGYIydOn1Sn3ffClqtbd0/Emergency",
-    aiEnabled: false, // AI API সংশোধন স্থগিত — সাধারণ প্রশ্নে AI উত্তর দেখানো হবে না
+    aiEnabled: true, // স্থানীয় সার্চে ফল না মিললে ব্যবহারকারী নিজে AI সহায়তা চাইতে পারেন
     aiEndpoint: "/api/gemini",
-    maxAiPerDay: 3,
+    maxAiPerDay: 5,
     maxNearbyResults: 8,
     overpassEndpoint: "https://overpass-api.de/api/interpreter",
     whatsappUrl: "https://wa.me/919332434992",
@@ -2689,7 +2689,9 @@ function npSaveGpsPosition(position) {
   ];
 
   function aiUsage() {
-    const today = new Date().toLocaleDateString("en-CA");
+    const today = new Date().toLocaleDateString("en-CA", {
+      timeZone: "Asia/Kolkata"
+    });
 
     try {
       const stored = JSON.parse(localStorage.getItem("npUnifiedAiUsage") || "{}");
@@ -2707,23 +2709,74 @@ function npSaveGpsPosition(position) {
   function saveAiUsage(usage) {
     try {
       localStorage.setItem("npUnifiedAiUsage", JSON.stringify(usage));
+      return true;
     } catch {
-      // Storage is optional.
+      return false;
     }
   }
 
-  // AI সংশোধন না হওয়া পর্যন্ত CONFIG.aiEnabled = false থাকবে
-  async function requestAi(query, button, answerBox) {
+  function aiServiceCandidates() {
+    const seen = new Set();
+
+    return state.indexedCards
+      .map(item => ({
+        id: String(item.id || ""),
+        title: String(
+          item.node?.querySelector(".card-title")?.textContent || item.title || ""
+        ).trim().slice(0, 140)
+      }))
+      .filter(item => {
+        if (!/^service_[a-z0-9_-]+$/i.test(item.id) || !item.title || seen.has(item.id)) {
+          return false;
+        }
+        seen.add(item.id);
+        return true;
+      })
+      .slice(0, 80);
+  }
+
+  function queryContainsPersonalData(query) {
+    const asciiDigits = String(query).replace(/[০-৯]/g, digit =>
+      String("০১২৩৪৫৬৭৮৯".indexOf(digit))
+    );
+
+    return /\b[A-Z]{5}\d{4}[A-Z]\b/i.test(asciiDigits) ||
+      /\b(?:\+?91[\s-]?)?[6-9]\d{9}\b/.test(asciiDigits) ||
+      /\b(?:\d[\s-]?){12}\b/.test(asciiDigits) ||
+      /\b[^\s@]+@[^\s@]+\.[^\s@]+\b/.test(asciiDigits);
+  }
+
+  async function requestAi(query, button, answerBox, card) {
     const usage = aiUsage();
+
+    if (query.length > 350) {
+      answerBox.textContent = "AI সহায়তার জন্য প্রশ্নটি ৩৫০ অক্ষরের মধ্যে সংক্ষিপ্ত করুন।";
+      return;
+    }
 
     if (usage.count >= CONFIG.maxAiPerDay) {
       answerBox.textContent =
-        "আজকের প্রশ্নের সীমা পূর্ণ হয়েছে। জরুরি সাহায্য, সরকারি পরিষেবা ও মানচিত্রের অনুসন্ধান ব্যবহার করতে পারবেন।";
+        "আজকের ৫টি AI প্রশ্নের সীমা পূর্ণ হয়েছে। সাধারণ সার্চ ও পরিষেবা কার্ড ব্যবহার করতে পারবেন।";
+      return;
+    }
+
+    if (queryContainsPersonalData(query)) {
+      answerBox.textContent =
+        "নিরাপত্তার জন্য ব্যক্তিগত নম্বর বা ইমেলসহ প্রশ্ন AI-তে পাঠানো হয়নি। শুধু পরিষেবার নাম বা সাধারণ প্রশ্ন লিখুন।";
       return;
     }
 
     button.disabled = true;
     answerBox.textContent = "আপনার প্রশ্নের উত্তর প্রস্তুত করা হচ্ছে…";
+
+    // ব্যর্থ অনুরোধও গণনা করি, যাতে বারবার retry করে সীমা এড়ানো না যায়।
+    usage.count += 1;
+    if (!saveAiUsage(usage)) {
+      button.disabled = false;
+      answerBox.textContent =
+        "এই ব্রাউজারে দৈনিক AI সীমা সংরক্ষণ করা যাচ্ছে না, তাই নিরাপত্তার জন্য AI চালু করা হয়নি। সাধারণ সার্চ ব্যবহার করুন।";
+      return;
+    }
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 20000);
@@ -2732,24 +2785,54 @@ function npSaveGpsPosition(position) {
       const response = await fetch(CONFIG.aiEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query, services: aiServiceCandidates() }),
         signal: controller.signal
       });
 
+      const data = await response.json();
+      if (response.status === 429) {
+        answerBox.textContent =
+          "এই মুহূর্তে AI ব্যবহারের সীমা পূর্ণ। পরে আবার চেষ্টা করুন; সাধারণ সার্চ ও পরিষেবা কার্ড চালু আছে।";
+        return;
+      }
+
       if (!response.ok) throw new Error("Answer unavailable");
 
-      const data = await response.json();
-      const reply = String(data.reply || data.answer || "").trim();
+      const reply = String(data.reply || "").trim();
 
       if (!reply) throw new Error("Empty answer");
 
-      answerBox.textContent = reply.slice(0, 2500);
+      answerBox.textContent = reply.slice(0, 1200);
 
-      usage.count += 1;
-      saveAiUsage(usage);
+      const approvedIds = new Set(aiServiceCandidates().map(item => item.id));
+      const serviceIds = Array.isArray(data.serviceIds)
+        ? [...new Set(data.serviceIds.filter(id => approvedIds.has(id)))]
+        : [];
+      const actions = serviceIds
+        .map(id => {
+          const service = state.indexedCards.find(item => item.id === id);
+          if (!service) return null;
+          const title = service.node?.querySelector(".card-title")?.textContent?.trim() || service.title;
+          return makeButton(`📄 ${title.slice(0, 55)}`, () => openExistingCard(id));
+        })
+        .filter(Boolean);
+
+      const remaining = Math.max(0, CONFIG.maxAiPerDay - usage.count);
+      if (remaining === 0) {
+        answerBox.textContent += "\n\nআজকের AI প্রশ্নসীমা শেষ। সাধারণ সার্চ চালু থাকবে।";
+      } else if (remaining === 1) {
+        answerBox.textContent += "\n\nসতর্কতা: আজ আর ১টি AI প্রশ্ন বাকি।";
+      }
+
+      if (actions.length && card) {
+        card.querySelector(".np-ai-service-actions")?.remove();
+        const actionRow = element("div", "np-u-actions np-ai-service-actions");
+        actions.forEach(action => actionRow.appendChild(action));
+        card.appendChild(actionRow);
+      }
     } catch {
       answerBox.textContent =
-        "এই বিষয়ে নিশ্চিত তথ্য দেওয়া যাচ্ছে না। প্রশ্নটি আরও নির্দিষ্ট করে লিখতে পারেন। জরুরি পরিস্থিতিতে সরাসরি উপযুক্ত হেল্পলাইনে যোগাযোগ করুন।";
+        "এখন AI উত্তর পাওয়া যাচ্ছে না। সাধারণ সার্চ, পরিষেবা কার্ড বা সরকারি পোর্টাল ব্যবহার করুন।";
     } finally {
       clearTimeout(timeout);
       button.disabled = false;
@@ -2779,12 +2862,16 @@ function npSaveGpsPosition(position) {
       const answer = element("p", "np-u-text");
 
       addActions(card, [
-        makeButton("✨ বিস্তারিত উত্তর দেখুন", () => {
-          requestAi(query, button, answer);
+        makeButton("✨ AI দিয়ে পরিষেবা খুঁজুন", () => {
+          requestAi(query, button, answer, card);
         })
       ]);
 
       const button = card.querySelector(".np-u-actions button:last-child");
+      addText(
+        card,
+        "AI ব্যবহার করলে আপনার প্রশ্ন ও পরিষেবার নাম Google-এ যাবে। আধার/PAN নম্বর, ফোন, ইমেল বা OTP দেবেন না।"
+      );
       card.appendChild(answer);
     }
 
