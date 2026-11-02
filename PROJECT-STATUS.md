@@ -123,7 +123,15 @@ Unified Smart Search 2.4
 
 ## Next Task
 
-Create a dynamic multilingual service search index
-using existing website service cards and Google Sheets.
+Verify Gemini project billing is not enabled for paid usage, confirm its active free-tier quotas, and determine whether a free quota alert can be configured for the account owner. Then test the smart search on the Test deployment before considering this feature complete.
 
-Do not delete existing search files yet.
+## Gemini Smart Search Upgrade — In Progress (2026-11-02)
+
+- The main unified search used deterministic local matching; `CONFIG.aiEnabled` was `false`, so its Gemini fallback was not available.
+- The existing `/api/gemini` function had no server-side request counter. A separate legacy voice helper had a 3-per-day Local Storage counter, which is user-editable and is not a global safeguard.
+- On the feature branch, the optional no-match AI action is enabled with a limit of 5 attempts per browser per India calendar day. The count is saved before the request, so failed attempts also use the allowance. This browser limit can be reset by clearing browser storage and must not be represented as a secure global cap.
+- If browser storage is unavailable, the AI request fails closed rather than running without the browser-level counter.
+- The Gemini request is designed to include only the search question and up to 80 existing service-card IDs/titles. The server rejects detected Indian mobile numbers, PAN-like values, Aadhaar-like 12-digit values, and email addresses; API keys remain server-side. The UI discloses that the question and service names go to Google when the user chooses AI help.
+- Gemini is constrained to return a short structured answer and up to 3 IDs from the submitted service list. The UI validates those IDs against the existing cards before offering actions; no AI-generated URL is used.
+- The user selected ₹0 paid usage and 5 questions per browser per day. The application code cannot guarantee ₹0 if the Google project has paid billing enabled. The Google project's Gemini billing state and provider free-tier quota have not been verified in this work. Provider free-tier limits are project-level and may return a 429 when reached; no durable application-wide usage counter or owner warning has been configured.
+- Implementation status: code edits are prepared on `feature/smart-document-contact-assistant` for a Test preview. No functional test or browser verification has been performed for this upgrade. The Google billing state, project-level quota, and owner alert are unverified. The 5-per-day browser counter is bypassable and is not an application-wide spending cap. Do not describe this feature as complete until these limits are addressed and the preview is tested.
